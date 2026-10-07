@@ -41,7 +41,7 @@ export function StepTabs() {
           aria-current={step.id === active.id ? "step" : undefined}
           onClick={() => setActiveStep(step.id)}
         >
-          <span className="text-xs opacity-70">{index + 1}.</span>
+          <span className="text-xs">{index + 1}.</span>
           {title(step)}
         </Button>
       ))}

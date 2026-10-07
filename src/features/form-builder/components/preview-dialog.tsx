@@ -48,7 +48,6 @@ export function FormPreview({
         language={language}
         mode="preview"
         context={PREVIEW_CONTEXT}
-        idPrefix="preview"
       />
     </FormThemeScope>
   )

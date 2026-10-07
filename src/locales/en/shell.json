@@ -1,0 +1,65 @@
+{
+  "sidebar": {
+    "label": "Sidebar",
+    "navigation": "Main menu",
+    "toggle": "Toggle sidebar"
+  },
+  "navGroups": {
+    "workspace": "General",
+    "crm": "CRM",
+    "settings": "Settings"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "leads": "Leads",
+    "companies": "Companies",
+    "contacts": "Contacts",
+    "deals": "Deals",
+    "members": "Team",
+    "examples": "Example records",
+    "tasks": "My tasks",
+    "objects": "Objects"
+  },
+  "crumbs": {
+    "dashboard": "Dashboard",
+    "object": "Records",
+    "settings": "Settings",
+    "members": "Team",
+    "examples": "Example records",
+    "record": "Record",
+    "new": "New record",
+    "edit": "Edit",
+    "tasks": "My tasks",
+    "objects": "Objects",
+    "objectSettings": "Object settings",
+    "quotes": "Quotes",
+    "quoteBuilder": "Quote",
+    "print": "Print"
+  },
+  "command": {
+    "open": "Open command palette",
+    "trigger": "Search…",
+    "title": "Command palette",
+    "description": "Search pages, records and actions.",
+    "placeholder": "Search pages, records or actions…",
+    "empty": "No results found.",
+    "searching": "Searching…",
+    "pages": "Pages",
+    "records": "Records",
+    "actionsHeading": "Actions",
+    "actions": {
+      "darkTheme": "Switch to dark theme",
+      "lightTheme": "Switch to light theme",
+      "language": "Change language: {{language}}",
+      "signOut": "Sign out"
+    }
+  },
+  "notifications": {
+    "label": "Notifications",
+    "empty": "You have no notifications yet."
+  },
+  "userMenu": {
+    "label": "User menu: {{name}}",
+    "signOut": "Sign out"
+  }
+}

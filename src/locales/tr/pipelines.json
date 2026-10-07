@@ -1,0 +1,26 @@
+{
+  "board": {
+    "label": "{{object}} panosu"
+  },
+  "column": {
+    "count_one": "{{count}} kayıt",
+    "count_other": "{{count}} kayıt",
+    "total": "Toplam",
+    "empty": "Bu aşamada kayıt yok.",
+    "more_one": "+{{count}} kayıt daha (tabloda gör)",
+    "more_other": "+{{count}} kayıt daha (tabloda gör)"
+  },
+  "card": {
+    "drag": "Sürükle: {{title}}",
+    "moveMenu": "Taşı: {{title}}",
+    "moveTo": "Aşamaya taşı"
+  },
+  "dnd": {
+    "instructions": "Kartı almak için boşluk veya Enter tuşuna basın. Sol ve sağ ok tuşlarıyla aşamalar arasında gezinin, bırakmak için yeniden boşluk veya Enter'a, iptal için Escape'e basın.",
+    "start": "{{title}} alındı. Şu anki aşama: {{stage}}.",
+    "over": "{{title}}, {{stage}} aşamasının üzerinde.",
+    "outside": "{{title}} hiçbir aşamanın üzerinde değil.",
+    "end": "{{title}}, {{stage}} aşamasına bırakıldı.",
+    "cancel": "Taşıma iptal edildi. {{title}} yerinde kaldı."
+  }
+}

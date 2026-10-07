@@ -1,0 +1,33 @@
+{
+  "convert": {
+    "action": "Dönüştür",
+    "title": "Lead'i dönüştür",
+    "description": "{{name}} için şirket, kişi ve fırsat kayıtları oluşturulur; lead “Dönüştürüldü” aşamasına geçer.",
+    "company": "Şirket",
+    "contact": "Kişi",
+    "deal": "Fırsat",
+    "existing": "Mevcut: {{label}}",
+    "searchExisting": "Başka bir mevcut şirket seç",
+    "searchExistingContact": "Başka bir mevcut kişi seç",
+    "existingPicker": "Mevcut kayıt",
+    "newCompany": "Yeni şirket oluştur",
+    "newContact": "Yeni kişi oluştur",
+    "noContact": "Kişi oluşturma",
+    "name": "Ad",
+    "reason": {
+      "email": "aynı e-posta",
+      "domain": "e-posta alan adı eşleşiyor",
+      "taxNumber": "aynı vergi numarası",
+      "name": "aynı ad"
+    },
+    "suggested": "Önerilen eşleşme",
+    "createDeal": "Fırsat oluştur",
+    "dealName": "Fırsat adı",
+    "dealNameDefault": "{{company}} — yeni iş",
+    "createQuote": "Ardından teklif taslağı hazırla",
+    "submit": "Dönüştür",
+    "success": "Lead dönüştürüldü.",
+    "searching": "Eşleşmeler aranıyor…",
+    "pickRequired": "Bir kayıt seçin."
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "objects": {
+    "title": "Objects",
+    "description": "Customize the fields, detail layout, list columns and pipeline stages of your objects.",
+    "saved": "Object settings saved.",
+    "fieldCount_one": "{{count}} field",
+    "fieldCount_other": "{{count}} fields",
+    "customCount_one": "{{count}} custom field",
+    "customCount_other": "{{count}} custom fields",
+    "hasPipeline": "Pipeline"
+  },
+  "object": {
+    "description": "The screens of this object are generated from these settings.",
+    "openList": "Open list",
+    "tabs": {
+      "fields": "Fields",
+      "layout": "Detail layout",
+      "columns": "List columns",
+      "pipeline": "Pipeline"
+    }
+  },
+  "fields": {
+    "title": "Fields",
+    "description": "System fields can be customized but not deleted.",
+    "add": "Add field",
+    "addTitle": "New field",
+    "editTitle": "Edit field: {{label}}",
+    "dialogDescription": "A field used on {{object}} records.",
+    "labelTr": "Label (Turkish)",
+    "labelEn": "Label (English)",
+    "key": "Key",
+    "keyHelp": "Used by the API and imports; cannot be changed later.",
+    "keyInvalid": "Enter a key that starts with a lowercase letter and contains only letters and digits.",
+    "keyTaken": "A field with this key already exists.",
+    "type": "Field type",
+    "relationObject": "Related object",
+    "relationRequired": "Choose the object to relate to.",
+    "stageOptionsHint": "Stage options are edited on the Pipeline tab.",
+    "helpText": "Help text",
+    "required": "Required field",
+    "addToList": "Add to list columns",
+    "created": "Field added.",
+    "updated": "Field updated.",
+    "deleted": "Field deleted.",
+    "edit": "Edit field: {{label}}",
+    "delete": "Delete field: {{label}}",
+    "systemLocked": "{{label}} cannot be deleted",
+    "systemHint": "System fields cannot be deleted.",
+    "deleteTitle": "Delete this field?",
+    "deleteDescription": "The field \"{{label}}\" and its values on every record will be deleted permanently.",
+    "columns": {
+      "label": "Label",
+      "key": "Key",
+      "type": "Type",
+      "attributes": "Attributes",
+      "actions": "Actions"
+    },
+    "badges": {
+      "system": "System",
+      "custom": "Custom",
+      "required": "Required",
+      "readOnly": "Read-only"
+    }
+  },
+  "options": {
+    "label": "Options",
+    "add": "Add option",
+    "remove": "Remove option: {{label}}",
+    "untitled": "Untitled option",
+    "labelTr": "Option {{index}} label (Turkish)",
+    "labelEn": "Option {{index}} label (English)",
+    "color": "Option {{index}} color",
+    "placeholderTr": "Turkish label",
+    "placeholderEn": "English label",
+    "required": "Add at least one option.",
+    "emptyLabel": "Enter a Turkish label for every option."
+  },
+  "colors": {
+    "gray": "Gray",
+    "blue": "Blue",
+    "green": "Green",
+    "amber": "Amber",
+    "red": "Red",
+    "violet": "Violet",
+    "teal": "Teal"
+  },
+  "layout": {
+    "title": "Detail layout",
+    "description": "Choose the sections and field order of the record page.",
+    "untitled": "Untitled section",
+    "newSection": "New section",
+    "addSection": "Add section",
+    "deleteSection": "Delete section: {{label}}",
+    "sectionLabelTr": "{{label}} section name (Turkish)",
+    "sectionLabelEn": "{{label}} section name (English)",
+    "sectionFields": "{{label}} fields",
+    "moveToSection": "Section of {{label}}",
+    "removeField": "Remove from layout: {{label}}",
+    "emptySection": "No fields in this section.",
+    "hiddenFields": "Fields not in the layout",
+    "hiddenDescription": "These fields are not shown on the record page; click to add them.",
+    "addField": "Add to layout: {{label}}",
+    "highlights": "Header summary",
+    "highlightsDescription": "Up to {{max}} fields highlighted in the record header."
+  },
+  "columns": {
+    "title": "List columns",
+    "description": "Default columns and order of the list. Users can change them in their own views.",
+    "visible": "Visible columns",
+    "hidden": "Hidden fields",
+    "add": "Add column: {{label}}",
+    "remove": "Remove column: {{label}}",
+    "sortField": "Default sorting",
+    "sortDirection": "Sort direction",
+    "noSort": "No sorting",
+    "asc": "Ascending",
+    "desc": "Descending"
+  },
+  "pipeline": {
+    "title": "Pipeline stages",
+    "description": "The stage order defines the kanban columns. A stage gate lists the fields to fill in before entering the stage.",
+    "stages": "Stages",
+    "untitled": "Untitled stage",
+    "labelTr": "Stage {{index}} name (Turkish)",
+    "labelEn": "Stage {{index}} name (English)",
+    "kind": "Outcome of {{label}}",
+    "color": "Color of {{label}}",
+    "gate": "Stage gate of {{label}}",
+    "gateTitle": "Required fields",
+    "gateCount_one": "{{count}} required field",
+    "gateCount_other": "{{count}} required fields",
+    "delete": "Delete stage: {{label}}",
+    "add": "Add stage",
+    "labelRequired": "Enter a Turkish name for every stage.",
+    "kinds": {
+      "open": "Open",
+      "won": "Won",
+      "lost": "Lost"
+    }
+  },
+  "save": {
+    "unsaved": "You have unsaved changes.",
+    "upToDate": "All changes saved.",
+    "reset": "Discard changes"
+  }
+}

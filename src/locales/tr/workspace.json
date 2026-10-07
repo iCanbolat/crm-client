@@ -1,0 +1,101 @@
+{
+  "roles": {
+    "owner": "Sahip",
+    "admin": "Yönetici",
+    "manager": "Müdür",
+    "agent": "Temsilci",
+    "viewer": "İzleyici"
+  },
+  "onboarding": {
+    "title": "Çalışma alanınızı kuralım",
+    "description": "Birkaç adımda şirket bilgilerinizi girin, sektör modülünüzü seçin ve ekibinizi davet edin.",
+    "progress": "Kurulum adımları",
+    "stepOf": "Adım {{step}} / {{total}}",
+    "back": "Geri",
+    "next": "Devam et",
+    "signOut": "Çıkış yap",
+    "completed": "Çalışma alanınız hazır!",
+    "pendingTitle": "Çalışma alanı henüz kurulmadı",
+    "pendingDescription": "Kurulumu çalışma alanı sahibi veya bir yönetici tamamlayabilir. Lütfen daha sonra tekrar deneyin."
+  },
+  "steps": {
+    "company": {
+      "short": "Şirket",
+      "title": "Şirket bilgileri",
+      "description": "Teklif, fatura ve raporlarda kullanılacak temel bilgiler."
+    },
+    "modules": {
+      "short": "Modül",
+      "title": "Sektör modülü",
+      "description": "Çalışma alanınızı sektörünüze göre özelleştiren modülü seçin."
+    },
+    "team": {
+      "short": "Ekip",
+      "title": "Ekibinizi davet edin",
+      "description": "Ekip arkadaşlarınızı şimdi davet edebilir ya da bu adımı atlayabilirsiniz."
+    },
+    "done": {
+      "short": "Tamam",
+      "title": "Her şey hazır",
+      "description": "Bilgileri kontrol edin ve kurulumu tamamlayın."
+    }
+  },
+  "company": {
+    "name": "Şirket adı",
+    "namePlaceholder": "Örn. Acme Lojistik",
+    "logo": "Logo",
+    "logoPreview": "Logo önizlemesi",
+    "logoUpload": "Logo yükle",
+    "logoChange": "Logoyu değiştir",
+    "logoRemove": "Logoyu kaldır",
+    "logoHint": "PNG, JPG, SVG veya WebP · en fazla 512 KB",
+    "logoInvalidType": "Yalnızca PNG, JPG, SVG veya WebP dosyaları yüklenebilir.",
+    "logoTooLarge": "Logo en fazla {{size}} KB olabilir.",
+    "country": "Ülke",
+    "currency": "Para birimi",
+    "timezone": "Saat dilimi",
+    "language": "Varsayılan dil"
+  },
+  "modules": {
+    "legend": "Sektör modülleri",
+    "comingSoon": "Yakında",
+    "required": "En az bir aktif modül seçin."
+  },
+  "team": {
+    "empty": "Henüz davet eklenmedi. Ekibinizi daha sonra Ayarlar → Ekip üzerinden de davet edebilirsiniz.",
+    "listLabel": "Davetler",
+    "email": "{{index}}. davet e-postası",
+    "emailPlaceholder": "ekip@firma.com",
+    "role": "{{index}}. davet rolü",
+    "remove": "{{index}}. daveti kaldır",
+    "add": "Davet ekle",
+    "skip": "Şimdilik atla",
+    "duplicateEmail": "Bu e-posta zaten listede."
+  },
+  "review": {
+    "ready": "Kurulumu tamamladığınızda seçtiğiniz modül çalışma alanınıza eklenecek.",
+    "modules": "Modüller",
+    "invites": "Davetler",
+    "inviteCount": "{{count}} kişi davet edilecek",
+    "noInvites": "Davet yok",
+    "submit": "Kurulumu tamamla"
+  },
+  "switcher": {
+    "label": "Çalışma alanları",
+    "trigger": "Çalışma alanı: {{name}}"
+  },
+  "members": {
+    "title": "Ekip üyeleri",
+    "count": "{{count}} üye",
+    "email": "E-posta",
+    "role": "Rol",
+    "invite": "Üye davet et",
+    "inviteTitle": "Ekibe davet et",
+    "inviteDescription": "Davet edilen kişiye seçtiğiniz rolle bir e-posta gönderilir.",
+    "sendInvite": "Davet gönder",
+    "inviteSent": "Davet gönderildi.",
+    "invitesTitle": "Bekleyen davetler",
+    "invitesDescription": "Henüz kabul edilmemiş davetler.",
+    "noInvites": "Bekleyen davet yok."
+  }
+}

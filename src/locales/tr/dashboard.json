@@ -1,0 +1,18 @@
+{
+  "greeting": "Hoş geldiniz, {{name}}",
+  "description": "{{workspace}} çalışma alanına genel bakış.",
+  "modules": {
+    "title": "Aktif modüller",
+    "empty": "Bu çalışma alanında henüz aktif bir sektör modülü yok."
+  },
+  "range": {
+    "label": "Tarih aralığı",
+    "30d": "Son 30 gün",
+    "90d": "Son 90 gün",
+    "365d": "Son 12 ay",
+    "custom": "Özel aralık",
+    "from": "Başlangıç",
+    "to": "Bitiş"
+  },
+  "widgetsTitle": "Göstergeler"
+}

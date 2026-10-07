@@ -1,5 +1,9 @@
-packages: []
+onlyBuiltDependencies:
+  - esbuild
+  - msw
+  - unrs-resolver
 
 allowBuilds:
   esbuild: true
-  msw: false
+  msw: true
+  unrs-resolver: true

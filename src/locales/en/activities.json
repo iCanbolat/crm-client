@@ -1,0 +1,89 @@
+{
+  "types": {
+    "note": "Note",
+    "call": "Call",
+    "email": "Email",
+    "meeting": "Meeting"
+  },
+  "directions": {
+    "outbound": "Outbound",
+    "inbound": "Inbound"
+  },
+  "composer": {
+    "label": "Log activity",
+    "type": "Activity type",
+    "subject": "Subject",
+    "note": "Note",
+    "details": "Details",
+    "occurredAt": "Date and time",
+    "duration": "Duration (minutes)",
+    "direction": "Direction",
+    "placeholder": {
+      "note": "Write a note…",
+      "call": "What was discussed on the call?",
+      "email": "Summary of the email…",
+      "meeting": "Decisions taken in the meeting…"
+    },
+    "submit": {
+      "note": "Save note",
+      "call": "Log call",
+      "email": "Log email",
+      "meeting": "Log meeting"
+    }
+  },
+  "timeline": {
+    "label": "Activity history",
+    "saved": "Activity saved.",
+    "emptyTitle": "No activity yet",
+    "emptyDescription": "Add a note, call, email or meeting to start the history.",
+    "minutes_one": "{{count}} min",
+    "minutes_other": "{{count}} min"
+  },
+  "priorities": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High"
+  },
+  "scopes": {
+    "today": "Today",
+    "overdue": "Overdue",
+    "upcoming": "Upcoming",
+    "done": "Done"
+  },
+  "empty": {
+    "today": "Nothing due today",
+    "overdue": "No overdue tasks",
+    "upcoming": "No upcoming tasks",
+    "done": "No completed tasks",
+    "description": "Plan your work by adding a new task."
+  },
+  "tasks": {
+    "pageTitle": "My tasks",
+    "pageDescription": "What is due today, overdue and coming up.",
+    "new": "New task",
+    "add": "Add task",
+    "create": "Create task",
+    "created": "Task created.",
+    "newTitle": "New task",
+    "newDescription": "Set a title, a due date and who is responsible.",
+    "newDescriptionFor": "Create a task for \"{{label}}\".",
+    "openTitle": "Open tasks",
+    "noneOpen": "No open tasks.",
+    "dueToday": "Today",
+    "overdueBy_one": "{{count}} day overdue",
+    "overdueBy_other": "{{count}} days overdue",
+    "markDone": "Mark as done: {{title}}",
+    "markOpen": "Reopen: {{title}}",
+    "scopesLabel": "Task groups",
+    "assigneeFilter": "Assignee",
+    "mine": "Assigned to me",
+    "team": "Whole team",
+    "fields": {
+      "title": "Title",
+      "dueDate": "Due date",
+      "priority": "Priority",
+      "assignee": "Assignee",
+      "description": "Description"
+    }
+  }
+}

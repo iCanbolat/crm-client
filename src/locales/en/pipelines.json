@@ -1,0 +1,26 @@
+{
+  "board": {
+    "label": "{{object}} board"
+  },
+  "column": {
+    "count_one": "{{count}} record",
+    "count_other": "{{count}} records",
+    "total": "Total",
+    "empty": "No records in this stage.",
+    "more_one": "+{{count}} more record (view in table)",
+    "more_other": "+{{count}} more records (view in table)"
+  },
+  "card": {
+    "drag": "Drag: {{title}}",
+    "moveMenu": "Move: {{title}}",
+    "moveTo": "Move to stage"
+  },
+  "dnd": {
+    "instructions": "Press space or enter to pick up the card. Use the left and right arrow keys to move between stages, press space or enter again to drop it, or escape to cancel.",
+    "start": "Picked up {{title}}. Current stage: {{stage}}.",
+    "over": "{{title}} is over the {{stage}} stage.",
+    "outside": "{{title}} is not over a stage.",
+    "end": "{{title}} was dropped into the {{stage}} stage.",
+    "cancel": "Move cancelled. {{title}} stayed in place."
+  }
+}

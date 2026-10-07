@@ -1,0 +1,124 @@
+{
+  "toast": {
+    "created": "Record created.",
+    "updated": "Changes saved.",
+    "deleted": "Record deleted.",
+    "moveFailed": "The record could not be moved."
+  },
+  "list": {
+    "create": "New {{object}}",
+    "search": "Search {{object}}…",
+    "layout": "Layout",
+    "tableLayout": "Table",
+    "kanbanLayout": "Kanban",
+    "emptyTitle": "No records yet",
+    "emptyDescription": "Create your first {{object}} record to get started.",
+    "noMatchesTitle": "No matching records",
+    "noMatchesDescription": "Try changing the filters or the search."
+  },
+  "filters": {
+    "add": "Add filter",
+    "addTitle": "Add filter",
+    "editTitle": "Edit filter",
+    "edit": "Edit filter: {{filter}}",
+    "remove": "Remove filter: {{filter}}",
+    "clear": "Clear filters",
+    "active": "Active filters",
+    "field": "Field",
+    "operator": "Condition",
+    "value": "Value",
+    "values": "Values",
+    "from": "From",
+    "to": "To"
+  },
+  "views": {
+    "title": "Saved views",
+    "all": "All records",
+    "shared": "Shared with the team",
+    "default": "Default",
+    "update": "Update view",
+    "saveAs": "Save as new view…",
+    "saveAsTitle": "Save view",
+    "saveAsDescription": "The current filters, sorting and columns are stored in this view.",
+    "name": "View name",
+    "nameRequired": "The view name is required.",
+    "shareWithTeam": "Share with the team",
+    "setDefault": "Make default",
+    "unsetDefault": "Remove as default",
+    "delete": "Delete view",
+    "deleteTitle": "Delete this view?",
+    "deleteDescription": "The view \"{{name}}\" will be deleted permanently.",
+    "unsaved": "Unsaved changes",
+    "saveChanges": "Save view",
+    "created": "View saved.",
+    "updated": "View updated.",
+    "deleted": "View deleted.",
+    "defaultSaved": "Default view updated."
+  },
+  "bulk": {
+    "assign": "Assign owner",
+    "addTag": "Add tag",
+    "deleteTitle_one": "Delete {{count}} record?",
+    "deleteTitle_other": "Delete {{count}} records?",
+    "deleteDescription_one": "The selected record will be deleted permanently.",
+    "deleteDescription_other": "The {{count}} selected records will be deleted permanently.",
+    "deleteOwnDescription_one": "The selected record will be deleted permanently if you own it.",
+    "deleteOwnDescription_other": "The selected records you own will be deleted permanently.",
+    "done_one": "{{count}} record updated.",
+    "done_other": "{{count}} records updated.",
+    "partial_one": "{{count}} record updated; {{skipped}} you may not change were skipped.",
+    "partial_other": "{{count}} records updated; {{skipped}} you may not change were skipped."
+  },
+  "form": {
+    "createTitle": "New {{object}}",
+    "editTitle": "Edit {{title}}",
+    "description": "Fields marked with an asterisk are required.",
+    "required": "(required)",
+    "unsavedTitle": "You have unsaved changes",
+    "unsavedDescription": "If you leave now, your changes will be lost."
+  },
+  "inline": {
+    "edit": "Edit: {{field}}",
+    "save": "Save: {{field}}",
+    "cancel": "Cancel editing",
+    "saving": "Saving…",
+    "saved": "{{field}} updated.",
+    "failed": "{{field}} could not be saved."
+  },
+  "stage": {
+    "label": "Stages",
+    "current": "Current stage: {{stage}}",
+    "moveTo": "Move to stage: {{stage}}",
+    "gateTitle": "The \"{{stage}}\" stage needs more information",
+    "gateDescription": "Fill in the fields below before moving \"{{title}}\".",
+    "gateConfirm": "Move"
+  },
+  "detail": {
+    "tabs": {
+      "details": "Details",
+      "timeline": "Timeline",
+      "files": "Files"
+    },
+    "related": "Related records",
+    "delete": "Delete record",
+    "deleteTitle": "Delete this record?",
+    "deleteDescription": "\"{{title}}\" will be deleted permanently."
+  },
+  "related": {
+    "add": "Add new {{object}}",
+    "viewAll": "View all ({{count}})",
+    "empty": "No related records yet."
+  },
+  "files": {
+    "title": "Files",
+    "upload": "Upload files",
+    "uploaded": "File uploaded.",
+    "deleted": "File deleted.",
+    "emptyTitle": "No files yet",
+    "emptyDescription": "Upload quotes, contracts or documents here.",
+    "delete": "Delete {{name}}",
+    "deleteTitle": "Delete this file?",
+    "deleteDescription": "\"{{name}}\" will be deleted permanently.",
+    "category": "Document type"
+  }
+}

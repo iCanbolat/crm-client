@@ -1,0 +1,101 @@
+{
+  "roles": {
+    "owner": "Owner",
+    "admin": "Admin",
+    "manager": "Manager",
+    "agent": "Agent",
+    "viewer": "Viewer"
+  },
+  "onboarding": {
+    "title": "Let's set up your workspace",
+    "description": "Add your company details, pick your sector module and invite your team in a few steps.",
+    "progress": "Setup steps",
+    "stepOf": "Step {{step}} of {{total}}",
+    "back": "Back",
+    "next": "Continue",
+    "signOut": "Sign out",
+    "completed": "Your workspace is ready!",
+    "pendingTitle": "This workspace is not set up yet",
+    "pendingDescription": "The workspace owner or an admin can complete the setup. Please try again later."
+  },
+  "steps": {
+    "company": {
+      "short": "Company",
+      "title": "Company details",
+      "description": "Basics used on quotes, invoices and reports."
+    },
+    "modules": {
+      "short": "Module",
+      "title": "Sector module",
+      "description": "Choose the module that tailors the workspace to your industry."
+    },
+    "team": {
+      "short": "Team",
+      "title": "Invite your team",
+      "description": "Invite your teammates now or skip this step."
+    },
+    "done": {
+      "short": "Done",
+      "title": "All set",
+      "description": "Review the details and finish the setup."
+    }
+  },
+  "company": {
+    "name": "Company name",
+    "namePlaceholder": "e.g. Acme Logistics",
+    "logo": "Logo",
+    "logoPreview": "Logo preview",
+    "logoUpload": "Upload logo",
+    "logoChange": "Change logo",
+    "logoRemove": "Remove logo",
+    "logoHint": "PNG, JPG, SVG or WebP · up to 512 KB",
+    "logoInvalidType": "Only PNG, JPG, SVG or WebP files can be uploaded.",
+    "logoTooLarge": "The logo can be at most {{size}} KB.",
+    "country": "Country",
+    "currency": "Currency",
+    "timezone": "Time zone",
+    "language": "Default language"
+  },
+  "modules": {
+    "legend": "Sector modules",
+    "comingSoon": "Coming soon",
+    "required": "Select at least one available module."
+  },
+  "team": {
+    "empty": "No invitations yet. You can also invite your team later under Settings → Team.",
+    "listLabel": "Invitations",
+    "email": "Invitation {{index}} email",
+    "emailPlaceholder": "teammate@company.com",
+    "role": "Invitation {{index}} role",
+    "remove": "Remove invitation {{index}}",
+    "add": "Add invitation",
+    "skip": "Skip for now",
+    "duplicateEmail": "This email is already on the list."
+  },
+  "review": {
+    "ready": "When you finish, the selected module is added to your workspace.",
+    "modules": "Modules",
+    "invites": "Invitations",
+    "inviteCount": "{{count}} people will be invited",
+    "noInvites": "No invitations",
+    "submit": "Finish setup"
+  },
+  "switcher": {
+    "label": "Workspaces",
+    "trigger": "Workspace: {{name}}"
+  },
+  "members": {
+    "title": "Team members",
+    "count": "{{count}} members",
+    "email": "Email",
+    "role": "Role",
+    "invite": "Invite member",
+    "inviteTitle": "Invite to the team",
+    "inviteDescription": "The invitee receives an email with the selected role.",
+    "sendInvite": "Send invitation",
+    "inviteSent": "Invitation sent.",
+    "invitesTitle": "Pending invitations",
+    "invitesDescription": "Invitations that have not been accepted yet.",
+    "noInvites": "No pending invitations."
+  }
+}

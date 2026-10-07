@@ -1,0 +1,124 @@
+{
+  "toast": {
+    "created": "Kayıt oluşturuldu.",
+    "updated": "Değişiklikler kaydedildi.",
+    "deleted": "Kayıt silindi.",
+    "moveFailed": "Kayıt taşınamadı."
+  },
+  "list": {
+    "create": "Yeni {{object}}",
+    "search": "{{object}} içinde ara…",
+    "layout": "Görünüm düzeni",
+    "tableLayout": "Tablo",
+    "kanbanLayout": "Kanban",
+    "emptyTitle": "Henüz kayıt yok",
+    "emptyDescription": "İlk {{object}} kaydını oluşturarak başlayın.",
+    "noMatchesTitle": "Eşleşen kayıt yok",
+    "noMatchesDescription": "Filtreleri veya aramayı değiştirerek tekrar deneyin."
+  },
+  "filters": {
+    "add": "Filtre ekle",
+    "addTitle": "Filtre ekle",
+    "editTitle": "Filtreyi düzenle",
+    "edit": "Filtreyi düzenle: {{filter}}",
+    "remove": "Filtreyi kaldır: {{filter}}",
+    "clear": "Filtreleri temizle",
+    "active": "Etkin filtreler",
+    "field": "Alan",
+    "operator": "Koşul",
+    "value": "Değer",
+    "values": "Değerler",
+    "from": "Başlangıç",
+    "to": "Bitiş"
+  },
+  "views": {
+    "title": "Kayıtlı görünümler",
+    "all": "Tüm kayıtlar",
+    "shared": "Ekiple paylaşılan",
+    "default": "Varsayılan",
+    "update": "Görünümü güncelle",
+    "saveAs": "Yeni görünüm olarak kaydet…",
+    "saveAsTitle": "Görünümü kaydet",
+    "saveAsDescription": "Geçerli filtreler, sıralama ve kolonlar bu görünümde saklanır.",
+    "name": "Görünüm adı",
+    "nameRequired": "Görünüm adı zorunludur.",
+    "shareWithTeam": "Ekiple paylaş",
+    "setDefault": "Varsayılan yap",
+    "unsetDefault": "Varsayılan olmaktan çıkar",
+    "delete": "Görünümü sil",
+    "deleteTitle": "Görünüm silinsin mi?",
+    "deleteDescription": "\"{{name}}\" görünümü kalıcı olarak silinecek.",
+    "unsaved": "Kaydedilmemiş değişiklikler",
+    "saveChanges": "Görünümü kaydet",
+    "created": "Görünüm kaydedildi.",
+    "updated": "Görünüm güncellendi.",
+    "deleted": "Görünüm silindi.",
+    "defaultSaved": "Varsayılan görünüm güncellendi."
+  },
+  "bulk": {
+    "assign": "Sahip ata",
+    "addTag": "Etiket ekle",
+    "deleteTitle_one": "{{count}} kayıt silinsin mi?",
+    "deleteTitle_other": "{{count}} kayıt silinsin mi?",
+    "deleteDescription_one": "Seçili kayıt kalıcı olarak silinecek.",
+    "deleteDescription_other": "Seçili {{count}} kayıt kalıcı olarak silinecek.",
+    "deleteOwnDescription_one": "Seçili kayıt size aitse kalıcı olarak silinecek.",
+    "deleteOwnDescription_other": "Seçili kayıtlardan size ait olanlar kalıcı olarak silinecek.",
+    "done_one": "{{count}} kayıt güncellendi.",
+    "done_other": "{{count}} kayıt güncellendi.",
+    "partial_one": "{{count}} kayıt güncellendi; yetkiniz olmayan {{skipped}} kayıt atlandı.",
+    "partial_other": "{{count}} kayıt güncellendi; yetkiniz olmayan {{skipped}} kayıt atlandı."
+  },
+  "form": {
+    "createTitle": "Yeni {{object}}",
+    "editTitle": "{{title}} — düzenle",
+    "description": "Yıldızlı alanlar zorunludur.",
+    "required": "(zorunlu)",
+    "unsavedTitle": "Kaydedilmemiş değişiklikler var",
+    "unsavedDescription": "Ayrılırsanız yaptığınız değişiklikler kaybolacak."
+  },
+  "inline": {
+    "edit": "Düzenle: {{field}}",
+    "save": "Kaydet: {{field}}",
+    "cancel": "Düzenlemeyi iptal et",
+    "saving": "Kaydediliyor…",
+    "saved": "{{field}} güncellendi.",
+    "failed": "{{field}} kaydedilemedi."
+  },
+  "stage": {
+    "label": "Aşamalar",
+    "current": "Geçerli aşama: {{stage}}",
+    "moveTo": "Aşamaya taşı: {{stage}}",
+    "gateTitle": "\"{{stage}}\" aşaması için bilgi gerekli",
+    "gateDescription": "\"{{title}}\" kaydını taşımadan önce aşağıdaki alanları doldurun.",
+    "gateConfirm": "Taşı"
+  },
+  "detail": {
+    "tabs": {
+      "details": "Detay",
+      "timeline": "Zaman çizelgesi",
+      "files": "Dosyalar"
+    },
+    "related": "İlişkili kayıtlar",
+    "delete": "Kaydı sil",
+    "deleteTitle": "Kayıt silinsin mi?",
+    "deleteDescription": "\"{{title}}\" kalıcı olarak silinecek."
+  },
+  "related": {
+    "add": "Yeni {{object}} ekle",
+    "viewAll": "Tümünü gör ({{count}})",
+    "empty": "Henüz ilişkili kayıt yok."
+  },
+  "files": {
+    "title": "Dosyalar",
+    "upload": "Dosya yükle",
+    "uploaded": "Dosya yüklendi.",
+    "deleted": "Dosya silindi.",
+    "emptyTitle": "Henüz dosya yok",
+    "emptyDescription": "Teklif, sözleşme veya belgeleri buraya yükleyin.",
+    "delete": "{{name}} dosyasını sil",
+    "deleteTitle": "Dosya silinsin mi?",
+    "deleteDescription": "\"{{name}}\" kalıcı olarak silinecek.",
+    "category": "Belge türü"
+  }
+}

@@ -1,0 +1,1 @@
+export { visaEducationModule } from "./manifest"

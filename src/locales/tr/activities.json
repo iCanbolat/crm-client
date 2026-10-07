@@ -1,0 +1,89 @@
+{
+  "types": {
+    "note": "Not",
+    "call": "Arama",
+    "email": "E-posta",
+    "meeting": "Toplantı"
+  },
+  "directions": {
+    "outbound": "Giden",
+    "inbound": "Gelen"
+  },
+  "composer": {
+    "label": "Aktivite ekle",
+    "type": "Aktivite tipi",
+    "subject": "Konu",
+    "note": "Not",
+    "details": "Detaylar",
+    "occurredAt": "Tarih ve saat",
+    "duration": "Süre (dakika)",
+    "direction": "Yön",
+    "placeholder": {
+      "note": "Bir not yazın…",
+      "call": "Görüşmede neler konuşuldu?",
+      "email": "E-postanın özeti…",
+      "meeting": "Toplantıda alınan kararlar…"
+    },
+    "submit": {
+      "note": "Notu kaydet",
+      "call": "Aramayı kaydet",
+      "email": "E-postayı kaydet",
+      "meeting": "Toplantıyı kaydet"
+    }
+  },
+  "timeline": {
+    "label": "Aktivite geçmişi",
+    "saved": "Aktivite kaydedildi.",
+    "emptyTitle": "Henüz aktivite yok",
+    "emptyDescription": "Not, arama, e-posta veya toplantı ekleyerek geçmişi oluşturun.",
+    "minutes_one": "{{count}} dk",
+    "minutes_other": "{{count}} dk"
+  },
+  "priorities": {
+    "low": "Düşük",
+    "medium": "Orta",
+    "high": "Yüksek"
+  },
+  "scopes": {
+    "today": "Bugün",
+    "overdue": "Geciken",
+    "upcoming": "Yaklaşan",
+    "done": "Tamamlanan"
+  },
+  "empty": {
+    "today": "Bugün için görev yok",
+    "overdue": "Geciken görev yok",
+    "upcoming": "Yaklaşan görev yok",
+    "done": "Tamamlanan görev yok",
+    "description": "Yeni bir görev ekleyerek işlerinizi planlayın."
+  },
+  "tasks": {
+    "pageTitle": "Görevlerim",
+    "pageDescription": "Bugün yapılacaklar, gecikenler ve yaklaşan görevler.",
+    "new": "Yeni görev",
+    "add": "Görev ekle",
+    "create": "Görevi oluştur",
+    "created": "Görev oluşturuldu.",
+    "newTitle": "Yeni görev",
+    "newDescription": "Görev başlığı, son tarih ve sorumlu kişiyi belirleyin.",
+    "newDescriptionFor": "\"{{label}}\" kaydı için görev oluşturun.",
+    "openTitle": "Açık görevler",
+    "noneOpen": "Açık görev yok.",
+    "dueToday": "Bugün",
+    "overdueBy_one": "{{count}} gün gecikti",
+    "overdueBy_other": "{{count}} gün gecikti",
+    "markDone": "Tamamlandı olarak işaretle: {{title}}",
+    "markOpen": "Yeniden aç: {{title}}",
+    "scopesLabel": "Görev grupları",
+    "assigneeFilter": "Görev sahibi",
+    "mine": "Bana atananlar",
+    "team": "Tüm ekip",
+    "fields": {
+      "title": "Başlık",
+      "dueDate": "Son tarih",
+      "priority": "Öncelik",
+      "assignee": "Sorumlu",
+      "description": "Açıklama"
+    }
+  }
+}

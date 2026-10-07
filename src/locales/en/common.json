@@ -1,0 +1,85 @@
+{
+  "appName": "CRM Platform",
+  "loading": "Loading…",
+  "actions": {
+    "retry": "Try again",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "add": "Add",
+    "goHome": "Back to home",
+    "previous": "Previous",
+    "next": "Next",
+    "save": "Save",
+    "edit": "Edit",
+    "close": "Close",
+    "clear": "Clear",
+    "apply": "Apply",
+    "create": "Create",
+    "discard": "Discard changes",
+    "keepEditing": "Keep editing",
+    "moreActions": "More actions"
+  },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "language": {
+    "label": "Language",
+    "tr": "Türkçe",
+    "en": "English"
+  },
+  "pagination": {
+    "label": "Pagination",
+    "pageOf": "Page {{page}} of {{pageCount}}",
+    "total": "{{count}} records in total",
+    "pageSize": "Rows per page",
+    "firstPage": "First page",
+    "lastPage": "Last page"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Page not found",
+    "description": "The page you are looking for may have been moved or never existed."
+  },
+  "forbidden": {
+    "code": "403",
+    "title": "You don't have access to this page",
+    "description": "Your role does not allow you to view this page. Contact your workspace admin if you need access."
+  },
+  "dataTable": {
+    "selectAll": "Select all rows on this page",
+    "selectRow": "Select row: {{name}}",
+    "selected_one": "{{count}} record selected",
+    "selected_other": "{{count}} records selected",
+    "clearSelection": "Clear selection",
+    "bulkActions": "Bulk actions",
+    "columns": "Columns",
+    "density": "Density",
+    "comfortable": "Comfortable",
+    "compact": "Compact",
+    "viewOptions": "View options",
+    "sortAsc": "Sort ascending",
+    "sortDesc": "Sort descending",
+    "clearSort": "Clear sorting",
+    "pin": "Pin to the left",
+    "unpin": "Unpin",
+    "moveLeft": "Move left",
+    "moveRight": "Move right",
+    "hide": "Hide column",
+    "columnMenu": "{{column}} column options",
+    "loading": "Loading records…"
+  },
+  "sortable": {
+    "handle": "Reorder: {{label}}",
+    "moveUp": "Move up: {{label}}",
+    "moveDown": "Move down: {{label}}",
+    "instructions": "Press space or enter to pick up the item, use the arrow keys to move it, press space or enter again to drop it, or escape to cancel.",
+    "picked": "Picked up {{label}}. Position {{position}} of {{total}}.",
+    "moved": "{{label}} is at position {{position}} of {{total}}.",
+    "dropped": "{{label}} dropped at position {{position}} of {{total}}.",
+    "cancelled": "Reordering cancelled."
+  }
+}

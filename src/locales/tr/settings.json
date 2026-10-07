@@ -1,0 +1,146 @@
+{
+  "objects": {
+    "title": "Nesneler",
+    "description": "Nesnelerin alanlarını, detay düzenini, liste kolonlarını ve pipeline aşamalarını özelleştirin.",
+    "saved": "Nesne ayarları kaydedildi.",
+    "fieldCount_one": "{{count}} alan",
+    "fieldCount_other": "{{count}} alan",
+    "customCount_one": "{{count}} özel alan",
+    "customCount_other": "{{count}} özel alan",
+    "hasPipeline": "Pipeline"
+  },
+  "object": {
+    "description": "Bu nesnenin ekranları buradaki ayarlardan üretilir.",
+    "openList": "Listeyi aç",
+    "tabs": {
+      "fields": "Alanlar",
+      "layout": "Detay düzeni",
+      "columns": "Liste kolonları",
+      "pipeline": "Pipeline"
+    }
+  },
+  "fields": {
+    "title": "Alanlar",
+    "description": "Sistem alanları özelleştirilebilir ancak silinemez.",
+    "add": "Alan ekle",
+    "addTitle": "Yeni alan",
+    "editTitle": "Alanı düzenle: {{label}}",
+    "dialogDescription": "{{object}} kayıtlarında kullanılacak alan.",
+    "labelTr": "Etiket (Türkçe)",
+    "labelEn": "Etiket (İngilizce)",
+    "key": "Anahtar",
+    "keyHelp": "API ve içe aktarmada kullanılır; sonradan değiştirilemez.",
+    "keyInvalid": "Küçük harfle başlayan, yalnız harf ve rakam içeren bir anahtar girin.",
+    "keyTaken": "Bu anahtarla bir alan zaten var.",
+    "type": "Alan tipi",
+    "relationObject": "İlişkili nesne",
+    "relationRequired": "İlişki kurulacak nesneyi seçin.",
+    "stageOptionsHint": "Aşama seçenekleri Pipeline sekmesinden düzenlenir.",
+    "helpText": "Yardım metni",
+    "required": "Zorunlu alan",
+    "addToList": "Liste kolonlarına ekle",
+    "created": "Alan eklendi.",
+    "updated": "Alan güncellendi.",
+    "deleted": "Alan silindi.",
+    "edit": "Alanı düzenle: {{label}}",
+    "delete": "Alanı sil: {{label}}",
+    "systemLocked": "{{label}} silinemez",
+    "systemHint": "Sistem alanları silinemez.",
+    "deleteTitle": "Alan silinsin mi?",
+    "deleteDescription": "\"{{label}}\" alanı ve tüm kayıtlardaki değerleri kalıcı olarak silinecek.",
+    "columns": {
+      "label": "Etiket",
+      "key": "Anahtar",
+      "type": "Tip",
+      "attributes": "Özellikler",
+      "actions": "İşlemler"
+    },
+    "badges": {
+      "system": "Sistem",
+      "custom": "Özel",
+      "required": "Zorunlu",
+      "readOnly": "Salt okunur"
+    }
+  },
+  "options": {
+    "label": "Seçenekler",
+    "add": "Seçenek ekle",
+    "remove": "Seçeneği kaldır: {{label}}",
+    "untitled": "Adsız seçenek",
+    "labelTr": "Seçenek {{index}} etiketi (Türkçe)",
+    "labelEn": "Seçenek {{index}} etiketi (İngilizce)",
+    "color": "Seçenek {{index}} rengi",
+    "placeholderTr": "Türkçe etiket",
+    "placeholderEn": "İngilizce etiket",
+    "required": "En az bir seçenek ekleyin.",
+    "emptyLabel": "Tüm seçeneklere Türkçe etiket girin."
+  },
+  "colors": {
+    "gray": "Gri",
+    "blue": "Mavi",
+    "green": "Yeşil",
+    "amber": "Turuncu",
+    "red": "Kırmızı",
+    "violet": "Mor",
+    "teal": "Turkuaz"
+  },
+  "layout": {
+    "title": "Detay düzeni",
+    "description": "Kayıt sayfasındaki bölümleri ve alan sırasını belirleyin.",
+    "untitled": "Adsız bölüm",
+    "newSection": "Yeni bölüm",
+    "addSection": "Bölüm ekle",
+    "deleteSection": "Bölümü sil: {{label}}",
+    "sectionLabelTr": "{{label}} bölüm adı (Türkçe)",
+    "sectionLabelEn": "{{label}} bölüm adı (İngilizce)",
+    "sectionFields": "{{label}} alanları",
+    "moveToSection": "{{label}} alanının bölümü",
+    "removeField": "Düzenden çıkar: {{label}}",
+    "emptySection": "Bu bölümde alan yok.",
+    "hiddenFields": "Düzende olmayan alanlar",
+    "hiddenDescription": "Bu alanlar kayıt sayfasında gösterilmez; eklemek için tıklayın.",
+    "addField": "Düzene ekle: {{label}}",
+    "highlights": "Başlık özeti",
+    "highlightsDescription": "Kayıt başlığında öne çıkan en fazla {{max}} alan."
+  },
+  "columns": {
+    "title": "Liste kolonları",
+    "description": "Listenin varsayılan kolonları ve sıralaması. Kullanıcılar kendi görünümlerinde değiştirebilir.",
+    "visible": "Görünen kolonlar",
+    "hidden": "Gizli alanlar",
+    "add": "Kolon ekle: {{label}}",
+    "remove": "Kolonu kaldır: {{label}}",
+    "sortField": "Varsayılan sıralama",
+    "sortDirection": "Sıralama yönü",
+    "noSort": "Sıralama yok",
+    "asc": "Artan",
+    "desc": "Azalan"
+  },
+  "pipeline": {
+    "title": "Pipeline aşamaları",
+    "description": "Aşamaların sırası kanban sütunlarını belirler. Aşama kapısı, aşamaya geçmeden önce doldurulması gereken alanlardır.",
+    "stages": "Aşamalar",
+    "untitled": "Adsız aşama",
+    "labelTr": "Aşama {{index}} adı (Türkçe)",
+    "labelEn": "Aşama {{index}} adı (İngilizce)",
+    "kind": "{{label}} sonucu",
+    "color": "{{label}} rengi",
+    "gate": "{{label}} aşama kapısı",
+    "gateTitle": "Zorunlu alanlar",
+    "gateCount_one": "{{count}} zorunlu alan",
+    "gateCount_other": "{{count}} zorunlu alan",
+    "delete": "Aşamayı sil: {{label}}",
+    "add": "Aşama ekle",
+    "labelRequired": "Tüm aşamalara Türkçe ad girin.",
+    "kinds": {
+      "open": "Açık",
+      "won": "Kazanıldı",
+      "lost": "Kaybedildi"
+    }
+  },
+  "save": {
+    "unsaved": "Kaydedilmemiş değişiklikler var.",
+    "upToDate": "Tüm değişiklikler kayıtlı.",
+    "reset": "Değişiklikleri geri al"
+  }
+}

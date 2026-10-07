@@ -1,0 +1,18 @@
+{
+  "greeting": "Welcome, {{name}}",
+  "description": "Overview of the {{workspace}} workspace.",
+  "modules": {
+    "title": "Active modules",
+    "empty": "This workspace has no active sector module yet."
+  },
+  "range": {
+    "label": "Date range",
+    "30d": "Last 30 days",
+    "90d": "Last 90 days",
+    "365d": "Last 12 months",
+    "custom": "Custom range",
+    "from": "From",
+    "to": "To"
+  },
+  "widgetsTitle": "Insights"
+}

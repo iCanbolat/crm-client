@@ -1,0 +1,27 @@
+{
+  "title": "Example records",
+  "description": "Feature template: listing, creating and deleting with TanStack Query + MSW.",
+  "form": {
+    "nameLabel": "Record name",
+    "namePlaceholder": "New record name",
+    "submit": "Add"
+  },
+  "status": {
+    "active": "Active",
+    "archived": "Archived"
+  },
+  "created": "Record created.",
+  "deleted": "Record deleted.",
+  "deleteLabel": "Delete {{name}}",
+  "deleteConfirm": {
+    "title": "Delete this record?",
+    "description": "\"{{name}}\" will be permanently deleted. This cannot be undone."
+  },
+  "empty": {
+    "title": "No records yet",
+    "description": "Add the first record using the form above."
+  },
+  "pageTitle": "Feature template",
+  "pageDescription": "Reference screen for new features: listing, creating, deleting and role based permissions.",
+  "owner": "Owner: {{name}}"
+}

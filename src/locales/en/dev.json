@@ -1,0 +1,21 @@
+{
+  "badge": "MSW",
+  "title": "Mock API tools",
+  "description": "Switch scenarios to simulate empty, failing and slow states.",
+  "scenario": "Scenario",
+  "scenarios": {
+    "default": "Default",
+    "empty": "Empty data",
+    "error": "Server error",
+    "slow": "Slow response",
+    "validation": "Validation error"
+  },
+  "persist": "Keep data in the browser",
+  "persistHint": "Changes survive page reloads.",
+  "resetDb": "Reset data",
+  "resetDone": "Mock data has been reset.",
+  "quickLogin": "Quick sign-in",
+  "quickLoginHint": "Sign in as one of the seed users.",
+  "quickLoginPlaceholder": "Choose a user",
+  "quickLoginDone": "Signed in as {{name}}."
+}

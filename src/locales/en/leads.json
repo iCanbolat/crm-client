@@ -1,0 +1,33 @@
+{
+  "convert": {
+    "action": "Convert",
+    "title": "Convert lead",
+    "description": "Creates the company, contact and deal for {{name}}; the lead moves to “Converted”.",
+    "company": "Company",
+    "contact": "Contact",
+    "deal": "Deal",
+    "existing": "Existing: {{label}}",
+    "searchExisting": "Pick another existing company",
+    "searchExistingContact": "Pick another existing contact",
+    "existingPicker": "Existing record",
+    "newCompany": "Create a new company",
+    "newContact": "Create a new contact",
+    "noContact": "No contact",
+    "name": "Name",
+    "reason": {
+      "email": "same email",
+      "domain": "email domain matches",
+      "taxNumber": "same tax number",
+      "name": "same name"
+    },
+    "suggested": "Suggested match",
+    "createDeal": "Create a deal",
+    "dealName": "Deal name",
+    "dealNameDefault": "{{company}} — new business",
+    "createQuote": "Then prepare a draft quote",
+    "submit": "Convert",
+    "success": "Lead converted.",
+    "searching": "Looking for matches…",
+    "pickRequired": "Pick a record."
+  }
+}

@@ -1,7 +1,11 @@
 node_modules/
 coverage/
+dist/
+playwright-report/
+test-results/
 .pnpm-store/
 pnpm-lock.yaml
 package-lock.json
-pnpm-lock.yaml
 yarn.lock
+src/routeTree.gen.ts
+public/mockServiceWorker.js

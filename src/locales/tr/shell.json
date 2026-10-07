@@ -1,0 +1,65 @@
+{
+  "sidebar": {
+    "label": "Kenar çubuğu",
+    "navigation": "Ana menü",
+    "toggle": "Kenar çubuğunu aç/kapat"
+  },
+  "navGroups": {
+    "workspace": "Genel",
+    "crm": "CRM",
+    "settings": "Ayarlar"
+  },
+  "nav": {
+    "dashboard": "Panel",
+    "leads": "Lead'ler",
+    "companies": "Şirketler",
+    "contacts": "Kişiler",
+    "deals": "Fırsatlar",
+    "members": "Ekip",
+    "examples": "Örnek kayıtlar",
+    "tasks": "Görevlerim",
+    "objects": "Nesneler"
+  },
+  "crumbs": {
+    "dashboard": "Panel",
+    "object": "Kayıtlar",
+    "settings": "Ayarlar",
+    "members": "Ekip",
+    "examples": "Örnek kayıtlar",
+    "record": "Kayıt",
+    "new": "Yeni kayıt",
+    "edit": "Düzenle",
+    "tasks": "Görevlerim",
+    "objects": "Nesneler",
+    "objectSettings": "Nesne ayarları",
+    "quotes": "Teklifler",
+    "quoteBuilder": "Teklif",
+    "print": "Yazdır"
+  },
+  "command": {
+    "open": "Komut paletini aç",
+    "trigger": "Ara…",
+    "title": "Komut paleti",
+    "description": "Sayfalar, kayıtlar ve işlemler arasında arayın.",
+    "placeholder": "Sayfa, kayıt veya işlem ara…",
+    "empty": "Sonuç bulunamadı.",
+    "searching": "Aranıyor…",
+    "pages": "Sayfalar",
+    "records": "Kayıtlar",
+    "actionsHeading": "İşlemler",
+    "actions": {
+      "darkTheme": "Koyu temaya geç",
+      "lightTheme": "Açık temaya geç",
+      "language": "Dili değiştir: {{language}}",
+      "signOut": "Çıkış yap"
+    }
+  },
+  "notifications": {
+    "label": "Bildirimler",
+    "empty": "Henüz bildiriminiz yok."
+  },
+  "userMenu": {
+    "label": "Kullanıcı menüsü: {{name}}",
+    "signOut": "Çıkış yap"
+  }
+}

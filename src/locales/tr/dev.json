@@ -1,0 +1,21 @@
+{
+  "badge": "MSW",
+  "title": "Mock API araçları",
+  "description": "Senaryoları değiştirerek boş, hatalı ve yavaş durumları simüle edin.",
+  "scenario": "Senaryo",
+  "scenarios": {
+    "default": "Varsayılan",
+    "empty": "Boş veri",
+    "error": "Sunucu hatası",
+    "slow": "Yavaş yanıt",
+    "validation": "Doğrulama hatası"
+  },
+  "persist": "Veriyi tarayıcıda sakla",
+  "persistHint": "Sayfa yenilense de değişiklikler korunur.",
+  "resetDb": "Veriyi sıfırla",
+  "resetDone": "Mock veri sıfırlandı.",
+  "quickLogin": "Hızlı giriş",
+  "quickLoginHint": "Seed kullanıcılarından biriyle oturum açın.",
+  "quickLoginPlaceholder": "Kullanıcı seçin",
+  "quickLoginDone": "{{name}} olarak giriş yapıldı."
+}

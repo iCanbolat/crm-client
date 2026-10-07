@@ -1,0 +1,27 @@
+{
+  "title": "Örnek kayıtlar",
+  "description": "Feature şablonu: TanStack Query + MSW ile listeleme, ekleme ve silme.",
+  "form": {
+    "nameLabel": "Kayıt adı",
+    "namePlaceholder": "Yeni kayıt adı",
+    "submit": "Ekle"
+  },
+  "status": {
+    "active": "Aktif",
+    "archived": "Arşiv"
+  },
+  "created": "Kayıt eklendi.",
+  "deleted": "Kayıt silindi.",
+  "deleteLabel": "{{name}} kaydını sil",
+  "deleteConfirm": {
+    "title": "Kayıt silinsin mi?",
+    "description": "\"{{name}}\" kalıcı olarak silinecek. Bu işlem geri alınamaz."
+  },
+  "empty": {
+    "title": "Henüz kayıt yok",
+    "description": "İlk kaydı yukarıdaki formdan ekleyebilirsiniz."
+  },
+  "pageTitle": "Feature şablonu",
+  "pageDescription": "Yeni feature'lar için referans ekran: listeleme, ekleme, silme ve rol bazlı yetki.",
+  "owner": "Sahibi: {{name}}"
+}

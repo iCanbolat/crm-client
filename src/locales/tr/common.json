@@ -1,0 +1,85 @@
+{
+  "appName": "CRM Platformu",
+  "loading": "Yükleniyor…",
+  "actions": {
+    "retry": "Tekrar dene",
+    "cancel": "Vazgeç",
+    "confirm": "Onayla",
+    "delete": "Sil",
+    "add": "Ekle",
+    "goHome": "Ana sayfaya dön",
+    "previous": "Önceki",
+    "next": "Sonraki",
+    "save": "Kaydet",
+    "edit": "Düzenle",
+    "close": "Kapat",
+    "clear": "Temizle",
+    "apply": "Uygula",
+    "create": "Oluştur",
+    "discard": "Değişiklikleri at",
+    "keepEditing": "Düzenlemeye devam et",
+    "moreActions": "Diğer işlemler"
+  },
+  "theme": {
+    "label": "Tema",
+    "light": "Açık",
+    "dark": "Koyu",
+    "system": "Sistem"
+  },
+  "language": {
+    "label": "Dil",
+    "tr": "Türkçe",
+    "en": "English"
+  },
+  "pagination": {
+    "label": "Sayfalama",
+    "pageOf": "Sayfa {{page}} / {{pageCount}}",
+    "total": "Toplam {{count}} kayıt",
+    "pageSize": "Sayfa başına",
+    "firstPage": "İlk sayfa",
+    "lastPage": "Son sayfa"
+  },
+  "notFound": {
+    "code": "404",
+    "title": "Sayfa bulunamadı",
+    "description": "Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir."
+  },
+  "forbidden": {
+    "code": "403",
+    "title": "Bu sayfaya erişiminiz yok",
+    "description": "Rolünüz bu sayfayı görüntülemenize izin vermiyor. Erişime ihtiyacınız varsa çalışma alanı yöneticinizle iletişime geçin."
+  },
+  "dataTable": {
+    "selectAll": "Sayfadaki tüm satırları seç",
+    "selectRow": "Satırı seç: {{name}}",
+    "selected_one": "{{count}} kayıt seçildi",
+    "selected_other": "{{count}} kayıt seçildi",
+    "clearSelection": "Seçimi temizle",
+    "bulkActions": "Toplu işlemler",
+    "columns": "Kolonlar",
+    "density": "Yoğunluk",
+    "comfortable": "Rahat",
+    "compact": "Sıkı",
+    "viewOptions": "Görünüm seçenekleri",
+    "sortAsc": "Artan sırala",
+    "sortDesc": "Azalan sırala",
+    "clearSort": "Sıralamayı kaldır",
+    "pin": "Sola sabitle",
+    "unpin": "Sabitlemeyi kaldır",
+    "moveLeft": "Sola taşı",
+    "moveRight": "Sağa taşı",
+    "hide": "Kolonu gizle",
+    "columnMenu": "{{column}} kolonu seçenekleri",
+    "loading": "Kayıtlar yükleniyor…"
+  },
+  "sortable": {
+    "handle": "Sırala: {{label}}",
+    "moveUp": "Yukarı taşı: {{label}}",
+    "moveDown": "Aşağı taşı: {{label}}",
+    "instructions": "Öğeyi almak için boşluk veya Enter tuşuna basın, ok tuşlarıyla taşıyın, bırakmak için yeniden boşluk veya Enter'a, iptal için Escape'e basın.",
+    "picked": "{{label}} alındı. Konum {{position}} / {{total}}.",
+    "moved": "{{label}} konum {{position}} / {{total}} üzerinde.",
+    "dropped": "{{label}} konum {{position}} / {{total}} üzerine bırakıldı.",
+    "cancelled": "Sıralama iptal edildi."
+  }
+}

@@ -1,3 +1,5 @@
+export { instantiateBlock, newFormElementId, uniqueAnswerKey } from "./blocks"
+export type { InstantiateBlockOptions } from "./blocks"
 export {
   createDefaultMapping,
   createDefaultSettings,
@@ -71,6 +73,18 @@ export type {
   LogicTarget,
   PrefillKind,
 } from "./schemas"
+export {
+  contrastRatio,
+  FORM_FONT_STACKS,
+  FORM_RADIUS_VALUES,
+  getThemeWarnings,
+  pickForeground,
+  relativeLuminance,
+  TEXT_CONTRAST_MIN,
+  themeToCssVars,
+  UI_CONTRAST_MIN,
+} from "./theme"
+export type { ThemeWarning } from "./theme"
 export {
   clearHiddenAnswers,
   formDefToZod,

@@ -45,6 +45,10 @@
     "milestoneOrder": "Bu aşama sırası atlanamaz veya tekrar girilemez.",
     "milestoneFuture": "İleri tarihli bir olay girilemez.",
     "milestoneBeforePrevious": "Tarih önceki aşamadan önce olamaz.",
-    "unknownLocation": "Bilinmeyen liman / havalimanı kodu."
+    "unknownLocation": "Bilinmeyen liman / havalimanı kodu.",
+    "slugTaken": "Bu bağlantı adı başka bir formda kullanılıyor.",
+    "formPublished": "Yayındaki form silinemez. Önce yayından kaldırın.",
+    "formNotPublishable": "Form yayınlanamıyor: önce işaretli sorunları giderin.",
+    "versionNotFound": "Form versiyonu bulunamadı."
   }
 }

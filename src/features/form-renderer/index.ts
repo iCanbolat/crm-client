@@ -6,6 +6,8 @@
 export { FormFieldView, formInputId, isWideField } from "./core/form-field-view"
 export type { FormFieldViewProps } from "./core/form-field-view"
 export { FormRenderer } from "./core/form-renderer"
+export { FormThemeScope, MOBILE_PREVIEW_WIDTH } from "./core/form-theme-scope"
+export type { FormDevice } from "./core/form-theme-scope"
 export type { FormRendererProps } from "./core/form-renderer"
 export { buildInitialAnswers, resolvePrefill } from "./core/prefill"
 export type { FormRuntimeContext } from "./core/prefill"

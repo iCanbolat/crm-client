@@ -7,6 +7,7 @@ export {
 export {
   getActiveModules,
   getDashboardWidgets,
+  getFormBlocks,
   getModule,
   getModules,
   isModuleActive,

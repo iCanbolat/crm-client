@@ -15,8 +15,16 @@ export type Action = (typeof ACTIONS)[number]
  * - `view`: saved list views (`manage` = share with the team)
  * - `member`: workspace members and invitations
  * - `workspace`: workspace profile, onboarding, modules and object metadata
+ * - `form`: lead forms of the form builder (`manage` = publish, unpublish,
+ *   restore a version)
  */
-export const RESOURCES = ["record", "view", "member", "workspace"] as const
+export const RESOURCES = [
+  "record",
+  "view",
+  "member",
+  "workspace",
+  "form",
+] as const
 export type Resource = (typeof RESOURCES)[number]
 
 export interface Subject {
@@ -44,6 +52,7 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     view: { any: ALL },
     member: { any: ALL },
     workspace: { any: ALL },
+    form: { any: ALL },
   },
   admin: {
     record: { any: ALL },
@@ -51,23 +60,27 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     member: { any: ALL },
     // Only the owner may delete the workspace.
     workspace: { any: ["read", "update", "manage"] },
+    form: { any: ALL },
   },
   manager: {
     record: { any: ["read", "create", "update", "delete"] },
     view: { any: ["read", "create", "manage"], own: ["update", "delete"] },
     member: { any: ["read"] },
     workspace: { any: ["read"] },
+    form: { any: ALL },
   },
   agent: {
     record: { any: ["read", "create"], own: ["update", "delete"] },
     view: { any: ["read", "create"], own: ["update", "delete"] },
     workspace: { any: ["read"] },
+    form: { any: ["read"] },
   },
   viewer: {
     record: { any: ["read"] },
     // Personal views only: viewers may still save their own filters.
     view: { any: ["read", "create"], own: ["update", "delete"] },
     workspace: { any: ["read"] },
+    form: { any: ["read"] },
   },
 }
 

@@ -5,6 +5,7 @@ import type { I18nText } from "@/lib/i18n-text"
 import type { Action, Resource } from "@/lib/rbac"
 
 import type { AnyFieldTypeDefinition } from "../field-types/types"
+import type { FormBlockDef } from "../forms/schemas"
 import type {
   CrmRecord,
   DetailSection,
@@ -105,6 +106,8 @@ export interface ModuleManifest {
   navigation?: NavItem[]
   recordSlots?: Partial<Record<RecordSlotName, SlotDef[]>>
   dashboardWidgets?: WidgetDef[]
+  /** Sector blocks of the form builder palette (B4.2). */
+  formBlocks?: FormBlockDef[]
 }
 
 export function isModuleId(value: unknown): value is ModuleId {

@@ -47,3 +47,10 @@ export function getDashboardWidgets(activeIds: readonly string[]) {
     (manifest) => manifest.dashboardWidgets ?? []
   )
 }
+
+/** Form builder blocks of the workspace's active modules (B4.2). */
+export function getFormBlocks(activeIds: readonly string[]) {
+  return getActiveModules(activeIds).flatMap(
+    (manifest) => manifest.formBlocks ?? []
+  )
+}

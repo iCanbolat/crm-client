@@ -27,6 +27,11 @@ describe("rbac policy", () => {
     ["viewer", "read", "record", true],
     ["viewer", "create", "record", false],
     ["viewer", "read", "member", false],
+    ["manager", "manage", "form", true],
+    ["admin", "delete", "form", true],
+    ["agent", "read", "form", true],
+    ["agent", "update", "form", false],
+    ["viewer", "create", "form", false],
   ])("%s may %s %s → %s", (role, action, resource, expected) => {
     expect(can(subject(role), action, resource)).toBe(expected)
   })

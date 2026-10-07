@@ -1,6 +1,7 @@
 import {
   BuildingIcon,
   ContactIcon,
+  FileTextIcon,
   FlaskConicalIcon,
   HandCoinsIcon,
   InboxIcon,
@@ -44,6 +45,7 @@ type CoreLabelKey =
   | "members"
   | "objects"
   | "examples"
+  | "forms"
 
 interface CoreNavItem {
   id: CoreLabelKey
@@ -54,7 +56,7 @@ interface CoreNavItem {
 }
 
 interface CoreNavGroup {
-  id: "workspace" | "crm" | "settings"
+  id: "workspace" | "crm" | "marketing" | "settings"
   items: CoreNavItem[]
 }
 
@@ -93,6 +95,17 @@ export const CORE_NAVIGATION: CoreNavGroup[] = [
         icon: HandCoinsIcon,
         to: "/o/$objectKey",
         params: { objectKey: "deal" },
+      },
+    ],
+  },
+  {
+    id: "marketing",
+    items: [
+      {
+        id: "forms",
+        icon: FileTextIcon,
+        to: "/forms",
+        permission: { action: "read", resource: "form" },
       },
     ],
   },

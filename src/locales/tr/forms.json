@@ -1,0 +1,200 @@
+{
+  "title": "Formlar",
+  "description": "Web sitenize ekleyebileceğiniz lead formları; gönderimler CRM'e lead olarak düşer.",
+  "new": "Yeni form",
+  "searchPlaceholder": "Formlarda ara…",
+  "slugInvalid": "Yalnız küçük harf, rakam ve tire kullanın (ör. navlun-teklif).",
+  "status": {
+    "label": "Durum",
+    "all": "Tüm durumlar",
+    "draft": "Taslak",
+    "published": "Yayında"
+  },
+  "unpublishedChanges": "Yayınlanmamış değişiklik",
+  "languages": {
+    "tr": "Türkçe",
+    "en": "İngilizce"
+  },
+  "columns": {
+    "name": "Form",
+    "status": "Durum",
+    "version": "Versiyon",
+    "views": "Görüntülenme",
+    "submissions": "Gönderim",
+    "conversion": "Dönüşüm",
+    "updatedAt": "Son güncelleme",
+    "actions": "İşlemler"
+  },
+  "list": {
+    "label": "Formlar",
+    "empty": "Henüz form yok",
+    "emptyDescription": "İlk lead formunuzu oluşturun, web sitenize ekleyin; gönderimler CRM'e düşsün.",
+    "noMatch": "Aramanızla eşleşen form yok.",
+    "clearFilters": "Filtreleri temizle",
+    "fields_one": "{{count}} alan",
+    "fields_other": "{{count}} alan",
+    "version": "v{{version}}"
+  },
+  "rowActions": {
+    "label": "{{name}} işlemleri",
+    "edit": "Düzenle",
+    "preview": "Önizle",
+    "delete": "Sil",
+    "deletePublished": "Sil (önce yayından kaldırın)"
+  },
+  "deleteDialog": {
+    "title": "Form silinsin mi?",
+    "description": "“{{name}}” ve tüm versiyonları kalıcı olarak silinecek."
+  },
+  "create": {
+    "title": "Yeni form",
+    "description": "Form iletişim alanları ve KVKK onayıyla başlar; alanlar Lead'e otomatik eşlenir.",
+    "name": "Form adı",
+    "namePlaceholder": "ör. Navlun Teklif Formu",
+    "slug": "Bağlantı adı",
+    "slugHelp": "Form adresi: /f/{{slug}}",
+    "submit": "Formu oluştur"
+  },
+  "toast": {
+    "created": "Form oluşturuldu.",
+    "deleted": "Form silindi."
+  },
+  "preview": {
+    "title": "Önizleme: {{name}}",
+    "description": "Formu doldurup deneyebilirsiniz; gönderimler kaydedilmez.",
+    "device": "Önizleme cihazı",
+    "desktop": "Masaüstü",
+    "mobile": "Mobil",
+    "language": "Önizleme dili"
+  },
+  "types": {
+    "text": "Kısa metin",
+    "textarea": "Uzun metin",
+    "email": "E-posta",
+    "phone": "Telefon",
+    "number": "Sayı",
+    "select": "Açılır liste",
+    "radio": "Tek seçim",
+    "checkboxes": "Onay kutuları",
+    "date": "Tarih",
+    "file": "Dosya",
+    "consent": "KVKK / GDPR onayı",
+    "hidden": "Gizli alan",
+    "heading": "Başlık",
+    "paragraph": "Paragraf",
+    "divider": "Bölüm ayırıcı"
+  },
+  "builder": {
+    "tabs": {
+      "label": "Form düzenleyici bölümleri",
+      "build": "Alanlar"
+    },
+    "nameLabel": "Form adı",
+    "nameInvalid": "Form adı 2–80 karakter olmalı.",
+    "back": "Formlara dön",
+    "undo": "Geri al",
+    "redo": "Yinele",
+    "preview": "Önizle",
+    "save": {
+      "saving": "Kaydediliyor…",
+      "saved": "Tüm değişiklikler kaydedildi",
+      "error": "Kaydedilemedi",
+      "retry": "Tekrar dene"
+    },
+    "leave": {
+      "title": "Değişiklikler kaydedilemedi",
+      "description": "Son değişiklikleriniz sunucuya kaydedilemedi. Sayfadan ayrılırsanız kaybolacak.",
+      "confirm": "Yine de ayrıl",
+      "cancel": "Sayfada kal"
+    },
+    "palette": {
+      "title": "Alan ekle",
+      "label": "Alan paleti",
+      "groups": {
+        "basic": "Temel alanlar",
+        "choice": "Seçim alanları",
+        "special": "Özel alanlar",
+        "layout": "Düzen"
+      },
+      "blocks": "{{module}} blokları",
+      "add": "{{label}} ekle",
+      "addHint": "Tıklayarak ekleyin veya kanvasa sürükleyin."
+    },
+    "canvas": {
+      "label": "Adımdaki alanlar",
+      "empty": "Bu adımda henüz alan yok",
+      "emptyHint": "Paletten alan ekleyin veya sürükleyip buraya bırakın.",
+      "edit": "{{label}} alanını düzenle",
+      "dragHandle": "{{label}} alanını taşı",
+      "moveUp": "{{label}} alanını yukarı taşı",
+      "moveDown": "{{label}} alanını aşağı taşı",
+      "duplicate": "{{label}} alanını kopyala",
+      "remove": "{{label}} alanını sil",
+      "mapped": "CRM'e eşli",
+      "conditional": "Koşullu"
+    },
+    "steps": {
+      "label": "Form adımları",
+      "add": "Adım ekle",
+      "untitled": "Adım {{index}}",
+      "title": "Adım başlığı",
+      "settings": "{{title}} ayarları",
+      "settingsShort": "Adım ayarları",
+      "moveEarlier": "Öne al",
+      "moveLater": "Sona al",
+      "remove": "Adımı sil",
+      "removeHint": "Adımdaki alanlar önceki adıma taşınır."
+    },
+    "dnd": {
+      "picked": "{{label}} taşınmak üzere alındı.",
+      "over": "{{label}}, {{position}}. sıraya taşınıyor.",
+      "dropped": "{{label}}, {{position}}. sıraya bırakıldı.",
+      "cancelled": "Taşıma iptal edildi.",
+      "instructions": "Taşımak için boşluk tuşuna basın, ok tuşlarıyla yeni yerini seçin ve bırakmak için tekrar boşluğa basın. İptal etmek için Escape."
+    },
+    "properties": {
+      "title": "Alan özellikleri",
+      "close": "Alan seçimini kaldır",
+      "emptyHint": "Bir alanın özelliklerini düzenlemek için kanvasta üzerine tıklayın.",
+      "label": "Etiket",
+      "consentText": "Onay metni",
+      "content": {
+        "heading": "Alt başlık",
+        "paragraph": "Metin",
+        "consent": "Ek açıklama"
+      },
+      "consentUrl": "Aydınlatma metni bağlantısı",
+      "placeholder": "Yer tutucu",
+      "helpText": "Yardım metni",
+      "required": "Zorunlu alan",
+      "options": "Seçenekler",
+      "minLength": "En az karakter",
+      "maxLength": "En fazla karakter",
+      "min": "En küçük değer",
+      "max": "En büyük değer",
+      "pattern": "Biçim (düzenli ifade)",
+      "patternHelp": "Örn. 5 harfli liman kodu için ^[A-Z]{5}$",
+      "patternInvalid": "Geçersiz düzenli ifade.",
+      "defaultValue": "Varsayılan değer",
+      "width": "Genişlik",
+      "widthFull": "Tam satır",
+      "widthHalf": "Yarım satır",
+      "key": "Yanıt anahtarı",
+      "keyHelp": "Gönderim verisinde ve dışa aktarmada kullanılır.",
+      "keyInvalid": "Küçük harfle başlayan, harf ve rakamlardan oluşan bir anahtar girin.",
+      "keyTaken": "Bu anahtar başka bir alanda kullanılıyor.",
+      "step": "Adım",
+      "duplicate": "Kopyala",
+      "remove": "Alanı sil",
+      "missingTranslation": "Bu dil için çeviri eksik.",
+      "prefill": {
+        "label": "Değer kaynağı",
+        "static": "Sabit değer",
+        "query": "URL parametresi",
+        "referrer": "Yönlendiren sayfa",
+        "value": "Değer",
+        "param": "Parametre adı"
+      }
+    }
+  }
+}

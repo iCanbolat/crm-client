@@ -10,6 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb"
+import { useFormCrumb } from "@/features/form-builder"
 import { useObjectCrumb, useRecordCrumb } from "@/features/records"
 
 import { useNavigation } from "../hooks/use-navigation"
@@ -24,6 +25,7 @@ export function Breadcrumbs() {
   // Object and record crumbs show live names from metadata / the record.
   const objectLabel = useObjectCrumb(params.objectKey)
   const recordLabel = useRecordCrumb(params.objectKey, params.recordId)
+  const formLabel = useFormCrumb(params.formId)
 
   const crumbs = matches.flatMap((match) => {
     const crumb = match.staticData.crumb
@@ -40,6 +42,8 @@ export function Breadcrumbs() {
       label = objectLabel ?? t("crumbs.objectSettings")
     } else if (crumb === "record") {
       label = recordLabel ?? t("crumbs.record")
+    } else if (crumb === "form") {
+      label = formLabel ?? t("crumbs.form")
     } else {
       label = t(`crumbs.${crumb}`)
     }

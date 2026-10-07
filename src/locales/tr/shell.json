@@ -7,6 +7,7 @@
   "navGroups": {
     "workspace": "Genel",
     "crm": "CRM",
+    "marketing": "Pazarlama",
     "settings": "Ayarlar"
   },
   "nav": {
@@ -18,7 +19,8 @@
     "members": "Ekip",
     "examples": "Örnek kayıtlar",
     "tasks": "Görevlerim",
-    "objects": "Nesneler"
+    "objects": "Nesneler",
+    "forms": "Formlar"
   },
   "crumbs": {
     "dashboard": "Panel",
@@ -34,7 +36,9 @@
     "objectSettings": "Nesne ayarları",
     "quotes": "Teklifler",
     "quoteBuilder": "Teklif",
-    "print": "Yazdır"
+    "print": "Yazdır",
+    "forms": "Formlar",
+    "form": "Form"
   },
   "command": {
     "open": "Komut paletini aç",

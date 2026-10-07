@@ -19,7 +19,13 @@ import {
   type ViewPrefRow,
   type ViewRow,
 } from "@/features/records/mocks/factory"
+import { seedForms } from "@/features/form-builder/mocks/seed"
+import type {
+  FormRow,
+  FormVersionRow,
+} from "@/features/form-builder/mocks/types"
 import type { Workspace } from "@/features/workspace"
+import { seedForwardingForms } from "@/modules/forwarding/mocks/forms-seed"
 import { seedForwarding } from "@/modules/forwarding/mocks/seed"
 import type {
   MilestoneRow,
@@ -129,6 +135,17 @@ export const db = {
   milestones: createCollection<MilestoneRow>({
     name: "milestones",
     seed: () => seedForwarding(seedRecords()).milestones,
+    onChange: notify,
+  }),
+  // Form builder (Faz 4)
+  forms: createCollection<FormRow>({
+    name: "forms",
+    seed: () => [...seedForms().forms, ...seedForwardingForms().forms],
+    onChange: notify,
+  }),
+  formVersions: createCollection<FormVersionRow>({
+    name: "formVersions",
+    seed: () => [...seedForms().versions, ...seedForwardingForms().versions],
     onChange: notify,
   }),
 }

@@ -6,6 +6,7 @@ import enDev from "./en/dev.json"
 import enEngine from "./en/engine.json"
 import enErrors from "./en/errors.json"
 import enExample from "./en/example.json"
+import enForms from "./en/forms.json"
 import enForwarding from "./en/forwarding.json"
 import enLeads from "./en/leads.json"
 import enPipelines from "./en/pipelines.json"
@@ -22,6 +23,7 @@ import trDev from "./tr/dev.json"
 import trEngine from "./tr/engine.json"
 import trErrors from "./tr/errors.json"
 import trExample from "./tr/example.json"
+import trForms from "./tr/forms.json"
 import trForwarding from "./tr/forwarding.json"
 import trLeads from "./tr/leads.json"
 import trPipelines from "./tr/pipelines.json"
@@ -55,6 +57,7 @@ export const resources = {
     forwarding: trForwarding,
     leads: trLeads,
     renderer: trRenderer,
+    forms: trForms,
   },
   en: {
     common: enCommon,
@@ -73,6 +76,7 @@ export const resources = {
     forwarding: enForwarding,
     leads: enLeads,
     renderer: enRenderer,
+    forms: enForms,
   },
 } as const
 

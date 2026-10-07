@@ -1,0 +1,200 @@
+{
+  "title": "Forms",
+  "description": "Lead forms for your website; submissions land in the CRM as leads.",
+  "new": "New form",
+  "searchPlaceholder": "Search forms…",
+  "slugInvalid": "Use lowercase letters, digits and hyphens only (e.g. freight-quote).",
+  "status": {
+    "label": "Status",
+    "all": "All statuses",
+    "draft": "Draft",
+    "published": "Published"
+  },
+  "unpublishedChanges": "Unpublished changes",
+  "languages": {
+    "tr": "Turkish",
+    "en": "English"
+  },
+  "columns": {
+    "name": "Form",
+    "status": "Status",
+    "version": "Version",
+    "views": "Views",
+    "submissions": "Submissions",
+    "conversion": "Conversion",
+    "updatedAt": "Last updated",
+    "actions": "Actions"
+  },
+  "list": {
+    "label": "Forms",
+    "empty": "No forms yet",
+    "emptyDescription": "Create your first lead form, add it to your website and let submissions flow into the CRM.",
+    "noMatch": "No forms match your search.",
+    "clearFilters": "Clear filters",
+    "fields_one": "{{count}} field",
+    "fields_other": "{{count}} fields",
+    "version": "v{{version}}"
+  },
+  "rowActions": {
+    "label": "Actions for {{name}}",
+    "edit": "Edit",
+    "preview": "Preview",
+    "delete": "Delete",
+    "deletePublished": "Delete (unpublish first)"
+  },
+  "deleteDialog": {
+    "title": "Delete form?",
+    "description": "“{{name}}” and all its versions will be deleted permanently."
+  },
+  "create": {
+    "title": "New form",
+    "description": "The form starts with contact fields and a consent box, mapped to the lead automatically.",
+    "name": "Form name",
+    "namePlaceholder": "e.g. Freight Quote Form",
+    "slug": "Link name",
+    "slugHelp": "Form address: /f/{{slug}}",
+    "submit": "Create form"
+  },
+  "toast": {
+    "created": "Form created.",
+    "deleted": "Form deleted."
+  },
+  "preview": {
+    "title": "Preview: {{name}}",
+    "description": "Fill in the form to try it; submissions are not saved.",
+    "device": "Preview device",
+    "desktop": "Desktop",
+    "mobile": "Mobile",
+    "language": "Preview language"
+  },
+  "types": {
+    "text": "Short text",
+    "textarea": "Long text",
+    "email": "Email",
+    "phone": "Phone",
+    "number": "Number",
+    "select": "Dropdown",
+    "radio": "Single choice",
+    "checkboxes": "Checkboxes",
+    "date": "Date",
+    "file": "File",
+    "consent": "GDPR / KVKK consent",
+    "hidden": "Hidden field",
+    "heading": "Heading",
+    "paragraph": "Paragraph",
+    "divider": "Section divider"
+  },
+  "builder": {
+    "tabs": {
+      "label": "Form editor sections",
+      "build": "Fields"
+    },
+    "nameLabel": "Form name",
+    "nameInvalid": "The form name must be 2–80 characters.",
+    "back": "Back to forms",
+    "undo": "Undo",
+    "redo": "Redo",
+    "preview": "Preview",
+    "save": {
+      "saving": "Saving…",
+      "saved": "All changes saved",
+      "error": "Not saved",
+      "retry": "Retry"
+    },
+    "leave": {
+      "title": "Changes could not be saved",
+      "description": "Your latest changes could not be saved. They will be lost if you leave.",
+      "confirm": "Leave anyway",
+      "cancel": "Stay on page"
+    },
+    "palette": {
+      "title": "Add field",
+      "label": "Field palette",
+      "groups": {
+        "basic": "Basic fields",
+        "choice": "Choice fields",
+        "special": "Special fields",
+        "layout": "Layout"
+      },
+      "blocks": "{{module}} blocks",
+      "add": "Add {{label}}",
+      "addHint": "Click to add or drag onto the canvas."
+    },
+    "canvas": {
+      "label": "Fields of the step",
+      "empty": "This step has no fields yet",
+      "emptyHint": "Add fields from the palette or drag and drop them here.",
+      "edit": "Edit {{label}}",
+      "dragHandle": "Move {{label}}",
+      "moveUp": "Move {{label}} up",
+      "moveDown": "Move {{label}} down",
+      "duplicate": "Duplicate {{label}}",
+      "remove": "Delete {{label}}",
+      "mapped": "Mapped to CRM",
+      "conditional": "Conditional"
+    },
+    "steps": {
+      "label": "Form steps",
+      "add": "Add step",
+      "untitled": "Step {{index}}",
+      "title": "Step title",
+      "settings": "{{title}} settings",
+      "settingsShort": "Step settings",
+      "moveEarlier": "Move earlier",
+      "moveLater": "Move later",
+      "remove": "Delete step",
+      "removeHint": "Its fields move to the previous step."
+    },
+    "dnd": {
+      "picked": "Picked up {{label}}.",
+      "over": "Moving {{label}} to position {{position}}.",
+      "dropped": "Dropped {{label}} at position {{position}}.",
+      "cancelled": "Move cancelled.",
+      "instructions": "To move, press space, use the arrow keys to choose the new position and press space again to drop. Press Escape to cancel."
+    },
+    "properties": {
+      "title": "Field properties",
+      "close": "Deselect field",
+      "emptyHint": "Click a field on the canvas to edit its properties.",
+      "label": "Label",
+      "consentText": "Consent statement",
+      "content": {
+        "heading": "Subtitle",
+        "paragraph": "Text",
+        "consent": "Additional details"
+      },
+      "consentUrl": "Privacy notice link",
+      "placeholder": "Placeholder",
+      "helpText": "Help text",
+      "required": "Required field",
+      "options": "Options",
+      "minLength": "Minimum characters",
+      "maxLength": "Maximum characters",
+      "min": "Minimum value",
+      "max": "Maximum value",
+      "pattern": "Format (regular expression)",
+      "patternHelp": "E.g. ^[A-Z]{5}$ for a 5-letter port code",
+      "patternInvalid": "Invalid regular expression.",
+      "defaultValue": "Default value",
+      "width": "Width",
+      "widthFull": "Full row",
+      "widthHalf": "Half row",
+      "key": "Answer key",
+      "keyHelp": "Used in submission data and exports.",
+      "keyInvalid": "Enter a key that starts with a lowercase letter and has letters and digits only.",
+      "keyTaken": "Another field uses this key.",
+      "step": "Step",
+      "duplicate": "Duplicate",
+      "remove": "Delete field",
+      "missingTranslation": "Translation missing for this language.",
+      "prefill": {
+        "label": "Value source",
+        "static": "Fixed value",
+        "query": "URL parameter",
+        "referrer": "Referring page",
+        "value": "Value",
+        "param": "Parameter name"
+      }
+    }
+  }
+}

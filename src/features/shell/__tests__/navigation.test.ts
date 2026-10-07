@@ -37,10 +37,11 @@ describe("navigation", () => {
     expect(groups.map((group) => group.id)).toEqual([
       "workspace",
       "crm",
+      "marketing",
       "module:forwarding",
       "settings",
     ])
-    expect(groups[2]).toMatchObject({
+    expect(groups[3]).toMatchObject({
       title: "Forwarding (Logistics)",
       items: [
         { title: "Quotes", href: "/o/quote" },

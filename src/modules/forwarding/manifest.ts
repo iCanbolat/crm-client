@@ -21,6 +21,7 @@ import { RouteCargoCard } from "./components/route-cargo-card"
 import { MilestoneTimeline } from "./components/shipment/milestone-timeline"
 import { ScheduleCard } from "./components/shipment/schedule-card"
 import { forwardingFieldTypes } from "./field-types"
+import { forwardingFormBlocks } from "./form-blocks"
 import {
   companyExtension,
   dealExtension,
@@ -50,6 +51,7 @@ export const forwardingModule: ModuleManifest = {
     deal: dealExtension,
   },
   fieldTypes: forwardingFieldTypes,
+  formBlocks: forwardingFormBlocks,
   recordSlots: {
     "lead.detail.sidebar": [
       { id: "forwarding.route", component: RouteCargoCard },

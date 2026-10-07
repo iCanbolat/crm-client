@@ -7,6 +7,7 @@
   "navGroups": {
     "workspace": "General",
     "crm": "CRM",
+    "marketing": "Marketing",
     "settings": "Settings"
   },
   "nav": {
@@ -18,7 +19,8 @@
     "members": "Team",
     "examples": "Example records",
     "tasks": "My tasks",
-    "objects": "Objects"
+    "objects": "Objects",
+    "forms": "Forms"
   },
   "crumbs": {
     "dashboard": "Dashboard",
@@ -34,7 +36,9 @@
     "objectSettings": "Object settings",
     "quotes": "Quotes",
     "quoteBuilder": "Quote",
-    "print": "Print"
+    "print": "Print",
+    "forms": "Forms",
+    "form": "Form"
   },
   "command": {
     "open": "Open command palette",

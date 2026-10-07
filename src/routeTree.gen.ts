@@ -15,11 +15,14 @@ import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppExamplesRouteImport } from './routes/_app/examples'
+import { Route as AppFormsRouteImport } from './routes/_app/forms'
 import { Route as AppQuotesRouteImport } from './routes/_app/quotes'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppTasksRouteImport } from './routes/_app/tasks'
 import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
+import { Route as AppFormsIndexRouteImport } from './routes/_app/forms/index'
+import { Route as AppFormsFormIdRouteImport } from './routes/_app/forms/$formId'
 import { Route as AppOObjectKeyRouteImport } from './routes/_app/o/$objectKey'
 import { Route as AppQuotesIndexRouteImport } from './routes/_app/quotes/index'
 import { Route as AppQuotesQuoteIdRouteImport } from './routes/_app/quotes/$quoteId'
@@ -27,6 +30,8 @@ import { Route as AppQuotesNewRouteImport } from './routes/_app/quotes/new'
 import { Route as AppSettingsIndexRouteImport } from './routes/_app/settings/index'
 import { Route as AppSettingsMembersRouteImport } from './routes/_app/settings/members'
 import { Route as AppSettingsObjectsRouteImport } from './routes/_app/settings/objects'
+import { Route as AppFormsFormIdIndexRouteImport } from './routes/_app/forms/$formId/index'
+import { Route as AppFormsFormIdEditRouteImport } from './routes/_app/forms/$formId/edit'
 import { Route as AppOObjectKeyIndexRouteImport } from './routes/_app/o/$objectKey/index'
 import { Route as AppOObjectKeyRecordIdRouteImport } from './routes/_app/o/$objectKey/$recordId'
 import { Route as AppOObjectKeyNewRouteImport } from './routes/_app/o/$objectKey/new'
@@ -65,6 +70,11 @@ const AppExamplesRoute = AppExamplesRouteImport.update({
   path: '/examples',
   getParentRoute: () => AppRoute,
 } as any)
+const AppFormsRoute = AppFormsRouteImport.update({
+  id: '/forms',
+  path: '/forms',
+  getParentRoute: () => AppRoute,
+} as any)
 const AppQuotesRoute = AppQuotesRouteImport.update({
   id: '/quotes',
   path: '/quotes',
@@ -89,6 +99,16 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => AuthRoute,
+} as any)
+const AppFormsIndexRoute = AppFormsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppFormsRoute,
+} as any)
+const AppFormsFormIdRoute = AppFormsFormIdRouteImport.update({
+  id: '/$formId',
+  path: '/$formId',
+  getParentRoute: () => AppFormsRoute,
 } as any)
 const AppOObjectKeyRoute = AppOObjectKeyRouteImport.update({
   id: '/o/$objectKey',
@@ -124,6 +144,16 @@ const AppSettingsObjectsRoute = AppSettingsObjectsRouteImport.update({
   id: '/objects',
   path: '/objects',
   getParentRoute: () => AppSettingsRoute,
+} as any)
+const AppFormsFormIdIndexRoute = AppFormsFormIdIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppFormsFormIdRoute,
+} as any)
+const AppFormsFormIdEditRoute = AppFormsFormIdEditRouteImport.update({
+  id: '/edit',
+  path: '/edit',
+  getParentRoute: () => AppFormsFormIdRoute,
 } as any)
 const AppOObjectKeyIndexRoute = AppOObjectKeyIndexRouteImport.update({
   id: '/',
@@ -179,22 +209,27 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof OnboardingRoute
   '/dashboard': typeof AppDashboardRoute
   '/examples': typeof AppExamplesRoute
+  '/forms': typeof AppFormsRouteWithChildren
   '/quotes': typeof AppQuotesRouteWithChildren
   '/settings': typeof AppSettingsRouteWithChildren
   '/tasks': typeof AppTasksRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
+  '/forms/$formId': typeof AppFormsFormIdRouteWithChildren
   '/o/$objectKey': typeof AppOObjectKeyRouteWithChildren
   '/quotes/$quoteId': typeof AppQuotesQuoteIdRouteWithChildren
   '/quotes/new': typeof AppQuotesNewRoute
   '/settings/members': typeof AppSettingsMembersRoute
   '/settings/objects': typeof AppSettingsObjectsRouteWithChildren
+  '/forms/': typeof AppFormsIndexRoute
   '/quotes/': typeof AppQuotesIndexRoute
   '/settings/': typeof AppSettingsIndexRoute
+  '/forms/$formId/edit': typeof AppFormsFormIdEditRoute
   '/o/$objectKey/$recordId': typeof AppOObjectKeyRecordIdRouteWithChildren
   '/o/$objectKey/new': typeof AppOObjectKeyNewRoute
   '/quotes/$quoteId/print': typeof AppQuotesQuoteIdPrintRoute
   '/settings/objects/$objectKey': typeof AppSettingsObjectsObjectKeyRoute
+  '/forms/$formId/': typeof AppFormsFormIdIndexRoute
   '/o/$objectKey/': typeof AppOObjectKeyIndexRoute
   '/quotes/$quoteId/': typeof AppQuotesQuoteIdIndexRoute
   '/settings/objects/': typeof AppSettingsObjectsIndexRoute
@@ -211,11 +246,14 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/quotes/new': typeof AppQuotesNewRoute
   '/settings/members': typeof AppSettingsMembersRoute
+  '/forms': typeof AppFormsIndexRoute
   '/quotes': typeof AppQuotesIndexRoute
   '/settings': typeof AppSettingsIndexRoute
+  '/forms/$formId/edit': typeof AppFormsFormIdEditRoute
   '/o/$objectKey/new': typeof AppOObjectKeyNewRoute
   '/quotes/$quoteId/print': typeof AppQuotesQuoteIdPrintRoute
   '/settings/objects/$objectKey': typeof AppSettingsObjectsObjectKeyRoute
+  '/forms/$formId': typeof AppFormsFormIdIndexRoute
   '/o/$objectKey': typeof AppOObjectKeyIndexRoute
   '/quotes/$quoteId': typeof AppQuotesQuoteIdIndexRoute
   '/settings/objects': typeof AppSettingsObjectsIndexRoute
@@ -230,22 +268,27 @@ export interface FileRoutesById {
   '/onboarding': typeof OnboardingRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/examples': typeof AppExamplesRoute
+  '/_app/forms': typeof AppFormsRouteWithChildren
   '/_app/quotes': typeof AppQuotesRouteWithChildren
   '/_app/settings': typeof AppSettingsRouteWithChildren
   '/_app/tasks': typeof AppTasksRoute
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/login': typeof AuthLoginRoute
+  '/_app/forms/$formId': typeof AppFormsFormIdRouteWithChildren
   '/_app/o/$objectKey': typeof AppOObjectKeyRouteWithChildren
   '/_app/quotes/$quoteId': typeof AppQuotesQuoteIdRouteWithChildren
   '/_app/quotes/new': typeof AppQuotesNewRoute
   '/_app/settings/members': typeof AppSettingsMembersRoute
   '/_app/settings/objects': typeof AppSettingsObjectsRouteWithChildren
+  '/_app/forms/': typeof AppFormsIndexRoute
   '/_app/quotes/': typeof AppQuotesIndexRoute
   '/_app/settings/': typeof AppSettingsIndexRoute
+  '/_app/forms/$formId/edit': typeof AppFormsFormIdEditRoute
   '/_app/o/$objectKey/$recordId': typeof AppOObjectKeyRecordIdRouteWithChildren
   '/_app/o/$objectKey/new': typeof AppOObjectKeyNewRoute
   '/_app/quotes/$quoteId/print': typeof AppQuotesQuoteIdPrintRoute
   '/_app/settings/objects/$objectKey': typeof AppSettingsObjectsObjectKeyRoute
+  '/_app/forms/$formId/': typeof AppFormsFormIdIndexRoute
   '/_app/o/$objectKey/': typeof AppOObjectKeyIndexRoute
   '/_app/quotes/$quoteId/': typeof AppQuotesQuoteIdIndexRoute
   '/_app/settings/objects/': typeof AppSettingsObjectsIndexRoute
@@ -259,22 +302,27 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/dashboard'
     | '/examples'
+    | '/forms'
     | '/quotes'
     | '/settings'
     | '/tasks'
     | '/forgot-password'
     | '/login'
+    | '/forms/$formId'
     | '/o/$objectKey'
     | '/quotes/$quoteId'
     | '/quotes/new'
     | '/settings/members'
     | '/settings/objects'
+    | '/forms/'
     | '/quotes/'
     | '/settings/'
+    | '/forms/$formId/edit'
     | '/o/$objectKey/$recordId'
     | '/o/$objectKey/new'
     | '/quotes/$quoteId/print'
     | '/settings/objects/$objectKey'
+    | '/forms/$formId/'
     | '/o/$objectKey/'
     | '/quotes/$quoteId/'
     | '/settings/objects/'
@@ -291,11 +339,14 @@ export interface FileRouteTypes {
     | '/login'
     | '/quotes/new'
     | '/settings/members'
+    | '/forms'
     | '/quotes'
     | '/settings'
+    | '/forms/$formId/edit'
     | '/o/$objectKey/new'
     | '/quotes/$quoteId/print'
     | '/settings/objects/$objectKey'
+    | '/forms/$formId'
     | '/o/$objectKey'
     | '/quotes/$quoteId'
     | '/settings/objects'
@@ -309,22 +360,27 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/_app/dashboard'
     | '/_app/examples'
+    | '/_app/forms'
     | '/_app/quotes'
     | '/_app/settings'
     | '/_app/tasks'
     | '/_auth/forgot-password'
     | '/_auth/login'
+    | '/_app/forms/$formId'
     | '/_app/o/$objectKey'
     | '/_app/quotes/$quoteId'
     | '/_app/quotes/new'
     | '/_app/settings/members'
     | '/_app/settings/objects'
+    | '/_app/forms/'
     | '/_app/quotes/'
     | '/_app/settings/'
+    | '/_app/forms/$formId/edit'
     | '/_app/o/$objectKey/$recordId'
     | '/_app/o/$objectKey/new'
     | '/_app/quotes/$quoteId/print'
     | '/_app/settings/objects/$objectKey'
+    | '/_app/forms/$formId/'
     | '/_app/o/$objectKey/'
     | '/_app/quotes/$quoteId/'
     | '/_app/settings/objects/'
@@ -383,6 +439,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppExamplesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/forms': {
+      id: '/_app/forms'
+      path: '/forms'
+      fullPath: '/forms'
+      preLoaderRoute: typeof AppFormsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/quotes': {
       id: '/_app/quotes'
       path: '/quotes'
@@ -417,6 +480,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/login'
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof AuthRoute
+    }
+    '/_app/forms/': {
+      id: '/_app/forms/'
+      path: '/'
+      fullPath: '/forms/'
+      preLoaderRoute: typeof AppFormsIndexRouteImport
+      parentRoute: typeof AppFormsRoute
+    }
+    '/_app/forms/$formId': {
+      id: '/_app/forms/$formId'
+      path: '/$formId'
+      fullPath: '/forms/$formId'
+      preLoaderRoute: typeof AppFormsFormIdRouteImport
+      parentRoute: typeof AppFormsRoute
     }
     '/_app/o/$objectKey': {
       id: '/_app/o/$objectKey'
@@ -466,6 +543,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/objects'
       preLoaderRoute: typeof AppSettingsObjectsRouteImport
       parentRoute: typeof AppSettingsRoute
+    }
+    '/_app/forms/$formId/': {
+      id: '/_app/forms/$formId/'
+      path: '/'
+      fullPath: '/forms/$formId/'
+      preLoaderRoute: typeof AppFormsFormIdIndexRouteImport
+      parentRoute: typeof AppFormsFormIdRoute
+    }
+    '/_app/forms/$formId/edit': {
+      id: '/_app/forms/$formId/edit'
+      path: '/edit'
+      fullPath: '/forms/$formId/edit'
+      preLoaderRoute: typeof AppFormsFormIdEditRouteImport
+      parentRoute: typeof AppFormsFormIdRoute
     }
     '/_app/o/$objectKey/': {
       id: '/_app/o/$objectKey/'
@@ -532,6 +623,34 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AppFormsFormIdRouteChildren {
+  AppFormsFormIdEditRoute: typeof AppFormsFormIdEditRoute
+  AppFormsFormIdIndexRoute: typeof AppFormsFormIdIndexRoute
+}
+
+const AppFormsFormIdRouteChildren: AppFormsFormIdRouteChildren = {
+  AppFormsFormIdEditRoute: AppFormsFormIdEditRoute,
+  AppFormsFormIdIndexRoute: AppFormsFormIdIndexRoute,
+}
+
+const AppFormsFormIdRouteWithChildren = AppFormsFormIdRoute._addFileChildren(
+  AppFormsFormIdRouteChildren,
+)
+
+interface AppFormsRouteChildren {
+  AppFormsFormIdRoute: typeof AppFormsFormIdRouteWithChildren
+  AppFormsIndexRoute: typeof AppFormsIndexRoute
+}
+
+const AppFormsRouteChildren: AppFormsRouteChildren = {
+  AppFormsFormIdRoute: AppFormsFormIdRouteWithChildren,
+  AppFormsIndexRoute: AppFormsIndexRoute,
+}
+
+const AppFormsRouteWithChildren = AppFormsRoute._addFileChildren(
+  AppFormsRouteChildren,
+)
 
 interface AppQuotesQuoteIdRouteChildren {
   AppQuotesQuoteIdPrintRoute: typeof AppQuotesQuoteIdPrintRoute
@@ -625,6 +744,7 @@ const AppOObjectKeyRouteWithChildren = AppOObjectKeyRoute._addFileChildren(
 interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppExamplesRoute: typeof AppExamplesRoute
+  AppFormsRoute: typeof AppFormsRouteWithChildren
   AppQuotesRoute: typeof AppQuotesRouteWithChildren
   AppSettingsRoute: typeof AppSettingsRouteWithChildren
   AppTasksRoute: typeof AppTasksRoute
@@ -634,6 +754,7 @@ interface AppRouteChildren {
 const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppExamplesRoute: AppExamplesRoute,
+  AppFormsRoute: AppFormsRouteWithChildren,
   AppQuotesRoute: AppQuotesRouteWithChildren,
   AppSettingsRoute: AppSettingsRouteWithChildren,
   AppTasksRoute: AppTasksRoute,

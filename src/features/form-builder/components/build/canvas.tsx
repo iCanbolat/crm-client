@@ -13,6 +13,7 @@ import {
   GripVerticalIcon,
   LinkIcon,
   MousePointerClickIcon,
+  LanguagesIcon,
   PencilIcon,
   Trash2Icon,
 } from "lucide-react"
@@ -22,7 +23,7 @@ import { useTranslation } from "react-i18next"
 import { EmptyState } from "@/components/common/empty-state"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import type { FormField } from "@/engine/forms"
+import { getMissingTranslations, type FormField } from "@/engine/forms"
 import { FormFieldView } from "@/features/form-renderer"
 import { resolveI18nText } from "@/lib/i18n-text"
 import { cn } from "@/lib/utils"
@@ -54,6 +55,7 @@ function CanvasField({
   title,
   mappedTo,
   conditional,
+  missingLanguages,
 }: {
   field: FormField
   index: number
@@ -61,6 +63,7 @@ function CanvasField({
   title: string
   mappedTo: boolean
   conditional: boolean
+  missingLanguages: string[]
 }) {
   const { t } = useTranslation("forms")
   const language = useBuilder((state) => state.language)
@@ -133,6 +136,17 @@ function CanvasField({
             <Badge variant="outline" className="gap-1">
               <GitBranchIcon aria-hidden />
               {t("builder.canvas.conditional")}
+            </Badge>
+          ) : null}
+          {missingLanguages.length ? (
+            <Badge
+              variant="outline"
+              className="gap-1 border-amber-500/50 text-amber-800 dark:text-amber-300"
+            >
+              <LanguagesIcon aria-hidden />
+              {t("builder.canvas.missingTranslation", {
+                languages: missingLanguages.join(", ").toUpperCase(),
+              })}
             </Badge>
           ) : null}
         </span>
@@ -213,6 +227,18 @@ export function Canvas() {
   const fields = useMemo(() => stepFields(content, step.id), [content, step.id])
   const { setNodeRef, isOver } = useDroppable({ id: CANVAS_DROP_ID })
 
+  const missing = useMemo(() => {
+    const byField = new Map<string, Set<string>>()
+    for (const item of getMissingTranslations(content)) {
+      if (item.scope !== "field") continue
+      byField.set(
+        item.id,
+        (byField.get(item.id) ?? new Set()).add(item.language)
+      )
+    }
+    return byField
+  }, [content])
+
   const conditional = useMemo(() => {
     const ids = new Set<string>()
     for (const rule of content.logic) {
@@ -257,6 +283,7 @@ export function Canvas() {
                 title={title(field)}
                 mappedTo={!!content.mapping.fields[field.id]}
                 conditional={conditional.has(field.id)}
+                missingLanguages={[...(missing.get(field.id) ?? [])]}
               />
             ))}
           </ul>

@@ -85,6 +85,8 @@ export {
   UI_CONTRAST_MIN,
 } from "./theme"
 export type { ThemeWarning } from "./theme"
+export { getMissingTranslations } from "./translations"
+export type { MissingTranslation } from "./translations"
 export {
   clearHiddenAnswers,
   formDefToZod,

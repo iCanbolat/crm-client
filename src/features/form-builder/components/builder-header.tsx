@@ -15,11 +15,14 @@ import { useTranslation } from "react-i18next"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Kbd } from "@/components/ui/kbd"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
+
+import type { Language } from "@/lib/i18n"
 
 import { formQueries } from "../api/forms.queries"
 import { formNameSchema, type Form } from "../api/forms.schemas"
@@ -121,6 +124,38 @@ function NameInput() {
   )
 }
 
+/** Language the canvas shows texts in (B4.3). */
+function CanvasLanguage() {
+  const { t } = useTranslation("forms")
+  const languages = useBuilder((state) => state.content.settings.languages)
+  const language = useBuilder((state) => state.language)
+  const setLanguage = useBuilder((state) => state.setLanguage)
+  if (languages.length < 2) return null
+  return (
+    <ToggleGroup
+      variant="outline"
+      spacing={0}
+      aria-label={t("builder.canvasLanguage")}
+      value={[language]}
+      onValueChange={(value) => {
+        const next = value[0] as Language | undefined
+        if (next) setLanguage(next)
+      }}
+    >
+      {languages.map((item) => (
+        <ToggleGroupItem
+          key={item}
+          value={item}
+          aria-label={t(`languages.${item}`)}
+          className="px-3 uppercase"
+        >
+          {item}
+        </ToggleGroupItem>
+      ))}
+    </ToggleGroup>
+  )
+}
+
 function HistoryButton({
   label,
   shortcut,
@@ -203,6 +238,7 @@ export function BuilderHeader({
         </div>
       </div>
       <div className="flex flex-wrap items-center gap-2">
+        <CanvasLanguage />
         <HistoryButton
           label={t("builder.undo")}
           shortcut={`${mod}Z`}

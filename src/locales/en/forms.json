@@ -131,7 +131,8 @@
       "duplicate": "Duplicate {{label}}",
       "remove": "Delete {{label}}",
       "mapped": "Mapped to CRM",
-      "conditional": "Conditional"
+      "conditional": "Conditional",
+      "missingTranslation": "{{languages}} translation missing"
     },
     "steps": {
       "label": "Form steps",
@@ -195,6 +196,7 @@
         "value": "Value",
         "param": "Parameter name"
       }
-    }
+    },
+    "canvasLanguage": "Editor language"
   }
 }

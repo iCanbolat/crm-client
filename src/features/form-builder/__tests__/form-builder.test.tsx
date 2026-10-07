@@ -78,9 +78,10 @@ describe("form builder (B4.2)", () => {
       expect(router.state.location.pathname).toMatch(/^\/forms\/form_.+\/edit$/)
     )
     await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull())
-    expect(screen.getByRole("textbox", { name: "Form adı" })).toHaveValue(
-      "Gümrük Danışmanlığı"
-    )
+    expect(
+      await screen.findByRole("textbox", { name: "Form adı" })
+    ).toHaveValue("Gümrük Danışmanlığı")
+    await screen.findByRole("list", { name: "Adımdaki alanlar" })
     expect(canvasLabels()).toEqual([
       "Ad soyad",
       "Firma adı",

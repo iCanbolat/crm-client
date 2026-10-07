@@ -131,7 +131,8 @@
       "duplicate": "{{label}} alanını kopyala",
       "remove": "{{label}} alanını sil",
       "mapped": "CRM'e eşli",
-      "conditional": "Koşullu"
+      "conditional": "Koşullu",
+      "missingTranslation": "{{languages}} çevirisi eksik"
     },
     "steps": {
       "label": "Form adımları",
@@ -195,6 +196,7 @@
         "value": "Değer",
         "param": "Parametre adı"
       }
-    }
+    },
+    "canvasLanguage": "Düzenleyici dili"
   }
 }

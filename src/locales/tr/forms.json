@@ -87,7 +87,8 @@
   "builder": {
     "tabs": {
       "label": "Form düzenleyici bölümleri",
-      "build": "Alanlar"
+      "build": "Alanlar",
+      "logic": "Mantık"
     },
     "nameLabel": "Form adı",
     "nameInvalid": "Form adı 2–80 karakter olmalı.",
@@ -198,5 +199,42 @@
       }
     },
     "canvasLanguage": "Düzenleyici dili"
+  },
+  "logic": {
+    "title": "Koşullu mantık",
+    "description": "Alanları ve adımları verilen cevaplara göre gösterin, gizleyin veya zorunlu yapın.",
+    "add": "Kural ekle",
+    "empty": "Henüz kural yok",
+    "emptyHint": "Örneğin taşıma modu “Hava” seçilince ölçüler alanını gösterin.",
+    "noFields": "Kural eklemek için önce forma bir cevap alanı ekleyin.",
+    "rule": "Kural {{index}}",
+    "remove": "Kural {{index}} silinsin",
+    "if": "Eğer",
+    "then": "ise",
+    "match": {
+      "label": "Koşulların birleşimi",
+      "all": "tüm koşullar sağlanırsa",
+      "any": "herhangi bir koşul sağlanırsa"
+    },
+    "field": "Koşul {{index}} alanı",
+    "fieldPlaceholder": "Alan seçin",
+    "operator": "Koşul {{index}} operatörü",
+    "value": "Koşul {{index}} değeri",
+    "addCondition": "Koşul ekle",
+    "removeCondition": "Koşul {{index}} kaldırılsın",
+    "action": "Eylem",
+    "actions": {
+      "show": "göster",
+      "hide": "gizle",
+      "require": "zorunlu yap"
+    },
+    "targets": "Hedefler",
+    "targetsPlaceholder": "Alan veya adım seçin",
+    "targetFields": "Alanlar",
+    "targetSteps": "Adımlar",
+    "cycleTitle": "Döngüsel kurallar var — form yayınlanamaz",
+    "cycle": "Birbirini gösterip gizleyen alanlar: {{fields}}",
+    "broken": "Bu kural silinmiş bir alana veya adıma bağlı.",
+    "incomplete": "Kuralı tamamlayın: koşul değerini girin ve en az bir hedef seçin."
   }
 }

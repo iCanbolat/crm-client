@@ -1,5 +1,6 @@
 import {
   evaluateOperator,
+  isConditionComplete,
   type Condition,
   type FilterOperator,
 } from "../logic/conditions"
@@ -70,7 +71,10 @@ function conditionHolds(
   condition: Condition
 ) {
   const field = fields.get(condition.field)
-  if (!field || !isAnswerField(field)) return false
+  // Unfinished draft conditions never match.
+  if (!field || !isAnswerField(field) || !isConditionComplete(condition)) {
+    return false
+  }
   const value = hidden.has(field.id) ? null : answers[field.key]
   return evaluateOperator(
     condition.op,
@@ -275,4 +279,15 @@ export function findBrokenLogicRefs(content: FormContent): BrokenLogicRef[] {
     }
   }
   return broken
+}
+
+/** Draft rules not ready to publish: no target or an unfinished condition. */
+export function findIncompleteRules(content: FormContent): string[] {
+  return content.logic
+    .filter(
+      (rule) =>
+        rule.targets.length === 0 ||
+        rule.conditions.some((condition) => !isConditionComplete(condition))
+    )
+    .map((rule) => rule.id)
 }

@@ -87,7 +87,8 @@
   "builder": {
     "tabs": {
       "label": "Form editor sections",
-      "build": "Fields"
+      "build": "Fields",
+      "logic": "Logic"
     },
     "nameLabel": "Form name",
     "nameInvalid": "The form name must be 2–80 characters.",
@@ -198,5 +199,42 @@
       }
     },
     "canvasLanguage": "Editor language"
+  },
+  "logic": {
+    "title": "Conditional logic",
+    "description": "Show, hide or require fields and steps based on the answers given.",
+    "add": "Add rule",
+    "empty": "No rules yet",
+    "emptyHint": "For example, show the dimensions field when the transport mode is “Air”.",
+    "noFields": "Add an answer field to the form before creating rules.",
+    "rule": "Rule {{index}}",
+    "remove": "Delete rule {{index}}",
+    "if": "If",
+    "then": "then",
+    "match": {
+      "label": "Combine conditions",
+      "all": "all conditions are met",
+      "any": "any condition is met"
+    },
+    "field": "Condition {{index}} field",
+    "fieldPlaceholder": "Choose a field",
+    "operator": "Condition {{index}} operator",
+    "value": "Condition {{index}} value",
+    "addCondition": "Add condition",
+    "removeCondition": "Remove condition {{index}}",
+    "action": "Action",
+    "actions": {
+      "show": "show",
+      "hide": "hide",
+      "require": "require"
+    },
+    "targets": "Targets",
+    "targetsPlaceholder": "Choose fields or steps",
+    "targetFields": "Fields",
+    "targetSteps": "Steps",
+    "cycleTitle": "Cyclic rules — the form cannot be published",
+    "cycle": "Fields showing and hiding each other: {{fields}}",
+    "broken": "This rule refers to a deleted field or step.",
+    "incomplete": "Complete the rule: enter the condition value and choose at least one target."
   }
 }

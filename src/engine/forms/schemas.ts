@@ -124,7 +124,8 @@ export const formLogicRuleSchema = z.object({
   match: z.enum(["all", "any"]),
   conditions: z.array(conditionSchema).min(1),
   action: z.enum(LOGIC_ACTIONS),
-  targets: z.array(logicTargetSchema).min(1),
+  /** Empty while a draft rule is being written (blocks publishing). */
+  targets: z.array(logicTargetSchema),
 })
 
 export const DUPLICATE_STRATEGIES = ["create", "linkContactByEmail"] as const

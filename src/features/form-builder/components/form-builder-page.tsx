@@ -15,9 +15,10 @@ import {
 } from "../lib/builder-store"
 import { BuildPanel } from "./build/build-panel"
 import { BuilderHeader } from "./builder-header"
+import { LogicPanel } from "./logic/logic-panel"
 import { PreviewDialog } from "./preview-dialog"
 
-export const BUILDER_TABS = ["build"] as const
+export const BUILDER_TABS = ["build", "logic"] as const
 export type BuilderTab = (typeof BUILDER_TABS)[number]
 
 interface FormBuilderPageProps {
@@ -46,6 +47,7 @@ function BuilderScreen({ form, tab, onTabChange }: FormBuilderPageProps) {
 
   const panels: Record<BuilderTab, ReactNode> = {
     build: <BuildPanel />,
+    logic: <LogicPanel />,
   }
 
   return (

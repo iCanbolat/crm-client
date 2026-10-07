@@ -24,6 +24,7 @@ export {
   detectLogicCycles,
   evaluateFormLogic,
   findBrokenLogicRefs,
+  findIncompleteRules,
   FORM_LOGIC_OPERATORS,
   getLogicOperators,
   ruleMatches,

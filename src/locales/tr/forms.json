@@ -88,7 +88,8 @@
     "tabs": {
       "label": "Form düzenleyici bölümleri",
       "build": "Alanlar",
-      "logic": "Mantık"
+      "logic": "Mantık",
+      "mapping": "CRM eşleme"
     },
     "nameLabel": "Form adı",
     "nameInvalid": "Form adı 2–80 karakter olmalı.",
@@ -236,5 +237,56 @@
     "cycle": "Birbirini gösterip gizleyen alanlar: {{fields}}",
     "broken": "Bu kural silinmiş bir alana veya adıma bağlı.",
     "incomplete": "Kuralı tamamlayın: koşul değerini girin ve en az bir hedef seçin."
+  },
+  "mapping": {
+    "title": "CRM eşleme",
+    "description": "Her gönderim bir {{object}} kaydı oluşturur. Form alanlarını {{object}} alanlarına eşleyin.",
+    "auto": "Otomatik eşle",
+    "table": "Alan eşlemeleri",
+    "columns": {
+      "field": "Form alanı",
+      "type": "Tip",
+      "target": "{{object}} alanı"
+    },
+    "target": "{{field}} için hedef alan",
+    "none": "Eşleme yok",
+    "unmappedHint": "Eşlenmeyen cevaplar da gönderim kaydında saklanır.",
+    "required": {
+      "title": "Zorunlu {{object}} alanları",
+      "description": "Bu alanlar eşlenmeden form yayınlanamaz. Aşama ve sahip sunucu tarafından atanır.",
+      "missing": "eşlenmedi",
+      "from": "← {{field}}",
+      "optional": "← {{field}} (isteğe bağlı alan; zorunlu yapın)"
+    },
+    "issues": {
+      "requiredTarget": "Zorunlu {{target}} alanı eşlenmedi.",
+      "requiredTargetOptional": "Zorunlu {{target}} alanı isteğe bağlı bir alandan besleniyor.",
+      "typeMismatch": "Alan tipi {{target}} ile uyumsuz.",
+      "unknownTarget": "Hedef alan bulunamadı.",
+      "unknownField": "Eşlenen form alanı silinmiş.",
+      "duplicateTarget": "{{target}} alanı başka bir form alanından da besleniyor.",
+      "duplicateNeedsEmail": "Kişiye bağlamak için bir e-posta alanını e-posta hedefine eşleyin."
+    },
+    "duplicate": {
+      "title": "Mükerrer kayıt kuralı",
+      "description": "Aynı kişiden gelen gönderimler nasıl işlensin?",
+      "create": "Her gönderimde yeni lead oluştur",
+      "createHint": "Varsayılan; tekrar eden kayıtlar listede birleştirilebilir.",
+      "linkContactByEmail": "E-posta ile mevcut kişiye bağla",
+      "linkContactByEmailHint": "Aynı e-postaya sahip kişi varsa yeni lead o kişiye bağlanır.",
+      "needsEmail": "Önce bir e-posta alanını e-posta hedefine eşleyin."
+    },
+    "assignment": {
+      "title": "Atama ve izleme",
+      "description": "Oluşan kayıtların sahibi ve kaynak bilgisi.",
+      "owner": "Varsayılan sahip",
+      "formOwner": "Form sahibi ({{name}})"
+    },
+    "tracking": {
+      "title": "UTM ve yönlendiren sayfa",
+      "description": "Kampanya parametrelerini ve yönlendiren sayfayı gizli alanlarla yakalayın.",
+      "add": "UTM ve referrer alanları ekle",
+      "added": "İzleme alanları eklendi"
+    }
   }
 }

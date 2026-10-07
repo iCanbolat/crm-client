@@ -42,6 +42,7 @@ export interface BuilderState extends BuilderDoc {
   rename: (name: string) => void
   addPaletteField: (type: FormPaletteType, at?: InsertAt) => string
   addBlock: (block: FormBlockDef, at?: InsertAt) => void
+  addFields: (fields: FormField[], at?: InsertAt) => void
   /** `coalesce`: edits with the same key within a second undo as one. */
   updateField: (
     id: string,
@@ -127,6 +128,10 @@ export function createBuilderStore(doc: BuilderDoc): BuilderStore {
             const { content, ids } = ops.addBlock(get().content, block, target)
             edit(() => content)
             set({ selectedId: ids[0] ?? null })
+          },
+          addFields: (fields, at) => {
+            const target = insertAt(at)
+            edit((content) => ops.insertFields(content, fields, target))
           },
           updateField: (id, patch, coalesce) =>
             edit(

@@ -88,7 +88,8 @@
     "tabs": {
       "label": "Form editor sections",
       "build": "Fields",
-      "logic": "Logic"
+      "logic": "Logic",
+      "mapping": "CRM mapping"
     },
     "nameLabel": "Form name",
     "nameInvalid": "The form name must be 2–80 characters.",
@@ -236,5 +237,56 @@
     "cycle": "Fields showing and hiding each other: {{fields}}",
     "broken": "This rule refers to a deleted field or step.",
     "incomplete": "Complete the rule: enter the condition value and choose at least one target."
+  },
+  "mapping": {
+    "title": "CRM mapping",
+    "description": "Each submission creates a {{object}} record. Map the form fields to {{object}} fields.",
+    "auto": "Auto-map",
+    "table": "Field mappings",
+    "columns": {
+      "field": "Form field",
+      "type": "Type",
+      "target": "{{object}} field"
+    },
+    "target": "Target field for {{field}}",
+    "none": "Not mapped",
+    "unmappedHint": "Unmapped answers are kept with the submission too.",
+    "required": {
+      "title": "Required {{object}} fields",
+      "description": "The form cannot be published until these are mapped. Stage and owner are set by the server.",
+      "missing": "not mapped",
+      "from": "← {{field}}",
+      "optional": "← {{field}} (optional field; make it required)"
+    },
+    "issues": {
+      "requiredTarget": "The required field {{target}} is not mapped.",
+      "requiredTargetOptional": "The required field {{target}} is fed by an optional field.",
+      "typeMismatch": "The field type does not match {{target}}.",
+      "unknownTarget": "Target field not found.",
+      "unknownField": "The mapped form field was deleted.",
+      "duplicateTarget": "{{target}} is also fed by another form field.",
+      "duplicateNeedsEmail": "Map an email field to an email target to link contacts."
+    },
+    "duplicate": {
+      "title": "Duplicate rule",
+      "description": "How should submissions from the same person be handled?",
+      "create": "Create a new lead for every submission",
+      "createHint": "Default; duplicates can be merged in the list.",
+      "linkContactByEmail": "Link to an existing contact by email",
+      "linkContactByEmailHint": "If a contact with the same email exists, the new lead is linked to it.",
+      "needsEmail": "Map an email field to an email target first."
+    },
+    "assignment": {
+      "title": "Assignment & tracking",
+      "description": "Owner and source information of created records.",
+      "owner": "Default owner",
+      "formOwner": "Form owner ({{name}})"
+    },
+    "tracking": {
+      "title": "UTM and referrer",
+      "description": "Capture campaign parameters and the referring page with hidden fields.",
+      "add": "Add UTM and referrer fields",
+      "added": "Tracking fields added"
+    }
   }
 }

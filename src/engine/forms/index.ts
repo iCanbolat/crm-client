@@ -30,6 +30,14 @@ export {
   ruleMatches,
 } from "./logic"
 export type { BrokenLogicRef, FormLogicState } from "./logic"
+export {
+  getMappableTargets,
+  getRequiredTargets,
+  isMappingCompatible,
+  suggestMapping,
+  validateMapping,
+} from "./mapping"
+export type { MappingIssue, MappingIssueCode } from "./mapping"
 export { FormSchemaError, migrateFormContent } from "./migrate"
 export {
   DUPLICATE_STRATEGIES,

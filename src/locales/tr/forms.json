@@ -89,7 +89,8 @@
       "label": "Form düzenleyici bölümleri",
       "build": "Alanlar",
       "logic": "Mantık",
-      "mapping": "CRM eşleme"
+      "mapping": "CRM eşleme",
+      "design": "Tema & ayarlar"
     },
     "nameLabel": "Form adı",
     "nameInvalid": "Form adı 2–80 karakter olmalı.",
@@ -287,6 +288,69 @@
       "description": "Kampanya parametrelerini ve yönlendiren sayfayı gizli alanlarla yakalayın.",
       "add": "UTM ve referrer alanları ekle",
       "added": "İzleme alanları eklendi"
+    }
+  },
+  "design": {
+    "preview": "Canlı önizleme",
+    "colorPicker": "{{label}} seçici",
+    "saveSlug": "Kaydet",
+    "warnings": "Erişilebilirlik uyarıları",
+    "theme": {
+      "title": "Tema",
+      "description": "Formun web sitenizdeki görünümü.",
+      "primary": "Ana renk",
+      "background": "Arka plan",
+      "text": "Metin rengi",
+      "font": "Yazı tipi",
+      "radius": "Köşe yuvarlaklığı"
+    },
+    "fonts": {
+      "default": "Outfit (varsayılan)",
+      "system": "Sistem yazı tipi",
+      "serif": "Serif",
+      "mono": "Eş aralıklı"
+    },
+    "radii": {
+      "none": "Keskin",
+      "sm": "Az",
+      "md": "Orta",
+      "lg": "Fazla",
+      "full": "Yuvarlak"
+    },
+    "contrast": {
+      "buttonContrast": "Buton metni ana renk üzerinde zor okunuyor ({{ratio}}:1, en az 4.5:1 olmalı).",
+      "textContrast": "Metin ile arka plan kontrastı düşük ({{ratio}}:1, en az 4.5:1 olmalı).",
+      "accentContrast": "Ana renk arka planda zor seçiliyor ({{ratio}}:1, en az 3:1 olmalı)."
+    },
+    "submit": {
+      "title": "Gönderim",
+      "description": "Buton, teşekkür mesajı, bildirimler ve spam koruması.",
+      "button": "Buton metni",
+      "success": "Başarı mesajı",
+      "redirect": "Yönlendirme adresi",
+      "redirectHelp": "Doluysa ziyaretçi başarı mesajı yerine bu sayfaya gider.",
+      "redirectInvalid": "https:// ile başlayan geçerli bir adres girin.",
+      "limit": "Gönderim limiti",
+      "unlimited": "Sınırsız",
+      "limitHelp": "Bu sayıya ulaşınca form yeni gönderim kabul etmez.",
+      "limitInvalid": "Pozitif bir tam sayı girin veya boş bırakın.",
+      "honeypot": "Spam koruması (honeypot)",
+      "honeypotHelp": "Botların doldurduğu gizli alan; dolu gönderimler sessizce reddedilir.",
+      "progress": "Adım ilerleme çubuğunu göster"
+    },
+    "emails": {
+      "label": "Bildirim alıcıları",
+      "description": "Her yeni gönderimde bu adreslere e-posta gider.",
+      "add": "Ekle",
+      "remove": "{{email}} alıcısını kaldır",
+      "invalid": "Geçerli bir e-posta adresi girin.",
+      "duplicate": "Bu adres zaten listede."
+    },
+    "languages": {
+      "title": "Dil ve bağlantı",
+      "description": "Formun sunulduğu diller ve web adresi.",
+      "offered": "Form dilleri",
+      "default": "Varsayılan dil"
     }
   }
 }

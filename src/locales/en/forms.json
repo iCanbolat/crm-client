@@ -89,7 +89,8 @@
       "label": "Form editor sections",
       "build": "Fields",
       "logic": "Logic",
-      "mapping": "CRM mapping"
+      "mapping": "CRM mapping",
+      "design": "Theme & settings"
     },
     "nameLabel": "Form name",
     "nameInvalid": "The form name must be 2–80 characters.",
@@ -287,6 +288,69 @@
       "description": "Capture campaign parameters and the referring page with hidden fields.",
       "add": "Add UTM and referrer fields",
       "added": "Tracking fields added"
+    }
+  },
+  "design": {
+    "preview": "Live preview",
+    "colorPicker": "{{label}} picker",
+    "saveSlug": "Save",
+    "warnings": "Accessibility warnings",
+    "theme": {
+      "title": "Theme",
+      "description": "How the form looks on your website.",
+      "primary": "Primary color",
+      "background": "Background",
+      "text": "Text color",
+      "font": "Font",
+      "radius": "Corner radius"
+    },
+    "fonts": {
+      "default": "Outfit (default)",
+      "system": "System font",
+      "serif": "Serif",
+      "mono": "Monospace"
+    },
+    "radii": {
+      "none": "Sharp",
+      "sm": "Small",
+      "md": "Medium",
+      "lg": "Large",
+      "full": "Round"
+    },
+    "contrast": {
+      "buttonContrast": "Button text is hard to read on the primary color ({{ratio}}:1, at least 4.5:1 needed).",
+      "textContrast": "Low contrast between text and background ({{ratio}}:1, at least 4.5:1 needed).",
+      "accentContrast": "The primary color barely stands out from the background ({{ratio}}:1, at least 3:1 needed)."
+    },
+    "submit": {
+      "title": "Submission",
+      "description": "Button, thank-you message, notifications and spam protection.",
+      "button": "Button text",
+      "success": "Success message",
+      "redirect": "Redirect address",
+      "redirectHelp": "When set, visitors go to this page instead of seeing the success message.",
+      "redirectInvalid": "Enter a valid address starting with https://.",
+      "limit": "Submission limit",
+      "unlimited": "Unlimited",
+      "limitHelp": "The form stops accepting submissions at this number.",
+      "limitInvalid": "Enter a positive whole number or leave it empty.",
+      "honeypot": "Spam protection (honeypot)",
+      "honeypotHelp": "A hidden field bots fill in; such submissions are silently rejected.",
+      "progress": "Show the step progress bar"
+    },
+    "emails": {
+      "label": "Notification recipients",
+      "description": "These addresses get an email for every new submission.",
+      "add": "Add",
+      "remove": "Remove {{email}}",
+      "invalid": "Enter a valid email address.",
+      "duplicate": "This address is already listed."
+    },
+    "languages": {
+      "title": "Language & link",
+      "description": "Languages the form is offered in and its web address.",
+      "offered": "Form languages",
+      "default": "Default language"
     }
   }
 }

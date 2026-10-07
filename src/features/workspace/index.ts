@@ -30,6 +30,7 @@ export type {
   Workspace,
 } from "./api/workspace.schemas"
 export { MembersPanel } from "./components/members-panel"
+export { LogoField } from "./components/onboarding/logo-field"
 export {
   OnboardingLayout,
   OnboardingPending,

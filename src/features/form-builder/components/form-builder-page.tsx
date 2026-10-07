@@ -15,11 +15,12 @@ import {
 } from "../lib/builder-store"
 import { BuildPanel } from "./build/build-panel"
 import { BuilderHeader } from "./builder-header"
+import { DesignPanel } from "./design/design-panel"
 import { LogicPanel } from "./logic/logic-panel"
 import { MappingPanel } from "./mapping/mapping-panel"
 import { PreviewDialog } from "./preview-dialog"
 
-export const BUILDER_TABS = ["build", "logic", "mapping"] as const
+export const BUILDER_TABS = ["build", "logic", "mapping", "design"] as const
 export type BuilderTab = (typeof BUILDER_TABS)[number]
 
 interface FormBuilderPageProps {
@@ -50,6 +51,7 @@ function BuilderScreen({ form, tab, onTabChange }: FormBuilderPageProps) {
     build: <BuildPanel />,
     logic: <LogicPanel />,
     mapping: <MappingPanel form={form} />,
+    design: <DesignPanel form={form} />,
   }
 
   return (

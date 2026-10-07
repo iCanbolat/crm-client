@@ -34,6 +34,7 @@ import {
   FORM_FONTS,
   FORM_RADII,
   getThemeWarnings,
+  isHttpsUrl,
   type FormFont,
   type FormRadius,
 } from "@/engine/forms"
@@ -50,15 +51,6 @@ import { PreviewControls } from "../preview-controls"
 import { FormPreview } from "../preview-dialog"
 import { ColorField } from "./color-field"
 import { EmailListInput } from "./email-list-input"
-
-/** Redirects leave for https pages only (no `javascript:` or plain http). */
-export function isValidRedirectUrl(value: string) {
-  try {
-    return new URL(value).protocol === "https:"
-  } catch {
-    return false
-  }
-}
 
 function SlugField({ form }: { form: Form }) {
   const { t } = useTranslation("forms")
@@ -132,7 +124,7 @@ export function DesignPanel({ form }: { form: Form }) {
     : settings.defaultLanguage
   const warnings = getThemeWarnings(theme)
   const redirectInvalid =
-    !!settings.redirectUrl && !isValidRedirectUrl(settings.redirectUrl)
+    !!settings.redirectUrl && !isHttpsUrl(settings.redirectUrl)
   const [limit, setLimit] = useState(settings.maxSubmissions?.toString() ?? "")
   const limitInvalid = limit !== "" && !/^[1-9]\d*$/.test(limit)
 

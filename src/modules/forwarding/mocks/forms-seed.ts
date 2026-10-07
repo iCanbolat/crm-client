@@ -43,6 +43,7 @@ function freightQuoteContent(version: 1 | 2 | 3): FormContent {
   content.fields = content.fields.filter(
     (field) => field.type !== "consent" && field.key !== "message"
   )
+  delete content.mapping.fields.fld_message
   place(content, block("route"), "step2")
   if (version >= 2) place(content, block("cargo"), "step2")
   if (version >= 3) {

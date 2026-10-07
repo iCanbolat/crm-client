@@ -1,9 +1,13 @@
 import { useBlocker } from "@tanstack/react-router"
+import { RocketIcon } from "lucide-react"
 import { useState, type ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 
 import { ConfirmDialog } from "@/components/common/confirm-dialog"
+import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+
+import { usePermission } from "@/features/auth"
 
 import type { Form } from "../api/forms.schemas"
 import { useAutosave } from "../hooks/use-autosave"
@@ -12,15 +16,24 @@ import {
   BuilderStoreProvider,
   createBuilderStore,
   useBuilder,
+  useBuilderStore,
 } from "../lib/builder-store"
 import { BuildPanel } from "./build/build-panel"
 import { BuilderHeader } from "./builder-header"
 import { DesignPanel } from "./design/design-panel"
 import { LogicPanel } from "./logic/logic-panel"
 import { MappingPanel } from "./mapping/mapping-panel"
+import { PublishDialog } from "./publish/publish-dialog"
+import { PublishPanel } from "./publish/publish-panel"
 import { PreviewDialog } from "./preview-dialog"
 
-export const BUILDER_TABS = ["build", "logic", "mapping", "design"] as const
+export const BUILDER_TABS = [
+  "build",
+  "logic",
+  "mapping",
+  "design",
+  "publish",
+] as const
 export type BuilderTab = (typeof BUILDER_TABS)[number]
 
 interface FormBuilderPageProps {
@@ -34,8 +47,23 @@ function BuilderScreen({ form, tab, onTabChange }: FormBuilderPageProps) {
   const autosave = useAutosave(form.id)
   const name = useBuilder((state) => state.name)
   const content = useBuilder((state) => state.content)
+  const store = useBuilderStore()
+  const canPublish = usePermission("manage", "form")
   const [previewOpen, setPreviewOpen] = useState(false)
+  const [publishOpen, setPublishOpen] = useState(false)
   useBuilderShortcuts({ fieldShortcuts: tab === "build" })
+
+  /** "Fix" links of publish issues: open the tab, select the field. */
+  function fix(next: BuilderTab, fieldId?: string) {
+    onTabChange(next)
+    const field = store
+      .getState()
+      .content.fields.find((item) => item.id === fieldId)
+    if (next === "build" && field) {
+      store.getState().setActiveStep(field.stepId)
+      store.getState().select(field.id)
+    }
+  }
 
   // Leaving the editor saves pending edits first; only a failed save asks.
   const blocker = useBlocker({
@@ -52,6 +80,9 @@ function BuilderScreen({ form, tab, onTabChange }: FormBuilderPageProps) {
     logic: <LogicPanel />,
     mapping: <MappingPanel form={form} />,
     design: <DesignPanel form={form} />,
+    publish: (
+      <PublishPanel form={form} onPublish={() => setPublishOpen(true)} />
+    ),
   }
 
   return (
@@ -61,6 +92,14 @@ function BuilderScreen({ form, tab, onTabChange }: FormBuilderPageProps) {
         saveStatus={autosave.status}
         onRetrySave={() => void autosave.flush()}
         onPreview={() => setPreviewOpen(true)}
+        actions={
+          canPublish ? (
+            <Button type="button" onClick={() => setPublishOpen(true)}>
+              <RocketIcon data-icon="inline-start" />
+              {t("builder.publish")}
+            </Button>
+          ) : null
+        }
       />
       <Tabs
         value={tab}
@@ -83,6 +122,13 @@ function BuilderScreen({ form, tab, onTabChange }: FormBuilderPageProps) {
         ))}
       </Tabs>
 
+      <PublishDialog
+        open={publishOpen}
+        onOpenChange={setPublishOpen}
+        form={form}
+        flush={autosave.flush}
+        onFix={fix}
+      />
       <PreviewDialog
         open={previewOpen}
         onOpenChange={setPreviewOpen}

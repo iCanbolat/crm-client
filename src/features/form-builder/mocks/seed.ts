@@ -45,6 +45,7 @@ export function seedForms(): FormSeed {
 
   const agent = createStarterContent()
   agent.fields = agent.fields.filter((field) => field.key !== "message")
+  delete agent.mapping.fields.fld_message
   agent.fields.splice(4, 0, {
     id: "fld_services",
     key: "services",

@@ -94,6 +94,13 @@ export {
   UI_CONTRAST_MIN,
 } from "./theme"
 export type { ThemeWarning } from "./theme"
+export {
+  FORM_EMBED_RESIZE_MESSAGE,
+  hasBlockingIssues,
+  isHttpsUrl,
+  validateFormForPublish,
+} from "./publish"
+export type { FormIssue, FormIssueCode } from "./publish"
 export { getMissingTranslations } from "./translations"
 export type { MissingTranslation } from "./translations"
 export {

@@ -82,3 +82,36 @@ export const updateFormInputSchema = z.object({
   content: formContentSchema.optional(),
 })
 export type UpdateFormInput = z.infer<typeof updateFormInputSchema>
+
+/** Immutable published copy (B4.7). */
+export const formVersionSummarySchema = z.object({
+  version: z.number().int().min(1),
+  publishedAt: z.iso.datetime(),
+  publishedBy: z.string(),
+  publishedByName: z.string().nullable(),
+  /** The version visitors see now. */
+  isLive: z.boolean(),
+})
+export type FormVersionSummary = z.infer<typeof formVersionSummarySchema>
+
+export const formVersionSchema = formVersionSummarySchema.extend({
+  content: formContentSchema,
+})
+export type FormVersion = z.infer<typeof formVersionSchema>
+
+export const formVersionListSchema = z.object({
+  data: z.array(formVersionSummarySchema),
+})
+
+/** `details` of a 422 `FORM_NOT_PUBLISHABLE` response. */
+export const formIssueSchema = z.object({
+  code: z.string(),
+  severity: z.enum(["error", "warning"]),
+  fieldId: z.string().optional(),
+  ruleId: z.string().optional(),
+  target: z.string().optional(),
+  count: z.number().optional(),
+})
+export const publishErrorDetailsSchema = z.object({
+  issues: z.array(formIssueSchema),
+})

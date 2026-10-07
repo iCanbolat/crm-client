@@ -57,7 +57,10 @@
   },
   "toast": {
     "created": "Form oluşturuldu.",
-    "deleted": "Form silindi."
+    "deleted": "Form silindi.",
+    "unpublished": "Form yayından kaldırıldı.",
+    "restored": "v{{version}} taslağa yüklendi.",
+    "copied": "Panoya kopyalandı."
   },
   "preview": {
     "title": "Önizleme: {{name}}",
@@ -90,7 +93,8 @@
       "build": "Alanlar",
       "logic": "Mantık",
       "mapping": "CRM eşleme",
-      "design": "Tema & ayarlar"
+      "design": "Tema & ayarlar",
+      "publish": "Yayın"
     },
     "nameLabel": "Form adı",
     "nameInvalid": "Form adı 2–80 karakter olmalı.",
@@ -200,7 +204,8 @@
         "param": "Parametre adı"
       }
     },
-    "canvasLanguage": "Düzenleyici dili"
+    "canvasLanguage": "Düzenleyici dili",
+    "publish": "Yayınla"
   },
   "logic": {
     "title": "Koşullu mantık",
@@ -352,5 +357,83 @@
       "offered": "Form dilleri",
       "default": "Varsayılan dil"
     }
+  },
+  "publish": {
+    "title": "v{{version}} olarak yayınla",
+    "description": "Yayınlama taslağın değişmez bir kopyasını oluşturur; sonraki taslak değişiklikleri yeniden yayınlanana kadar ziyaretçilere görünmez.",
+    "ready": "Form yayınlanmaya hazır.",
+    "blocked": "Yayınlamadan önce şu sorunları giderin:",
+    "warnings": "Uyarılara rağmen yayınlayabilirsiniz:",
+    "confirm": "v{{version}} olarak yayınla",
+    "cancel": "Vazgeç",
+    "close": "Kapat",
+    "fix": "Düzelt",
+    "error": "Hata",
+    "warning": "Uyarı",
+    "done": "v{{version}} yayında",
+    "doneDescription": "Formu aşağıdaki bağlantı veya kodla web sitenize ekleyin.",
+    "saveFailed": "Taslak kaydedilemedi; yayınlamadan önce tekrar deneyin.",
+    "failed": "Form yayınlanamadı. Lütfen tekrar deneyin.",
+    "issues": {
+      "noInputs": "Formda doldurulacak en az bir alan olmalı.",
+      "duplicateKey": "“{{field}}” alanının yanıt anahtarı başka bir alanda da kullanılıyor.",
+      "logicCycle": "Döngüsel mantık kuralı var (“{{field}}” alanından başlıyor).",
+      "logicBroken": "Kural {{rule}} silinmiş bir alana veya adıma bağlı.",
+      "logicIncomplete": "Kural {{rule}} tamamlanmamış.",
+      "invalidRedirect": "Yönlendirme adresi https:// ile başlamalı.",
+      "requiredTarget": "Zorunlu {{target}} alanı bir form alanına eşlenmedi.",
+      "requiredTargetOptional": "Zorunlu {{target}} alanını besleyen “{{field}}” isteğe bağlı; zorunlu yapın.",
+      "typeMismatch": "“{{field}}” alanının tipi {{target}} ile uyumsuz.",
+      "unknownTarget": "“{{field}}” silinmiş bir CRM alanına eşli.",
+      "unknownField": "Eşlemede silinmiş bir form alanı var.",
+      "duplicateTarget": "{{target}} birden fazla form alanından besleniyor.",
+      "duplicateNeedsEmail": "Kişiye bağlama kuralı için e-posta alanını eşleyin.",
+      "missingTranslation_one": "{{count}} metnin çevirisi eksik.",
+      "missingTranslation_other": "{{count}} metnin çevirisi eksik.",
+      "lowContrast_one": "Temada {{count}} düşük kontrastlı renk kombinasyonu var.",
+      "lowContrast_other": "Temada {{count}} düşük kontrastlı renk kombinasyonu var."
+    }
+  },
+  "publishPanel": {
+    "status": "Yayın durumu",
+    "live": "v{{version}} yayında · {{when}} · {{name}}",
+    "notLive": "Form şu an yayında değil.",
+    "republish": "Değişiklikleri yayınla",
+    "unpublish": "Yayından kaldır",
+    "unpublishTitle": "Form yayından kaldırılsın mı?",
+    "unpublishDescription": "Ziyaretçiler formu artık göremez; versiyon geçmişi korunur ve dilediğiniz zaman yeniden yayınlayabilirsiniz."
+  },
+  "embed": {
+    "title": "Paylaş ve yerleştir",
+    "description": "Barındırılan bağlantıyı paylaşın veya formu web sitenize gömün.",
+    "kinds": "Yerleştirme seçenekleri",
+    "copy": "Kopyala",
+    "notPublished": "Form yayında değil; bağlantı ve kodlar yayınlandıktan sonra çalışır.",
+    "link": {
+      "tab": "Bağlantı",
+      "label": "Form bağlantısı",
+      "help": "E-posta, sosyal medya veya reklamlarda paylaşın."
+    },
+    "iframe": {
+      "tab": "iframe",
+      "label": "iframe kodu",
+      "help": "Sabit yükseklikli basit yerleştirme; sayfanın HTML'ine yapıştırın."
+    },
+    "script": {
+      "tab": "JavaScript",
+      "label": "JavaScript yerleştirme kodu",
+      "help": "Form yüksekliği içeriğe göre otomatik ayarlanır (postMessage)."
+    }
+  },
+  "versions": {
+    "title": "Versiyon geçmişi",
+    "description": "Her yayın değişmez bir versiyon oluşturur.",
+    "empty": "Henüz yayınlanmış versiyon yok",
+    "item": "Versiyon {{version}}",
+    "live": "Yayında",
+    "preview": "Önizle",
+    "restore": "Taslağa geri yükle",
+    "restoreTitle": "v{{version}} taslağa yüklensin mi?",
+    "restoreDescription": "Mevcut taslak bu versiyonun içeriğiyle değiştirilir. Ziyaretçilerin gördüğü form, yeniden yayınlayana kadar değişmez."
   }
 }

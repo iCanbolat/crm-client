@@ -57,7 +57,10 @@
   },
   "toast": {
     "created": "Form created.",
-    "deleted": "Form deleted."
+    "deleted": "Form deleted.",
+    "unpublished": "Form unpublished.",
+    "restored": "v{{version}} restored to the draft.",
+    "copied": "Copied to clipboard."
   },
   "preview": {
     "title": "Preview: {{name}}",
@@ -90,7 +93,8 @@
       "build": "Fields",
       "logic": "Logic",
       "mapping": "CRM mapping",
-      "design": "Theme & settings"
+      "design": "Theme & settings",
+      "publish": "Publishing"
     },
     "nameLabel": "Form name",
     "nameInvalid": "The form name must be 2–80 characters.",
@@ -200,7 +204,8 @@
         "param": "Parameter name"
       }
     },
-    "canvasLanguage": "Editor language"
+    "canvasLanguage": "Editor language",
+    "publish": "Publish"
   },
   "logic": {
     "title": "Conditional logic",
@@ -352,5 +357,83 @@
       "offered": "Form languages",
       "default": "Default language"
     }
+  },
+  "publish": {
+    "title": "Publish as v{{version}}",
+    "description": "Publishing freezes a copy of the draft; later draft changes stay invisible to visitors until you publish again.",
+    "ready": "The form is ready to publish.",
+    "blocked": "Fix these issues before publishing:",
+    "warnings": "You can publish despite these warnings:",
+    "confirm": "Publish as v{{version}}",
+    "cancel": "Cancel",
+    "close": "Close",
+    "fix": "Fix",
+    "error": "Error",
+    "warning": "Warning",
+    "done": "v{{version}} is live",
+    "doneDescription": "Add the form to your website with the link or code below.",
+    "saveFailed": "The draft could not be saved; try again before publishing.",
+    "failed": "The form could not be published. Please try again.",
+    "issues": {
+      "noInputs": "The form needs at least one field to fill in.",
+      "duplicateKey": "The answer key of “{{field}}” is used by another field.",
+      "logicCycle": "There is a cyclic logic rule (starting at “{{field}}”).",
+      "logicBroken": "Rule {{rule}} refers to a deleted field or step.",
+      "logicIncomplete": "Rule {{rule}} is not complete.",
+      "invalidRedirect": "The redirect address must start with https://.",
+      "requiredTarget": "The required field {{target}} is not mapped to a form field.",
+      "requiredTargetOptional": "“{{field}}” feeds the required field {{target}} but is optional; make it required.",
+      "typeMismatch": "The type of “{{field}}” does not match {{target}}.",
+      "unknownTarget": "“{{field}}” is mapped to a deleted CRM field.",
+      "unknownField": "The mapping refers to a deleted form field.",
+      "duplicateTarget": "{{target}} is fed by more than one form field.",
+      "duplicateNeedsEmail": "Map the email field to use the contact linking rule.",
+      "missingTranslation_one": "{{count}} text is missing a translation.",
+      "missingTranslation_other": "{{count}} texts are missing a translation.",
+      "lowContrast_one": "The theme has {{count}} low contrast color combination.",
+      "lowContrast_other": "The theme has {{count}} low contrast color combinations."
+    }
+  },
+  "publishPanel": {
+    "status": "Publishing status",
+    "live": "v{{version}} is live · {{when}} · {{name}}",
+    "notLive": "The form is not published.",
+    "republish": "Publish changes",
+    "unpublish": "Unpublish",
+    "unpublishTitle": "Unpublish the form?",
+    "unpublishDescription": "Visitors can no longer see the form; the version history is kept and you can publish again any time."
+  },
+  "embed": {
+    "title": "Share & embed",
+    "description": "Share the hosted link or embed the form on your website.",
+    "kinds": "Embed options",
+    "copy": "Copy",
+    "notPublished": "The form is not published; the link and codes work once it is.",
+    "link": {
+      "tab": "Link",
+      "label": "Form link",
+      "help": "Share it in emails, social media or ads."
+    },
+    "iframe": {
+      "tab": "iframe",
+      "label": "iframe code",
+      "help": "Simple fixed-height embed; paste it into your page's HTML."
+    },
+    "script": {
+      "tab": "JavaScript",
+      "label": "JavaScript embed code",
+      "help": "The form height adjusts to its content automatically (postMessage)."
+    }
+  },
+  "versions": {
+    "title": "Version history",
+    "description": "Every publish creates an immutable version.",
+    "empty": "No published versions yet",
+    "item": "Version {{version}}",
+    "live": "Live",
+    "preview": "Preview",
+    "restore": "Restore to draft",
+    "restoreTitle": "Restore v{{version}} to the draft?",
+    "restoreDescription": "The current draft is replaced with this version's content. Visitors keep seeing the live form until you publish again."
   }
 }

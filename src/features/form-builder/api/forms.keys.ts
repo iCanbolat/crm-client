@@ -7,4 +7,7 @@ export const formKeys = {
   details: () => [...formKeys.all, "detail"] as const,
   detail: (id: string) => [...formKeys.details(), id] as const,
   stats: (id: string) => [...formKeys.detail(id), "stats"] as const,
+  versions: (id: string) => [...formKeys.detail(id), "versions"] as const,
+  version: (id: string, version: number) =>
+    [...formKeys.versions(id), version] as const,
 }

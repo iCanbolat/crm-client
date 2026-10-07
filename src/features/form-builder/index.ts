@@ -6,6 +6,9 @@ export { formKeys } from "./api/forms.keys"
 export {
   useCreateForm,
   useDeleteForm,
+  usePublishForm,
+  useRestoreFormVersion,
+  useUnpublishForm,
   useUpdateForm,
 } from "./api/forms.mutations"
 export { formQueries } from "./api/forms.queries"
@@ -16,6 +19,8 @@ export {
   formListSearchSchema,
   formSchema,
   formSummarySchema,
+  formVersionSchema,
+  formVersionSummarySchema,
   updateFormInputSchema,
 } from "./api/forms.schemas"
 export type {
@@ -24,6 +29,8 @@ export type {
   FormListParams,
   FormStatus,
   FormSummary,
+  FormVersion,
+  FormVersionSummary,
   UpdateFormInput,
 } from "./api/forms.schemas"
 export { useFormCrumb } from "./components/crumbs"

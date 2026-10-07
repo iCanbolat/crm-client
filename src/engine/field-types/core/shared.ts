@@ -43,6 +43,7 @@ export function inputA11yProps<V>(props: FieldInputProps<V>) {
     "aria-invalid": props.invalid ? true : undefined,
     "aria-describedby": props.describedBy,
     "aria-label": props.ariaLabel,
+    placeholder: props.placeholder,
   } as const
 }
 

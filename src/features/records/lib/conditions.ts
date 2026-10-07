@@ -4,8 +4,7 @@ import {
   type FieldServices,
 } from "@/engine/field-types"
 import {
-  LIST_OPERATORS,
-  UNARY_OPERATORS,
+  getOperandKind,
   type Condition,
   type FilterOperator,
 } from "@/engine/logic"
@@ -28,29 +27,8 @@ export function getOperators(field: FieldDef): readonly FilterOperator[] {
   return getFieldType(field.type).filterOperators
 }
 
-/** Shape of the operand an operator expects. */
-export type OperandKind = "none" | "list" | "range" | "single"
-
-export function getOperandKind(op: FilterOperator): OperandKind {
-  if (UNARY_OPERATORS.includes(op)) return "none"
-  if (LIST_OPERATORS.includes(op)) return "list"
-  if (op === "between") return "range"
-  return "single"
-}
-
-export function isConditionComplete(condition: Condition) {
-  const kind = getOperandKind(condition.op)
-  const { value } = condition
-  if (kind === "none") return true
-  if (kind === "list") return Array.isArray(value) && value.length > 0
-  if (kind === "range") {
-    return (
-      Array.isArray(value) &&
-      value.some((item) => item !== null && item !== undefined && item !== "")
-    )
-  }
-  return value !== null && value !== undefined && value !== ""
-}
+export { getOperandKind, isConditionComplete } from "@/engine/logic"
+export type { OperandKind } from "@/engine/logic"
 
 function formatOperand(
   field: FieldDef,

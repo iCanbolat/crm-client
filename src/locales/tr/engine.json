@@ -54,7 +54,8 @@
     "option": "Listeden geçerli bir seçenek seçin.",
     "country": "Listeden geçerli bir ülke seçin.",
     "min": "En az {{min}} olmalı.",
-    "max": "En fazla {{max}} olabilir."
+    "max": "En fazla {{max}} olabilir.",
+    "consent": "Devam etmek için onaylamanız gerekir."
   },
   "input": {
     "selectPlaceholder": "Seçin…",

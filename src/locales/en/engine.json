@@ -54,7 +54,8 @@
     "option": "Choose a valid option from the list.",
     "country": "Choose a valid country from the list.",
     "min": "Must be at least {{min}}.",
-    "max": "Must be at most {{max}}."
+    "max": "Must be at most {{max}}.",
+    "consent": "Please accept to continue."
   },
   "input": {
     "selectPlaceholder": "Select…",

@@ -1,0 +1,20 @@
+{
+  "required": "zorunlu",
+  "next": "İleri",
+  "back": "Geri",
+  "stepOf": "Adım {{current}} / {{total}}",
+  "progress": "Form ilerlemesi",
+  "submitting": "Gönderiliyor…",
+  "consentLink": "Aydınlatma metni",
+  "hiddenField": "Gizli alan",
+  "honeypot": "Bu alanı boş bırakın",
+  "empty": "Bu formda henüz alan yok.",
+  "redirectNote": "Yayında ziyaretçi şu adrese yönlendirilir: {{url}}",
+  "submitError": "Form gönderilemedi. Lütfen tekrar deneyin.",
+  "again": "Yeni yanıt gönder",
+  "prefill": {
+    "static": "Sabit değer",
+    "query": "URL parametresi: {{param}}",
+    "referrer": "Yönlendiren sayfa"
+  }
+}

@@ -40,6 +40,8 @@ export interface FieldInputProps<V = unknown> {
   labelId?: string
   /** Accessible name when no visible label exists (inline edit, filters). */
   ariaLabel?: string
+  /** Hint shown while empty (form builder fields). */
+  placeholder?: string
 }
 
 export interface FieldOption {

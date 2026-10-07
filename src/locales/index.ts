@@ -10,6 +10,7 @@ import enForwarding from "./en/forwarding.json"
 import enLeads from "./en/leads.json"
 import enPipelines from "./en/pipelines.json"
 import enRecords from "./en/records.json"
+import enRenderer from "./en/renderer.json"
 import enSettings from "./en/settings.json"
 import enShell from "./en/shell.json"
 import enWorkspace from "./en/workspace.json"
@@ -25,6 +26,7 @@ import trForwarding from "./tr/forwarding.json"
 import trLeads from "./tr/leads.json"
 import trPipelines from "./tr/pipelines.json"
 import trRecords from "./tr/records.json"
+import trRenderer from "./tr/renderer.json"
 import trSettings from "./tr/settings.json"
 import trShell from "./tr/shell.json"
 import trWorkspace from "./tr/workspace.json"
@@ -52,6 +54,7 @@ export const resources = {
     settings: trSettings,
     forwarding: trForwarding,
     leads: trLeads,
+    renderer: trRenderer,
   },
   en: {
     common: enCommon,
@@ -69,6 +72,7 @@ export const resources = {
     settings: enSettings,
     forwarding: enForwarding,
     leads: enLeads,
+    renderer: enRenderer,
   },
 } as const
 

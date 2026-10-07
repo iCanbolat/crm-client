@@ -114,7 +114,9 @@ function SelectInput(props: FieldInputProps<string>) {
         aria-label={props.labelId ? undefined : props.ariaLabel}
         autoFocus={props.autoFocus}
       >
-        <SelectValue placeholder={t("input.selectPlaceholder")} />
+        <SelectValue
+          placeholder={props.placeholder || t("input.selectPlaceholder")}
+        />
       </SelectTrigger>
       <SelectContent>
         {items.map((item) => (

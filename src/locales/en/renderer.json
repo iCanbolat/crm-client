@@ -1,0 +1,20 @@
+{
+  "required": "required",
+  "next": "Next",
+  "back": "Back",
+  "stepOf": "Step {{current}} of {{total}}",
+  "progress": "Form progress",
+  "submitting": "Submitting…",
+  "consentLink": "Privacy notice",
+  "hiddenField": "Hidden field",
+  "honeypot": "Leave this field empty",
+  "empty": "This form has no fields yet.",
+  "redirectNote": "Live visitors are redirected to: {{url}}",
+  "submitError": "The form could not be submitted. Please try again.",
+  "again": "Submit another response",
+  "prefill": {
+    "static": "Fixed value",
+    "query": "URL parameter: {{param}}",
+    "referrer": "Referring page"
+  }
+}

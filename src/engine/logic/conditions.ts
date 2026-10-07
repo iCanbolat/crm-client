@@ -40,6 +40,16 @@ export const UNARY_OPERATORS: readonly FilterOperator[] = [
 /** Operators whose operand is a list of values. */
 export const LIST_OPERATORS: readonly FilterOperator[] = ["in", "notIn"]
 
+/** Shape of the operand an operator expects. */
+export type OperandKind = "none" | "list" | "range" | "single"
+
+export function getOperandKind(op: FilterOperator): OperandKind {
+  if (UNARY_OPERATORS.includes(op)) return "none"
+  if (LIST_OPERATORS.includes(op)) return "list"
+  if (op === "between") return "range"
+  return "single"
+}
+
 export const conditionSchema = z.object({
   field: z.string().min(1),
   op: z.enum(FILTER_OPERATORS),
@@ -48,6 +58,21 @@ export const conditionSchema = z.object({
   label: z.string().optional(),
 })
 export type Condition = z.infer<typeof conditionSchema>
+
+/** Operand filled in as the operator needs (filters, form logic rules). */
+export function isConditionComplete(condition: Condition) {
+  const kind = getOperandKind(condition.op)
+  const { value } = condition
+  if (kind === "none") return true
+  if (kind === "list") return Array.isArray(value) && value.length > 0
+  if (kind === "range") {
+    return (
+      Array.isArray(value) &&
+      value.some((item) => item !== null && item !== undefined && item !== "")
+    )
+  }
+  return value !== null && value !== undefined && value !== ""
+}
 
 /** Normalized value a condition is evaluated against. */
 export type Comparable = string | number | boolean | string[] | null

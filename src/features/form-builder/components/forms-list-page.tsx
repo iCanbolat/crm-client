@@ -10,7 +10,7 @@ import {
   SearchIcon,
   Trash2Icon,
 } from "lucide-react"
-import { useEffect, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 
 import { ConfirmDialog } from "@/components/common/confirm-dialog"
@@ -22,6 +22,7 @@ import {
 } from "@/components/common/data-table"
 import { EmptyState } from "@/components/common/empty-state"
 import { PageHeader } from "@/components/common/page-header"
+import { SearchInput } from "@/components/common/search-input"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -30,11 +31,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group"
-import {
   Select,
   SelectContent,
   SelectItem,
@@ -42,7 +38,6 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { usePermission } from "@/features/auth"
-import { useDebouncedValue } from "@/hooks/use-debounced-value"
 import { formatNumber, formatRelativeTime } from "@/lib/format"
 import { getCurrentLanguage } from "@/lib/i18n"
 
@@ -57,41 +52,6 @@ import {
 import { CreateFormDialog } from "./create-form-dialog"
 import { FormStatusBadge } from "./form-status-badge"
 import { FormPreviewDialog } from "./preview-dialog"
-
-function SearchInput({
-  value,
-  placeholder,
-  onChange,
-}: {
-  value: string
-  placeholder: string
-  onChange: (value: string | undefined) => void
-}) {
-  const [text, setText] = useState(value)
-  const debounced = useDebouncedValue(text, 300)
-
-  useEffect(() => {
-    if (debounced.trim() !== value.trim())
-      onChange(debounced.trim() || undefined)
-    // Only typing triggers a search; `value` changes come from the URL.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debounced])
-
-  return (
-    <InputGroup className="w-full sm:w-64">
-      <InputGroupAddon>
-        <SearchIcon aria-hidden />
-      </InputGroupAddon>
-      <InputGroupInput
-        type="search"
-        value={text}
-        placeholder={placeholder}
-        aria-label={placeholder}
-        onChange={(event) => setText(event.target.value)}
-      />
-    </InputGroup>
-  )
-}
 
 interface FormsListPageProps {
   search: FormListParams

@@ -1,0 +1,82 @@
+{
+  "title": "Gönderimler",
+  "description": "Formlarınızdan gelen yanıtlar ve oluşturulan CRM kayıtları.",
+  "formTitle": "{{name}} — gönderimler",
+  "searchPlaceholder": "Kişi, form veya kaynak ara",
+  "export": "CSV indir",
+  "exporting": "Hazırlanıyor…",
+  "list": {
+    "label": "Gönderimler",
+    "empty": "Henüz gönderim yok",
+    "emptyDescription": "Formlarınız yanıt aldıkça burada listelenir.",
+    "noMatch": "Filtrelere uyan gönderim yok",
+    "clearFilters": "Filtreleri temizle",
+    "anonymous": "İsimsiz",
+    "direct": "Doğrudan"
+  },
+  "columns": {
+    "createdAt": "Tarih",
+    "form": "Form",
+    "contact": "Kişi",
+    "status": "Durum",
+    "source": "Kaynak",
+    "record": "Kayıt",
+    "actions": "İşlemler"
+  },
+  "status": {
+    "label": "Durum",
+    "all": "Tümü (spam hariç)",
+    "new": "Yeni",
+    "processed": "İşlendi",
+    "spam": "Spam",
+    "failed": "Kayıt oluşturulamadı"
+  },
+  "filters": {
+    "form": "Form",
+    "allForms": "Tüm formlar"
+  },
+  "open": "{{name}} gönderimini aç",
+  "detail": {
+    "title": "Gönderim",
+    "description": "{{form}} · v{{version}} · {{date}}",
+    "answers": "Cevaplar",
+    "empty": "Yanıtlanmadı",
+    "record": "Oluşan kayıt",
+    "noRecord": "Bu gönderimden henüz kayıt oluşturulmadı.",
+    "openRecord": "Kaydı aç",
+    "error": "Kayıt oluşturulamadı",
+    "tracking": "Kaynak bilgisi",
+    "utm": {
+      "source": "UTM kaynağı",
+      "medium": "UTM ortamı",
+      "campaign": "UTM kampanyası",
+      "term": "UTM terimi",
+      "content": "UTM içeriği"
+    },
+    "referrer": "Yönlendiren sayfa",
+    "pageUrl": "Gönderilen sayfa",
+    "channel": "Kanal",
+    "embedded": "Sitenize gömülü form",
+    "hosted": "Hosted form sayfası",
+    "markProcessed": "İşlendi olarak işaretle",
+    "markSpam": "Spam olarak işaretle",
+    "markNew": "Yeni olarak işaretle",
+    "convert": "Lead'e dönüştür"
+  },
+  "csv": {
+    "createdAt": "Tarih",
+    "form": "Form",
+    "status": "Durum",
+    "contact": "Kişi",
+    "utmSource": "UTM kaynağı",
+    "utmMedium": "UTM ortamı",
+    "utmCampaign": "UTM kampanyası",
+    "record": "Kayıt",
+    "recordId": "Kayıt ID"
+  },
+  "toast": {
+    "statusChanged": "Gönderim durumu güncellendi",
+    "converted": "Lead oluşturuldu",
+    "exported": "{{count}} gönderim indirildi"
+  }
+}

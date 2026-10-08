@@ -400,7 +400,8 @@
     "republish": "Publish changes",
     "unpublish": "Unpublish",
     "unpublishTitle": "Unpublish the form?",
-    "unpublishDescription": "Visitors can no longer see the form; the version history is kept and you can publish again any time."
+    "unpublishDescription": "Visitors can no longer see the form; the version history is kept and you can publish again any time.",
+    "viewSubmissions": "View submissions"
   },
   "embed": {
     "title": "Share & embed",

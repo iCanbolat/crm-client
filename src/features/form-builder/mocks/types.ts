@@ -12,9 +12,8 @@ export interface FormRow {
   ownerId: string
   createdAt: string
   updatedAt: string
-  /** Counters until the submission inbox arrives (Faz 5). */
+  /** Public page views (B5.4); submissions are counted from the inbox. */
   views: number
-  submissions: number
 }
 
 /** Immutable published copy of a form's content (B4.7). */

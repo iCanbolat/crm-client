@@ -217,7 +217,8 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
     await page
       .getByRole("navigation", { name: "Ana menü" })
       .getByRole("link", { name: "Nesneler" })
-      .click()
+      // Bottom of a long drawer: the dialog's scroll lock moves it mid-click.
+      .press("Enter")
     await page
       .getByRole("list", { name: "Nesneler" })
       .getByRole("link", { name: /Lead'ler/ })
@@ -350,7 +351,8 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
     await page
       .getByRole("navigation", { name: "Ana menü" })
       .getByRole("link", { name: "Nesneler" })
-      .click()
+      // Bottom of a long drawer: the dialog's scroll lock moves it mid-click.
+      .press("Enter")
     await page
       .getByRole("list", { name: "Nesneler" })
       .getByRole("link", { name: /Fırsatlar/ })

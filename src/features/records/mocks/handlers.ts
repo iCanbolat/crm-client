@@ -32,9 +32,10 @@ import {
   type DirectoryUser,
   type SavedView,
 } from "../api/records.schemas"
-import { newRecordId, type AttachmentRow, type ViewRow } from "./factory"
+import type { AttachmentRow, ViewRow } from "./factory"
 import {
   applyRecordHook,
+  createRecord,
   findRecordRow,
   getObjectDef,
   listObjectDefs,
@@ -446,35 +447,14 @@ const recordHandlers = [
         const t = getRequestT(request)
         const body = ((await readJson(request)) ?? {}) as RecordValues
         // Server defaults: owner = creator, first pipeline stage.
-        const input: RecordValues = {
+        const created = createRecord(auth.workspace.id, def, body, {
           ownerId: auth.user.id,
-          ...(def.pipeline
-            ? { [def.pipeline.field]: def.pipeline.stages[0]!.key }
-            : {}),
-          ...Object.fromEntries(
-            Object.entries(body).filter(([, value]) => value !== undefined)
-          ),
-        }
-        const result = validateRecordInput(def, auth.workspace.id, input, t)
-        if (!result.ok) return validationError(t, result.fieldErrors)
-
-        if (def.pipeline) {
-          const stage = String(result.values[def.pipeline.field])
-          const gate = stageGateErrors(def, stage, result.values)
-          if (gate) return validationError(t, gate, "STAGE_GATE")
-        }
-
-        const now = new Date().toISOString()
-        const row = db.records.create({
-          id: newRecordId(def.key),
-          workspaceId: auth.workspace.id,
-          objectKey: def.key,
-          values: applyRecordHook(
-            def.key,
-            { ...result.values, createdAt: now, updatedAt: now },
-            { workspaceId: auth.workspace.id, isNew: true }
-          ),
+          t,
         })
+        if (!created.ok) {
+          return validationError(t, created.fieldErrors, created.code)
+        }
+        const { row } = created
         return HttpResponse.json(toCrmRecord(def, row), { status: 201 })
       },
       { validationErrors: (t) => ({ name: [t("mock.validation")] }) }

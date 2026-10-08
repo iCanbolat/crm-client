@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query"
+import { Link } from "@tanstack/react-router"
 import {
   EyeIcon,
   HistoryIcon,
@@ -14,7 +15,7 @@ import { ConfirmDialog } from "@/components/common/confirm-dialog"
 import { EmptyState } from "@/components/common/empty-state"
 import { LoadingSkeleton } from "@/components/common/loading-skeleton"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -76,6 +77,7 @@ export function PublishPanel({
   const language = getCurrentLanguage()
   const store = useBuilderStore()
   const canManage = usePermission("manage", "form")
+  const canReadSubmissions = usePermission("read", "submission")
   const { data: versions, isPending } = useQuery(formQueries.versions(form.id))
   const unpublish = useUnpublishForm(form.id)
   const restore = useRestoreFormVersion(form.id)
@@ -131,6 +133,18 @@ export function PublishPanel({
                 </div>
               ))}
             </dl>
+            {canReadSubmissions ? (
+              <Link
+                to="/forms/$formId/submissions"
+                params={{ formId: form.id }}
+                className={buttonVariants({
+                  variant: "outline",
+                  className: "self-start",
+                })}
+              >
+                {t("publishPanel.viewSubmissions")}
+              </Link>
+            ) : null}
             {canManage ? (
               <div className="flex flex-wrap gap-2">
                 <Button type="button" onClick={onPublish}>

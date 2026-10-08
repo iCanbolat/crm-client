@@ -5,9 +5,11 @@ import { readFileSync } from "node:fs"
 import { resolve } from "node:path"
 import { gzipSync } from "node:zlib"
 
-// Plan target was 150 KB; react-dom + zod + Base UI + date-fns alone are
-// ~230 KB gz. Lazy field inputs (B6.4) should bring it down.
-const BUDGET_KB = 320
+// Plan target was 150 KB; react-dom + zod + Base UI + date-fns +
+// react-hook-form + locales are ~300 KB gz and the bundler shares one big
+// chunk with the admin app. Lazy field inputs / chunk tuning (B6.4) should
+// bring it down; until then the budget guards against regressions.
+const BUDGET_KB = 340
 const dist = resolve(import.meta.dirname, "../dist")
 const manifest = JSON.parse(
   readFileSync(resolve(dist, ".vite/manifest.json"), "utf8")

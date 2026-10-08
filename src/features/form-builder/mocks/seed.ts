@@ -40,7 +40,6 @@ export function seedForms(): FormSeed {
     createdAt: daysAgo(120),
     updatedAt: daysAgo(118),
     views: 1240,
-    submissions: 86,
   }
 
   const agent = createStarterContent()
@@ -72,7 +71,6 @@ export function seedForms(): FormSeed {
     createdAt: daysAgo(6),
     updatedAt: daysAgo(2),
     views: 0,
-    submissions: 0,
   }
 
   // Saved before the step/logic model existed (schema v1, TC-4.1-03).
@@ -104,7 +102,6 @@ export function seedForms(): FormSeed {
     createdAt: daysAgo(300),
     updatedAt: daysAgo(300),
     views: 610,
-    submissions: 50,
   }
 
   return {

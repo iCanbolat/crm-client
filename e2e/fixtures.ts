@@ -33,7 +33,8 @@ interface Fixtures {
 }
 
 async function waitForApp(page: Page) {
-  await expect(page.getByTestId("msw-badge")).toBeVisible()
+  // The first page load of a cold dev server compiles the app chunks.
+  await expect(page.getByTestId("msw-badge")).toBeVisible({ timeout: 15_000 })
 }
 
 /**

@@ -58,7 +58,7 @@ test.describe("Faz 3 — Forwarding modülü", () => {
     await sheet.getByRole("combobox", { name: "Taşıma modu" }).click()
     await page.getByRole("option", { name: "Deniz — FCL (komple)" }).click()
     await pickLocation(page, sheet, "Çıkış", "Ambarlı", /İstanbul \(Ambarlı\)/)
-    await pickLocation(page, sheet, "Varış", "Hamburg", /Hamburg/)
+    await pickLocation(page, sheet, "Varış", "Hamburg", /Hamburg DEHAM/)
     await sheet.getByRole("button", { name: "Konteyner ekle" }).click()
     await sheet.getByRole("spinbutton", { name: "Adet" }).fill("2")
     await sheet.getByRole("button", { name: "Kaydet" }).click()

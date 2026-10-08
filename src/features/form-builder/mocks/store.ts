@@ -38,8 +38,16 @@ export function hasUnpublishedChanges(row: FormRow) {
   return !sameContent(readDraft(row), migrateFormContent(latest.content))
 }
 
+/** Submissions that count for the stats (spam excluded, B5.5). */
+export function countSubmissions(formId: string) {
+  return db.submissions.findMany(
+    (submission) => submission.formId === formId && submission.status !== "spam"
+  ).length
+}
+
 export function toFormSummary(row: FormRow): FormSummary {
   const content = readDraft(row)
+  const submissions = countSubmissions(row.id)
   return {
     id: row.id,
     name: row.name,
@@ -54,9 +62,9 @@ export function toFormSummary(row: FormRow): FormSummary {
     updatedAt: row.updatedAt,
     stats: {
       views: row.views,
-      submissions: row.submissions,
+      submissions,
       conversionRate: row.views
-        ? Math.round((row.submissions / row.views) * 10_000) / 10_000
+        ? Math.round((submissions / row.views) * 10_000) / 10_000
         : 0,
     },
   }

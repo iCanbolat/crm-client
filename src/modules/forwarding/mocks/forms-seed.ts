@@ -104,7 +104,6 @@ export function seedForwardingForms(): FormSeed {
     createdAt: daysAgo(200),
     updatedAt: daysAgo(30),
     views: 3420,
-    submissions: 164,
   }
 
   const english = freightQuoteContent(2)
@@ -121,7 +120,6 @@ export function seedForwardingForms(): FormSeed {
     createdAt: daysAgo(90),
     updatedAt: daysAgo(90),
     views: 300,
-    submissions: 21,
   }
 
   return {

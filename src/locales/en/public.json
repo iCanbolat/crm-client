@@ -2,5 +2,16 @@
   "notFound": {
     "title": "Page not found",
     "description": "The form you are looking for is not published or the link is wrong."
+  },
+  "loading": "Loading…",
+  "error": {
+    "title": "The page could not be loaded",
+    "description": "Check your connection and try again.",
+    "retry": "Try again"
+  },
+  "footer": {
+    "kvkk": "KVKK Privacy Notice",
+    "privacy": "Privacy Policy",
+    "cookies": "Cookie Policy"
   }
 }

@@ -2,5 +2,16 @@
   "notFound": {
     "title": "Sayfa bulunamadı",
     "description": "Aradığınız form yayında değil veya bağlantı hatalı."
+  },
+  "loading": "Yükleniyor…",
+  "error": {
+    "title": "Sayfa yüklenemedi",
+    "description": "Bağlantınızı kontrol edip tekrar deneyin.",
+    "retry": "Tekrar dene"
+  },
+  "footer": {
+    "kvkk": "KVKK Aydınlatma Metni",
+    "privacy": "Gizlilik Politikası",
+    "cookies": "Çerez Politikası"
   }
 }

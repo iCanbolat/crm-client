@@ -19,6 +19,7 @@ import { Route as AppFormsRouteImport } from './routes/_app/forms'
 import { Route as AppQuotesRouteImport } from './routes/_app/quotes'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppSiteRouteImport } from './routes/_app/site'
+import { Route as AppSubmissionsRouteImport } from './routes/_app/submissions'
 import { Route as AppTasksRouteImport } from './routes/_app/tasks'
 import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
@@ -33,6 +34,7 @@ import { Route as AppSettingsMembersRouteImport } from './routes/_app/settings/m
 import { Route as AppSettingsObjectsRouteImport } from './routes/_app/settings/objects'
 import { Route as AppFormsFormIdIndexRouteImport } from './routes/_app/forms/$formId/index'
 import { Route as AppFormsFormIdEditRouteImport } from './routes/_app/forms/$formId/edit'
+import { Route as AppFormsFormIdSubmissionsRouteImport } from './routes/_app/forms/$formId/submissions'
 import { Route as AppOObjectKeyIndexRouteImport } from './routes/_app/o/$objectKey/index'
 import { Route as AppOObjectKeyRecordIdRouteImport } from './routes/_app/o/$objectKey/$recordId'
 import { Route as AppOObjectKeyNewRouteImport } from './routes/_app/o/$objectKey/new'
@@ -89,6 +91,11 @@ const AppSettingsRoute = AppSettingsRouteImport.update({
 const AppSiteRoute = AppSiteRouteImport.update({
   id: '/site',
   path: '/site',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSubmissionsRoute = AppSubmissionsRouteImport.update({
+  id: '/submissions',
+  path: '/submissions',
   getParentRoute: () => AppRoute,
 } as any)
 const AppTasksRoute = AppTasksRouteImport.update({
@@ -161,6 +168,12 @@ const AppFormsFormIdEditRoute = AppFormsFormIdEditRouteImport.update({
   path: '/edit',
   getParentRoute: () => AppFormsFormIdRoute,
 } as any)
+const AppFormsFormIdSubmissionsRoute =
+  AppFormsFormIdSubmissionsRouteImport.update({
+    id: '/submissions',
+    path: '/submissions',
+    getParentRoute: () => AppFormsFormIdRoute,
+  } as any)
 const AppOObjectKeyIndexRoute = AppOObjectKeyIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -219,6 +232,7 @@ export interface FileRoutesByFullPath {
   '/quotes': typeof AppQuotesRouteWithChildren
   '/settings': typeof AppSettingsRouteWithChildren
   '/site': typeof AppSiteRoute
+  '/submissions': typeof AppSubmissionsRoute
   '/tasks': typeof AppTasksRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
@@ -232,6 +246,7 @@ export interface FileRoutesByFullPath {
   '/quotes/': typeof AppQuotesIndexRoute
   '/settings/': typeof AppSettingsIndexRoute
   '/forms/$formId/edit': typeof AppFormsFormIdEditRoute
+  '/forms/$formId/submissions': typeof AppFormsFormIdSubmissionsRoute
   '/o/$objectKey/$recordId': typeof AppOObjectKeyRecordIdRouteWithChildren
   '/o/$objectKey/new': typeof AppOObjectKeyNewRoute
   '/quotes/$quoteId/print': typeof AppQuotesQuoteIdPrintRoute
@@ -249,6 +264,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof AppDashboardRoute
   '/examples': typeof AppExamplesRoute
   '/site': typeof AppSiteRoute
+  '/submissions': typeof AppSubmissionsRoute
   '/tasks': typeof AppTasksRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
@@ -258,6 +274,7 @@ export interface FileRoutesByTo {
   '/quotes': typeof AppQuotesIndexRoute
   '/settings': typeof AppSettingsIndexRoute
   '/forms/$formId/edit': typeof AppFormsFormIdEditRoute
+  '/forms/$formId/submissions': typeof AppFormsFormIdSubmissionsRoute
   '/o/$objectKey/new': typeof AppOObjectKeyNewRoute
   '/quotes/$quoteId/print': typeof AppQuotesQuoteIdPrintRoute
   '/settings/objects/$objectKey': typeof AppSettingsObjectsObjectKeyRoute
@@ -280,6 +297,7 @@ export interface FileRoutesById {
   '/_app/quotes': typeof AppQuotesRouteWithChildren
   '/_app/settings': typeof AppSettingsRouteWithChildren
   '/_app/site': typeof AppSiteRoute
+  '/_app/submissions': typeof AppSubmissionsRoute
   '/_app/tasks': typeof AppTasksRoute
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/login': typeof AuthLoginRoute
@@ -293,6 +311,7 @@ export interface FileRoutesById {
   '/_app/quotes/': typeof AppQuotesIndexRoute
   '/_app/settings/': typeof AppSettingsIndexRoute
   '/_app/forms/$formId/edit': typeof AppFormsFormIdEditRoute
+  '/_app/forms/$formId/submissions': typeof AppFormsFormIdSubmissionsRoute
   '/_app/o/$objectKey/$recordId': typeof AppOObjectKeyRecordIdRouteWithChildren
   '/_app/o/$objectKey/new': typeof AppOObjectKeyNewRoute
   '/_app/quotes/$quoteId/print': typeof AppQuotesQuoteIdPrintRoute
@@ -315,6 +334,7 @@ export interface FileRouteTypes {
     | '/quotes'
     | '/settings'
     | '/site'
+    | '/submissions'
     | '/tasks'
     | '/forgot-password'
     | '/login'
@@ -328,6 +348,7 @@ export interface FileRouteTypes {
     | '/quotes/'
     | '/settings/'
     | '/forms/$formId/edit'
+    | '/forms/$formId/submissions'
     | '/o/$objectKey/$recordId'
     | '/o/$objectKey/new'
     | '/quotes/$quoteId/print'
@@ -345,6 +366,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/examples'
     | '/site'
+    | '/submissions'
     | '/tasks'
     | '/forgot-password'
     | '/login'
@@ -354,6 +376,7 @@ export interface FileRouteTypes {
     | '/quotes'
     | '/settings'
     | '/forms/$formId/edit'
+    | '/forms/$formId/submissions'
     | '/o/$objectKey/new'
     | '/quotes/$quoteId/print'
     | '/settings/objects/$objectKey'
@@ -375,6 +398,7 @@ export interface FileRouteTypes {
     | '/_app/quotes'
     | '/_app/settings'
     | '/_app/site'
+    | '/_app/submissions'
     | '/_app/tasks'
     | '/_auth/forgot-password'
     | '/_auth/login'
@@ -388,6 +412,7 @@ export interface FileRouteTypes {
     | '/_app/quotes/'
     | '/_app/settings/'
     | '/_app/forms/$formId/edit'
+    | '/_app/forms/$formId/submissions'
     | '/_app/o/$objectKey/$recordId'
     | '/_app/o/$objectKey/new'
     | '/_app/quotes/$quoteId/print'
@@ -477,6 +502,13 @@ declare module '@tanstack/react-router' {
       path: '/site'
       fullPath: '/site'
       preLoaderRoute: typeof AppSiteRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/submissions': {
+      id: '/_app/submissions'
+      path: '/submissions'
+      fullPath: '/submissions'
+      preLoaderRoute: typeof AppSubmissionsRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/tasks': {
@@ -577,6 +609,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppFormsFormIdEditRouteImport
       parentRoute: typeof AppFormsFormIdRoute
     }
+    '/_app/forms/$formId/submissions': {
+      id: '/_app/forms/$formId/submissions'
+      path: '/submissions'
+      fullPath: '/forms/$formId/submissions'
+      preLoaderRoute: typeof AppFormsFormIdSubmissionsRouteImport
+      parentRoute: typeof AppFormsFormIdRoute
+    }
     '/_app/o/$objectKey/': {
       id: '/_app/o/$objectKey/'
       path: '/'
@@ -645,11 +684,13 @@ declare module '@tanstack/react-router' {
 
 interface AppFormsFormIdRouteChildren {
   AppFormsFormIdEditRoute: typeof AppFormsFormIdEditRoute
+  AppFormsFormIdSubmissionsRoute: typeof AppFormsFormIdSubmissionsRoute
   AppFormsFormIdIndexRoute: typeof AppFormsFormIdIndexRoute
 }
 
 const AppFormsFormIdRouteChildren: AppFormsFormIdRouteChildren = {
   AppFormsFormIdEditRoute: AppFormsFormIdEditRoute,
+  AppFormsFormIdSubmissionsRoute: AppFormsFormIdSubmissionsRoute,
   AppFormsFormIdIndexRoute: AppFormsFormIdIndexRoute,
 }
 
@@ -767,6 +808,7 @@ interface AppRouteChildren {
   AppQuotesRoute: typeof AppQuotesRouteWithChildren
   AppSettingsRoute: typeof AppSettingsRouteWithChildren
   AppSiteRoute: typeof AppSiteRoute
+  AppSubmissionsRoute: typeof AppSubmissionsRoute
   AppTasksRoute: typeof AppTasksRoute
   AppOObjectKeyRoute: typeof AppOObjectKeyRouteWithChildren
 }
@@ -778,6 +820,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppQuotesRoute: AppQuotesRouteWithChildren,
   AppSettingsRoute: AppSettingsRouteWithChildren,
   AppSiteRoute: AppSiteRoute,
+  AppSubmissionsRoute: AppSubmissionsRoute,
   AppTasksRoute: AppTasksRoute,
   AppOObjectKeyRoute: AppOObjectKeyRouteWithChildren,
 }

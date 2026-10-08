@@ -121,7 +121,6 @@ export const formHandlers = [
           createdAt: now,
           updatedAt: now,
           views: 0,
-          submissions: 0,
         })
         return HttpResponse.json(toForm(row), { status: 201 })
       },

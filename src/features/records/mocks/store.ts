@@ -21,7 +21,7 @@ import { db } from "@/mocks/db"
 import type { getRequestT } from "@/mocks/utils/http"
 
 import { DEFAULT_PAGE_SIZE, parseSort } from "../api/records.schemas"
-import { objectRowId, type RecordRow } from "./factory"
+import { newRecordId, objectRowId, type RecordRow } from "./factory"
 
 type RequestT = ReturnType<typeof getRequestT>
 
@@ -238,4 +238,61 @@ export function stageGateErrors(
   if (missing.length === 0) return null
   const message = i18n.t("engine:validation.required")
   return Object.fromEntries(missing.map((field) => [field.key, [message]]))
+}
+
+export type CreateRecordResult =
+  | { ok: true; row: RecordRow }
+  | {
+      ok: false
+      code: "VALIDATION_ERROR" | "STAGE_GATE"
+      fieldErrors: FieldErrors
+    }
+
+/**
+ * Creates a record exactly like `POST /records/:objectKey` (also used by
+ * form submissions, B5.5): server defaults (owner, first pipeline stage),
+ * validation, stage gate and the module record hooks.
+ */
+export function createRecord(
+  workspaceId: string,
+  def: ObjectDef,
+  body: RecordValues,
+  { ownerId, t }: { ownerId: string; t: RequestT }
+): CreateRecordResult {
+  const input: RecordValues = {
+    ownerId,
+    ...(def.pipeline
+      ? { [def.pipeline.field]: def.pipeline.stages[0]!.key }
+      : {}),
+    ...Object.fromEntries(
+      Object.entries(body).filter(([, value]) => value !== undefined)
+    ),
+  }
+  const result = validateRecordInput(def, workspaceId, input, t)
+  if (!result.ok) {
+    return {
+      ok: false,
+      code: "VALIDATION_ERROR",
+      fieldErrors: result.fieldErrors,
+    }
+  }
+
+  if (def.pipeline) {
+    const stage = String(result.values[def.pipeline.field])
+    const gate = stageGateErrors(def, stage, result.values)
+    if (gate) return { ok: false, code: "STAGE_GATE", fieldErrors: gate }
+  }
+
+  const now = new Date().toISOString()
+  const row = db.records.create({
+    id: newRecordId(def.key),
+    workspaceId,
+    objectKey: def.key,
+    values: applyRecordHook(
+      def.key,
+      { ...result.values, createdAt: now, updatedAt: now },
+      { workspaceId, isNew: true }
+    ),
+  })
+  return { ok: true, row }
 }

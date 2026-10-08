@@ -400,7 +400,8 @@
     "republish": "Değişiklikleri yayınla",
     "unpublish": "Yayından kaldır",
     "unpublishTitle": "Form yayından kaldırılsın mı?",
-    "unpublishDescription": "Ziyaretçiler formu artık göremez; versiyon geçmişi korunur ve dilediğiniz zaman yeniden yayınlayabilirsiniz."
+    "unpublishDescription": "Ziyaretçiler formu artık göremez; versiyon geçmişi korunur ve dilediğiniz zaman yeniden yayınlayabilirsiniz.",
+    "viewSubmissions": "Gönderimleri görüntüle"
   },
   "embed": {
     "title": "Paylaş ve yerleştir",

@@ -12,6 +12,7 @@ import enLeads from "./en/leads.json"
 import enPipelines from "./en/pipelines.json"
 import enRecords from "./en/records.json"
 import enRenderer from "./en/renderer.json"
+import enSubmissions from "./en/submissions.json"
 import enSites from "./en/sites.json"
 import enPublic from "./en/public.json"
 import enSettings from "./en/settings.json"
@@ -31,6 +32,7 @@ import trLeads from "./tr/leads.json"
 import trPipelines from "./tr/pipelines.json"
 import trRecords from "./tr/records.json"
 import trRenderer from "./tr/renderer.json"
+import trSubmissions from "./tr/submissions.json"
 import trSites from "./tr/sites.json"
 import trPublic from "./tr/public.json"
 import trSettings from "./tr/settings.json"
@@ -62,6 +64,7 @@ export const resources = {
     leads: trLeads,
     renderer: trRenderer,
     forms: trForms,
+    submissions: trSubmissions,
     sites: trSites,
     public: trPublic,
   },
@@ -83,6 +86,7 @@ export const resources = {
     leads: enLeads,
     renderer: enRenderer,
     forms: enForms,
+    submissions: enSubmissions,
     sites: enSites,
     public: enPublic,
   },

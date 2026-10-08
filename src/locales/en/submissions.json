@@ -1,0 +1,82 @@
+{
+  "title": "Submissions",
+  "description": "Responses to your forms and the CRM records they created.",
+  "formTitle": "{{name}} — submissions",
+  "searchPlaceholder": "Search person, form or source",
+  "export": "Download CSV",
+  "exporting": "Preparing…",
+  "list": {
+    "label": "Submissions",
+    "empty": "No submissions yet",
+    "emptyDescription": "Responses to your forms will be listed here.",
+    "noMatch": "No submissions match the filters",
+    "clearFilters": "Clear filters",
+    "anonymous": "Anonymous",
+    "direct": "Direct"
+  },
+  "columns": {
+    "createdAt": "Date",
+    "form": "Form",
+    "contact": "Person",
+    "status": "Status",
+    "source": "Source",
+    "record": "Record",
+    "actions": "Actions"
+  },
+  "status": {
+    "label": "Status",
+    "all": "All (except spam)",
+    "new": "New",
+    "processed": "Processed",
+    "spam": "Spam",
+    "failed": "Record not created"
+  },
+  "filters": {
+    "form": "Form",
+    "allForms": "All forms"
+  },
+  "open": "Open submission of {{name}}",
+  "detail": {
+    "title": "Submission",
+    "description": "{{form}} · v{{version}} · {{date}}",
+    "answers": "Answers",
+    "empty": "Not answered",
+    "record": "Created record",
+    "noRecord": "No record has been created from this submission yet.",
+    "openRecord": "Open record",
+    "error": "The record could not be created",
+    "tracking": "Source",
+    "utm": {
+      "source": "UTM source",
+      "medium": "UTM medium",
+      "campaign": "UTM campaign",
+      "term": "UTM term",
+      "content": "UTM content"
+    },
+    "referrer": "Referrer",
+    "pageUrl": "Submitted from",
+    "channel": "Channel",
+    "embedded": "Form embedded on your site",
+    "hosted": "Hosted form page",
+    "markProcessed": "Mark as processed",
+    "markSpam": "Mark as spam",
+    "markNew": "Mark as new",
+    "convert": "Convert to lead"
+  },
+  "csv": {
+    "createdAt": "Date",
+    "form": "Form",
+    "status": "Status",
+    "contact": "Person",
+    "utmSource": "UTM source",
+    "utmMedium": "UTM medium",
+    "utmCampaign": "UTM campaign",
+    "record": "Record",
+    "recordId": "Record ID"
+  },
+  "toast": {
+    "statusChanged": "Submission status updated",
+    "converted": "Lead created",
+    "exported": "{{count}} submissions downloaded"
+  }
+}

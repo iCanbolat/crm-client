@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query"
+import { useQuery, useQueryClient } from "@tanstack/react-query"
 import {
   CheckIcon,
   CircleAlertIcon,
@@ -9,7 +9,7 @@ import {
   StarIcon,
   Trash2Icon,
 } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 
 import { ConfirmDialog } from "@/components/common/confirm-dialog"
@@ -32,6 +32,7 @@ import {
   useMakeDomainPrimary,
   useVerifyDomain,
 } from "../api/sites.mutations"
+import { siteKeys } from "../api/sites.keys"
 import { siteQueries } from "../api/sites.queries"
 import {
   CNAME_TARGET,
@@ -292,8 +293,27 @@ function DomainItem({
 /** Custom domains of the site (B5.3). */
 export function DomainsCard({ canUpdate }: { canUpdate: boolean }) {
   const { t } = useTranslation("sites")
+  const queryClient = useQueryClient()
   const query = useQuery(siteQueries.domains())
   const [addOpen, setAddOpen] = useState(false)
+
+  // A domain finishing verification (seen by polling) may become the site's
+  // primary address: refresh the site so links and embed codes follow.
+  const activeIds = (query.data ?? [])
+    .filter((domain) => domain.status === "active")
+    .map((domain) => domain.id)
+    .join(",")
+  const previousActive = useRef<string | null>(null)
+  useEffect(() => {
+    if (!query.data) return
+    if (
+      previousActive.current !== null &&
+      previousActive.current !== activeIds
+    ) {
+      void queryClient.invalidateQueries({ queryKey: siteKeys.current() })
+    }
+    previousActive.current = activeIds
+  }, [activeIds, query.data, queryClient])
 
   return (
     <Card>

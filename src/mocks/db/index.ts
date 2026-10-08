@@ -26,6 +26,8 @@ import type {
 } from "@/features/form-builder/mocks/types"
 import { seedSites } from "@/features/sites/mocks/seed"
 import type { DomainRow, SiteRow } from "@/features/sites/mocks/types"
+import { seedSubmissions } from "@/features/submissions/mocks/seed"
+import type { SubmissionRow } from "@/features/submissions/mocks/types"
 import type { Workspace } from "@/features/workspace"
 import { seedForwardingForms } from "@/modules/forwarding/mocks/forms-seed"
 import { seedForwarding } from "@/modules/forwarding/mocks/seed"
@@ -158,6 +160,21 @@ export const db = {
   }),
   domains: createCollection<DomainRow>({
     name: "domains",
+    onChange: notify,
+  }),
+  submissions: createCollection<SubmissionRow>({
+    name: "submissions",
+    seed: () =>
+      seedSubmissions(
+        {
+          forms: [...seedForms().forms, ...seedForwardingForms().forms],
+          versions: [
+            ...seedForms().versions,
+            ...seedForwardingForms().versions,
+          ],
+        },
+        seedForwarding(seedRecords()).records
+      ),
     onChange: notify,
   }),
 }

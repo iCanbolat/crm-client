@@ -4,6 +4,7 @@ import {
   FileTextIcon,
   FlaskConicalIcon,
   GlobeIcon,
+  MailboxIcon,
   HandCoinsIcon,
   InboxIcon,
   LayoutDashboardIcon,
@@ -109,6 +110,12 @@ export const CORE_NAVIGATION: CoreNavGroup[] = [
         icon: FileTextIcon,
         to: "/forms",
         permission: { action: "read", resource: "form" },
+      },
+      {
+        id: "submissions",
+        icon: MailboxIcon,
+        to: "/submissions",
+        permission: { action: "read", resource: "submission" },
       },
       {
         id: "site",

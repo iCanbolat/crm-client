@@ -111,3 +111,5 @@ export {
   getVisibleSteps,
   isFieldRequired,
 } from "./to-zod"
+export { applyMapping, validateSubmission } from "./submission"
+export type { MappedSubmission, SubmissionValidation } from "./submission"

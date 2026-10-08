@@ -2,6 +2,7 @@ import { http, HttpResponse } from "msw"
 
 import { foldText } from "@/engine/logic"
 import { authenticate } from "@/mocks/auth/authenticate"
+import { authenticatePublic } from "@/mocks/auth/authenticate-public"
 import { withScenario } from "@/mocks/scenarios/with-scenario"
 import { apiPath } from "@/mocks/utils/http"
 
@@ -57,9 +58,13 @@ export function searchLocations(
     .map(({ item }) => item)
 }
 
-function locationsHandler(defaultKinds?: LocationKind[]) {
+function locationsHandler(
+  defaultKinds?: LocationKind[],
+  { isPublic = false }: { isPublic?: boolean } = {}
+) {
   return withScenario(({ request }) => {
-    const auth = authenticate(request)
+    // Public form pages search locations too (B5.4): tenant from the host.
+    const auth = isPublic ? authenticatePublic(request) : authenticate(request)
     if (!auth.ok) return auth.response
     const url = new URL(request.url)
     const kinds = defaultKinds ?? parseKinds(url.searchParams.get("kind"))
@@ -71,6 +76,10 @@ function locationsHandler(defaultKinds?: LocationKind[]) {
 
 export const referenceHandlers = [
   http.get(apiPath("/ref/locations"), locationsHandler()),
+  http.get(
+    apiPath("/public/ref/locations"),
+    locationsHandler(undefined, { isPublic: true })
+  ),
   http.get(apiPath("/ref/ports"), locationsHandler(["port"])),
   http.get(apiPath("/ref/airports"), locationsHandler(["airport"])),
 

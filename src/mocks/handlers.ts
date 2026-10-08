@@ -5,7 +5,9 @@ import { formHandlers } from "@/features/form-builder/mocks/handlers"
 import { leadsHandlers } from "@/features/leads/mocks/handlers"
 import { pipelinesHandlers } from "@/features/pipelines/mocks/handlers"
 import { recordsHandlers } from "@/features/records/mocks/handlers"
+import { publicSiteHandlers } from "@/features/public-site/mocks/handlers"
 import { siteHandlers } from "@/features/sites/mocks/handlers"
+import { submissionHandlers } from "@/features/submissions/mocks/handlers"
 import { shellHandlers } from "@/features/shell/mocks/handlers"
 import { workspaceHandlers } from "@/features/workspace/mocks/handlers"
 import { forwardingHandlers } from "@/modules/forwarding/mocks/handlers"
@@ -23,6 +25,8 @@ export const handlers = [
   ...recordsHandlers,
   ...formHandlers,
   ...siteHandlers,
+  ...publicSiteHandlers,
+  ...submissionHandlers,
   // Sector modules
   ...forwardingHandlers,
 ]

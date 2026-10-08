@@ -297,7 +297,6 @@
   },
   "design": {
     "preview": "Live preview",
-    "colorPicker": "{{label}} picker",
     "saveSlug": "Save",
     "warnings": "Accessibility warnings",
     "theme": {

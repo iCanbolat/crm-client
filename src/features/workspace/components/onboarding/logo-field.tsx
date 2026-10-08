@@ -27,10 +27,17 @@ interface LogoFieldProps {
   value: string | null
   onChange: (value: string | null) => void
   fallback: string
+  /** Defaults to "Logo" (e.g. the site favicon reuses the field). */
+  label?: string
 }
 
 /** Mock upload: the image is kept as a data URL in the workspace profile. */
-export function LogoField({ value, onChange, fallback }: LogoFieldProps) {
+export function LogoField({
+  value,
+  onChange,
+  fallback,
+  label,
+}: LogoFieldProps) {
   const { t } = useTranslation("workspace")
   const inputRef = useRef<HTMLInputElement>(null)
   const inputId = useId()
@@ -54,7 +61,7 @@ export function LogoField({ value, onChange, fallback }: LogoFieldProps) {
   return (
     <div className="flex flex-col gap-2">
       <span className="text-sm font-medium" id={`${inputId}-label`}>
-        {t("company.logo")}
+        {label ?? t("company.logo")}
       </span>
       <div className="flex items-center gap-3">
         <Avatar className="size-14 rounded-2xl">

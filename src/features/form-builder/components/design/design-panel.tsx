@@ -2,6 +2,7 @@ import { TriangleAlertIcon } from "lucide-react"
 import { useId, useState } from "react"
 import { useTranslation } from "react-i18next"
 
+import { ColorField } from "@/components/common/color-field"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -49,7 +50,6 @@ import { useBuilder } from "../../lib/builder-store"
 import { I18nTextInput } from "../i18n-text-input"
 import { PreviewControls } from "../preview-controls"
 import { FormPreview } from "../preview-dialog"
-import { ColorField } from "./color-field"
 import { EmailListInput } from "./email-list-input"
 
 function SlugField({ form }: { form: Form }) {

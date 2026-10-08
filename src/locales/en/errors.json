@@ -38,7 +38,7 @@
     "systemField": "System fields cannot be deleted.",
     "unknownStage": "Unknown stage.",
     "fileTooLarge": "The file exceeds the 5 MB limit.",
-    "alreadyConverted": "This lead has already been converted.",
+    "alreadyConverted": "A record has already been created from this submission.",
     "invalidTransition": "This status change is not allowed.",
     "quoteNotEditable": "Only the latest version of a draft quote can be edited.",
     "quoteNotRevisable": "This quote cannot be revised.",
@@ -49,6 +49,11 @@
     "slugTaken": "This link name is used by another form.",
     "formPublished": "A published form cannot be deleted. Unpublish it first.",
     "formNotPublishable": "The form cannot be published: fix the marked issues first.",
-    "versionNotFound": "Form version not found."
+    "versionNotFound": "Form version not found.",
+    "subdomainTaken": "This subdomain is already in use.",
+    "formNotPublished": "The selected form is not published.",
+    "domainTaken": "This domain is registered to another site.",
+    "domainNotActive": "A domain must be verified before it can be primary.",
+    "formClosed": "This form is no longer accepting responses."
   }
 }

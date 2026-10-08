@@ -3,7 +3,8 @@ import { useTranslation } from "react-i18next"
 
 import { Field, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
-import { HEX_COLOR_PATTERN } from "@/engine/forms"
+
+const HEX_COLOR_PATTERN = /^#[0-9a-f]{6}$/i
 
 /** Native color picker + hex input (`#rrggbb`). */
 export function ColorField({
@@ -15,7 +16,7 @@ export function ColorField({
   value: string
   onChange: (value: string) => void
 }) {
-  const { t } = useTranslation("forms")
+  const { t } = useTranslation()
   const id = useId()
   const [draft, setDraft] = useState(value)
   const [source, setSource] = useState(value)
@@ -32,7 +33,7 @@ export function ColorField({
         <input
           type="color"
           value={value}
-          aria-label={t("design.colorPicker", { label })}
+          aria-label={t("colorPicker", { label })}
           className="h-9 w-12 shrink-0 cursor-pointer rounded-xl border bg-transparent p-1"
           onChange={(event) => onChange(event.target.value)}
         />

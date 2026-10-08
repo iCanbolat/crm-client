@@ -81,5 +81,6 @@
     "moved": "{{label}} konum {{position}} / {{total}} üzerinde.",
     "dropped": "{{label}} konum {{position}} / {{total}} üzerine bırakıldı.",
     "cancelled": "Sıralama iptal edildi."
-  }
+  },
+  "colorPicker": "{{label}} seçici"
 }

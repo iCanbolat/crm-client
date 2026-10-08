@@ -1,28 +1,33 @@
 import { describe, expect, it } from "vitest"
 
 import { FORM_EMBED_RESIZE_MESSAGE } from "@/engine/forms"
+import { getSiteOrigin } from "@/features/sites"
 
 import {
   getEmbedFormUrl,
   getHostedFormUrl,
   getIframeSnippet,
-  getPublicFormsOrigin,
   getScriptSnippet,
 } from "../lib/embed"
 
 describe("embed codes (B4.7)", () => {
   it("TC-4.7-02 point to the workspace's public form address", () => {
-    const prod = getPublicFormsOrigin(
-      "acme-lojistik",
+    const site = { subdomain: "acme-lojistik", primaryDomain: null }
+    const prod = getSiteOrigin(
+      site,
       { protocol: "https:", port: "" },
       "forms.example.com"
     )
     expect(prod).toBe("https://acme-lojistik.forms.example.com")
-    const dev = getPublicFormsOrigin("acme-lojistik", {
-      protocol: "http:",
-      port: "5173",
-    })
+    const dev = getSiteOrigin(site, { protocol: "http:", port: "5173" })
     expect(dev).toBe("http://acme-lojistik.forms.localhost:5173")
+    // TC-5.2-03 an active primary custom domain wins (always https).
+    expect(
+      getSiteOrigin(
+        { ...site, primaryDomain: "teklif.acmelojistik.com" },
+        { protocol: "http:", port: "5173" }
+      )
+    ).toBe("https://teklif.acmelojistik.com")
 
     const target = {
       origin: prod,

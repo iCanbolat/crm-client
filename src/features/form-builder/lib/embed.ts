@@ -1,22 +1,12 @@
 import { FORM_EMBED_RESIZE_MESSAGE } from "@/engine/forms"
-import { env } from "@/lib/env"
 
 /**
- * Public addresses of a form (B4.7). Every workspace gets a subdomain of the
- * forms domain (`acme-lojistik.forms.example.com`); custom domains follow in
- * Faz 5. Protocol and port follow the admin app (dev: `http`, `:5173`).
+ * Public addresses of a form (B4.7). The origin is the site's
+ * (`getSiteOrigin` of `@/features/sites`): its primary custom domain or the
+ * platform subdomain.
  */
-export function getPublicFormsOrigin(
-  workspaceSlug: string,
-  location: Pick<Location, "protocol" | "port"> = window.location,
-  domain: string = env.VITE_PUBLIC_FORMS_DOMAIN
-) {
-  const port = location.port ? `:${location.port}` : ""
-  return `${location.protocol}//${workspaceSlug}.${domain}${port}`
-}
-
 export interface EmbedTarget {
-  /** `getPublicFormsOrigin(...)`. */
+  /** `getSiteOrigin(site)`. */
   origin: string
   slug: string
   title: string

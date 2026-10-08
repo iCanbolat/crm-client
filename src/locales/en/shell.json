@@ -20,7 +20,9 @@
     "examples": "Example records",
     "tasks": "My tasks",
     "objects": "Objects",
-    "forms": "Forms"
+    "forms": "Forms",
+    "site": "Site & Domains",
+    "submissions": "Submissions"
   },
   "crumbs": {
     "dashboard": "Dashboard",
@@ -38,7 +40,9 @@
     "quoteBuilder": "Quote",
     "print": "Print",
     "forms": "Forms",
-    "form": "Form"
+    "form": "Form",
+    "site": "Site & Domains",
+    "submissions": "Submissions"
   },
   "command": {
     "open": "Open command palette",

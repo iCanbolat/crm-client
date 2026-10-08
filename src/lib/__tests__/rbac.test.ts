@@ -32,6 +32,14 @@ describe("rbac policy", () => {
     ["agent", "read", "form", true],
     ["agent", "update", "form", false],
     ["viewer", "create", "form", false],
+    ["admin", "update", "site", true],
+    ["manager", "read", "site", true],
+    ["manager", "update", "site", false],
+    ["agent", "read", "site", true],
+    ["agent", "update", "site", false],
+    ["manager", "manage", "submission", true],
+    ["agent", "read", "submission", true],
+    ["agent", "update", "submission", false],
   ])("%s may %s %s → %s", (role, action, resource, expected) => {
     expect(can(subject(role), action, resource)).toBe(expected)
   })

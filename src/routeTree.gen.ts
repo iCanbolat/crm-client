@@ -18,6 +18,7 @@ import { Route as AppExamplesRouteImport } from './routes/_app/examples'
 import { Route as AppFormsRouteImport } from './routes/_app/forms'
 import { Route as AppQuotesRouteImport } from './routes/_app/quotes'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
+import { Route as AppSiteRouteImport } from './routes/_app/site'
 import { Route as AppTasksRouteImport } from './routes/_app/tasks'
 import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
@@ -83,6 +84,11 @@ const AppQuotesRoute = AppQuotesRouteImport.update({
 const AppSettingsRoute = AppSettingsRouteImport.update({
   id: '/settings',
   path: '/settings',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppSiteRoute = AppSiteRouteImport.update({
+  id: '/site',
+  path: '/site',
   getParentRoute: () => AppRoute,
 } as any)
 const AppTasksRoute = AppTasksRouteImport.update({
@@ -212,6 +218,7 @@ export interface FileRoutesByFullPath {
   '/forms': typeof AppFormsRouteWithChildren
   '/quotes': typeof AppQuotesRouteWithChildren
   '/settings': typeof AppSettingsRouteWithChildren
+  '/site': typeof AppSiteRoute
   '/tasks': typeof AppTasksRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
@@ -241,6 +248,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/dashboard': typeof AppDashboardRoute
   '/examples': typeof AppExamplesRoute
+  '/site': typeof AppSiteRoute
   '/tasks': typeof AppTasksRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
@@ -271,6 +279,7 @@ export interface FileRoutesById {
   '/_app/forms': typeof AppFormsRouteWithChildren
   '/_app/quotes': typeof AppQuotesRouteWithChildren
   '/_app/settings': typeof AppSettingsRouteWithChildren
+  '/_app/site': typeof AppSiteRoute
   '/_app/tasks': typeof AppTasksRoute
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/login': typeof AuthLoginRoute
@@ -305,6 +314,7 @@ export interface FileRouteTypes {
     | '/forms'
     | '/quotes'
     | '/settings'
+    | '/site'
     | '/tasks'
     | '/forgot-password'
     | '/login'
@@ -334,6 +344,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/dashboard'
     | '/examples'
+    | '/site'
     | '/tasks'
     | '/forgot-password'
     | '/login'
@@ -363,6 +374,7 @@ export interface FileRouteTypes {
     | '/_app/forms'
     | '/_app/quotes'
     | '/_app/settings'
+    | '/_app/site'
     | '/_app/tasks'
     | '/_auth/forgot-password'
     | '/_auth/login'
@@ -458,6 +470,13 @@ declare module '@tanstack/react-router' {
       path: '/settings'
       fullPath: '/settings'
       preLoaderRoute: typeof AppSettingsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/site': {
+      id: '/_app/site'
+      path: '/site'
+      fullPath: '/site'
+      preLoaderRoute: typeof AppSiteRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/tasks': {
@@ -747,6 +766,7 @@ interface AppRouteChildren {
   AppFormsRoute: typeof AppFormsRouteWithChildren
   AppQuotesRoute: typeof AppQuotesRouteWithChildren
   AppSettingsRoute: typeof AppSettingsRouteWithChildren
+  AppSiteRoute: typeof AppSiteRoute
   AppTasksRoute: typeof AppTasksRoute
   AppOObjectKeyRoute: typeof AppOObjectKeyRouteWithChildren
 }
@@ -757,6 +777,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppFormsRoute: AppFormsRouteWithChildren,
   AppQuotesRoute: AppQuotesRouteWithChildren,
   AppSettingsRoute: AppSettingsRouteWithChildren,
+  AppSiteRoute: AppSiteRoute,
   AppTasksRoute: AppTasksRoute,
   AppOObjectKeyRoute: AppOObjectKeyRouteWithChildren,
 }

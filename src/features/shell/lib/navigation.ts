@@ -3,6 +3,7 @@ import {
   ContactIcon,
   FileTextIcon,
   FlaskConicalIcon,
+  GlobeIcon,
   HandCoinsIcon,
   InboxIcon,
   LayoutDashboardIcon,
@@ -46,6 +47,8 @@ type CoreLabelKey =
   | "objects"
   | "examples"
   | "forms"
+  | "submissions"
+  | "site"
 
 interface CoreNavItem {
   id: CoreLabelKey
@@ -106,6 +109,12 @@ export const CORE_NAVIGATION: CoreNavGroup[] = [
         icon: FileTextIcon,
         to: "/forms",
         permission: { action: "read", resource: "form" },
+      },
+      {
+        id: "site",
+        icon: GlobeIcon,
+        to: "/site",
+        permission: { action: "read", resource: "site" },
       },
     ],
   },

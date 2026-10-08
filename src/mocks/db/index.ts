@@ -24,6 +24,8 @@ import type {
   FormRow,
   FormVersionRow,
 } from "@/features/form-builder/mocks/types"
+import { seedSites } from "@/features/sites/mocks/seed"
+import type { DomainRow, SiteRow } from "@/features/sites/mocks/types"
 import type { Workspace } from "@/features/workspace"
 import { seedForwardingForms } from "@/modules/forwarding/mocks/forms-seed"
 import { seedForwarding } from "@/modules/forwarding/mocks/seed"
@@ -146,6 +148,16 @@ export const db = {
   formVersions: createCollection<FormVersionRow>({
     name: "formVersions",
     seed: () => [...seedForms().versions, ...seedForwardingForms().versions],
+    onChange: notify,
+  }),
+  // Public form site (Faz 5)
+  sites: createCollection<SiteRow>({
+    name: "sites",
+    seed: () => seedSites(seedWorkspaces()),
+    onChange: notify,
+  }),
+  domains: createCollection<DomainRow>({
+    name: "domains",
     onChange: notify,
   }),
 }

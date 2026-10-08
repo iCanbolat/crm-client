@@ -81,5 +81,6 @@
     "moved": "{{label}} is at position {{position}} of {{total}}.",
     "dropped": "{{label}} dropped at position {{position}} of {{total}}.",
     "cancelled": "Reordering cancelled."
-  }
+  },
+  "colorPicker": "{{label}} picker"
 }

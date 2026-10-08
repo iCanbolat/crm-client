@@ -1,0 +1,106 @@
+{
+  "title": "Site & Alan Adları",
+  "description": "Formlarınızın yayınlandığı markalı sayfa: adres, marka, varsayılan form ve alan adları.",
+  "readOnly": "Site ayarlarını yalnız yöneticiler değiştirebilir.",
+  "save": "Değişiklikleri kaydet",
+  "address": {
+    "title": "Adres",
+    "description": "Platform alt alan adınız her zaman çalışır; doğrulanmış birincil alan adı varsa bağlantılar onu kullanır.",
+    "subdomain": "Alt alan adı",
+    "subdomainHelp": "Küçük harf, rakam ve tire; 3–40 karakter.",
+    "publicUrl": "Yayın adresi",
+    "primaryDomain": "Birincil alan adı kullanılıyor"
+  },
+  "brand": {
+    "title": "Marka",
+    "description": "Hosted form sayfasının başlığında ve tarayıcı sekmesinde görünür. Formun kendi teması ayrıca uygulanır.",
+    "name": "Görünen ad",
+    "favicon": "Favicon",
+    "primaryColor": "Vurgu rengi"
+  },
+  "defaultForm": {
+    "title": "Varsayılan form",
+    "description": "Sitenin kök adresi (/) bu formu gösterir. Seçilmezse kök adres 404 döner.",
+    "label": "Form",
+    "none": "Varsayılan form yok",
+    "noPublished": "Yayında form yok. Önce bir formu yayınlayın."
+  },
+  "seo": {
+    "title": "Arama motoru & paylaşım",
+    "description": "Boş bırakılan alanlarda formun adı kullanılır.",
+    "pageTitle": "Sayfa başlığı",
+    "pageDescription": "Açıklama",
+    "ogImage": "Paylaşım görseli",
+    "count": "{{count}} / {{max}}"
+  },
+  "legal": {
+    "title": "Yasal bağlantılar",
+    "description": "Sayfanın alt kısmında gösterilir. https ile başlamalıdır.",
+    "kvkkUrl": "KVKK aydınlatma metni",
+    "privacyUrl": "Gizlilik politikası",
+    "cookieUrl": "Çerez politikası"
+  },
+  "preview": {
+    "title": "Önizleme",
+    "formPlaceholder": "Form içeriği",
+    "kvkk": "KVKK",
+    "privacy": "Gizlilik",
+    "cookies": "Çerezler"
+  },
+  "domains": {
+    "title": "Alan adları",
+    "description": "Formlarınızı kendi alan adınızda yayınlayın (örn. teklif.firmaniz.com).",
+    "add": "Alan adı ekle",
+    "empty": "Henüz alan adı eklenmedi.",
+    "hostname": "Alan adı",
+    "hostnamePlaceholder": "teklif.firmaniz.com",
+    "hostnameHelp": "Yalnız alt alan adı desteklenir; ana alan adı (firmaniz.com) CNAME kaydı taşıyamaz.",
+    "addTitle": "Alan adı ekle",
+    "addDescription": "Alan adını ekledikten sonra DNS sağlayıcınızda aşağıdaki kayıtları oluşturun.",
+    "dnsTitle": "DNS kayıtları",
+    "dnsDescription": "Kayıtlar yayılınca doğrulama otomatik ilerler; bu birkaç dakika sürebilir.",
+    "recordType": "Tür",
+    "recordName": "Ad",
+    "recordValue": "Değer",
+    "copy": "{{label}} kopyala",
+    "copied": "Kopyalandı",
+    "primary": "Birincil",
+    "makePrimary": "Birincil yap",
+    "remove": "Kaldır",
+    "retry": "Yeniden dene",
+    "actions": "{{hostname}} işlemleri",
+    "removeTitle": "Alan adı kaldırılsın mı?",
+    "removeDescription": "{{hostname}} artık formlarınızı göstermez. Bu adresi kullanan bağlantılar çalışmaz.",
+    "status": {
+      "pending_dns": "DNS bekleniyor",
+      "verifying": "Doğrulanıyor",
+      "ssl_pending": "SSL sertifikası hazırlanıyor",
+      "active": "Aktif",
+      "failed": "Başarısız"
+    },
+    "steps": "Doğrulama adımları",
+    "step": {
+      "dns": "DNS",
+      "verify": "Doğrulama",
+      "ssl": "SSL",
+      "active": "Yayında"
+    },
+    "failure": {
+      "dns_mismatch": "CNAME kaydı {{target}} adresine yönlenmiyor veya TXT doğrulama kaydı bulunamadı. Kayıtları kontrol edip yeniden deneyin.",
+      "ssl_failed": "SSL sertifikası alınamadı. Alan adında CAA kaydı varsa platformumuza izin verin ve yeniden deneyin."
+    }
+  },
+  "validation": {
+    "subdomain": "Geçerli bir alt alan adı girin (küçük harf, rakam, tire; 3–40 karakter).",
+    "subdomainReserved": "Bu alt alan adı platform tarafından ayrılmış.",
+    "httpsUrl": "https:// ile başlayan geçerli bir adres girin.",
+    "hostname": "Geçerli bir alan adı girin (örn. teklif.firmaniz.com).",
+    "apex": "Ana alan adı eklenemez; teklif.firmaniz.com gibi bir alt alan adı kullanın."
+  },
+  "toast": {
+    "saved": "Site ayarları kaydedildi",
+    "domainAdded": "Alan adı eklendi",
+    "domainRemoved": "Alan adı kaldırıldı",
+    "primaryChanged": "Birincil alan adı değiştirildi"
+  }
+}

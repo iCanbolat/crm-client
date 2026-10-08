@@ -297,7 +297,6 @@
   },
   "design": {
     "preview": "Canlı önizleme",
-    "colorPicker": "{{label}} seçici",
     "saveSlug": "Kaydet",
     "warnings": "Erişilebilirlik uyarıları",
     "theme": {

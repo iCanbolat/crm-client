@@ -1,0 +1,106 @@
+{
+  "title": "Site & Domains",
+  "description": "The branded page your forms are published on: address, branding, default form and domains.",
+  "readOnly": "Only administrators can change site settings.",
+  "save": "Save changes",
+  "address": {
+    "title": "Address",
+    "description": "Your platform subdomain always works; links use the verified primary domain when there is one.",
+    "subdomain": "Subdomain",
+    "subdomainHelp": "Lowercase letters, digits and hyphens; 3–40 characters.",
+    "publicUrl": "Public address",
+    "primaryDomain": "Using the primary domain"
+  },
+  "brand": {
+    "title": "Branding",
+    "description": "Shown in the hosted form page header and the browser tab. Each form's own theme still applies.",
+    "name": "Display name",
+    "favicon": "Favicon",
+    "primaryColor": "Accent color"
+  },
+  "defaultForm": {
+    "title": "Default form",
+    "description": "The site root (/) shows this form. Without one, the root returns 404.",
+    "label": "Form",
+    "none": "No default form",
+    "noPublished": "No published forms. Publish a form first."
+  },
+  "seo": {
+    "title": "Search & sharing",
+    "description": "Empty fields fall back to the form name.",
+    "pageTitle": "Page title",
+    "pageDescription": "Description",
+    "ogImage": "Share image",
+    "count": "{{count}} / {{max}}"
+  },
+  "legal": {
+    "title": "Legal links",
+    "description": "Shown in the page footer. Must start with https.",
+    "kvkkUrl": "KVKK privacy notice",
+    "privacyUrl": "Privacy policy",
+    "cookieUrl": "Cookie policy"
+  },
+  "preview": {
+    "title": "Preview",
+    "formPlaceholder": "Form content",
+    "kvkk": "KVKK",
+    "privacy": "Privacy",
+    "cookies": "Cookies"
+  },
+  "domains": {
+    "title": "Domains",
+    "description": "Publish your forms on your own domain (e.g. quote.yourcompany.com).",
+    "add": "Add domain",
+    "empty": "No domains added yet.",
+    "hostname": "Domain",
+    "hostnamePlaceholder": "quote.yourcompany.com",
+    "hostnameHelp": "Only subdomains are supported; an apex domain (yourcompany.com) cannot carry a CNAME record.",
+    "addTitle": "Add domain",
+    "addDescription": "After adding the domain, create the records below at your DNS provider.",
+    "dnsTitle": "DNS records",
+    "dnsDescription": "Verification advances automatically once the records propagate; this can take a few minutes.",
+    "recordType": "Type",
+    "recordName": "Name",
+    "recordValue": "Value",
+    "copy": "Copy {{label}}",
+    "copied": "Copied",
+    "primary": "Primary",
+    "makePrimary": "Make primary",
+    "remove": "Remove",
+    "retry": "Retry",
+    "actions": "Actions for {{hostname}}",
+    "removeTitle": "Remove domain?",
+    "removeDescription": "{{hostname}} will no longer show your forms. Links using this address will stop working.",
+    "status": {
+      "pending_dns": "Waiting for DNS",
+      "verifying": "Verifying",
+      "ssl_pending": "Issuing SSL certificate",
+      "active": "Active",
+      "failed": "Failed"
+    },
+    "steps": "Verification steps",
+    "step": {
+      "dns": "DNS",
+      "verify": "Verification",
+      "ssl": "SSL",
+      "active": "Live"
+    },
+    "failure": {
+      "dns_mismatch": "The CNAME record does not point to {{target}} or the TXT verification record is missing. Check the records and retry.",
+      "ssl_failed": "The SSL certificate could not be issued. If the domain has a CAA record, allow our platform and retry."
+    }
+  },
+  "validation": {
+    "subdomain": "Enter a valid subdomain (lowercase letters, digits, hyphens; 3–40 characters).",
+    "subdomainReserved": "This subdomain is reserved by the platform.",
+    "httpsUrl": "Enter a valid address starting with https://.",
+    "hostname": "Enter a valid domain (e.g. quote.yourcompany.com).",
+    "apex": "Apex domains cannot be added; use a subdomain such as quote.yourcompany.com."
+  },
+  "toast": {
+    "saved": "Site settings saved",
+    "domainAdded": "Domain added",
+    "domainRemoved": "Domain removed",
+    "primaryChanged": "Primary domain changed"
+  }
+}

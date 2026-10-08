@@ -20,7 +20,9 @@
     "examples": "Örnek kayıtlar",
     "tasks": "Görevlerim",
     "objects": "Nesneler",
-    "forms": "Formlar"
+    "forms": "Formlar",
+    "site": "Site & Alan Adları",
+    "submissions": "Gönderimler"
   },
   "crumbs": {
     "dashboard": "Panel",
@@ -38,7 +40,9 @@
     "quoteBuilder": "Teklif",
     "print": "Yazdır",
     "forms": "Formlar",
-    "form": "Form"
+    "form": "Form",
+    "site": "Site & Alan Adları",
+    "submissions": "Gönderimler"
   },
   "command": {
     "open": "Komut paletini aç",

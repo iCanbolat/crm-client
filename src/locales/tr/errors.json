@@ -38,7 +38,7 @@
     "systemField": "Sistem alanları silinemez.",
     "unknownStage": "Bilinmeyen aşama.",
     "fileTooLarge": "Dosya 5 MB sınırını aşıyor.",
-    "alreadyConverted": "Bu lead zaten dönüştürüldü.",
+    "alreadyConverted": "Bu gönderimden zaten bir kayıt oluşturulmuş.",
     "invalidTransition": "Bu durum değişikliği yapılamaz.",
     "quoteNotEditable": "Yalnızca taslak teklifin son versiyonu düzenlenebilir.",
     "quoteNotRevisable": "Bu teklif revize edilemez.",
@@ -49,6 +49,11 @@
     "slugTaken": "Bu bağlantı adı başka bir formda kullanılıyor.",
     "formPublished": "Yayındaki form silinemez. Önce yayından kaldırın.",
     "formNotPublishable": "Form yayınlanamıyor: önce işaretli sorunları giderin.",
-    "versionNotFound": "Form versiyonu bulunamadı."
+    "versionNotFound": "Form versiyonu bulunamadı.",
+    "subdomainTaken": "Bu alt alan adı kullanılıyor.",
+    "formNotPublished": "Seçilen form yayında değil.",
+    "domainTaken": "Bu alan adı başka bir sitede kayıtlı.",
+    "domainNotActive": "Alan adı doğrulanmadan birincil yapılamaz.",
+    "formClosed": "Bu form artık yanıt kabul etmiyor."
   }
 }

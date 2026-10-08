@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query"
 import { CheckIcon, CopyIcon, TriangleAlertIcon } from "lucide-react"
 import { useId, useState } from "react"
 import { useTranslation } from "react-i18next"
@@ -7,13 +8,13 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
+import { getSiteOrigin, siteQueries } from "@/features/sites"
 import { useWorkspace } from "@/features/workspace"
 
 import type { FormSummary } from "../../api/forms.schemas"
 import {
   getHostedFormUrl,
   getIframeSnippet,
-  getPublicFormsOrigin,
   getScriptSnippet,
 } from "../../lib/embed"
 
@@ -74,9 +75,13 @@ export function EmbedOptions({
   form: Pick<FormSummary, "name" | "slug" | "status">
 }) {
   const { t } = useTranslation("forms")
+  // Until the site loads, the platform subdomain (= workspace slug).
   const workspace = useWorkspace()
+  const site = useQuery(siteQueries.current())
   const target = {
-    origin: getPublicFormsOrigin(workspace.slug),
+    origin: getSiteOrigin(
+      site.data ?? { subdomain: workspace.slug, primaryDomain: null }
+    ),
     slug: form.slug,
     title: form.name,
   }

@@ -17,6 +17,10 @@ export type Action = (typeof ACTIONS)[number]
  * - `workspace`: workspace profile, onboarding, modules and object metadata
  * - `form`: lead forms of the form builder (`manage` = publish, unpublish,
  *   restore a version)
+ * - `site`: public form site — branding, default form, custom domains (B5.2);
+ *   everyone may read it (it is public anyway, and embed codes need it)
+ * - `submission`: form submissions inbox (`update` = status, `manage` =
+ *   convert to a record) (B5.6)
  */
 export const RESOURCES = [
   "record",
@@ -24,6 +28,8 @@ export const RESOURCES = [
   "member",
   "workspace",
   "form",
+  "site",
+  "submission",
 ] as const
 export type Resource = (typeof RESOURCES)[number]
 
@@ -53,6 +59,8 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     member: { any: ALL },
     workspace: { any: ALL },
     form: { any: ALL },
+    site: { any: ALL },
+    submission: { any: ALL },
   },
   admin: {
     record: { any: ALL },
@@ -61,6 +69,8 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     // Only the owner may delete the workspace.
     workspace: { any: ["read", "update", "manage"] },
     form: { any: ALL },
+    site: { any: ALL },
+    submission: { any: ALL },
   },
   manager: {
     record: { any: ["read", "create", "update", "delete"] },
@@ -68,12 +78,16 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     member: { any: ["read"] },
     workspace: { any: ["read"] },
     form: { any: ALL },
+    site: { any: ["read"] },
+    submission: { any: ALL },
   },
   agent: {
     record: { any: ["read", "create"], own: ["update", "delete"] },
     view: { any: ["read", "create"], own: ["update", "delete"] },
     workspace: { any: ["read"] },
     form: { any: ["read"] },
+    site: { any: ["read"] },
+    submission: { any: ["read"] },
   },
   viewer: {
     record: { any: ["read"] },
@@ -81,6 +95,8 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     view: { any: ["read", "create"], own: ["update", "delete"] },
     workspace: { any: ["read"] },
     form: { any: ["read"] },
+    site: { any: ["read"] },
+    submission: { any: ["read"] },
   },
 }
 

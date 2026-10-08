@@ -26,4 +26,6 @@ export async function enableMocking() {
       }
     },
   })
+  // Readiness signal for E2E on pages without the dev toolbar (public site).
+  document.documentElement.dataset.msw = "ready"
 }

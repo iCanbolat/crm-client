@@ -37,6 +37,11 @@ interface ApiClientConfig {
   refreshAccessToken?: () => Promise<string | null>
   /** Called when a 401 could not be recovered by refreshing the token. */
   onAuthFailure?: () => void
+  /**
+   * Public form site (B5.1): every request names the visited host in
+   * `X-Public-Host` instead of carrying a session and a tenant.
+   */
+  publicHost?: string
 }
 
 let config: ApiClientConfig = { baseUrl: env.VITE_API_URL }
@@ -44,6 +49,11 @@ let config: ApiClientConfig = { baseUrl: env.VITE_API_URL }
 /** The auth feature registers its token/tenant getters and refresh flow here. */
 export function configureApiClient(next: Partial<ApiClientConfig>) {
   config = { ...config, ...next }
+}
+
+/** The client serves the public form site (no session, no tenant). */
+export function isPublicApiClient() {
+  return Boolean(config.publicHost)
 }
 
 export function buildUrl(path: string, query?: QueryParams): URL {
@@ -115,11 +125,15 @@ async function request<TSchema extends z.ZodType | undefined>(
   headers.set("Accept", "application/json")
   headers.set("Accept-Language", i18n.resolvedLanguage ?? i18n.language)
 
-  const token = useAuth ? config.getAccessToken?.() : undefined
-  if (token) headers.set("Authorization", `Bearer ${token}`)
+  if (config.publicHost) {
+    headers.set("X-Public-Host", config.publicHost)
+  } else {
+    const token = useAuth ? config.getAccessToken?.() : undefined
+    if (token) headers.set("Authorization", `Bearer ${token}`)
 
-  const tenantId = config.getTenantId?.()
-  if (tenantId) headers.set("X-Tenant-Id", tenantId)
+    const tenantId = config.getTenantId?.()
+    if (tenantId) headers.set("X-Tenant-Id", tenantId)
+  }
 
   let body: BodyInit | undefined
   if (options.body instanceof FormData) {
@@ -150,7 +164,7 @@ async function request<TSchema extends z.ZodType | undefined>(
     })
   }
 
-  if (response.status === 401 && useAuth) {
+  if (response.status === 401 && useAuth && !config.publicHost) {
     // Expired access token: refresh once and replay the request.
     if (!isRetry && config.refreshAccessToken) {
       const nextToken = await config.refreshAccessToken()

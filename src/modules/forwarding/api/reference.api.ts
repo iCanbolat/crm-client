@@ -1,4 +1,4 @@
-import { apiClient } from "@/lib/api"
+import { apiClient, isPublicApiClient } from "@/lib/api"
 
 import {
   carrierListSchema,
@@ -8,12 +8,16 @@ import {
 } from "./reference.schemas"
 import type { CarrierKind } from "../lib/constants"
 
+/** Location search also serves public form pages (B5.4). */
+const locationsPath = () =>
+  isPublicApiClient() ? "/public/ref/locations" : "/ref/locations"
+
 export function fetchLocations(
   params: { q?: string; kinds?: readonly LocationKind[] },
   signal?: AbortSignal
 ) {
   return apiClient
-    .get("/ref/locations", {
+    .get(locationsPath(), {
       signal,
       query: { q: params.q || undefined, kind: params.kinds?.join(",") },
       schema: locationListSchema,

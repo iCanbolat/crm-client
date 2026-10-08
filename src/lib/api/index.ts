@@ -1,4 +1,9 @@
-export { apiClient, buildUrl, configureApiClient } from "./api-client"
+export {
+  apiClient,
+  buildUrl,
+  configureApiClient,
+  isPublicApiClient,
+} from "./api-client"
 export type { QueryParams, RequestOptions } from "./api-client"
 export { ApiError, isApiError } from "./api-error"
 export type { ApiErrorKind, FieldErrors } from "./api-error"

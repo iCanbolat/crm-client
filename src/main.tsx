@@ -1,9 +1,25 @@
-import { StrictMode } from "react"
+import { StrictMode, type ReactNode } from "react"
 import { createRoot } from "react-dom/client"
 
 import "./index.css"
 
-import { AdminApp } from "@/app/admin-app"
+import { resolveAppMode } from "@/app/app-mode"
+import { env } from "@/lib/env"
+
+async function loadApp(): Promise<ReactNode> {
+  const appMode = resolveAppMode(window.location.host, window.location.search, {
+    appHost: env.VITE_APP_HOST,
+    allowHostOverride: import.meta.env.DEV,
+  })
+
+  // Separate chunks: the public form site never downloads the admin app.
+  if (appMode.mode === "public") {
+    const { PublicApp } = await import("@/app/public-app")
+    return <PublicApp host={appMode.host} />
+  }
+  const { AdminApp } = await import("@/app/admin-app")
+  return <AdminApp />
+}
 
 async function bootstrap() {
   // Statically replaced by Vite, so MSW is tree-shaken out of production builds.
@@ -12,10 +28,9 @@ async function bootstrap() {
     await enableMocking()
   }
 
+  const app = await loadApp()
   createRoot(document.getElementById("root")!).render(
-    <StrictMode>
-      <AdminApp />
-    </StrictMode>
+    <StrictMode>{app}</StrictMode>
   )
 }
 

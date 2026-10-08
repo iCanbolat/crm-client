@@ -17,6 +17,10 @@ export default defineConfig({
       "@": resolve(import.meta.dirname, "./src"),
     },
   },
+  build: {
+    // Read by scripts/check-public-bundle.mjs (public chunk budget, B5.1).
+    manifest: true,
+  },
   server: {
     // app.localhost (admin) and *.forms.localhost (public renderer) in dev.
     allowedHosts: [".localhost"],

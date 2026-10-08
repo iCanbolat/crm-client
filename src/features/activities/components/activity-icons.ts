@@ -1,6 +1,7 @@
 import {
   CalendarDaysIcon,
   MailIcon,
+  MessageCircleIcon,
   PhoneIcon,
   StickyNoteIcon,
   type LucideIcon,
@@ -13,4 +14,5 @@ export const ACTIVITY_ICONS: Record<ActivityType, LucideIcon> = {
   call: PhoneIcon,
   email: MailIcon,
   meeting: CalendarDaysIcon,
+  whatsapp: MessageCircleIcon,
 }

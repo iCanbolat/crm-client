@@ -17,5 +17,10 @@
   "quickLogin": "Hızlı giriş",
   "quickLoginHint": "Seed kullanıcılarından biriyle oturum açın.",
   "quickLoginPlaceholder": "Kullanıcı seçin",
-  "quickLoginDone": "{{name}} olarak giriş yapıldı."
+  "quickLoginDone": "{{name}} olarak giriş yapıldı.",
+  "whatsapp": "WhatsApp: gelen mesaj simüle et",
+  "whatsappPhone": "Müşteri numarası (E.164)",
+  "whatsappText": "Mesaj",
+  "whatsappSend": "Mesajı gönder",
+  "whatsappSent": "Gelen WhatsApp mesajı oluşturuldu."
 }

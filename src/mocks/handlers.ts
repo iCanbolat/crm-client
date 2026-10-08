@@ -3,6 +3,7 @@ import { activitiesHandlers } from "@/features/activities/mocks/handlers"
 import { authHandlers } from "@/features/auth/mocks/handlers"
 import { formHandlers } from "@/features/form-builder/mocks/handlers"
 import { leadsHandlers } from "@/features/leads/mocks/handlers"
+import { messagingHandlers } from "@/features/messaging/mocks/handlers"
 import { pipelinesHandlers } from "@/features/pipelines/mocks/handlers"
 import { recordsHandlers } from "@/features/records/mocks/handlers"
 import { publicSiteHandlers } from "@/features/public-site/mocks/handlers"
@@ -21,6 +22,8 @@ export const handlers = [
   // Before the generic record routes (`/records/:objectKey/board`).
   ...pipelinesHandlers,
   ...activitiesHandlers,
+  // Before the generic record routes (`/records/:objectKey/:id/conversation`).
+  ...messagingHandlers,
   ...leadsHandlers,
   ...recordsHandlers,
   ...formHandlers,

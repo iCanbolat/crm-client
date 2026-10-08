@@ -14,6 +14,7 @@ import {
   SidebarRail,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { InboxUnreadBadge } from "@/features/messaging"
 import { WorkspaceSwitcher } from "@/features/workspace"
 
 import { useNavigation } from "../hooks/use-navigation"
@@ -62,6 +63,7 @@ export function AppSidebar() {
                           <Icon aria-hidden />
                           <span>{item.title}</span>
                         </SidebarMenuButton>
+                        {item.id === "inbox" ? <InboxUnreadBadge /> : null}
                       </SidebarMenuItem>
                     )
                   })}

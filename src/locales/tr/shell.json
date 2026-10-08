@@ -22,7 +22,9 @@
     "objects": "Nesneler",
     "forms": "Formlar",
     "site": "Site & Alan Adları",
-    "submissions": "Gönderimler"
+    "submissions": "Gönderimler",
+    "inbox": "Gelen kutusu",
+    "whatsapp": "WhatsApp"
   },
   "crumbs": {
     "dashboard": "Panel",
@@ -42,7 +44,9 @@
     "forms": "Formlar",
     "form": "Form",
     "site": "Site & Alan Adları",
-    "submissions": "Gönderimler"
+    "submissions": "Gönderimler",
+    "inbox": "Gelen kutusu",
+    "whatsapp": "WhatsApp"
   },
   "command": {
     "open": "Komut paletini aç",

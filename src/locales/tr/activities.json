@@ -3,7 +3,8 @@
     "note": "Not",
     "call": "Arama",
     "email": "E-posta",
-    "meeting": "Toplantı"
+    "meeting": "Toplantı",
+    "whatsapp": "WhatsApp"
   },
   "directions": {
     "outbound": "Giden",

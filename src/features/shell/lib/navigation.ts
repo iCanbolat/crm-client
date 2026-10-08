@@ -9,6 +9,8 @@ import {
   InboxIcon,
   LayoutDashboardIcon,
   ListTodoIcon,
+  MessageCircleIcon,
+  MessagesSquareIcon,
   ShapesIcon,
   UsersIcon,
   type LucideIcon,
@@ -50,6 +52,8 @@ type CoreLabelKey =
   | "forms"
   | "submissions"
   | "site"
+  | "inbox"
+  | "whatsapp"
 
 interface CoreNavItem {
   id: CoreLabelKey
@@ -71,6 +75,12 @@ export const CORE_NAVIGATION: CoreNavGroup[] = [
     items: [
       { id: "dashboard", icon: LayoutDashboardIcon, to: "/dashboard" },
       { id: "tasks", icon: ListTodoIcon, to: "/tasks" },
+      {
+        id: "inbox",
+        icon: MessagesSquareIcon,
+        to: "/inbox",
+        permission: { action: "read", resource: "conversation" },
+      },
     ],
   },
   {
@@ -139,6 +149,12 @@ export const CORE_NAVIGATION: CoreNavGroup[] = [
         icon: ShapesIcon,
         to: "/settings/objects",
         permission: { action: "manage", resource: "workspace" },
+      },
+      {
+        id: "whatsapp",
+        icon: MessageCircleIcon,
+        to: "/settings/whatsapp",
+        permission: { action: "read", resource: "channel" },
       },
       { id: "examples", icon: FlaskConicalIcon, to: "/examples" },
     ],

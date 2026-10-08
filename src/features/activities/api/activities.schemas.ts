@@ -2,8 +2,23 @@ import { z } from "zod"
 
 import i18n from "@/lib/i18n"
 
-export const ACTIVITY_TYPES = ["note", "call", "email", "meeting"] as const
+export const ACTIVITY_TYPES = [
+  "note",
+  "call",
+  "email",
+  "meeting",
+  "whatsapp",
+] as const
 export type ActivityType = (typeof ACTIVITY_TYPES)[number]
+
+/** Types users log by hand; WhatsApp entries are written by the channel. */
+export const LOGGABLE_ACTIVITY_TYPES = [
+  "note",
+  "call",
+  "email",
+  "meeting",
+] as const satisfies readonly ActivityType[]
+export type LoggableActivityType = (typeof LOGGABLE_ACTIVITY_TYPES)[number]
 
 export const DIRECTIONS = ["outbound", "inbound"] as const
 
@@ -29,7 +44,7 @@ export const ACTIVITY_BODY_MAX = 5000
 
 export const activityInputSchema = z
   .object({
-    type: z.enum(ACTIVITY_TYPES),
+    type: z.enum(LOGGABLE_ACTIVITY_TYPES),
     subject: z.string().trim().max(160).nullable().default(null),
     body: z.string().trim().max(ACTIVITY_BODY_MAX).default(""),
     occurredAt: z.iso.datetime({ offset: true }).optional(),

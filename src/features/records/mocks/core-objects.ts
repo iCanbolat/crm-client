@@ -68,6 +68,29 @@ const SYSTEM_SECTION = {
 
 const newestFirst = { field: "createdAt", direction: "desc" } as const
 
+/** WhatsApp consent (Faz 6): utility templates need an explicit opt-in. */
+function whatsappOptInFields(): FieldDef[] {
+  return [
+    {
+      key: "whatsappOptIn",
+      label: t("WhatsApp bildirim izni", "WhatsApp opt-in"),
+      type: "boolean",
+      system: true,
+      helpText: t(
+        "Sevkiyat ve teklif bildirimleri WhatsApp ile gönderilebilir.",
+        "Shipment and quote updates may be sent over WhatsApp."
+      ),
+    },
+    {
+      key: "whatsappOptInAt",
+      label: t("WhatsApp izin tarihi", "WhatsApp opt-in date"),
+      type: "datetime",
+      system: true,
+      readOnly: true,
+    },
+  ]
+}
+
 export const INDUSTRIES = [
   option("logistics", "Lojistik", "Logistics", "blue"),
   option("manufacturing", "Üretim", "Manufacturing", "violet"),
@@ -209,6 +232,7 @@ export function contactObject(): ObjectDef {
       { key: "email", label: t("E-posta", "Email"), type: "email" },
       { key: "phone", label: t("Telefon", "Phone"), type: "phone" },
       { key: "country", label: t("Ülke", "Country"), type: "country" },
+      ...whatsappOptInFields(),
       ...systemFields(),
     ],
     layouts: {
@@ -227,7 +251,13 @@ export function contactObject(): ObjectDef {
           {
             key: "contact",
             label: t("İletişim", "Contact"),
-            fields: ["email", "phone", "country"],
+            fields: [
+              "email",
+              "phone",
+              "country",
+              "whatsappOptIn",
+              "whatsappOptInAt",
+            ],
           },
           SYSTEM_SECTION,
         ],
@@ -272,6 +302,7 @@ export function leadObject(): ObjectDef {
       { key: "email", label: t("E-posta", "Email"), type: "email" },
       { key: "phone", label: t("Telefon", "Phone"), type: "phone" },
       { key: "country", label: t("Ülke", "Country"), type: "country" },
+      ...whatsappOptInFields(),
       {
         key: "source",
         label: t("Kaynak", "Source"),
@@ -390,7 +421,15 @@ export function leadObject(): ObjectDef {
           {
             key: "contact",
             label: t("İletişim bilgileri", "Contact details"),
-            fields: ["name", "companyName", "email", "phone", "country"],
+            fields: [
+              "name",
+              "companyName",
+              "email",
+              "phone",
+              "country",
+              "whatsappOptIn",
+              "whatsappOptInAt",
+            ],
           },
           {
             key: "qualification",

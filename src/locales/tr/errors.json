@@ -54,6 +54,17 @@
     "formNotPublished": "Seçilen form yayında değil.",
     "domainTaken": "Bu alan adı başka bir sitede kayıtlı.",
     "domainNotActive": "Alan adı doğrulanmadan birincil yapılamaz.",
-    "formClosed": "Bu form artık yanıt kabul etmiyor."
+    "formClosed": "Bu form artık yanıt kabul etmiyor.",
+    "waInvalidToken": "Meta erişim token'ı geçersiz veya süresi dolmuş (Meta hata 190).",
+    "waPhoneNotFound": "Bu Phone Number ID, WhatsApp Business hesabında bulunamadı (Meta hata 100).",
+    "waTokenRequired": "İlk bağlantı için erişim token'ı gerekli.",
+    "waNotConnected": "WhatsApp Business hesabı bağlı değil.",
+    "windowClosed": "24 saatlik müşteri hizmeti penceresi kapalı; yalnız onaylı şablon gönderilebilir.",
+    "noOptIn": "Kişinin WhatsApp bildirim izni yok.",
+    "templateNotApproved": "Şablon bu dilde henüz onaylanmadı.",
+    "templateManaged": "Şablonlar sektörünüze göre otomatik yönetilir ve düzenlenemez.",
+    "invalidTemplateParams": "Şablon değişkenleri boş olamaz; satır sonu ve sekme içeremez.",
+    "noRecipient": "Bu kayıt için WhatsApp alıcısı bulunamadı.",
+    "noPhone": "Alıcının telefon numarası yok."
   }
 }

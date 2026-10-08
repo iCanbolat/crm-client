@@ -39,6 +39,8 @@ import {
   findRecordRow,
   getObjectDef,
   listObjectDefs,
+  notifyAttachmentAdded,
+  notifyRecordSaved,
   parseRecordQuery,
   recordsOf,
   saveObjectDef,
@@ -509,9 +511,19 @@ const recordHandlers = [
         values: applyRecordHook(
           def.key,
           { ...values, updatedAt: new Date().toISOString() },
-          { workspaceId: auth.workspace.id, isNew: false }
+          {
+            workspaceId: auth.workspace.id,
+            isNew: false,
+            previous: row.values,
+          }
         ),
       })!
+      notifyRecordSaved({
+        workspaceId: auth.workspace.id,
+        objectKey: def.key,
+        row: updated,
+        previous: row.values,
+      })
       return HttpResponse.json(toCrmRecord(def, updated))
     })
   ),
@@ -753,22 +765,28 @@ const fileHandlers = [
       }
 
       const now = new Date().toISOString()
-      const data = files.map((file) =>
-        toAttachment(
-          db.attachments.create({
-            id: `fil_${crypto.randomUUID().slice(0, 12)}`,
-            workspaceId: auth.workspace.id,
-            objectKey: def.key,
-            recordId: row.id,
-            name: file.name,
-            size: file.size,
-            mimeType: file.type || "application/octet-stream",
-            uploadedBy: auth.user.id,
-            uploadedAt: now,
-            category,
-          })
-        )
-      )
+      const data = files.map((file) => {
+        const attachment = db.attachments.create({
+          id: `fil_${crypto.randomUUID().slice(0, 12)}`,
+          workspaceId: auth.workspace.id,
+          objectKey: def.key,
+          recordId: row.id,
+          name: file.name,
+          size: file.size,
+          mimeType: file.type || "application/octet-stream",
+          uploadedBy: auth.user.id,
+          uploadedAt: now,
+          category,
+        })
+        notifyAttachmentAdded({
+          workspaceId: auth.workspace.id,
+          objectKey: def.key,
+          recordId: row.id,
+          attachmentId: attachment.id,
+          category: category ?? null,
+        })
+        return toAttachment(attachment)
+      })
       return HttpResponse.json({ data }, { status: 201 })
     })
   ),

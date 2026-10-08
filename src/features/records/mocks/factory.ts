@@ -173,6 +173,22 @@ function money(faker: SeededFaker, min: number, max: number) {
   }
 }
 
+/**
+ * WhatsApp consent (Faz 6): two of every three people opted in when the
+ * record was created. Derived from the index so faker sequences stay put.
+ */
+function withOptIn(index: number, record: RecordRow): RecordRow {
+  const optIn = index % 3 !== 2
+  return {
+    ...record,
+    values: {
+      ...record.values,
+      whatsappOptIn: optIn,
+      whatsappOptInAt: optIn ? record.values.createdAt : null,
+    },
+  }
+}
+
 function seedWorkspaceRecords(
   workspaceId: keyof typeof RECORD_SEED_COUNTS
 ): RecordRow[] {
@@ -219,25 +235,28 @@ function seedWorkspaceRecords(
   })
 
   const fp = createSeededFaker(`records:${workspaceId}:contact`)
-  const contacts = Array.from({ length: counts.contact }, () => {
+  const contacts = Array.from({ length: counts.contact }, (_, index) => {
     const name = fp.person.fullName()
     const company = fp.helpers.arrayElement(companies)
     const domain = String(company.values.email).split("@")[1]
-    return row("contact", seedId(fp, "contact"), {
-      name,
-      title: fp.person.jobTitle(),
-      companyId: company.id,
-      email: `${asciiSlug(name)}@${domain}`,
-      phone: mobilePhone(fp),
-      country: company.values.country,
-      ownerId: company.values.ownerId,
-      tags: tags(fp),
-      ...timestamps(fp),
-    })
+    return withOptIn(
+      index,
+      row("contact", seedId(fp, "contact"), {
+        name,
+        title: fp.person.jobTitle(),
+        companyId: company.id,
+        email: `${asciiSlug(name)}@${domain}`,
+        phone: mobilePhone(fp),
+        country: company.values.country,
+        ownerId: company.values.ownerId,
+        tags: tags(fp),
+        ...timestamps(fp),
+      })
+    )
   })
 
   const fl = createSeededFaker(`records:${workspaceId}:lead`)
-  const leads = Array.from({ length: counts.lead }, () => {
+  const leads = Array.from({ length: counts.lead }, (_, index) => {
     const name = fl.person.fullName()
     const companyName = fl.company.name()
     const stage = fl.helpers.weightedArrayElement([
@@ -247,35 +266,38 @@ function seedWorkspaceRecords(
       { weight: 2, value: "converted" },
       { weight: 2, value: "lost" },
     ])
-    return row("lead", seedId(fl, "lead"), {
-      name,
-      companyName,
-      email: `${asciiSlug(name)}@${asciiSlug(companyName, "-").slice(0, 20)}.com`,
-      phone: mobilePhone(fl),
-      country: fl.helpers.weightedArrayElement(COUNTRY_WEIGHTS),
-      source: fl.helpers.arrayElement(LEAD_SOURCES).value,
-      stage,
-      lostReason:
-        stage === "lost"
-          ? fl.helpers.arrayElement([
-              "price",
-              "noResponse",
-              "notQualified",
-              "competitor",
-              "other",
-            ])
-          : null,
-      estimatedValue:
-        fl.helpers.maybe(() => money(fl, 5_000, 400_000), {
-          probability: 0.6,
-        }) ?? null,
-      message:
-        fl.helpers.maybe(() => fl.lorem.sentences(2), { probability: 0.5 }) ??
-        null,
-      ownerId: fl.helpers.arrayElement(owners),
-      tags: tags(fl),
-      ...timestamps(fl),
-    })
+    return withOptIn(
+      index,
+      row("lead", seedId(fl, "lead"), {
+        name,
+        companyName,
+        email: `${asciiSlug(name)}@${asciiSlug(companyName, "-").slice(0, 20)}.com`,
+        phone: mobilePhone(fl),
+        country: fl.helpers.weightedArrayElement(COUNTRY_WEIGHTS),
+        source: fl.helpers.arrayElement(LEAD_SOURCES).value,
+        stage,
+        lostReason:
+          stage === "lost"
+            ? fl.helpers.arrayElement([
+                "price",
+                "noResponse",
+                "notQualified",
+                "competitor",
+                "other",
+              ])
+            : null,
+        estimatedValue:
+          fl.helpers.maybe(() => money(fl, 5_000, 400_000), {
+            probability: 0.6,
+          }) ?? null,
+        message:
+          fl.helpers.maybe(() => fl.lorem.sentences(2), { probability: 0.5 }) ??
+          null,
+        ownerId: fl.helpers.arrayElement(owners),
+        tags: tags(fl),
+        ...timestamps(fl),
+      })
+    )
   })
 
   const fd = createSeededFaker(`records:${workspaceId}:deal`)

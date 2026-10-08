@@ -1,0 +1,260 @@
+{
+  "title": "WhatsApp",
+  "inbox": {
+    "title": "Inbox",
+    "description": "Conversations on your WhatsApp Business number.",
+    "listLabel": "Conversations",
+    "search": "Search people, numbers or messages",
+    "filters": {
+      "status": "Status",
+      "open": "Open",
+      "closed": "Closed",
+      "all": "All",
+      "assignee": "Assignee",
+      "assigneeAll": "Everyone",
+      "me": "Assigned to me",
+      "unassigned": "Unassigned",
+      "unread": "Unread"
+    },
+    "unreadCount_one": "{{count}} unread message",
+    "unreadCount_other": "{{count}} unread messages",
+    "unreadBadge_one": "{{count}} unread conversation",
+    "unreadBadge_other": "{{count}} unread conversations",
+    "emptyTitle": "No conversations",
+    "emptyDescription": "Conversations appear here when customers message your number.",
+    "noMatchTitle": "No matching conversations",
+    "noMatchDescription": "Change the filters and try again.",
+    "selectTitle": "Select a conversation",
+    "selectDescription": "Open a conversation on the left to read and reply.",
+    "back": "Back to conversations",
+    "you": "You: ",
+    "notConnectedTitle": "WhatsApp is not connected",
+    "notConnectedDescription": "Connect your WhatsApp Business account to use the inbox.",
+    "connect": "Connect WhatsApp",
+    "askAdmin": "An admin can set up the connection."
+  },
+  "conversation": {
+    "label": "Conversation with {{name}}",
+    "messages": "Messages",
+    "assignee": "Assignee",
+    "unassigned": "Unassigned",
+    "take": "Take",
+    "release": "Release",
+    "close": "Close conversation",
+    "reopen": "Reopen",
+    "closed": "Closed",
+    "openRecord": "Open record",
+    "openInInbox": "Open in inbox",
+    "automatic": "Automatic notification",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "customer": "Customer"
+  },
+  "context": {
+    "title": "Person",
+    "contact": "Contact",
+    "lead": "Lead",
+    "phone": "Phone",
+    "optIn": "WhatsApp opt-in",
+    "optedIn": "Opted in",
+    "optedOut": "Not opted in",
+    "unknownTitle": "Unknown number",
+    "unknownDescription": "This number is not linked to a contact or lead.",
+    "createLead": "Create lead",
+    "leadCreated": "Lead created and linked to the conversation."
+  },
+  "status": {
+    "queued": "Queued",
+    "sent": "Sent",
+    "delivered": "Delivered",
+    "read": "Read",
+    "failed": "Not delivered",
+    "retry": "Retry",
+    "errorCode": "Meta error {{code}}"
+  },
+  "window": {
+    "open": "Reply window open · {{hours}} h {{minutes}} min left",
+    "closed": "The 24-hour reply window is closed. Until the customer writes, you can only send approved templates.",
+    "never": "The customer has not written yet. The first message must be an approved template."
+  },
+  "composer": {
+    "label": "Message",
+    "placeholder": "Type a message…",
+    "placeholderClosed": "Window closed — send a template",
+    "send": "Send",
+    "sendTemplate": "Send template",
+    "hint": "Enter to send, Shift+Enter for a new line.",
+    "readOnly": "You are not allowed to send messages."
+  },
+  "sendTemplate": {
+    "title": "Send template",
+    "description": "Approved utility templates can be sent outside the 24-hour window.",
+    "template": "Template",
+    "templatePlaceholder": "Select a template",
+    "language": "Language",
+    "record": "About: {{label}}",
+    "variables": "Variables",
+    "variable": "Variable {{n}} — {{source}}",
+    "preview": "Preview",
+    "noTemplates": "No approved templates for this record.",
+    "missing": "Fill in the empty variables.",
+    "noOptIn": "This person has not opted in to WhatsApp updates; templates cannot be sent.",
+    "noOptInHint": "Consent is given in the \"WhatsApp opt-in\" field of the contact or lead.",
+    "submit": "Send",
+    "sent": "Template sent.",
+    "relatedRecord": "Related record",
+    "noRecord": "No record — enter the values manually"
+  },
+  "recordTab": {
+    "tab": "WhatsApp",
+    "recipient": "Recipient",
+    "noRecipientTitle": "No WhatsApp recipient",
+    "noRecipientDescription": "Link a contact with a phone number to this record.",
+    "noPhoneTitle": "No phone number",
+    "noPhoneDescription": "Add a phone number for {{name}}.",
+    "emptyTitle": "No conversation yet",
+    "emptyDescription": "Start a conversation with {{name}} using a template.",
+    "start": "Start with a template",
+    "hiddenTitle": "Not assigned to you",
+    "hiddenDescription": "The conversation with this person is assigned to another team member."
+  },
+  "settings": {
+    "title": "WhatsApp",
+    "description": "Connect your own Meta WhatsApp Business account and manage templates and automatic notifications.",
+    "tabs": {
+      "connection": "Connection",
+      "templates": "Templates",
+      "notifications": "Automatic notifications"
+    },
+    "readOnly": "Only owners and admins can change these settings."
+  },
+  "connection": {
+    "title": "WhatsApp Business account",
+    "connected": "Connected",
+    "notConnected": "Not connected",
+    "intro": "Messages are sent from your own Meta account and number; Meta bills you directly.",
+    "steps": {
+      "title": "Before you connect",
+      "app": "Create an app in Meta for Developers and add the WhatsApp product.",
+      "systemUser": "Create a system user in Business Manager and generate a permanent token with the whatsapp_business_messaging and whatsapp_business_management permissions.",
+      "ids": "Copy the WhatsApp Business Account ID and Phone Number ID from WhatsApp Manager.",
+      "webhook": "Enter the webhook URL and verify token below in your app and subscribe to the \"messages\" field."
+    },
+    "wabaId": "WhatsApp Business Account ID",
+    "phoneNumberId": "Phone Number ID",
+    "accessToken": "Permanent access token",
+    "accessTokenHelp": "System user token. It is never shown again after saving.",
+    "accessTokenKeep": "Leave empty to keep the saved token (••••{{last4}}).",
+    "appSecret": "App secret (optional)",
+    "appSecretHelp": "Used to verify the webhook signature (X-Hub-Signature-256).",
+    "idInvalid": "Enter a numeric ID of 6–20 digits.",
+    "tokenInvalid": "The token must be at least 20 characters.",
+    "secretInvalid": "The app secret is a 32-character hexadecimal value.",
+    "test": "Test connection",
+    "testing": "Testing…",
+    "testOk": "Connection works: {{name}} · {{number}}",
+    "connect": "Connect",
+    "save": "Save",
+    "cancel": "Cancel",
+    "edit": "Update details",
+    "disconnect": "Disconnect",
+    "disconnectTitle": "Disconnect WhatsApp?",
+    "disconnectDescription": "Sending and automatic notifications stop and templates are removed. Conversation history is kept.",
+    "number": "Number",
+    "verifiedName": "Verified name",
+    "quality": "Quality rating",
+    "tier": "Daily messaging limit",
+    "token": "Access token",
+    "tokenValue": "••••{{last4}} · updated {{date}}",
+    "connectedAt": "Connected on",
+    "qualities": {
+      "GREEN": "High",
+      "YELLOW": "Medium",
+      "RED": "Low",
+      "UNKNOWN": "Unknown"
+    },
+    "tiers": {
+      "TIER_250": "250 people / day",
+      "TIER_1K": "1,000 people / day",
+      "TIER_10K": "10,000 people / day",
+      "TIER_100K": "100,000 people / day",
+      "TIER_UNLIMITED": "Unlimited"
+    }
+  },
+  "webhook": {
+    "title": "Webhook",
+    "description": "Incoming messages and delivery statuses are sent to this URL.",
+    "url": "Callback URL",
+    "verifyToken": "Verify token",
+    "fields": "Subscribe to the field: messages",
+    "copy": "Copy {{label}}",
+    "copied": "Copied"
+  },
+  "templates": {
+    "managedTitle": "Managed for your industry",
+    "managedDescription": "These utility templates are prepared for your {{modules}} industry, submitted to your WhatsApp Business account automatically and used once Meta approves them. Templates cannot be edited.",
+    "sync": "Sync again",
+    "notConnected": "Templates are submitted for Meta's review as soon as WhatsApp is connected.",
+    "object": "Record: {{object}}",
+    "variables": "Variables",
+    "preview": "{{language}} preview",
+    "languages": {
+      "tr": "Turkish",
+      "en": "English"
+    },
+    "statuses": {
+      "pending": "In review",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "paused": "Paused",
+      "disabled": "Disabled",
+      "notSubmitted": "Awaiting connection"
+    },
+    "statusLabel": "{{language}}: {{status}}",
+    "rejection": "Rejection reason: {{reason}}",
+    "rejections": {
+      "INVALID_FORMAT": "The format does not follow Meta's rules.",
+      "TAG_CONTENT_MISMATCH": "The content does not match the selected category (utility).",
+      "PROMOTIONAL": "Promotional content is not allowed in utility templates."
+    },
+    "sources": {
+      "recipient": "Recipient's name",
+      "workspace": "Your company name",
+      "event": "Data from the event",
+      "field": "{{field}}"
+    },
+    "empty": "Your active modules have no WhatsApp templates."
+  },
+  "notifications": {
+    "title": "Automatic notifications",
+    "description": "When the event happens, the approved template is sent to the related person automatically — only to people who opted in.",
+    "toggle": "Turn {{label}} notification on or off",
+    "template": "Template: {{name}}",
+    "notConnected": "Connect WhatsApp first to use automatic notifications.",
+    "templatePending": "Template awaiting approval",
+    "logTitle": "Delivery log",
+    "logDescription": "Last 100 automatic notifications.",
+    "logEmpty": "No automatic notifications yet.",
+    "columns": {
+      "time": "Time",
+      "trigger": "Notification",
+      "record": "Record",
+      "result": "Result"
+    },
+    "sent": "Sent",
+    "skipped": "Skipped",
+    "reasons": {
+      "notConnected": "WhatsApp not connected",
+      "templateNotApproved": "Template not approved",
+      "noRecipient": "No recipient",
+      "noPhone": "No phone number",
+      "noOptIn": "No WhatsApp opt-in",
+      "missingParams": "Template variables missing"
+    }
+  },
+  "toast": {
+    "connected": "WhatsApp Business account connected.",
+    "disconnected": "WhatsApp disconnected.",
+    "synced": "Templates synced."
+  }
+}

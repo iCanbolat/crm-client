@@ -737,6 +737,10 @@ function seedWorkspace(
       destination: location(lane.destination),
       ...dates,
       customerId,
+      contactId:
+        source?.document.contactId ??
+        contacts.find((row) => row.values.companyId === customerId)?.id ??
+        null,
       shipperId: customerId,
       consigneeId: agent?.id ?? null,
       notifyPartyId: null,

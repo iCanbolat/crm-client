@@ -8,6 +8,8 @@ export {
   getActiveModules,
   getDashboardWidgets,
   getFormBlocks,
+  getMessageTemplates,
+  getMessageTriggers,
   getModule,
   getModules,
   isModuleActive,

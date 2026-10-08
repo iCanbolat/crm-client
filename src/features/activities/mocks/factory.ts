@@ -22,7 +22,7 @@ export interface TaskRow extends Omit<Task, "assigneeName" | "related"> {
   related: { objectKey: string; recordId: string } | null
 }
 
-const SUBJECTS: Record<Exclude<ActivityType, "note">, string[]> = {
+const SUBJECTS: Record<Exclude<ActivityType, "note" | "whatsapp">, string[]> = {
   call: [
     "Fiyat görüşmesi",
     "Tanışma araması",

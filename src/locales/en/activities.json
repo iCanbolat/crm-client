@@ -3,7 +3,8 @@
     "note": "Note",
     "call": "Call",
     "email": "Email",
-    "meeting": "Meeting"
+    "meeting": "Meeting",
+    "whatsapp": "WhatsApp"
   },
   "directions": {
     "outbound": "Outbound",

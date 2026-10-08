@@ -34,6 +34,7 @@ import {
   setScenarioState,
   useScenarioState,
 } from "../scenarios/scenario-store"
+import { WhatsappSimulator } from "./whatsapp-simulator"
 
 interface DevToolbarProps {
   /** Called after a quick sign-in so the app can route into the shell. */
@@ -153,6 +154,10 @@ export default function DevToolbar({ onSignedIn }: DevToolbarProps) {
               {t("quickLoginHint")}
             </p>
           </div>
+
+          <Separator />
+
+          <WhatsappSimulator />
 
           <Separator />
 

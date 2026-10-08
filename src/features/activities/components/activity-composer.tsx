@@ -19,10 +19,10 @@ import { applyServerFieldErrors } from "@/lib/forms"
 
 import { useCreateActivity } from "../api/activities.mutations"
 import {
-  ACTIVITY_TYPES,
   activityInputSchema,
   DIRECTIONS,
-  type ActivityType,
+  LOGGABLE_ACTIVITY_TYPES,
+  type LoggableActivityType,
 } from "../api/activities.schemas"
 import { ACTIVITY_ICONS } from "./activity-icons"
 
@@ -32,7 +32,7 @@ interface ActivityComposerProps {
 }
 
 interface Draft {
-  type: ActivityType
+  type: LoggableActivityType
   subject: string
   body: string
   occurredAt: string
@@ -40,7 +40,7 @@ interface Draft {
   direction: (typeof DIRECTIONS)[number]
 }
 
-const emptyDraft = (type: ActivityType): Draft => ({
+const emptyDraft = (type: LoggableActivityType): Draft => ({
   type,
   subject: "",
   body: "",
@@ -116,12 +116,12 @@ export function ActivityComposer({
         aria-label={t("composer.type")}
         value={[draft.type]}
         onValueChange={(value) => {
-          const next = value[0] as ActivityType | undefined
+          const next = value[0] as LoggableActivityType | undefined
           if (next) update({ type: next })
         }}
         className="flex-wrap"
       >
-        {ACTIVITY_TYPES.map((type) => {
+        {LOGGABLE_ACTIVITY_TYPES.map((type) => {
           const Icon = ACTIVITY_ICONS[type]
           return (
             <ToggleGroupItem key={type} value={type}>

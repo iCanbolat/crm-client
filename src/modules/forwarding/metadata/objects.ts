@@ -351,6 +351,13 @@ export function shipmentObject(): ObjectDef {
         required: true,
         system: true,
       },
+      // WhatsApp updates go to this person (Faz 6).
+      {
+        key: "contactId",
+        label: t("Müşteri irtibat kişisi", "Customer contact"),
+        type: "relation",
+        relation: relation("contact"),
+      },
       {
         key: "shipperId",
         label: t("Gönderici (shipper)", "Shipper"),
@@ -475,6 +482,7 @@ export function shipmentObject(): ObjectDef {
             label: t("Taraflar", "Parties"),
             fields: [
               "customerId",
+              "contactId",
               "shipperId",
               "consigneeId",
               "notifyPartyId",

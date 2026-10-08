@@ -24,6 +24,20 @@ import type {
   FormRow,
   FormVersionRow,
 } from "@/features/form-builder/mocks/types"
+import {
+  seedConversations,
+  seedWaChannels,
+  seedWaSettings,
+  seedWaTemplates,
+} from "@/features/messaging/mocks/seed"
+import type {
+  ConversationRow,
+  DispatchRow,
+  MessageRow,
+  WaChannelRow,
+  WaSettingsRow,
+  WaTemplateRow,
+} from "@/features/messaging/mocks/types"
 import { seedSites } from "@/features/sites/mocks/seed"
 import type { DomainRow, SiteRow } from "@/features/sites/mocks/types"
 import { seedSubmissions } from "@/features/submissions/mocks/seed"
@@ -175,6 +189,36 @@ export const db = {
         },
         seedForwarding(seedRecords()).records
       ),
+    onChange: notify,
+  }),
+  // WhatsApp channel (Faz 6)
+  waChannels: createCollection<WaChannelRow>({
+    name: "waChannels",
+    seed: seedWaChannels,
+    onChange: notify,
+  }),
+  waSettings: createCollection<WaSettingsRow>({
+    name: "waSettings",
+    seed: seedWaSettings,
+    onChange: notify,
+  }),
+  waTemplates: createCollection<WaTemplateRow>({
+    name: "waTemplates",
+    seed: seedWaTemplates,
+    onChange: notify,
+  }),
+  conversations: createCollection<ConversationRow>({
+    name: "conversations",
+    seed: () => seedConversations().conversations,
+    onChange: notify,
+  }),
+  messages: createCollection<MessageRow>({
+    name: "messages",
+    seed: () => seedConversations().messages,
+    onChange: notify,
+  }),
+  messageDispatches: createCollection<DispatchRow>({
+    name: "messageDispatches",
     onChange: notify,
   }),
 }

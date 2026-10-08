@@ -1,6 +1,7 @@
 import { http, HttpResponse } from "msw"
 import { z } from "zod"
 
+import { dispatchMessageEvent } from "@/features/messaging/mocks/dispatch"
 import { findRecordRow, getObjectDef } from "@/features/records/mocks/store"
 import { authenticate, authorize } from "@/mocks/auth/authenticate"
 import { db } from "@/mocks/db"
@@ -135,6 +136,12 @@ export const shipmentHandlers = [
       }
       db.records.update(row.id, {
         values: shipmentHook(values, { workspaceId, isNew: false }),
+      })
+      dispatchMessageEvent(workspaceId, {
+        type: "shipment.milestone",
+        objectKey: "shipment",
+        recordId: row.id,
+        data: { milestone },
       })
       return HttpResponse.json(listResponse(row.id), { status: 201 })
     })

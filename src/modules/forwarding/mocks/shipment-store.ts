@@ -84,6 +84,7 @@ export function createShipmentFromQuote(
       atd: null,
       ata: null,
       customerId: document.companyId,
+      contactId: document.contactId ?? null,
       shipperId: document.companyId,
       consigneeId: null,
       notifyPartyId: null,

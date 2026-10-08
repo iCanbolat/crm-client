@@ -22,7 +22,9 @@
     "objects": "Objects",
     "forms": "Forms",
     "site": "Site & Domains",
-    "submissions": "Submissions"
+    "submissions": "Submissions",
+    "inbox": "Inbox",
+    "whatsapp": "WhatsApp"
   },
   "crumbs": {
     "dashboard": "Dashboard",
@@ -42,7 +44,9 @@
     "forms": "Forms",
     "form": "Form",
     "site": "Site & Domains",
-    "submissions": "Submissions"
+    "submissions": "Submissions",
+    "inbox": "Inbox",
+    "whatsapp": "WhatsApp"
   },
   "command": {
     "open": "Open command palette",

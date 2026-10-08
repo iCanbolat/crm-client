@@ -21,6 +21,11 @@ export type Action = (typeof ACTIONS)[number]
  *   everyone may read it (it is public anyway, and embed codes need it)
  * - `submission`: form submissions inbox (`update` = status, `manage` =
  *   convert to a record) (B5.6)
+ * - `channel`: WhatsApp Business connection, credentials, automatic
+ *   notifications and their log (Faz 6)
+ * - `conversation`: WhatsApp inbox (`create` = send, `update` = assign /
+ *   close, `manage` = assign to others). Agents only see conversations
+ *   assigned to them or to nobody — a visibility rule of the API.
  */
 export const RESOURCES = [
   "record",
@@ -30,6 +35,8 @@ export const RESOURCES = [
   "form",
   "site",
   "submission",
+  "channel",
+  "conversation",
 ] as const
 export type Resource = (typeof RESOURCES)[number]
 
@@ -61,6 +68,8 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     form: { any: ALL },
     site: { any: ALL },
     submission: { any: ALL },
+    channel: { any: ALL },
+    conversation: { any: ALL },
   },
   admin: {
     record: { any: ALL },
@@ -71,6 +80,8 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     form: { any: ALL },
     site: { any: ALL },
     submission: { any: ALL },
+    channel: { any: ALL },
+    conversation: { any: ALL },
   },
   manager: {
     record: { any: ["read", "create", "update", "delete"] },
@@ -80,6 +91,8 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     form: { any: ALL },
     site: { any: ["read"] },
     submission: { any: ALL },
+    channel: { any: ["read"] },
+    conversation: { any: ALL },
   },
   agent: {
     record: { any: ["read", "create"], own: ["update", "delete"] },
@@ -88,6 +101,7 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     form: { any: ["read"] },
     site: { any: ["read"] },
     submission: { any: ["read"] },
+    conversation: { any: ["read", "create", "update"] },
   },
   viewer: {
     record: { any: ["read"] },
@@ -97,6 +111,7 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     form: { any: ["read"] },
     site: { any: ["read"] },
     submission: { any: ["read"] },
+    conversation: { any: ["read"] },
   },
 }
 

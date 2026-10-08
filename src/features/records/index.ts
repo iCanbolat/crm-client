@@ -55,7 +55,7 @@ export type {
 export { useObjectCrumb, useRecordCrumb } from "./components/crumbs"
 export { FilterBar } from "./components/filter-bar"
 export { RECORD_TABS, RecordDetailPage } from "./components/record-detail-page"
-export type { RecordTab } from "./components/record-detail-page"
+export type { RecordExtraTab, RecordTab } from "./components/record-detail-page"
 export { RecordForm } from "./components/record-form"
 export { RecordFormPage } from "./components/record-form-page"
 export { RecordFormSheet } from "./components/record-form-sheet"

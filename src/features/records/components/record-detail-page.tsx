@@ -36,8 +36,15 @@ import { RecordFormSheet } from "./record-form-sheet"
 import { RelatedList } from "./related-list"
 import { StageStepper } from "./stage-stepper"
 
-export const RECORD_TABS = ["details", "timeline", "files"] as const
+export const RECORD_TABS = ["details", "timeline", "files", "whatsapp"] as const
 export type RecordTab = (typeof RECORD_TABS)[number]
+
+/** Tab another feature contributes through the route (e.g. WhatsApp). */
+export interface RecordExtraTab {
+  value: Exclude<RecordTab, "details" | "timeline" | "files">
+  label: string
+  content: ReactNode
+}
 
 interface RecordDetailPageProps {
   objectDef: ObjectDef
@@ -48,8 +55,13 @@ interface RecordDetailPageProps {
   timeline: ReactNode
   /** Extra header actions (e.g. "Convert" of a lead). */
   actions?: (record: CrmRecord) => ReactNode
+  /** Tabs after "Files"; an unavailable tab in the URL shows "Details". */
+  extraTabs?: RecordExtraTab[]
   onDeleted: () => void
 }
+
+const isExtraTab = (tab: RecordTab) =>
+  tab !== "details" && tab !== "timeline" && tab !== "files"
 
 /** Generic record page: `/o/$objectKey/$recordId` (B2.3). */
 export function RecordDetailPage({
@@ -59,6 +71,7 @@ export function RecordDetailPage({
   onTabChange,
   timeline,
   actions,
+  extraTabs = [],
   onDeleted,
 }: RecordDetailPageProps) {
   const { t } = useTranslation(["records", "common"])
@@ -158,7 +171,11 @@ export function RecordDetailPage({
       </header>
 
       <Tabs
-        value={tab}
+        value={
+          isExtraTab(tab) && !extraTabs.some((item) => item.value === tab)
+            ? "details"
+            : tab
+        }
         onValueChange={(value) => onTabChange(value as RecordTab)}
       >
         <TabsList>
@@ -167,6 +184,11 @@ export function RecordDetailPage({
             {t("detail.tabs.timeline")}
           </TabsTrigger>
           <TabsTrigger value="files">{t("detail.tabs.files")}</TabsTrigger>
+          {extraTabs.map((item) => (
+            <TabsTrigger key={item.value} value={item.value}>
+              {item.label}
+            </TabsTrigger>
+          ))}
         </TabsList>
 
         <TabsContent value="details" className="pt-4">
@@ -257,6 +279,11 @@ export function RecordDetailPage({
             categories={objectDef.fileCategories}
           />
         </TabsContent>
+        {extraTabs.map((item) => (
+          <TabsContent key={item.value} value={item.value} className="pt-4">
+            {item.content}
+          </TabsContent>
+        ))}
       </Tabs>
 
       <RecordFormSheet

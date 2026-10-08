@@ -16,6 +16,7 @@ import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppExamplesRouteImport } from './routes/_app/examples'
 import { Route as AppFormsRouteImport } from './routes/_app/forms'
+import { Route as AppInboxRouteImport } from './routes/_app/inbox'
 import { Route as AppQuotesRouteImport } from './routes/_app/quotes'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppSiteRouteImport } from './routes/_app/site'
@@ -32,6 +33,7 @@ import { Route as AppQuotesNewRouteImport } from './routes/_app/quotes/new'
 import { Route as AppSettingsIndexRouteImport } from './routes/_app/settings/index'
 import { Route as AppSettingsMembersRouteImport } from './routes/_app/settings/members'
 import { Route as AppSettingsObjectsRouteImport } from './routes/_app/settings/objects'
+import { Route as AppSettingsWhatsappRouteImport } from './routes/_app/settings/whatsapp'
 import { Route as AppFormsFormIdIndexRouteImport } from './routes/_app/forms/$formId/index'
 import { Route as AppFormsFormIdEditRouteImport } from './routes/_app/forms/$formId/edit'
 import { Route as AppFormsFormIdSubmissionsRouteImport } from './routes/_app/forms/$formId/submissions'
@@ -76,6 +78,11 @@ const AppExamplesRoute = AppExamplesRouteImport.update({
 const AppFormsRoute = AppFormsRouteImport.update({
   id: '/forms',
   path: '/forms',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppInboxRoute = AppInboxRouteImport.update({
+  id: '/inbox',
+  path: '/inbox',
   getParentRoute: () => AppRoute,
 } as any)
 const AppQuotesRoute = AppQuotesRouteImport.update({
@@ -158,6 +165,11 @@ const AppSettingsObjectsRoute = AppSettingsObjectsRouteImport.update({
   path: '/objects',
   getParentRoute: () => AppSettingsRoute,
 } as any)
+const AppSettingsWhatsappRoute = AppSettingsWhatsappRouteImport.update({
+  id: '/whatsapp',
+  path: '/whatsapp',
+  getParentRoute: () => AppSettingsRoute,
+} as any)
 const AppFormsFormIdIndexRoute = AppFormsFormIdIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -229,6 +241,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AppDashboardRoute
   '/examples': typeof AppExamplesRoute
   '/forms': typeof AppFormsRouteWithChildren
+  '/inbox': typeof AppInboxRoute
   '/quotes': typeof AppQuotesRouteWithChildren
   '/settings': typeof AppSettingsRouteWithChildren
   '/site': typeof AppSiteRoute
@@ -242,6 +255,7 @@ export interface FileRoutesByFullPath {
   '/quotes/new': typeof AppQuotesNewRoute
   '/settings/members': typeof AppSettingsMembersRoute
   '/settings/objects': typeof AppSettingsObjectsRouteWithChildren
+  '/settings/whatsapp': typeof AppSettingsWhatsappRoute
   '/forms/': typeof AppFormsIndexRoute
   '/quotes/': typeof AppQuotesIndexRoute
   '/settings/': typeof AppSettingsIndexRoute
@@ -263,6 +277,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof OnboardingRoute
   '/dashboard': typeof AppDashboardRoute
   '/examples': typeof AppExamplesRoute
+  '/inbox': typeof AppInboxRoute
   '/site': typeof AppSiteRoute
   '/submissions': typeof AppSubmissionsRoute
   '/tasks': typeof AppTasksRoute
@@ -270,6 +285,7 @@ export interface FileRoutesByTo {
   '/login': typeof AuthLoginRoute
   '/quotes/new': typeof AppQuotesNewRoute
   '/settings/members': typeof AppSettingsMembersRoute
+  '/settings/whatsapp': typeof AppSettingsWhatsappRoute
   '/forms': typeof AppFormsIndexRoute
   '/quotes': typeof AppQuotesIndexRoute
   '/settings': typeof AppSettingsIndexRoute
@@ -294,6 +310,7 @@ export interface FileRoutesById {
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/examples': typeof AppExamplesRoute
   '/_app/forms': typeof AppFormsRouteWithChildren
+  '/_app/inbox': typeof AppInboxRoute
   '/_app/quotes': typeof AppQuotesRouteWithChildren
   '/_app/settings': typeof AppSettingsRouteWithChildren
   '/_app/site': typeof AppSiteRoute
@@ -307,6 +324,7 @@ export interface FileRoutesById {
   '/_app/quotes/new': typeof AppQuotesNewRoute
   '/_app/settings/members': typeof AppSettingsMembersRoute
   '/_app/settings/objects': typeof AppSettingsObjectsRouteWithChildren
+  '/_app/settings/whatsapp': typeof AppSettingsWhatsappRoute
   '/_app/forms/': typeof AppFormsIndexRoute
   '/_app/quotes/': typeof AppQuotesIndexRoute
   '/_app/settings/': typeof AppSettingsIndexRoute
@@ -331,6 +349,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/examples'
     | '/forms'
+    | '/inbox'
     | '/quotes'
     | '/settings'
     | '/site'
@@ -344,6 +363,7 @@ export interface FileRouteTypes {
     | '/quotes/new'
     | '/settings/members'
     | '/settings/objects'
+    | '/settings/whatsapp'
     | '/forms/'
     | '/quotes/'
     | '/settings/'
@@ -365,6 +385,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/dashboard'
     | '/examples'
+    | '/inbox'
     | '/site'
     | '/submissions'
     | '/tasks'
@@ -372,6 +393,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/quotes/new'
     | '/settings/members'
+    | '/settings/whatsapp'
     | '/forms'
     | '/quotes'
     | '/settings'
@@ -395,6 +417,7 @@ export interface FileRouteTypes {
     | '/_app/dashboard'
     | '/_app/examples'
     | '/_app/forms'
+    | '/_app/inbox'
     | '/_app/quotes'
     | '/_app/settings'
     | '/_app/site'
@@ -408,6 +431,7 @@ export interface FileRouteTypes {
     | '/_app/quotes/new'
     | '/_app/settings/members'
     | '/_app/settings/objects'
+    | '/_app/settings/whatsapp'
     | '/_app/forms/'
     | '/_app/quotes/'
     | '/_app/settings/'
@@ -481,6 +505,13 @@ declare module '@tanstack/react-router' {
       path: '/forms'
       fullPath: '/forms'
       preLoaderRoute: typeof AppFormsRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/_app/inbox': {
+      id: '/_app/inbox'
+      path: '/inbox'
+      fullPath: '/inbox'
+      preLoaderRoute: typeof AppInboxRouteImport
       parentRoute: typeof AppRoute
     }
     '/_app/quotes': {
@@ -593,6 +624,13 @@ declare module '@tanstack/react-router' {
       path: '/objects'
       fullPath: '/settings/objects'
       preLoaderRoute: typeof AppSettingsObjectsRouteImport
+      parentRoute: typeof AppSettingsRoute
+    }
+    '/_app/settings/whatsapp': {
+      id: '/_app/settings/whatsapp'
+      path: '/whatsapp'
+      fullPath: '/settings/whatsapp'
+      preLoaderRoute: typeof AppSettingsWhatsappRouteImport
       parentRoute: typeof AppSettingsRoute
     }
     '/_app/forms/$formId/': {
@@ -757,12 +795,14 @@ const AppSettingsObjectsRouteWithChildren =
 interface AppSettingsRouteChildren {
   AppSettingsMembersRoute: typeof AppSettingsMembersRoute
   AppSettingsObjectsRoute: typeof AppSettingsObjectsRouteWithChildren
+  AppSettingsWhatsappRoute: typeof AppSettingsWhatsappRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
 }
 
 const AppSettingsRouteChildren: AppSettingsRouteChildren = {
   AppSettingsMembersRoute: AppSettingsMembersRoute,
   AppSettingsObjectsRoute: AppSettingsObjectsRouteWithChildren,
+  AppSettingsWhatsappRoute: AppSettingsWhatsappRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
 }
 
@@ -805,6 +845,7 @@ interface AppRouteChildren {
   AppDashboardRoute: typeof AppDashboardRoute
   AppExamplesRoute: typeof AppExamplesRoute
   AppFormsRoute: typeof AppFormsRouteWithChildren
+  AppInboxRoute: typeof AppInboxRoute
   AppQuotesRoute: typeof AppQuotesRouteWithChildren
   AppSettingsRoute: typeof AppSettingsRouteWithChildren
   AppSiteRoute: typeof AppSiteRoute
@@ -817,6 +858,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppDashboardRoute: AppDashboardRoute,
   AppExamplesRoute: AppExamplesRoute,
   AppFormsRoute: AppFormsRouteWithChildren,
+  AppInboxRoute: AppInboxRoute,
   AppQuotesRoute: AppQuotesRouteWithChildren,
   AppSettingsRoute: AppSettingsRouteWithChildren,
   AppSiteRoute: AppSiteRoute,

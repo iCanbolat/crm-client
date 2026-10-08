@@ -1,8 +1,14 @@
 import { createFileRoute, stripSearchParams } from "@tanstack/react-router"
+import { useTranslation } from "react-i18next"
 import { z } from "zod"
 
 import { RecordTimeline } from "@/features/activities"
 import { ConvertLeadButton } from "@/features/leads"
+import {
+  messagingQueries,
+  RecordWhatsappTab,
+  useHasWhatsappTab,
+} from "@/features/messaging"
 import {
   RECORD_TABS,
   RecordDetailPage,
@@ -17,6 +23,9 @@ const searchSchema = z.object({
 export const Route = createFileRoute("/_app/o/$objectKey/$recordId/")({
   validateSearch: searchSchema,
   search: { middlewares: [stripSearchParams({ tab: "details" })] },
+  // The WhatsApp tab depends on the channel; never blocks the page.
+  loader: ({ context }) =>
+    context.queryClient.prefetchQuery(messagingQueries.status()),
   component: RecordDetailRoute,
 })
 
@@ -26,6 +35,8 @@ function RecordDetailRoute() {
   const navigate = Route.useNavigate()
   const objectDef = useObjectDef(objectKey)
   const title = useRecordCrumb(objectKey, recordId)
+  const { t } = useTranslation("messaging")
+  const hasWhatsapp = useHasWhatsappTab(objectDef)
   if (!objectDef) return null
 
   return (
@@ -43,6 +54,22 @@ function RecordDetailRoute() {
           recordId={recordId}
           recordLabel={title ?? recordId}
         />
+      }
+      extraTabs={
+        hasWhatsapp
+          ? [
+              {
+                value: "whatsapp",
+                label: t("recordTab.tab"),
+                content: (
+                  <RecordWhatsappTab
+                    objectDef={objectDef}
+                    recordId={recordId}
+                  />
+                ),
+              },
+            ]
+          : []
       }
       actions={(record) =>
         objectKey === "lead" ? <ConvertLeadButton lead={record} /> : null

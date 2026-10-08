@@ -23,6 +23,10 @@ import { ScheduleCard } from "./components/shipment/schedule-card"
 import { forwardingFieldTypes } from "./field-types"
 import { forwardingFormBlocks } from "./form-blocks"
 import {
+  forwardingMessageTemplates,
+  forwardingMessageTriggers,
+} from "./message-templates"
+import {
   companyExtension,
   dealExtension,
   leadExtension,
@@ -52,6 +56,8 @@ export const forwardingModule: ModuleManifest = {
   },
   fieldTypes: forwardingFieldTypes,
   formBlocks: forwardingFormBlocks,
+  messageTemplates: forwardingMessageTemplates,
+  messageTriggers: forwardingMessageTriggers,
   recordSlots: {
     "lead.detail.sidebar": [
       { id: "forwarding.route", component: RouteCargoCard },

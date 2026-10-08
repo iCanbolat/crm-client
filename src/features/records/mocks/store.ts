@@ -57,6 +57,8 @@ export function listObjectDefs(workspaceId: string) {
 export interface RecordHookContext {
   workspaceId: string
   isNew: boolean
+  /** Values before an update. */
+  previous?: RecordValues
 }
 
 export type RecordHook = (
@@ -64,10 +66,13 @@ export type RecordHook = (
   context: RecordHookContext
 ) => RecordValues
 
-const recordHooks = new Map<string, RecordHook>()
+const recordHooks = new Map<string, Set<RecordHook>>()
 
+/** Several features/modules may maintain values of the same object. */
 export function registerRecordHook(objectKey: string, hook: RecordHook) {
-  recordHooks.set(objectKey, hook)
+  const hooks = recordHooks.get(objectKey) ?? new Set<RecordHook>()
+  hooks.add(hook)
+  recordHooks.set(objectKey, hooks)
 }
 
 export function applyRecordHook(
@@ -75,7 +80,53 @@ export function applyRecordHook(
   values: RecordValues,
   context: RecordHookContext
 ) {
-  return recordHooks.get(objectKey)?.(values, context) ?? values
+  let result = values
+  for (const hook of recordHooks.get(objectKey) ?? []) {
+    result = hook(result, context)
+  }
+  return result
+}
+
+/* ----------------------------------------------------------------------------
+ * Change listeners: side effects of saved records and uploaded files
+ * (e.g. WhatsApp notifications, Faz 6). Run after the change is stored.
+ * ------------------------------------------------------------------------- */
+
+export interface RecordSavedEvent {
+  workspaceId: string
+  objectKey: string
+  row: RecordRow
+  /** Values before an update; `null` for a new record. */
+  previous: RecordValues | null
+}
+
+export interface AttachmentAddedEvent {
+  workspaceId: string
+  objectKey: string
+  recordId: string
+  attachmentId: string
+  category: string | null
+}
+
+const savedListeners = new Set<(event: RecordSavedEvent) => void>()
+const attachmentListeners = new Set<(event: AttachmentAddedEvent) => void>()
+
+export function onRecordSaved(listener: (event: RecordSavedEvent) => void) {
+  savedListeners.add(listener)
+}
+
+export function notifyRecordSaved(event: RecordSavedEvent) {
+  for (const listener of savedListeners) listener(event)
+}
+
+export function onAttachmentAdded(
+  listener: (event: AttachmentAddedEvent) => void
+) {
+  attachmentListeners.add(listener)
+}
+
+export function notifyAttachmentAdded(event: AttachmentAddedEvent) {
+  for (const listener of attachmentListeners) listener(event)
 }
 
 export function findRecordRow(
@@ -294,5 +345,6 @@ export function createRecord(
       { workspaceId, isNew: true }
     ),
   })
+  notifyRecordSaved({ workspaceId, objectKey: def.key, row, previous: null })
   return { ok: true, row }
 }

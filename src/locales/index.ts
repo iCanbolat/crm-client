@@ -9,6 +9,7 @@ import enExample from "./en/example.json"
 import enForms from "./en/forms.json"
 import enForwarding from "./en/forwarding.json"
 import enLeads from "./en/leads.json"
+import enMessaging from "./en/messaging.json"
 import enPipelines from "./en/pipelines.json"
 import enRecords from "./en/records.json"
 import enRenderer from "./en/renderer.json"
@@ -29,6 +30,7 @@ import trExample from "./tr/example.json"
 import trForms from "./tr/forms.json"
 import trForwarding from "./tr/forwarding.json"
 import trLeads from "./tr/leads.json"
+import trMessaging from "./tr/messaging.json"
 import trPipelines from "./tr/pipelines.json"
 import trRecords from "./tr/records.json"
 import trRenderer from "./tr/renderer.json"
@@ -67,6 +69,7 @@ export const resources = {
     submissions: trSubmissions,
     sites: trSites,
     public: trPublic,
+    messaging: trMessaging,
   },
   en: {
     common: enCommon,
@@ -89,6 +92,7 @@ export const resources = {
     submissions: enSubmissions,
     sites: enSites,
     public: enPublic,
+    messaging: enMessaging,
   },
 } as const
 

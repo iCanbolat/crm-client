@@ -1,3 +1,4 @@
+import { registerFieldTypes } from "@/engine/field-types"
 import { applyModuleMetadata, type ModuleManifest } from "@/engine/modules"
 import { objectRowId, type ObjectRow } from "@/features/records/mocks/factory"
 import { forwardingModule } from "@/modules/forwarding"
@@ -11,6 +12,19 @@ const MANIFESTS: ModuleManifest[] = [
   visaEducationModule,
   healthTourismModule,
 ]
+
+// The backend formats module values too (WhatsApp template variables, CSV).
+for (const manifest of MANIFESTS) {
+  if (manifest.fieldTypes?.length) registerFieldTypes(manifest.fieldTypes)
+}
+
+/** Released manifests of a workspace's modules (data part of the backend). */
+export function getActiveManifests(moduleIds: readonly string[]) {
+  return MANIFESTS.filter(
+    (manifest) =>
+      manifest.status === "active" && moduleIds.includes(manifest.id)
+  )
+}
 
 /** Released modules may be activated; "coming soon" ones may not. */
 export function isModuleAvailable(moduleId: string) {

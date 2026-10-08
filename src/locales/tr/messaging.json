@@ -1,0 +1,260 @@
+{
+  "title": "WhatsApp",
+  "inbox": {
+    "title": "Gelen kutusu",
+    "description": "WhatsApp Business numaranıza gelen konuşmalar.",
+    "listLabel": "Konuşmalar",
+    "search": "Kişi, numara veya mesaj ara",
+    "filters": {
+      "status": "Durum",
+      "open": "Açık",
+      "closed": "Kapalı",
+      "all": "Tümü",
+      "assignee": "Atanan",
+      "assigneeAll": "Herkes",
+      "me": "Bana atanan",
+      "unassigned": "Atanmamış",
+      "unread": "Okunmamış"
+    },
+    "unreadCount_one": "{{count}} okunmamış mesaj",
+    "unreadCount_other": "{{count}} okunmamış mesaj",
+    "unreadBadge_one": "{{count}} okunmamış konuşma",
+    "unreadBadge_other": "{{count}} okunmamış konuşma",
+    "emptyTitle": "Konuşma yok",
+    "emptyDescription": "Müşterileriniz numaranıza yazdığında konuşmalar burada görünür.",
+    "noMatchTitle": "Eşleşen konuşma yok",
+    "noMatchDescription": "Filtreleri değiştirip tekrar deneyin.",
+    "selectTitle": "Bir konuşma seçin",
+    "selectDescription": "Mesajları görmek ve yanıtlamak için soldan bir konuşma açın.",
+    "back": "Konuşmalara dön",
+    "you": "Siz: ",
+    "notConnectedTitle": "WhatsApp bağlı değil",
+    "notConnectedDescription": "Gelen kutusunu kullanmak için WhatsApp Business hesabınızı bağlayın.",
+    "connect": "WhatsApp'ı bağla",
+    "askAdmin": "Bağlantıyı bir yönetici kurabilir."
+  },
+  "conversation": {
+    "label": "{{name}} ile konuşma",
+    "messages": "Mesajlar",
+    "assignee": "Atanan kişi",
+    "unassigned": "Atanmamış",
+    "take": "Üstlen",
+    "release": "Bırak",
+    "close": "Konuşmayı kapat",
+    "reopen": "Yeniden aç",
+    "closed": "Kapalı",
+    "openRecord": "Kaydı aç",
+    "openInInbox": "Gelen kutusunda aç",
+    "automatic": "Otomatik bildirim",
+    "today": "Bugün",
+    "yesterday": "Dün",
+    "customer": "Müşteri"
+  },
+  "context": {
+    "title": "Kişi",
+    "contact": "Kişi",
+    "lead": "Lead",
+    "phone": "Telefon",
+    "optIn": "WhatsApp izni",
+    "optedIn": "İzin var",
+    "optedOut": "İzin yok",
+    "unknownTitle": "Kayıtlı olmayan numara",
+    "unknownDescription": "Bu numara bir kişi veya lead'e bağlı değil.",
+    "createLead": "Lead oluştur",
+    "leadCreated": "Lead oluşturuldu ve konuşmaya bağlandı."
+  },
+  "status": {
+    "queued": "Sırada",
+    "sent": "Gönderildi",
+    "delivered": "İletildi",
+    "read": "Okundu",
+    "failed": "İletilemedi",
+    "retry": "Tekrar dene",
+    "errorCode": "Meta hata {{code}}"
+  },
+  "window": {
+    "open": "Yanıt penceresi açık · {{hours}} sa {{minutes}} dk kaldı",
+    "closed": "24 saatlik yanıt penceresi kapalı. Müşteri yazana kadar yalnız onaylı şablon gönderebilirsiniz.",
+    "never": "Müşteri henüz yazmadı. İlk mesaj onaylı bir şablon olmalı."
+  },
+  "composer": {
+    "label": "Mesaj",
+    "placeholder": "Bir mesaj yazın…",
+    "placeholderClosed": "Pencere kapalı — şablon gönderin",
+    "send": "Gönder",
+    "sendTemplate": "Şablon gönder",
+    "hint": "Göndermek için Enter, yeni satır için Shift+Enter.",
+    "readOnly": "Mesaj göndermek için yetkiniz yok."
+  },
+  "sendTemplate": {
+    "title": "Şablon gönder",
+    "description": "Onaylı utility şablonları 24 saatlik pencere dışında da gönderilebilir.",
+    "template": "Şablon",
+    "templatePlaceholder": "Şablon seçin",
+    "language": "Dil",
+    "record": "İlgili kayıt: {{label}}",
+    "variables": "Değişkenler",
+    "variable": "{{n}}. değişken — {{source}}",
+    "preview": "Önizleme",
+    "noTemplates": "Bu kayıt için onaylı şablon yok.",
+    "missing": "Boş değişkenleri doldurun.",
+    "noOptIn": "Bu kişinin WhatsApp bildirim izni yok; şablon gönderilemez.",
+    "noOptInHint": "İzin kişi veya lead kaydındaki \"WhatsApp bildirim izni\" alanından verilir.",
+    "submit": "Gönder",
+    "sent": "Şablon gönderildi.",
+    "relatedRecord": "İlgili kayıt",
+    "noRecord": "Kayıt seçilmedi — değerleri elle girin"
+  },
+  "recordTab": {
+    "tab": "WhatsApp",
+    "recipient": "Alıcı",
+    "noRecipientTitle": "WhatsApp alıcısı yok",
+    "noRecipientDescription": "Bu kayda telefon numarası olan bir kişi bağlayın.",
+    "noPhoneTitle": "Telefon numarası yok",
+    "noPhoneDescription": "{{name}} için telefon numarası ekleyin.",
+    "emptyTitle": "Henüz konuşma yok",
+    "emptyDescription": "Bir şablonla {{name}} ile konuşma başlatın.",
+    "start": "Şablonla başlat",
+    "hiddenTitle": "Konuşma size atanmamış",
+    "hiddenDescription": "Bu kişiyle konuşma başka bir ekip üyesine atanmış."
+  },
+  "settings": {
+    "title": "WhatsApp",
+    "description": "Kendi Meta WhatsApp Business hesabınızı bağlayın, şablonları ve otomatik bildirimleri yönetin.",
+    "tabs": {
+      "connection": "Bağlantı",
+      "templates": "Şablonlar",
+      "notifications": "Otomatik bildirimler"
+    },
+    "readOnly": "Ayarları yalnız sahip ve yöneticiler değiştirebilir."
+  },
+  "connection": {
+    "title": "WhatsApp Business hesabı",
+    "connected": "Bağlı",
+    "notConnected": "Bağlı değil",
+    "intro": "Mesajlar sizin Meta hesabınız ve numaranız üzerinden gönderilir; ücretlendirme Meta ile aranızdadır.",
+    "steps": {
+      "title": "Bağlamadan önce",
+      "app": "Meta for Developers'ta bir uygulama oluşturup WhatsApp ürününü ekleyin.",
+      "systemUser": "Business Manager'da bir sistem kullanıcısı oluşturun ve whatsapp_business_messaging ile whatsapp_business_management izinleriyle kalıcı token üretin.",
+      "ids": "WhatsApp Manager'dan WhatsApp Business Account ID ve Phone Number ID değerlerini kopyalayın.",
+      "webhook": "Aşağıdaki webhook adresini ve doğrulama token'ını uygulamanıza girip \"messages\" alanına abone olun."
+    },
+    "wabaId": "WhatsApp Business Account ID",
+    "phoneNumberId": "Phone Number ID",
+    "accessToken": "Kalıcı erişim token'ı",
+    "accessTokenHelp": "Sistem kullanıcısı token'ı. Kaydedildikten sonra bir daha gösterilmez.",
+    "accessTokenKeep": "Boş bırakırsanız kayıtlı token (••••{{last4}}) korunur.",
+    "appSecret": "App Secret (isteğe bağlı)",
+    "appSecretHelp": "Webhook imzasını (X-Hub-Signature-256) doğrulamak için kullanılır.",
+    "idInvalid": "6–20 haneli sayısal bir ID girin.",
+    "tokenInvalid": "Token en az 20 karakter olmalı.",
+    "secretInvalid": "App Secret 32 karakterlik onaltılık bir değerdir.",
+    "test": "Bağlantıyı test et",
+    "testing": "Test ediliyor…",
+    "testOk": "Bağlantı başarılı: {{name}} · {{number}}",
+    "connect": "Bağla",
+    "save": "Kaydet",
+    "cancel": "Vazgeç",
+    "edit": "Bilgileri güncelle",
+    "disconnect": "Bağlantıyı kes",
+    "disconnectTitle": "WhatsApp bağlantısı kesilsin mi?",
+    "disconnectDescription": "Mesaj gönderimi ve otomatik bildirimler durur, şablonlar kaldırılır. Konuşma geçmişi korunur.",
+    "number": "Numara",
+    "verifiedName": "Doğrulanmış ad",
+    "quality": "Kalite puanı",
+    "tier": "Günlük mesaj limiti",
+    "token": "Erişim token'ı",
+    "tokenValue": "••••{{last4}} · {{date}} tarihinde güncellendi",
+    "connectedAt": "Bağlantı tarihi",
+    "qualities": {
+      "GREEN": "Yüksek",
+      "YELLOW": "Orta",
+      "RED": "Düşük",
+      "UNKNOWN": "Bilinmiyor"
+    },
+    "tiers": {
+      "TIER_250": "250 kişi / gün",
+      "TIER_1K": "1.000 kişi / gün",
+      "TIER_10K": "10.000 kişi / gün",
+      "TIER_100K": "100.000 kişi / gün",
+      "TIER_UNLIMITED": "Sınırsız"
+    }
+  },
+  "webhook": {
+    "title": "Webhook",
+    "description": "Gelen mesajlar ve iletim durumları bu adrese gönderilir.",
+    "url": "Callback URL",
+    "verifyToken": "Doğrulama token'ı",
+    "fields": "Abone olunacak alan: messages",
+    "copy": "{{label}} kopyala",
+    "copied": "Kopyalandı"
+  },
+  "templates": {
+    "managedTitle": "Sektörünüze göre otomatik yönetilir",
+    "managedDescription": "Bu utility şablonları {{modules}} sektörünüz için hazırlanır, WhatsApp Business hesabınıza otomatik gönderilir ve Meta onayından sonra kullanılır. Şablonlar düzenlenemez.",
+    "sync": "Yeniden senkronize et",
+    "notConnected": "WhatsApp bağlandığında şablonlar Meta onayına otomatik gönderilir.",
+    "object": "Kayıt: {{object}}",
+    "variables": "Değişkenler",
+    "preview": "{{language}} önizleme",
+    "languages": {
+      "tr": "Türkçe",
+      "en": "İngilizce"
+    },
+    "statuses": {
+      "pending": "İncelemede",
+      "approved": "Onaylandı",
+      "rejected": "Reddedildi",
+      "paused": "Duraklatıldı",
+      "disabled": "Devre dışı",
+      "notSubmitted": "Bağlantı bekleniyor"
+    },
+    "statusLabel": "{{language}}: {{status}}",
+    "rejection": "Red gerekçesi: {{reason}}",
+    "rejections": {
+      "INVALID_FORMAT": "Biçim Meta kurallarına uymuyor.",
+      "TAG_CONTENT_MISMATCH": "İçerik seçilen kategoriyle (utility) uyuşmuyor.",
+      "PROMOTIONAL": "Tanıtım içeriği utility şablonunda kullanılamaz."
+    },
+    "sources": {
+      "recipient": "Alıcının adı",
+      "workspace": "Şirket adınız",
+      "event": "Olaydan gelen bilgi",
+      "field": "{{field}}"
+    },
+    "empty": "Aktif modülleriniz için WhatsApp şablonu yok."
+  },
+  "notifications": {
+    "title": "Otomatik bildirimler",
+    "description": "Olay gerçekleştiğinde ilgili kişiye onaylı şablon otomatik gönderilir. Yalnız WhatsApp izni olan kişilere gider.",
+    "toggle": "{{label}} bildirimini aç/kapat",
+    "template": "Şablon: {{name}}",
+    "notConnected": "Otomatik bildirimler için önce WhatsApp'ı bağlayın.",
+    "templatePending": "Şablon onay bekliyor",
+    "logTitle": "Gönderim günlüğü",
+    "logDescription": "Son 100 otomatik bildirim.",
+    "logEmpty": "Henüz otomatik bildirim yok.",
+    "columns": {
+      "time": "Zaman",
+      "trigger": "Bildirim",
+      "record": "Kayıt",
+      "result": "Sonuç"
+    },
+    "sent": "Gönderildi",
+    "skipped": "Atlandı",
+    "reasons": {
+      "notConnected": "WhatsApp bağlı değil",
+      "templateNotApproved": "Şablon onaylı değil",
+      "noRecipient": "Alıcı kişi yok",
+      "noPhone": "Telefon numarası yok",
+      "noOptIn": "WhatsApp izni yok",
+      "missingParams": "Şablon değişkenleri eksik"
+    }
+  },
+  "toast": {
+    "connected": "WhatsApp Business hesabı bağlandı.",
+    "disconnected": "WhatsApp bağlantısı kesildi.",
+    "synced": "Şablonlar senkronize edildi."
+  }
+}

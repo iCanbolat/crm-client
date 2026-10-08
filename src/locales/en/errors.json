@@ -54,6 +54,17 @@
     "formNotPublished": "The selected form is not published.",
     "domainTaken": "This domain is registered to another site.",
     "domainNotActive": "A domain must be verified before it can be primary.",
-    "formClosed": "This form is no longer accepting responses."
+    "formClosed": "This form is no longer accepting responses.",
+    "waInvalidToken": "The Meta access token is invalid or expired (Meta error 190).",
+    "waPhoneNotFound": "This phone number ID was not found in the WhatsApp Business account (Meta error 100).",
+    "waTokenRequired": "An access token is required to connect.",
+    "waNotConnected": "No WhatsApp Business account is connected.",
+    "windowClosed": "The 24-hour customer service window is closed; only approved templates can be sent.",
+    "noOptIn": "This person has not opted in to WhatsApp updates.",
+    "templateNotApproved": "The template is not approved in this language yet.",
+    "templateManaged": "Templates are managed for your industry and cannot be edited.",
+    "invalidTemplateParams": "Template variables cannot be empty or contain line breaks or tabs.",
+    "noRecipient": "No WhatsApp recipient was found for this record.",
+    "noPhone": "The recipient has no phone number."
   }
 }

@@ -6,6 +6,7 @@ import type { Action, Resource } from "@/lib/rbac"
 
 import type { AnyFieldTypeDefinition } from "../field-types/types"
 import type { FormBlockDef } from "../forms/schemas"
+import type { MessageTemplateDef, MessageTriggerDef } from "../messaging/types"
 import type {
   CrmRecord,
   DetailSection,
@@ -108,6 +109,13 @@ export interface ModuleManifest {
   dashboardWidgets?: WidgetDef[]
   /** Sector blocks of the form builder palette (B4.2). */
   formBlocks?: FormBlockDef[]
+  /**
+   * WhatsApp utility templates of the sector (Faz 6): submitted to the
+   * tenant's WABA on connect / activation; read-only for tenants.
+   */
+  messageTemplates?: MessageTemplateDef[]
+  /** Events that may send a template (tenants switch each on/off). */
+  messageTriggers?: MessageTriggerDef[]
 }
 
 export function isModuleId(value: unknown): value is ModuleId {

@@ -54,3 +54,20 @@ export function getFormBlocks(activeIds: readonly string[]) {
     (manifest) => manifest.formBlocks ?? []
   )
 }
+
+/** WhatsApp templates of the workspace's active modules (Faz 6). */
+export function getMessageTemplates(activeIds: readonly string[]) {
+  return getActiveModules(activeIds).flatMap((manifest) =>
+    (manifest.messageTemplates ?? []).map((template) => ({
+      moduleId: manifest.id,
+      template,
+    }))
+  )
+}
+
+/** WhatsApp triggers of the workspace's active modules (Faz 6). */
+export function getMessageTriggers(activeIds: readonly string[]) {
+  return getActiveModules(activeIds).flatMap(
+    (manifest) => manifest.messageTriggers ?? []
+  )
+}

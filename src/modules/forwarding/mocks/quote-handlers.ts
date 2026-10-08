@@ -1,6 +1,7 @@
 import { http, HttpResponse } from "msw"
 import { z } from "zod"
 
+import { dispatchMessageEvent } from "@/features/messaging/mocks/dispatch"
 import { getObjectDef } from "@/features/records/mocks/store"
 import { authenticate, authorize } from "@/mocks/auth/authenticate"
 import { db } from "@/mocks/db"
@@ -291,6 +292,23 @@ export const quoteHandlers = [
       }
 
       const synced = syncQuoteRecord(row, version, extra)
+      // WhatsApp notifications (Faz 6), once the header is in sync.
+      if (action === "send") {
+        dispatchMessageEvent(workspaceId, {
+          type: "quote.sent",
+          objectKey: "quote",
+          recordId: row.id,
+          data: { version: String(version.version) },
+        })
+      }
+      if (shipmentId) {
+        dispatchMessageEvent(workspaceId, {
+          type: "shipment.milestone",
+          objectKey: "shipment",
+          recordId: shipmentId,
+          data: { milestone: "BOOKED" },
+        })
+      }
       return HttpResponse.json({
         quote: toQuote(synced),
         shipmentId,

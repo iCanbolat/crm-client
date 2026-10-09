@@ -55,7 +55,7 @@ function ConversationItem({
         onClick={onOpen}
         className={cn(
           "flex w-full items-start gap-3 px-4 py-3 text-start transition-colors hover:bg-muted/60 focus-visible:bg-muted/60 focus-visible:outline-none",
-          active && "bg-muted"
+          active && "bg-muted [&_.text-muted-foreground]:text-foreground/75"
         )}
       >
         <UserAvatar name={title} className="mt-0.5 size-9" />

@@ -1,0 +1,19 @@
+{
+  "title": "Raporlar",
+  "description": "Hazır raporlarla satış ve operasyon performansını izleyin.",
+  "open": "{{name}} raporunu aç",
+  "owner": "Temsilci",
+  "allOwners": "Tüm temsilciler",
+  "ownOnly": "Yalnız sizin kayıtlarınız gösteriliyor.",
+  "currencyHint": "Tutarlar {{currency}} cinsinden.",
+  "exportCsv": "CSV indir",
+  "exported": "Rapor indirildi.",
+  "chart": "Grafik",
+  "table": "Veriler",
+  "emptyTitle": "Bu aralıkta veri yok",
+  "emptyDescription": "Tarih aralığını genişletin veya temsilci filtresini kaldırın.",
+  "mock": {
+    "noSource": "Belirtilmemiş",
+    "total": "Toplam"
+  }
+}

@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/select"
 import { formQueries } from "@/features/form-builder"
 import { getErrorMessage } from "@/lib/api"
+import { downloadText } from "@/lib/csv"
 import { formatDate, formatRelativeTime } from "@/lib/format"
 import { getCurrentLanguage } from "@/lib/i18n"
 
@@ -36,11 +37,7 @@ import {
   type SubmissionStatus,
   type SubmissionSummary,
 } from "../api/submissions.schemas"
-import {
-  downloadText,
-  SUBMISSION_CSV_COLUMNS,
-  submissionsToCsv,
-} from "../lib/csv"
+import { SUBMISSION_CSV_COLUMNS, submissionsToCsv } from "../lib/csv"
 import { SubmissionSheet } from "./submission-sheet"
 import { SubmissionStatusBadge } from "./submission-status-badge"
 

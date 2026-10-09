@@ -6,6 +6,7 @@ import { leadsHandlers } from "@/features/leads/mocks/handlers"
 import { messagingHandlers } from "@/features/messaging/mocks/handlers"
 import { pipelinesHandlers } from "@/features/pipelines/mocks/handlers"
 import { recordsHandlers } from "@/features/records/mocks/handlers"
+import { reportHandlers } from "@/features/reports/mocks/handlers"
 import { publicSiteHandlers } from "@/features/public-site/mocks/handlers"
 import { siteHandlers } from "@/features/sites/mocks/handlers"
 import { submissionHandlers } from "@/features/submissions/mocks/handlers"
@@ -30,6 +31,7 @@ export const handlers = [
   ...siteHandlers,
   ...publicSiteHandlers,
   ...submissionHandlers,
+  ...reportHandlers,
   // Sector modules
   ...forwardingHandlers,
 ]

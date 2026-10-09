@@ -26,6 +26,7 @@ import {
   forwardingMessageTemplates,
   forwardingMessageTriggers,
 } from "./message-templates"
+import { forwardingReports } from "./reports"
 import {
   companyExtension,
   dealExtension,
@@ -58,6 +59,7 @@ export const forwardingModule: ModuleManifest = {
   formBlocks: forwardingFormBlocks,
   messageTemplates: forwardingMessageTemplates,
   messageTriggers: forwardingMessageTriggers,
+  reports: forwardingReports,
   recordSlots: {
     "lead.detail.sidebar": [
       { id: "forwarding.route", component: RouteCargoCard },

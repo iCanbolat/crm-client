@@ -11,6 +11,7 @@ import {
   ListTodoIcon,
   MessageCircleIcon,
   MessagesSquareIcon,
+  ChartColumnIcon,
   ShapesIcon,
   UsersIcon,
   type LucideIcon,
@@ -54,6 +55,7 @@ type CoreLabelKey =
   | "site"
   | "inbox"
   | "whatsapp"
+  | "reports"
 
 interface CoreNavItem {
   id: CoreLabelKey
@@ -80,6 +82,12 @@ export const CORE_NAVIGATION: CoreNavGroup[] = [
         icon: MessagesSquareIcon,
         to: "/inbox",
         permission: { action: "read", resource: "conversation" },
+      },
+      {
+        id: "reports",
+        icon: ChartColumnIcon,
+        to: "/reports",
+        permission: { action: "read", resource: "report" },
       },
     ],
   },

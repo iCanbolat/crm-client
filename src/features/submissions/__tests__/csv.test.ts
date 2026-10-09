@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest"
 
+import { toCsv } from "@/lib/csv"
+
 import type { SubmissionSummary } from "../api/submissions.schemas"
-import { SUBMISSION_CSV_COLUMNS, submissionsToCsv, toCsv } from "../lib/csv"
+import { SUBMISSION_CSV_COLUMNS, submissionsToCsv } from "../lib/csv"
 
 const summary = (
   extra: Partial<SubmissionSummary> = {}

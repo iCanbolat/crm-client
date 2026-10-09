@@ -2,6 +2,7 @@ import {
   dispatchMessageEvent,
   workspaceLanguage,
 } from "@/features/messaging/mocks/dispatch"
+import { registerReportBuilder } from "@/features/reports/mocks/registry"
 import {
   onAttachmentAdded,
   onRecordSaved,
@@ -13,10 +14,25 @@ import { DOCUMENT_CATEGORY_LABELS } from "../lib/constants"
 import { dashboardHandlers } from "./dashboard-handlers"
 import { quoteHandlers } from "./quote-handlers"
 import { referenceHandlers } from "./reference-handlers"
+import {
+  buildLaneProfit,
+  buildQuoteFunnel,
+  buildRepPerformance,
+} from "./reports"
 import { shipmentHandlers } from "./shipment-handlers"
 import { shipmentHook } from "./shipment-store"
 
 registerRecordHook("shipment", shipmentHook)
+
+// Ready-made reports (B7.1) -------------------------------------------------
+
+for (const [key, build] of [
+  ["quoteFunnel", buildQuoteFunnel],
+  ["laneProfit", buildLaneProfit],
+  ["repPerformance", buildRepPerformance],
+] as const) {
+  registerReportBuilder({ key, moduleId: "forwarding", build })
+}
 
 // WhatsApp notifications of shipments (Faz 6) ------------------------------
 

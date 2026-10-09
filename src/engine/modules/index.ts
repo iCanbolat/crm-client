@@ -11,6 +11,7 @@ export {
   getMessageTemplates,
   getMessageTriggers,
   getModule,
+  getModuleReports,
   getModules,
   isModuleActive,
   registerModules,

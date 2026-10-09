@@ -24,7 +24,8 @@
     "site": "Site & Alan Adları",
     "submissions": "Gönderimler",
     "inbox": "Gelen kutusu",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "reports": "Raporlar"
   },
   "crumbs": {
     "dashboard": "Panel",
@@ -46,7 +47,9 @@
     "site": "Site & Alan Adları",
     "submissions": "Gönderimler",
     "inbox": "Gelen kutusu",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "reports": "Raporlar",
+    "report": "Rapor"
   },
   "command": {
     "open": "Komut paletini aç",

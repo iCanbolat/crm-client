@@ -24,7 +24,8 @@
     "site": "Site & Domains",
     "submissions": "Submissions",
     "inbox": "Inbox",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "reports": "Reports"
   },
   "crumbs": {
     "dashboard": "Dashboard",
@@ -46,7 +47,9 @@
     "site": "Site & Domains",
     "submissions": "Submissions",
     "inbox": "Inbox",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "reports": "Reports",
+    "report": "Report"
   },
   "command": {
     "open": "Open command palette",

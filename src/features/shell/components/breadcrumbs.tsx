@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import { useFormCrumb } from "@/features/form-builder"
 import { useObjectCrumb, useRecordCrumb } from "@/features/records"
+import { useReportCrumb } from "@/features/reports"
 
 import { useNavigation } from "../hooks/use-navigation"
 
@@ -26,6 +27,7 @@ export function Breadcrumbs() {
   const objectLabel = useObjectCrumb(params.objectKey)
   const recordLabel = useRecordCrumb(params.objectKey, params.recordId)
   const formLabel = useFormCrumb(params.formId)
+  const reportLabel = useReportCrumb(params.reportKey)
 
   const crumbs = matches.flatMap((match) => {
     const crumb = match.staticData.crumb
@@ -44,6 +46,8 @@ export function Breadcrumbs() {
       label = recordLabel ?? t("crumbs.record")
     } else if (crumb === "form") {
       label = formLabel ?? t("crumbs.form")
+    } else if (crumb === "report") {
+      label = reportLabel ?? t("crumbs.report")
     } else {
       label = t(`crumbs.${crumb}`)
     }

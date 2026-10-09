@@ -71,3 +71,13 @@ export function getMessageTriggers(activeIds: readonly string[]) {
     (manifest) => manifest.messageTriggers ?? []
   )
 }
+
+/** Ready-made reports of the workspace's active modules (B7.1). */
+export function getModuleReports(activeIds: readonly string[]) {
+  return getActiveModules(activeIds).flatMap((manifest) =>
+    (manifest.reports ?? []).map((report) => ({
+      moduleId: manifest.id,
+      report,
+    }))
+  )
+}

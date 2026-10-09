@@ -18,6 +18,7 @@ import { Route as AppExamplesRouteImport } from './routes/_app/examples'
 import { Route as AppFormsRouteImport } from './routes/_app/forms'
 import { Route as AppInboxRouteImport } from './routes/_app/inbox'
 import { Route as AppQuotesRouteImport } from './routes/_app/quotes'
+import { Route as AppReportsRouteImport } from './routes/_app/reports'
 import { Route as AppSettingsRouteImport } from './routes/_app/settings'
 import { Route as AppSiteRouteImport } from './routes/_app/site'
 import { Route as AppSubmissionsRouteImport } from './routes/_app/submissions'
@@ -30,6 +31,8 @@ import { Route as AppOObjectKeyRouteImport } from './routes/_app/o/$objectKey'
 import { Route as AppQuotesIndexRouteImport } from './routes/_app/quotes/index'
 import { Route as AppQuotesQuoteIdRouteImport } from './routes/_app/quotes/$quoteId'
 import { Route as AppQuotesNewRouteImport } from './routes/_app/quotes/new'
+import { Route as AppReportsIndexRouteImport } from './routes/_app/reports/index'
+import { Route as AppReportsReportKeyRouteImport } from './routes/_app/reports/$reportKey'
 import { Route as AppSettingsIndexRouteImport } from './routes/_app/settings/index'
 import { Route as AppSettingsMembersRouteImport } from './routes/_app/settings/members'
 import { Route as AppSettingsObjectsRouteImport } from './routes/_app/settings/objects'
@@ -88,6 +91,11 @@ const AppInboxRoute = AppInboxRouteImport.update({
 const AppQuotesRoute = AppQuotesRouteImport.update({
   id: '/quotes',
   path: '/quotes',
+  getParentRoute: () => AppRoute,
+} as any)
+const AppReportsRoute = AppReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
   getParentRoute: () => AppRoute,
 } as any)
 const AppSettingsRoute = AppSettingsRouteImport.update({
@@ -149,6 +157,16 @@ const AppQuotesNewRoute = AppQuotesNewRouteImport.update({
   id: '/new',
   path: '/new',
   getParentRoute: () => AppQuotesRoute,
+} as any)
+const AppReportsIndexRoute = AppReportsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AppReportsRoute,
+} as any)
+const AppReportsReportKeyRoute = AppReportsReportKeyRouteImport.update({
+  id: '/$reportKey',
+  path: '/$reportKey',
+  getParentRoute: () => AppReportsRoute,
 } as any)
 const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
   id: '/',
@@ -243,6 +261,7 @@ export interface FileRoutesByFullPath {
   '/forms': typeof AppFormsRouteWithChildren
   '/inbox': typeof AppInboxRoute
   '/quotes': typeof AppQuotesRouteWithChildren
+  '/reports': typeof AppReportsRouteWithChildren
   '/settings': typeof AppSettingsRouteWithChildren
   '/site': typeof AppSiteRoute
   '/submissions': typeof AppSubmissionsRoute
@@ -253,11 +272,13 @@ export interface FileRoutesByFullPath {
   '/o/$objectKey': typeof AppOObjectKeyRouteWithChildren
   '/quotes/$quoteId': typeof AppQuotesQuoteIdRouteWithChildren
   '/quotes/new': typeof AppQuotesNewRoute
+  '/reports/$reportKey': typeof AppReportsReportKeyRoute
   '/settings/members': typeof AppSettingsMembersRoute
   '/settings/objects': typeof AppSettingsObjectsRouteWithChildren
   '/settings/whatsapp': typeof AppSettingsWhatsappRoute
   '/forms/': typeof AppFormsIndexRoute
   '/quotes/': typeof AppQuotesIndexRoute
+  '/reports/': typeof AppReportsIndexRoute
   '/settings/': typeof AppSettingsIndexRoute
   '/forms/$formId/edit': typeof AppFormsFormIdEditRoute
   '/forms/$formId/submissions': typeof AppFormsFormIdSubmissionsRoute
@@ -284,10 +305,12 @@ export interface FileRoutesByTo {
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
   '/quotes/new': typeof AppQuotesNewRoute
+  '/reports/$reportKey': typeof AppReportsReportKeyRoute
   '/settings/members': typeof AppSettingsMembersRoute
   '/settings/whatsapp': typeof AppSettingsWhatsappRoute
   '/forms': typeof AppFormsIndexRoute
   '/quotes': typeof AppQuotesIndexRoute
+  '/reports': typeof AppReportsIndexRoute
   '/settings': typeof AppSettingsIndexRoute
   '/forms/$formId/edit': typeof AppFormsFormIdEditRoute
   '/forms/$formId/submissions': typeof AppFormsFormIdSubmissionsRoute
@@ -312,6 +335,7 @@ export interface FileRoutesById {
   '/_app/forms': typeof AppFormsRouteWithChildren
   '/_app/inbox': typeof AppInboxRoute
   '/_app/quotes': typeof AppQuotesRouteWithChildren
+  '/_app/reports': typeof AppReportsRouteWithChildren
   '/_app/settings': typeof AppSettingsRouteWithChildren
   '/_app/site': typeof AppSiteRoute
   '/_app/submissions': typeof AppSubmissionsRoute
@@ -322,11 +346,13 @@ export interface FileRoutesById {
   '/_app/o/$objectKey': typeof AppOObjectKeyRouteWithChildren
   '/_app/quotes/$quoteId': typeof AppQuotesQuoteIdRouteWithChildren
   '/_app/quotes/new': typeof AppQuotesNewRoute
+  '/_app/reports/$reportKey': typeof AppReportsReportKeyRoute
   '/_app/settings/members': typeof AppSettingsMembersRoute
   '/_app/settings/objects': typeof AppSettingsObjectsRouteWithChildren
   '/_app/settings/whatsapp': typeof AppSettingsWhatsappRoute
   '/_app/forms/': typeof AppFormsIndexRoute
   '/_app/quotes/': typeof AppQuotesIndexRoute
+  '/_app/reports/': typeof AppReportsIndexRoute
   '/_app/settings/': typeof AppSettingsIndexRoute
   '/_app/forms/$formId/edit': typeof AppFormsFormIdEditRoute
   '/_app/forms/$formId/submissions': typeof AppFormsFormIdSubmissionsRoute
@@ -351,6 +377,7 @@ export interface FileRouteTypes {
     | '/forms'
     | '/inbox'
     | '/quotes'
+    | '/reports'
     | '/settings'
     | '/site'
     | '/submissions'
@@ -361,11 +388,13 @@ export interface FileRouteTypes {
     | '/o/$objectKey'
     | '/quotes/$quoteId'
     | '/quotes/new'
+    | '/reports/$reportKey'
     | '/settings/members'
     | '/settings/objects'
     | '/settings/whatsapp'
     | '/forms/'
     | '/quotes/'
+    | '/reports/'
     | '/settings/'
     | '/forms/$formId/edit'
     | '/forms/$formId/submissions'
@@ -392,10 +421,12 @@ export interface FileRouteTypes {
     | '/forgot-password'
     | '/login'
     | '/quotes/new'
+    | '/reports/$reportKey'
     | '/settings/members'
     | '/settings/whatsapp'
     | '/forms'
     | '/quotes'
+    | '/reports'
     | '/settings'
     | '/forms/$formId/edit'
     | '/forms/$formId/submissions'
@@ -419,6 +450,7 @@ export interface FileRouteTypes {
     | '/_app/forms'
     | '/_app/inbox'
     | '/_app/quotes'
+    | '/_app/reports'
     | '/_app/settings'
     | '/_app/site'
     | '/_app/submissions'
@@ -429,11 +461,13 @@ export interface FileRouteTypes {
     | '/_app/o/$objectKey'
     | '/_app/quotes/$quoteId'
     | '/_app/quotes/new'
+    | '/_app/reports/$reportKey'
     | '/_app/settings/members'
     | '/_app/settings/objects'
     | '/_app/settings/whatsapp'
     | '/_app/forms/'
     | '/_app/quotes/'
+    | '/_app/reports/'
     | '/_app/settings/'
     | '/_app/forms/$formId/edit'
     | '/_app/forms/$formId/submissions'
@@ -521,6 +555,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppQuotesRouteImport
       parentRoute: typeof AppRoute
     }
+    '/_app/reports': {
+      id: '/_app/reports'
+      path: '/reports'
+      fullPath: '/reports'
+      preLoaderRoute: typeof AppReportsRouteImport
+      parentRoute: typeof AppRoute
+    }
     '/_app/settings': {
       id: '/_app/settings'
       path: '/settings'
@@ -604,6 +645,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/quotes/new'
       preLoaderRoute: typeof AppQuotesNewRouteImport
       parentRoute: typeof AppQuotesRoute
+    }
+    '/_app/reports/': {
+      id: '/_app/reports/'
+      path: '/'
+      fullPath: '/reports/'
+      preLoaderRoute: typeof AppReportsIndexRouteImport
+      parentRoute: typeof AppReportsRoute
+    }
+    '/_app/reports/$reportKey': {
+      id: '/_app/reports/$reportKey'
+      path: '/$reportKey'
+      fullPath: '/reports/$reportKey'
+      preLoaderRoute: typeof AppReportsReportKeyRouteImport
+      parentRoute: typeof AppReportsRoute
     }
     '/_app/settings/': {
       id: '/_app/settings/'
@@ -779,6 +834,20 @@ const AppQuotesRouteWithChildren = AppQuotesRoute._addFileChildren(
   AppQuotesRouteChildren,
 )
 
+interface AppReportsRouteChildren {
+  AppReportsReportKeyRoute: typeof AppReportsReportKeyRoute
+  AppReportsIndexRoute: typeof AppReportsIndexRoute
+}
+
+const AppReportsRouteChildren: AppReportsRouteChildren = {
+  AppReportsReportKeyRoute: AppReportsReportKeyRoute,
+  AppReportsIndexRoute: AppReportsIndexRoute,
+}
+
+const AppReportsRouteWithChildren = AppReportsRoute._addFileChildren(
+  AppReportsRouteChildren,
+)
+
 interface AppSettingsObjectsRouteChildren {
   AppSettingsObjectsObjectKeyRoute: typeof AppSettingsObjectsObjectKeyRoute
   AppSettingsObjectsIndexRoute: typeof AppSettingsObjectsIndexRoute
@@ -847,6 +916,7 @@ interface AppRouteChildren {
   AppFormsRoute: typeof AppFormsRouteWithChildren
   AppInboxRoute: typeof AppInboxRoute
   AppQuotesRoute: typeof AppQuotesRouteWithChildren
+  AppReportsRoute: typeof AppReportsRouteWithChildren
   AppSettingsRoute: typeof AppSettingsRouteWithChildren
   AppSiteRoute: typeof AppSiteRoute
   AppSubmissionsRoute: typeof AppSubmissionsRoute
@@ -860,6 +930,7 @@ const AppRouteChildren: AppRouteChildren = {
   AppFormsRoute: AppFormsRouteWithChildren,
   AppInboxRoute: AppInboxRoute,
   AppQuotesRoute: AppQuotesRouteWithChildren,
+  AppReportsRoute: AppReportsRouteWithChildren,
   AppSettingsRoute: AppSettingsRouteWithChildren,
   AppSiteRoute: AppSiteRoute,
   AppSubmissionsRoute: AppSubmissionsRoute,

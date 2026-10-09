@@ -13,6 +13,7 @@ import enMessaging from "./en/messaging.json"
 import enPipelines from "./en/pipelines.json"
 import enRecords from "./en/records.json"
 import enRenderer from "./en/renderer.json"
+import enReports from "./en/reports.json"
 import enSubmissions from "./en/submissions.json"
 import enSites from "./en/sites.json"
 import enPublic from "./en/public.json"
@@ -34,6 +35,7 @@ import trMessaging from "./tr/messaging.json"
 import trPipelines from "./tr/pipelines.json"
 import trRecords from "./tr/records.json"
 import trRenderer from "./tr/renderer.json"
+import trReports from "./tr/reports.json"
 import trSubmissions from "./tr/submissions.json"
 import trSites from "./tr/sites.json"
 import trPublic from "./tr/public.json"
@@ -70,6 +72,7 @@ export const resources = {
     sites: trSites,
     public: trPublic,
     messaging: trMessaging,
+    reports: trReports,
   },
   en: {
     common: enCommon,
@@ -93,6 +96,7 @@ export const resources = {
     sites: enSites,
     public: enPublic,
     messaging: enMessaging,
+    reports: enReports,
   },
 } as const
 

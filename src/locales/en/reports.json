@@ -1,0 +1,19 @@
+{
+  "title": "Reports",
+  "description": "Track sales and operations with ready-made reports.",
+  "open": "Open the {{name}} report",
+  "owner": "Sales rep",
+  "allOwners": "All sales reps",
+  "ownOnly": "Showing your records only.",
+  "currencyHint": "Amounts in {{currency}}.",
+  "exportCsv": "Download CSV",
+  "exported": "Report downloaded.",
+  "chart": "Chart",
+  "table": "Data",
+  "emptyTitle": "No data in this range",
+  "emptyDescription": "Widen the date range or clear the sales rep filter.",
+  "mock": {
+    "noSource": "Not set",
+    "total": "Total"
+  }
+}

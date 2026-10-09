@@ -15,6 +15,7 @@ import type {
   PipelineDef,
   RelatedList,
 } from "../metadata/schemas"
+import type { ReportDef } from "../reports/types"
 
 export const MODULE_IDS = [
   "forwarding",
@@ -116,6 +117,8 @@ export interface ModuleManifest {
   messageTemplates?: MessageTemplateDef[]
   /** Events that may send a template (tenants switch each on/off). */
   messageTriggers?: MessageTriggerDef[]
+  /** Ready-made reports of the sector (B7.1). */
+  reports?: ReportDef[]
 }
 
 export function isModuleId(value: unknown): value is ModuleId {

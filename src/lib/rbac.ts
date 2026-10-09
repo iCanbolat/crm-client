@@ -26,6 +26,8 @@ export type Action = (typeof ACTIONS)[number]
  * - `conversation`: WhatsApp inbox (`create` = send, `update` = assign /
  *   close, `manage` = assign to others). Agents only see conversations
  *   assigned to them or to nobody — a visibility rule of the API.
+ * - `report`: ready-made reports (B7.1). Agents only see their own numbers
+ *   — a visibility rule of the API, like conversations.
  */
 export const RESOURCES = [
   "record",
@@ -37,6 +39,7 @@ export const RESOURCES = [
   "submission",
   "channel",
   "conversation",
+  "report",
 ] as const
 export type Resource = (typeof RESOURCES)[number]
 
@@ -70,6 +73,7 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     submission: { any: ALL },
     channel: { any: ALL },
     conversation: { any: ALL },
+    report: { any: ["read"] },
   },
   admin: {
     record: { any: ALL },
@@ -82,6 +86,7 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     submission: { any: ALL },
     channel: { any: ALL },
     conversation: { any: ALL },
+    report: { any: ["read"] },
   },
   manager: {
     record: { any: ["read", "create", "update", "delete"] },
@@ -93,6 +98,7 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     submission: { any: ALL },
     channel: { any: ["read"] },
     conversation: { any: ALL },
+    report: { any: ["read"] },
   },
   agent: {
     record: { any: ["read", "create"], own: ["update", "delete"] },
@@ -102,6 +108,7 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     site: { any: ["read"] },
     submission: { any: ["read"] },
     conversation: { any: ["read", "create", "update"] },
+    report: { any: ["read"] },
   },
   viewer: {
     record: { any: ["read"] },

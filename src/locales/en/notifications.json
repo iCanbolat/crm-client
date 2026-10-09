@@ -1,0 +1,77 @@
+{
+  "label": "Notifications",
+  "labelUnread_one": "Notifications, {{count}} unread",
+  "labelUnread_other": "Notifications, {{count}} unread",
+  "title": "Notifications",
+  "markAllRead": "Mark all as read",
+  "markRead": "Mark as read",
+  "unread": "Unread",
+  "empty": "No new notifications.",
+  "preferencesLink": "Notification preferences",
+  "types": {
+    "submission": {
+      "new": {
+        "title": "New form submission",
+        "body": "{{form}}: {{title}}",
+        "bodyNoRecord": "{{form}}"
+      }
+    },
+    "whatsapp": {
+      "inbound": {
+        "title": "New WhatsApp message",
+        "body": "{{name}}: {{preview}}"
+      }
+    },
+    "record": {
+      "assigned": {
+        "title": "A record was assigned to you",
+        "body": "{{title}}",
+        "bodyByActor": "{{actor}} assigned you: {{title}}"
+      }
+    },
+    "task": {
+      "due": {
+        "title": "A task is due today",
+        "body": "{{title}}"
+      }
+    },
+    "quote": {
+      "expiring": {
+        "title": "A quote is about to expire",
+        "body": "{{title}} · valid until {{date}}"
+      }
+    },
+    "automation": {
+      "notify": {
+        "title": "{{rule}}",
+        "body": "{{title}}"
+      }
+    }
+  },
+  "preferences": {
+    "title": "Notification preferences",
+    "description": "Choose which events send you an in-app notification. Preferences apply to you only.",
+    "toggle": "Turn {{label}} notifications on/off",
+    "saved": "Notification preferences saved.",
+    "types": {
+      "submission": {
+        "new": "A new submission arrives from your forms (owner, admins and the lead owner)"
+      },
+      "whatsapp": {
+        "inbound": "A message arrives in a WhatsApp conversation assigned to you or to nobody"
+      },
+      "record": {
+        "assigned": "Someone else or an automation assigns you a record"
+      },
+      "task": {
+        "due": "One of your tasks is due"
+      },
+      "quote": {
+        "expiring": "A quote you sent expires within 2 days"
+      },
+      "automation": {
+        "notify": "An automation rule notifies you"
+      }
+    }
+  }
+}

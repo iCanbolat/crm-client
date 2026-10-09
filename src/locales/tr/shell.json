@@ -25,7 +25,8 @@
     "submissions": "Gönderimler",
     "inbox": "Gelen kutusu",
     "whatsapp": "WhatsApp",
-    "reports": "Raporlar"
+    "reports": "Raporlar",
+    "notifications": "Bildirimler"
   },
   "crumbs": {
     "dashboard": "Panel",
@@ -49,7 +50,8 @@
     "inbox": "Gelen kutusu",
     "whatsapp": "WhatsApp",
     "reports": "Raporlar",
-    "report": "Rapor"
+    "report": "Rapor",
+    "notifications": "Bildirimler"
   },
   "command": {
     "open": "Komut paletini aç",
@@ -68,10 +70,6 @@
       "language": "Dili değiştir: {{language}}",
       "signOut": "Çıkış yap"
     }
-  },
-  "notifications": {
-    "label": "Bildirimler",
-    "empty": "Henüz bildiriminiz yok."
   },
   "userMenu": {
     "label": "Kullanıcı menüsü: {{name}}",

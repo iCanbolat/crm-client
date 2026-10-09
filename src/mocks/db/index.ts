@@ -38,6 +38,11 @@ import type {
   WaSettingsRow,
   WaTemplateRow,
 } from "@/features/messaging/mocks/types"
+import { seedNotifications } from "@/features/notifications/mocks/seed"
+import type {
+  NotificationPrefRow,
+  NotificationRow,
+} from "@/features/notifications/mocks/types"
 import { seedSites } from "@/features/sites/mocks/seed"
 import type { DomainRow, SiteRow } from "@/features/sites/mocks/types"
 import { seedSubmissions } from "@/features/submissions/mocks/seed"
@@ -219,6 +224,16 @@ export const db = {
   }),
   messageDispatches: createCollection<DispatchRow>({
     name: "messageDispatches",
+    onChange: notify,
+  }),
+  // Notification center (Faz 7)
+  notifications: createCollection<NotificationRow>({
+    name: "notifications",
+    seed: () => seedNotifications(),
+    onChange: notify,
+  }),
+  notificationPrefs: createCollection<NotificationPrefRow>({
+    name: "notificationPrefs",
     onChange: notify,
   }),
 }

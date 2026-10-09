@@ -25,7 +25,8 @@
     "submissions": "Submissions",
     "inbox": "Inbox",
     "whatsapp": "WhatsApp",
-    "reports": "Reports"
+    "reports": "Reports",
+    "notifications": "Notifications"
   },
   "crumbs": {
     "dashboard": "Dashboard",
@@ -49,7 +50,8 @@
     "inbox": "Inbox",
     "whatsapp": "WhatsApp",
     "reports": "Reports",
-    "report": "Report"
+    "report": "Report",
+    "notifications": "Notifications"
   },
   "command": {
     "open": "Open command palette",
@@ -68,10 +70,6 @@
       "language": "Change language: {{language}}",
       "signOut": "Sign out"
     }
-  },
-  "notifications": {
-    "label": "Notifications",
-    "empty": "You have no notifications yet."
   },
   "userMenu": {
     "label": "User menu: {{name}}",

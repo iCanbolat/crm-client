@@ -231,13 +231,17 @@ describe("app shell (B1.3)", () => {
     expect(await screen.findByText("Toplam 6 kayıt")).toBeInTheDocument()
   })
 
-  it("shows the notifications placeholder", async () => {
+  it("shows the notification bell with the unread count", async () => {
     const { user } = await renderShell()
 
-    await user.click(screen.getByRole("button", { name: "Bildirimler" }))
+    await user.click(
+      await screen.findByRole("button", {
+        name: /^Bildirimler, \d+ okunmamış$/,
+      })
+    )
 
     expect(
-      await screen.findByText("Henüz bildiriminiz yok.")
+      await screen.findByRole("list", { name: "Bildirimler" })
     ).toBeInTheDocument()
   })
 })

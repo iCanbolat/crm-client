@@ -18,6 +18,7 @@ import { clearHiddenFields, metadataToZod } from "@/engine/records"
 import { MAX_PAGE_SIZE, type FieldErrors } from "@/lib/api"
 import i18n from "@/lib/i18n"
 import { db } from "@/mocks/db"
+import { emitMockEvent } from "@/mocks/events"
 import type { getRequestT } from "@/mocks/utils/http"
 
 import { DEFAULT_PAGE_SIZE, parseSort } from "../api/records.schemas"
@@ -98,6 +99,8 @@ export interface RecordSavedEvent {
   row: RecordRow
   /** Values before an update; `null` for a new record. */
   previous: RecordValues | null
+  /** User whose request saved the record; `null` = system / public form. */
+  actorId?: string | null
 }
 
 export interface AttachmentAddedEvent {
@@ -117,6 +120,41 @@ export function onRecordSaved(listener: (event: RecordSavedEvent) => void) {
 
 export function notifyRecordSaved(event: RecordSavedEvent) {
   for (const listener of savedListeners) listener(event)
+  emitRecordEvents(event)
+}
+
+/** Domain events of a saved record (notifications, automation; Faz 7). */
+function emitRecordEvents({
+  workspaceId,
+  objectKey,
+  row,
+  previous,
+  actorId = null,
+}: RecordSavedEvent) {
+  const base = { workspaceId, objectKey, recordId: row.id, actorId }
+  if (!previous) {
+    emitMockEvent({ ...base, type: "record.created" })
+    return
+  }
+  const ownerId = row.values.ownerId
+  if (typeof ownerId === "string" && ownerId && ownerId !== previous.ownerId) {
+    emitMockEvent({
+      ...base,
+      type: "record.assigned",
+      data: { ownerId, previousOwnerId: String(previous.ownerId ?? "") },
+    })
+  }
+  const stageField = getObjectDef(workspaceId, objectKey)?.pipeline?.field
+  if (stageField && row.values[stageField] !== previous[stageField]) {
+    emitMockEvent({
+      ...base,
+      type: "record.stageChanged",
+      data: {
+        stage: String(row.values[stageField] ?? ""),
+        previousStage: String(previous[stageField] ?? ""),
+      },
+    })
+  }
 }
 
 export function onAttachmentAdded(
@@ -308,7 +346,11 @@ export function createRecord(
   workspaceId: string,
   def: ObjectDef,
   body: RecordValues,
-  { ownerId, t }: { ownerId: string; t: RequestT }
+  {
+    ownerId,
+    t,
+    actorId = null,
+  }: { ownerId: string; t: RequestT; actorId?: string | null }
 ): CreateRecordResult {
   const input: RecordValues = {
     ownerId,
@@ -345,6 +387,12 @@ export function createRecord(
       { workspaceId, isNew: true }
     ),
   })
-  notifyRecordSaved({ workspaceId, objectKey: def.key, row, previous: null })
+  notifyRecordSaved({
+    workspaceId,
+    objectKey: def.key,
+    row,
+    previous: null,
+    actorId,
+  })
   return { ok: true, row }
 }

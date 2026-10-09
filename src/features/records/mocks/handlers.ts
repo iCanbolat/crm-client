@@ -452,6 +452,7 @@ const recordHandlers = [
         const created = createRecord(auth.workspace.id, def, body, {
           ownerId: auth.user.id,
           t,
+          actorId: auth.user.id,
         })
         if (!created.ok) {
           return validationError(t, created.fieldErrors, created.code)
@@ -523,6 +524,7 @@ const recordHandlers = [
         objectKey: def.key,
         row: updated,
         previous: row.values,
+        actorId: auth.user.id,
       })
       return HttpResponse.json(toCrmRecord(def, updated))
     })
@@ -567,6 +569,13 @@ const recordHandlers = [
       const updated = db.records.update(row.id, {
         values: { ...values, updatedAt: new Date().toISOString() },
       })!
+      notifyRecordSaved({
+        workspaceId: auth.workspace.id,
+        objectKey: def.key,
+        row: updated,
+        previous: row.values,
+        actorId: auth.user.id,
+      })
       return HttpResponse.json(toCrmRecord(def, updated))
     })
   ),
@@ -663,7 +672,16 @@ const recordHandlers = [
                     ])
                   ),
                 }
-          db.records.update(row.id, { values: { ...values, updatedAt: now } })
+          const saved = db.records.update(row.id, {
+            values: { ...values, updatedAt: now },
+          })!
+          notifyRecordSaved({
+            workspaceId: auth.workspace.id,
+            objectKey: def.key,
+            row: saved,
+            previous: row.values,
+            actorId: auth.user.id,
+          })
         }
         updated++
       }

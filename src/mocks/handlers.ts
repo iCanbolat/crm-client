@@ -4,6 +4,7 @@ import { authHandlers } from "@/features/auth/mocks/handlers"
 import { formHandlers } from "@/features/form-builder/mocks/handlers"
 import { leadsHandlers } from "@/features/leads/mocks/handlers"
 import { messagingHandlers } from "@/features/messaging/mocks/handlers"
+import { notificationHandlers } from "@/features/notifications/mocks/handlers"
 import { pipelinesHandlers } from "@/features/pipelines/mocks/handlers"
 import { recordsHandlers } from "@/features/records/mocks/handlers"
 import { reportHandlers } from "@/features/reports/mocks/handlers"
@@ -32,6 +33,7 @@ export const handlers = [
   ...publicSiteHandlers,
   ...submissionHandlers,
   ...reportHandlers,
+  ...notificationHandlers,
   // Sector modules
   ...forwardingHandlers,
 ]

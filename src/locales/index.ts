@@ -10,6 +10,7 @@ import enForms from "./en/forms.json"
 import enForwarding from "./en/forwarding.json"
 import enLeads from "./en/leads.json"
 import enMessaging from "./en/messaging.json"
+import enNotifications from "./en/notifications.json"
 import enPipelines from "./en/pipelines.json"
 import enRecords from "./en/records.json"
 import enRenderer from "./en/renderer.json"
@@ -32,6 +33,7 @@ import trForms from "./tr/forms.json"
 import trForwarding from "./tr/forwarding.json"
 import trLeads from "./tr/leads.json"
 import trMessaging from "./tr/messaging.json"
+import trNotifications from "./tr/notifications.json"
 import trPipelines from "./tr/pipelines.json"
 import trRecords from "./tr/records.json"
 import trRenderer from "./tr/renderer.json"
@@ -73,6 +75,7 @@ export const resources = {
     public: trPublic,
     messaging: trMessaging,
     reports: trReports,
+    notifications: trNotifications,
   },
   en: {
     common: enCommon,
@@ -97,6 +100,7 @@ export const resources = {
     public: enPublic,
     messaging: enMessaging,
     reports: enReports,
+    notifications: enNotifications,
   },
 } as const
 

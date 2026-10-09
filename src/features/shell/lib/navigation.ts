@@ -1,4 +1,5 @@
 import {
+  BellIcon,
   BuildingIcon,
   ContactIcon,
   FileTextIcon,
@@ -56,6 +57,7 @@ type CoreLabelKey =
   | "inbox"
   | "whatsapp"
   | "reports"
+  | "notifications"
 
 interface CoreNavItem {
   id: CoreLabelKey
@@ -164,6 +166,7 @@ export const CORE_NAVIGATION: CoreNavGroup[] = [
         to: "/settings/whatsapp",
         permission: { action: "read", resource: "channel" },
       },
+      { id: "notifications", icon: BellIcon, to: "/settings/notifications" },
       { id: "examples", icon: FlaskConicalIcon, to: "/examples" },
     ],
   },

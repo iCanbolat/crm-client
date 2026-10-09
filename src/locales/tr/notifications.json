@@ -1,0 +1,77 @@
+{
+  "label": "Bildirimler",
+  "labelUnread_one": "Bildirimler, {{count}} okunmamış",
+  "labelUnread_other": "Bildirimler, {{count}} okunmamış",
+  "title": "Bildirimler",
+  "markAllRead": "Tümünü okundu say",
+  "markRead": "Okundu say",
+  "unread": "Okunmamış",
+  "empty": "Yeni bildirim yok.",
+  "preferencesLink": "Bildirim tercihleri",
+  "types": {
+    "submission": {
+      "new": {
+        "title": "Yeni form gönderimi",
+        "body": "{{form}}: {{title}}",
+        "bodyNoRecord": "{{form}}"
+      }
+    },
+    "whatsapp": {
+      "inbound": {
+        "title": "Yeni WhatsApp mesajı",
+        "body": "{{name}}: {{preview}}"
+      }
+    },
+    "record": {
+      "assigned": {
+        "title": "Size bir kayıt atandı",
+        "body": "{{title}}",
+        "bodyByActor": "{{actor}} size atadı: {{title}}"
+      }
+    },
+    "task": {
+      "due": {
+        "title": "Görevin son günü bugün",
+        "body": "{{title}}"
+      }
+    },
+    "quote": {
+      "expiring": {
+        "title": "Teklifin süresi doluyor",
+        "body": "{{title}} · son geçerlilik {{date}}"
+      }
+    },
+    "automation": {
+      "notify": {
+        "title": "{{rule}}",
+        "body": "{{title}}"
+      }
+    }
+  },
+  "preferences": {
+    "title": "Bildirim tercihleri",
+    "description": "Hangi olaylarda uygulama içi bildirim almak istediğinizi seçin. Tercihler yalnız sizin için geçerlidir.",
+    "toggle": "{{label}} bildirimlerini aç/kapat",
+    "saved": "Bildirim tercihleri kaydedildi.",
+    "types": {
+      "submission": {
+        "new": "Formlarınızdan yeni gönderim geldiğinde (sahip, yönetici ve lead sahibi)"
+      },
+      "whatsapp": {
+        "inbound": "Size atanmış ya da atanmamış bir WhatsApp konuşmasına mesaj geldiğinde"
+      },
+      "record": {
+        "assigned": "Başka biri ya da bir otomasyon size kayıt atadığında"
+      },
+      "task": {
+        "due": "Bir görevinizin son günü geldiğinde"
+      },
+      "quote": {
+        "expiring": "Gönderdiğiniz bir teklifin geçerliliği 2 gün içinde dolacağında"
+      },
+      "automation": {
+        "notify": "Bir otomasyon kuralı size bildirim gönderdiğinde"
+      }
+    }
+  }
+}

@@ -19,12 +19,12 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar"
 import { useSignOut } from "@/features/auth"
+import { NotificationsBell } from "@/features/notifications"
 
 import { setSidebarOpen, useUiPreferences } from "../lib/ui-preferences"
 import { AppSidebar } from "./app-sidebar"
 import { Breadcrumbs } from "./breadcrumbs"
 import { CommandPalette } from "./command-palette"
-import { NotificationsButton } from "./notifications-button"
 import { UserMenu } from "./user-menu"
 
 /** ⌘K / Ctrl+K toggles the command palette from anywhere in the shell. */
@@ -74,7 +74,7 @@ export function AppShell({ children }: { children: ReactNode }) {
               <span className="hidden lg:inline">{t("command.trigger")}</span>
               <Kbd className="hidden text-foreground sm:inline-flex">⌘K</Kbd>
             </Button>
-            <NotificationsButton />
+            <NotificationsBell />
             <LanguageSwitcher />
             <ThemeToggle />
             <UserMenu onSignOut={signOut} />

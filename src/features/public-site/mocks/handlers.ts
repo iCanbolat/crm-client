@@ -5,6 +5,7 @@ import { validateSubmission } from "@/engine/forms"
 import type { FieldErrors } from "@/lib/api"
 import { authenticatePublic } from "@/mocks/auth/authenticate-public"
 import { db } from "@/mocks/db"
+import { emitMockEvent } from "@/mocks/events"
 import { withScenario } from "@/mocks/scenarios/with-scenario"
 import { apiError, apiPath, getRequestT } from "@/mocks/utils/http"
 import { countSubmissions } from "@/features/form-builder/mocks/store"
@@ -141,7 +142,15 @@ export const publicSiteHandlers = [
           error: null,
           createdAt: new Date().toISOString(),
         })
-        convertSubmission(row, t)
+        const processed = convertSubmission(row, t)
+        emitMockEvent({
+          workspaceId,
+          type: "submission.created",
+          objectKey: processed.record?.objectKey ?? "submission",
+          recordId: processed.record?.id ?? row.id,
+          data: { formId: form.id, submissionId: row.id },
+          actorId: null,
+        })
         return HttpResponse.json({ ok: true }, { status: 201 })
       },
       { validationErrors: (t) => ({ email: [t("mock.validation")] }) }

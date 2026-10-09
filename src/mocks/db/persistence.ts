@@ -3,7 +3,7 @@ import { getScenarioState } from "../scenarios/scenario-store"
 import { onDbChange, restoreDb, snapshotDb, type DbSnapshot } from "./index"
 
 /** Bump the version whenever a collection shape changes. */
-export const DB_STORAGE_KEY = "msw:db:v7"
+export const DB_STORAGE_KEY = "msw:db:v8"
 
 export function savePersistedDb() {
   try {

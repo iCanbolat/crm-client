@@ -18,6 +18,7 @@ import {
 import type { FieldErrors } from "@/lib/api"
 import { authenticate, authorize } from "@/mocks/auth/authenticate"
 import { db } from "@/mocks/db"
+import { emitMockEvent } from "@/mocks/events"
 import { withScenario } from "@/mocks/scenarios/with-scenario"
 import { apiError, apiPath, getRequestT } from "@/mocks/utils/http"
 import { paginate } from "@/mocks/utils/list"
@@ -760,11 +761,18 @@ export const messagingHandlers = [
           const { contacts = [], messages = [] } = change.value
           for (const message of messages) {
             const profile = contacts.find((item) => item.wa_id === message.from)
-            receiveInbound(workspaceId, {
+            const { conversation } = receiveInbound(workspaceId, {
               phone: fromWaId(message.from),
               text: message.text?.body ?? `[${message.type}]`,
               profileName: profile?.profile.name ?? null,
               at: new Date(Number(message.timestamp) * 1000).toISOString(),
+            })
+            emitMockEvent({
+              workspaceId,
+              type: "conversation.inbound",
+              objectKey: "conversation",
+              recordId: conversation.id,
+              actorId: null,
             })
           }
         }

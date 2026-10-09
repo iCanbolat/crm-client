@@ -35,6 +35,7 @@ import { Route as AppReportsIndexRouteImport } from './routes/_app/reports/index
 import { Route as AppReportsReportKeyRouteImport } from './routes/_app/reports/$reportKey'
 import { Route as AppSettingsIndexRouteImport } from './routes/_app/settings/index'
 import { Route as AppSettingsMembersRouteImport } from './routes/_app/settings/members'
+import { Route as AppSettingsNotificationsRouteImport } from './routes/_app/settings/notifications'
 import { Route as AppSettingsObjectsRouteImport } from './routes/_app/settings/objects'
 import { Route as AppSettingsWhatsappRouteImport } from './routes/_app/settings/whatsapp'
 import { Route as AppFormsFormIdIndexRouteImport } from './routes/_app/forms/$formId/index'
@@ -178,6 +179,12 @@ const AppSettingsMembersRoute = AppSettingsMembersRouteImport.update({
   path: '/members',
   getParentRoute: () => AppSettingsRoute,
 } as any)
+const AppSettingsNotificationsRoute =
+  AppSettingsNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AppSettingsRoute,
+  } as any)
 const AppSettingsObjectsRoute = AppSettingsObjectsRouteImport.update({
   id: '/objects',
   path: '/objects',
@@ -274,6 +281,7 @@ export interface FileRoutesByFullPath {
   '/quotes/new': typeof AppQuotesNewRoute
   '/reports/$reportKey': typeof AppReportsReportKeyRoute
   '/settings/members': typeof AppSettingsMembersRoute
+  '/settings/notifications': typeof AppSettingsNotificationsRoute
   '/settings/objects': typeof AppSettingsObjectsRouteWithChildren
   '/settings/whatsapp': typeof AppSettingsWhatsappRoute
   '/forms/': typeof AppFormsIndexRoute
@@ -307,6 +315,7 @@ export interface FileRoutesByTo {
   '/quotes/new': typeof AppQuotesNewRoute
   '/reports/$reportKey': typeof AppReportsReportKeyRoute
   '/settings/members': typeof AppSettingsMembersRoute
+  '/settings/notifications': typeof AppSettingsNotificationsRoute
   '/settings/whatsapp': typeof AppSettingsWhatsappRoute
   '/forms': typeof AppFormsIndexRoute
   '/quotes': typeof AppQuotesIndexRoute
@@ -348,6 +357,7 @@ export interface FileRoutesById {
   '/_app/quotes/new': typeof AppQuotesNewRoute
   '/_app/reports/$reportKey': typeof AppReportsReportKeyRoute
   '/_app/settings/members': typeof AppSettingsMembersRoute
+  '/_app/settings/notifications': typeof AppSettingsNotificationsRoute
   '/_app/settings/objects': typeof AppSettingsObjectsRouteWithChildren
   '/_app/settings/whatsapp': typeof AppSettingsWhatsappRoute
   '/_app/forms/': typeof AppFormsIndexRoute
@@ -390,6 +400,7 @@ export interface FileRouteTypes {
     | '/quotes/new'
     | '/reports/$reportKey'
     | '/settings/members'
+    | '/settings/notifications'
     | '/settings/objects'
     | '/settings/whatsapp'
     | '/forms/'
@@ -423,6 +434,7 @@ export interface FileRouteTypes {
     | '/quotes/new'
     | '/reports/$reportKey'
     | '/settings/members'
+    | '/settings/notifications'
     | '/settings/whatsapp'
     | '/forms'
     | '/quotes'
@@ -463,6 +475,7 @@ export interface FileRouteTypes {
     | '/_app/quotes/new'
     | '/_app/reports/$reportKey'
     | '/_app/settings/members'
+    | '/_app/settings/notifications'
     | '/_app/settings/objects'
     | '/_app/settings/whatsapp'
     | '/_app/forms/'
@@ -674,6 +687,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsMembersRouteImport
       parentRoute: typeof AppSettingsRoute
     }
+    '/_app/settings/notifications': {
+      id: '/_app/settings/notifications'
+      path: '/notifications'
+      fullPath: '/settings/notifications'
+      preLoaderRoute: typeof AppSettingsNotificationsRouteImport
+      parentRoute: typeof AppSettingsRoute
+    }
     '/_app/settings/objects': {
       id: '/_app/settings/objects'
       path: '/objects'
@@ -863,6 +883,7 @@ const AppSettingsObjectsRouteWithChildren =
 
 interface AppSettingsRouteChildren {
   AppSettingsMembersRoute: typeof AppSettingsMembersRoute
+  AppSettingsNotificationsRoute: typeof AppSettingsNotificationsRoute
   AppSettingsObjectsRoute: typeof AppSettingsObjectsRouteWithChildren
   AppSettingsWhatsappRoute: typeof AppSettingsWhatsappRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
@@ -870,6 +891,7 @@ interface AppSettingsRouteChildren {
 
 const AppSettingsRouteChildren: AppSettingsRouteChildren = {
   AppSettingsMembersRoute: AppSettingsMembersRoute,
+  AppSettingsNotificationsRoute: AppSettingsNotificationsRoute,
   AppSettingsObjectsRoute: AppSettingsObjectsRouteWithChildren,
   AppSettingsWhatsappRoute: AppSettingsWhatsappRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,

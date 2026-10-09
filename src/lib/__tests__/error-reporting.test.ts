@@ -61,17 +61,19 @@ describe("error reporting (B7.4)", () => {
   it("catches uncaught errors and unhandled rejections", () => {
     const reporter = spyReporter()
     const uninstall = installGlobalErrorHandlers()
-    const error = new Error("uncaught")
-    window.dispatchEvent(new ErrorEvent("error", { error }))
+    // Message only: an `error` object would reach Vitest's own handler.
+    const uncaught = () =>
+      window.dispatchEvent(new ErrorEvent("error", { message: "uncaught" }))
+    uncaught()
     const rejection = new Event("unhandledrejection") as PromiseRejectionEvent
     Object.assign(rejection, { reason: apiError(503) })
     window.dispatchEvent(rejection)
     uninstall()
-    window.dispatchEvent(new ErrorEvent("error", { error }))
+    uncaught()
 
-    expect(reporter.mock.calls.map(([, context]) => context.source)).toEqual([
-      "window",
-      "unhandledrejection",
+    expect(reporter.mock.calls).toEqual([
+      ["uncaught", { source: "window" }],
+      [expect.any(ApiError), { source: "unhandledrejection" }],
     ])
   })
 

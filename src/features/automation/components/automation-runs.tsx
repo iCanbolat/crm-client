@@ -57,7 +57,7 @@ export function AutomationRuns({ ruleId }: { ruleId: string }) {
         ) : query.data.data.length === 0 ? (
           <p className="text-sm text-muted-foreground">{t("runs.empty")}</p>
         ) : (
-          <Table aria-label={t("runs.title")}>
+          <Table aria-label={t("runs.title")} containerLabel={t("runs.title")}>
             <TableHeader>
               <TableRow>
                 <TableHead>{t("runs.columns.time")}</TableHead>

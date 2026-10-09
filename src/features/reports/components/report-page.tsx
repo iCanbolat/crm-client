@@ -225,7 +225,7 @@ function ReportBody({
           ) : null}
         </CardHeader>
         <CardContent>
-          <Table>
+          <Table containerLabel={t("table")}>
             <TableCaption className="sr-only">{title}</TableCaption>
             <TableHeader>
               <TableRow>

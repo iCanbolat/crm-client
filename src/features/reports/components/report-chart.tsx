@@ -54,7 +54,14 @@ export function ReportChart({
         className="aspect-auto w-full"
         style={{ height: data.length * ROW_HEIGHT + 32 }}
       >
-        <BarChart data={data} layout="vertical" margin={{ left: 8, right: 16 }}>
+        <BarChart
+          data={data}
+          layout="vertical"
+          margin={{ left: 8, right: 16 }}
+          // Hidden from assistive tech (the table has the numbers): no
+          // keyboard focus stop inside an aria-hidden region.
+          accessibilityLayer={false}
+        >
           <CartesianGrid horizontal={false} />
           <XAxis
             type="number"

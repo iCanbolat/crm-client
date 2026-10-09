@@ -1,11 +1,24 @@
 import * as React from "react"
 import { cn } from "cn"
 
-function Table({ className, ...props }: React.ComponentProps<"table">) {
+function Table({
+  className,
+  containerLabel,
+  ...props
+}: React.ComponentProps<"table"> & {
+  /**
+   * Names the horizontally scrolling container and makes it focusable, so
+   * keyboard users can scroll wide tables on small screens (WCAG 2.1.1).
+   */
+  containerLabel?: string
+}) {
   return (
     <div
       data-slot="table-container"
-      className="relative w-full overflow-x-auto"
+      className="relative w-full overflow-x-auto focus-visible:ring-3 focus-visible:ring-ring/30 focus-visible:outline-none"
+      {...(containerLabel
+        ? { role: "region", tabIndex: 0, "aria-label": containerLabel }
+        : {})}
     >
       <table
         data-slot="table"

@@ -90,7 +90,10 @@ describe("quote builder (B3.4)", () => {
       dealId: deal.id,
     })
 
-    await user.click(await screen.findByRole("button", { name: "Gönder" }))
+    // The quote page loads after the redirect (slow under parallel coverage).
+    await user.click(
+      await screen.findByRole("button", { name: "Gönder" }, { timeout: 10_000 })
+    )
     const dialog = await screen.findByRole("dialog", {
       name: "Teklifi e-postayla gönder",
     })

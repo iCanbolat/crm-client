@@ -1,0 +1,127 @@
+{
+  "title": "Otomasyonlar",
+  "description": "Tekrar eden işleri \"ne zaman → hangi kayıtlar için → ne yapılsın\" kurallarıyla otomatikleştirin.",
+  "new": "Yeni kural",
+  "emptyTitle": "Henüz kural yok",
+  "emptyDescription": "İlk kuralınızla gelen talepleri otomatik dağıtın veya yanıtsız teklifleri takip edin.",
+  "readOnly": "Kuralları yalnız sahip ve yöneticiler değiştirebilir.",
+  "toggle": "{{name}} kuralını aç/kapat",
+  "enabled": "Açık",
+  "disabled": "Kapalı",
+  "never": "Henüz çalışmadı",
+  "lastRun": "Son çalışma {{time}}",
+  "runCount_one": "{{count}} çalışma",
+  "runCount_other": "{{count}} çalışma",
+  "open": "{{name}} kuralını aç",
+  "toggled": "Kural {{state}}.",
+  "toggledOn": "açıldı",
+  "toggledOff": "kapatıldı",
+  "editor": {
+    "newTitle": "Yeni otomasyon kuralı",
+    "name": "Kural adı",
+    "enabled": "Kural açık",
+    "when": "Ne zaman",
+    "which": "Hangi kayıtlar için",
+    "whichHint": "Tüm koşullar sağlanmalı. Koşul eklemezseniz her kayıt için çalışır.",
+    "what": "Ne yapılsın",
+    "whatHint": "Aksiyonlar sırayla çalışır; örneğin önce atama, sonra yeni sahibe görev.",
+    "addAction": "Aksiyon ekle",
+    "removeAction": "{{action}} aksiyonunu kaldır",
+    "save": "Kaydet",
+    "create": "Kuralı oluştur",
+    "cancel": "Vazgeç",
+    "delete": "Kuralı sil",
+    "deleteTitle": "Kural silinsin mi?",
+    "deleteDescription": "\"{{name}}\" kuralı ve çalışma geçmişi silinir. Bu işlem geri alınamaz.",
+    "saved": "Kural kaydedildi.",
+    "created": "Kural oluşturuldu.",
+    "deleted": "Kural silindi.",
+    "invalid": "Eksik veya hatalı alanları düzeltin.",
+    "noFields": "Bu tetikleyici için koşul eklenemez."
+  },
+  "triggers": {
+    "type": "Tetikleyici",
+    "types": {
+      "submission": {
+        "created": "Bir formdan gönderim geldiğinde"
+      },
+      "record": {
+        "created": "Bir kayıt oluşturulduğunda",
+        "stageChanged": "Bir kaydın aşaması değiştiğinde"
+      },
+      "quote": {
+        "noResponse": "Gönderilen teklif yanıtsız kaldığında"
+      }
+    },
+    "form": "Form",
+    "anyForm": "Herhangi bir form",
+    "object": "Nesne",
+    "stage": "Aşama",
+    "anyStage": "Herhangi bir aşama",
+    "afterDays": "Kaç gün sonra",
+    "summary": {
+      "submission": "{{form}} formundan gönderim geldiğinde",
+      "submissionAny": "Herhangi bir formdan gönderim geldiğinde",
+      "recordCreated": "Yeni {{object}} kaydı oluşturulduğunda",
+      "stageChanged": "{{object}} kaydı \"{{stage}}\" aşamasına geçtiğinde",
+      "stageChangedAny": "{{object}} kaydının aşaması değiştiğinde",
+      "noResponse_one": "Gönderilen teklif {{count}} gün yanıtsız kaldığında",
+      "noResponse_other": "Gönderilen teklif {{count}} gün yanıtsız kaldığında"
+    }
+  },
+  "actions": {
+    "type": "Aksiyon",
+    "types": {
+      "assignRoundRobin": "Sırayla ata (round-robin)",
+      "createTask": "Görev oluştur",
+      "sendWhatsAppTemplate": "WhatsApp şablonu gönder",
+      "notify": "Uygulama içi bildirim gönder"
+    },
+    "users": "Sırayla atanacak kişiler",
+    "taskTitle": "Görev başlığı",
+    "dueInDays": "Vade (kaç gün sonra)",
+    "assignee": "Görev sahibi",
+    "to": "Kime",
+    "owner": "Kaydın sahibi",
+    "template": "Şablon",
+    "noTemplates": "Aktif modüllerinizde WhatsApp şablonu yok.",
+    "summary": {
+      "assignRoundRobin": "Sırayla ata: {{users}}",
+      "createTask": "Görev: {{title}} → {{assignee}}",
+      "sendWhatsAppTemplate": "WhatsApp: {{template}}",
+      "notify": "Bildirim: {{to}}"
+    }
+  },
+  "runs": {
+    "title": "Çalışma geçmişi",
+    "description": "Son 50 çalışma. Aynı kayıt ve olay için kural bir kez çalışır.",
+    "empty": "Bu kural henüz çalışmadı.",
+    "columns": {
+      "time": "Zaman",
+      "record": "Kayıt",
+      "status": "Sonuç",
+      "actions": "Aksiyonlar"
+    },
+    "statuses": {
+      "success": "Başarılı",
+      "skipped": "Atlandı",
+      "failed": "Hata"
+    },
+    "actionStatuses": {
+      "done": "Yapıldı",
+      "skipped": "Atlandı",
+      "failed": "Hata"
+    },
+    "reasons": {
+      "conditions": "Koşullar sağlanmadı",
+      "recordMissing": "Kayıt bulunamadı",
+      "noAssignee": "Atanacak üye yok",
+      "notConnected": "WhatsApp bağlı değil",
+      "templateNotApproved": "Şablon onaylı değil",
+      "noRecipient": "Alıcı kişi yok",
+      "noPhone": "Telefon numarası yok",
+      "noOptIn": "WhatsApp izni yok",
+      "missingParams": "Şablon değişkenleri eksik"
+    }
+  }
+}

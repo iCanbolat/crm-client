@@ -28,6 +28,7 @@ export type Action = (typeof ACTIONS)[number]
  *   assigned to them or to nobody — a visibility rule of the API.
  * - `report`: ready-made reports (B7.1). Agents only see their own numbers
  *   — a visibility rule of the API, like conversations.
+ * - `automation`: automation rules and their run history (B7.3)
  */
 export const RESOURCES = [
   "record",
@@ -40,6 +41,7 @@ export const RESOURCES = [
   "channel",
   "conversation",
   "report",
+  "automation",
 ] as const
 export type Resource = (typeof RESOURCES)[number]
 
@@ -74,6 +76,7 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     channel: { any: ALL },
     conversation: { any: ALL },
     report: { any: ["read"] },
+    automation: { any: ALL },
   },
   admin: {
     record: { any: ALL },
@@ -87,6 +90,7 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     channel: { any: ALL },
     conversation: { any: ALL },
     report: { any: ["read"] },
+    automation: { any: ALL },
   },
   manager: {
     record: { any: ["read", "create", "update", "delete"] },
@@ -99,6 +103,7 @@ const POLICY: Record<Role, Partial<Record<Resource, Rule>>> = {
     channel: { any: ["read"] },
     conversation: { any: ALL },
     report: { any: ["read"] },
+    automation: { any: ["read"] },
   },
   agent: {
     record: { any: ["read", "create"], own: ["update", "delete"] },

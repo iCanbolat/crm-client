@@ -1,0 +1,6 @@
+export { automationKeys } from "./api/automation.keys"
+export { automationQueries } from "./api/automation.queries"
+export type { AutomationRule, AutomationRun } from "./api/automation.schemas"
+export { AutomationEditorPage } from "./components/automation-editor-page"
+export { AutomationsPage } from "./components/automations-page"
+export { describeAction, describeTrigger } from "./lib/describe"

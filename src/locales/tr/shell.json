@@ -26,7 +26,8 @@
     "inbox": "Gelen kutusu",
     "whatsapp": "WhatsApp",
     "reports": "Raporlar",
-    "notifications": "Bildirimler"
+    "notifications": "Bildirimler",
+    "automations": "Otomasyonlar"
   },
   "crumbs": {
     "dashboard": "Panel",
@@ -51,7 +52,9 @@
     "whatsapp": "WhatsApp",
     "reports": "Raporlar",
     "report": "Rapor",
-    "notifications": "Bildirimler"
+    "notifications": "Bildirimler",
+    "automations": "Otomasyonlar",
+    "automation": "Kural"
   },
   "command": {
     "open": "Komut paletini aç",

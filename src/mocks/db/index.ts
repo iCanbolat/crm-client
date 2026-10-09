@@ -38,6 +38,11 @@ import type {
   WaSettingsRow,
   WaTemplateRow,
 } from "@/features/messaging/mocks/types"
+import { seedAutomations } from "@/features/automation/mocks/seed"
+import type {
+  AutomationRow,
+  AutomationRunRow,
+} from "@/features/automation/mocks/types"
 import { seedNotifications } from "@/features/notifications/mocks/seed"
 import type {
   NotificationPrefRow,
@@ -234,6 +239,16 @@ export const db = {
   }),
   notificationPrefs: createCollection<NotificationPrefRow>({
     name: "notificationPrefs",
+    onChange: notify,
+  }),
+  // Automation rules (Faz 7)
+  automations: createCollection<AutomationRow>({
+    name: "automations",
+    seed: () => seedAutomations(),
+    onChange: notify,
+  }),
+  automationRuns: createCollection<AutomationRunRow>({
+    name: "automationRuns",
     onChange: notify,
   }),
 }

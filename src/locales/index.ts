@@ -1,5 +1,6 @@
 import enActivities from "./en/activities.json"
 import enAuth from "./en/auth.json"
+import enAutomation from "./en/automation.json"
 import enCommon from "./en/common.json"
 import enDashboard from "./en/dashboard.json"
 import enDev from "./en/dev.json"
@@ -23,6 +24,7 @@ import enShell from "./en/shell.json"
 import enWorkspace from "./en/workspace.json"
 import trActivities from "./tr/activities.json"
 import trAuth from "./tr/auth.json"
+import trAutomation from "./tr/automation.json"
 import trCommon from "./tr/common.json"
 import trDashboard from "./tr/dashboard.json"
 import trDev from "./tr/dev.json"
@@ -76,6 +78,7 @@ export const resources = {
     messaging: trMessaging,
     reports: trReports,
     notifications: trNotifications,
+    automation: trAutomation,
   },
   en: {
     common: enCommon,
@@ -101,6 +104,7 @@ export const resources = {
     messaging: enMessaging,
     reports: enReports,
     notifications: enNotifications,
+    automation: enAutomation,
   },
 } as const
 

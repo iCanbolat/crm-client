@@ -105,6 +105,7 @@ export function NotificationsBell() {
             variant="ghost"
             size="sm"
             className="w-full justify-start"
+            nativeButton={false}
             render={<Link to="/settings/notifications" />}
             onClick={() => setOpen(false)}
           >

@@ -56,76 +56,73 @@ export function dispatchMessageEvent(
       continue
     }
     const record = { objectKey: event.objectKey, recordId: event.recordId }
-    const log = (
-      status: DispatchRow["status"],
-      reason: DispatchSkipReason | null,
-      conversationId: string | null = null
-    ) => {
-      const row = db.messageDispatches.create({
+    const outcome = sendTemplateFor(
+      workspaceId,
+      trigger.templateId,
+      record,
+      event.data
+    )
+    results.push(
+      db.messageDispatches.create({
         id: `dsp_${crypto.randomUUID().slice(0, 12)}`,
         workspaceId,
         key,
         triggerId: trigger.id,
         templateId: trigger.templateId,
         record,
-        status,
-        reason,
-        conversationId,
+        status: outcome.status,
+        reason: outcome.reason,
+        conversationId: outcome.conversationId,
         createdAt: new Date().toISOString(),
       })
-      results.push(row)
-    }
-
-    const def = findTemplateDef(workspaceId, trigger.templateId)
-    const language = workspaceLanguage(workspaceId)
-    if (!channelOf(workspaceId) || !def) {
-      log("skipped", "notConnected")
-      continue
-    }
-    if (templateStatusOf(workspaceId, def, language) !== "approved") {
-      log("skipped", "templateNotApproved")
-      continue
-    }
-    const recipient = resolveRecipient(workspaceId, record)
-    if (!recipient) {
-      log("skipped", "noRecipient")
-      continue
-    }
-    if (!recipient.phone) {
-      log("skipped", "noPhone")
-      continue
-    }
-    if (!recipient.optIn) {
-      log("skipped", "noOptIn")
-      continue
-    }
-    const context = templateContext(workspaceId, record)
-    const { params, missing } = context
-      ? resolveTemplateParams(
-          def,
-          { ...context, eventData: event.data },
-          language
-        )
-      : { params: [], missing: [1] }
-    if (missing.length) {
-      log("skipped", "missingParams")
-      continue
-    }
-    const conversation = ensureConversation(workspaceId, recipient.phone, {
-      contact: {
-        objectKey: recipient.contact.objectKey,
-        recordId: recipient.contact.recordId,
-      },
-    })
-    sendTemplate({
-      conversation,
-      def,
-      language,
-      params,
-      record,
-      sentBy: null,
-    })
-    log("sent", null, conversation.id)
+    )
   }
   return results
+}
+
+export interface TemplateSendOutcome {
+  status: DispatchRow["status"]
+  reason: DispatchSkipReason | null
+  conversationId: string | null
+}
+
+/**
+ * Sends an approved template about a record to its WhatsApp recipient, or
+ * says why it cannot (not connected, no consent, …). Shared by the automatic
+ * notifications (B6.5) and automation rules (B7.3).
+ */
+export function sendTemplateFor(
+  workspaceId: string,
+  templateId: string,
+  record: { objectKey: string; recordId: string },
+  eventData?: Record<string, string>
+): TemplateSendOutcome {
+  const skipped = (reason: DispatchSkipReason): TemplateSendOutcome => ({
+    status: "skipped",
+    reason,
+    conversationId: null,
+  })
+  const def = findTemplateDef(workspaceId, templateId)
+  const language = workspaceLanguage(workspaceId)
+  if (!channelOf(workspaceId) || !def) return skipped("notConnected")
+  if (templateStatusOf(workspaceId, def, language) !== "approved") {
+    return skipped("templateNotApproved")
+  }
+  const recipient = resolveRecipient(workspaceId, record)
+  if (!recipient) return skipped("noRecipient")
+  if (!recipient.phone) return skipped("noPhone")
+  if (!recipient.optIn) return skipped("noOptIn")
+  const context = templateContext(workspaceId, record)
+  const { params, missing } = context
+    ? resolveTemplateParams(def, { ...context, eventData }, language)
+    : { params: [], missing: [1] }
+  if (missing.length) return skipped("missingParams")
+  const conversation = ensureConversation(workspaceId, recipient.phone, {
+    contact: {
+      objectKey: recipient.contact.objectKey,
+      recordId: recipient.contact.recordId,
+    },
+  })
+  sendTemplate({ conversation, def, language, params, record, sentBy: null })
+  return { status: "sent", reason: null, conversationId: conversation.id }
 }

@@ -1,6 +1,7 @@
 import { exampleHandlers } from "@/features/_example/mocks/handlers"
 import { activitiesHandlers } from "@/features/activities/mocks/handlers"
 import { authHandlers } from "@/features/auth/mocks/handlers"
+import { automationHandlers } from "@/features/automation/mocks/handlers"
 import { formHandlers } from "@/features/form-builder/mocks/handlers"
 import { leadsHandlers } from "@/features/leads/mocks/handlers"
 import { messagingHandlers } from "@/features/messaging/mocks/handlers"
@@ -34,6 +35,7 @@ export const handlers = [
   ...submissionHandlers,
   ...reportHandlers,
   ...notificationHandlers,
+  ...automationHandlers,
   // Sector modules
   ...forwardingHandlers,
 ]

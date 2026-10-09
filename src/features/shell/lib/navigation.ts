@@ -15,6 +15,7 @@ import {
   ChartColumnIcon,
   ShapesIcon,
   UsersIcon,
+  WorkflowIcon,
   type LucideIcon,
 } from "lucide-react"
 
@@ -58,6 +59,7 @@ type CoreLabelKey =
   | "whatsapp"
   | "reports"
   | "notifications"
+  | "automations"
 
 interface CoreNavItem {
   id: CoreLabelKey
@@ -165,6 +167,12 @@ export const CORE_NAVIGATION: CoreNavGroup[] = [
         icon: MessageCircleIcon,
         to: "/settings/whatsapp",
         permission: { action: "read", resource: "channel" },
+      },
+      {
+        id: "automations",
+        icon: WorkflowIcon,
+        to: "/settings/automations",
+        permission: { action: "read", resource: "automation" },
       },
       { id: "notifications", icon: BellIcon, to: "/settings/notifications" },
       { id: "examples", icon: FlaskConicalIcon, to: "/examples" },

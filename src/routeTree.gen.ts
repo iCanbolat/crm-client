@@ -34,6 +34,7 @@ import { Route as AppQuotesNewRouteImport } from './routes/_app/quotes/new'
 import { Route as AppReportsIndexRouteImport } from './routes/_app/reports/index'
 import { Route as AppReportsReportKeyRouteImport } from './routes/_app/reports/$reportKey'
 import { Route as AppSettingsIndexRouteImport } from './routes/_app/settings/index'
+import { Route as AppSettingsAutomationsRouteImport } from './routes/_app/settings/automations'
 import { Route as AppSettingsMembersRouteImport } from './routes/_app/settings/members'
 import { Route as AppSettingsNotificationsRouteImport } from './routes/_app/settings/notifications'
 import { Route as AppSettingsObjectsRouteImport } from './routes/_app/settings/objects'
@@ -46,6 +47,9 @@ import { Route as AppOObjectKeyRecordIdRouteImport } from './routes/_app/o/$obje
 import { Route as AppOObjectKeyNewRouteImport } from './routes/_app/o/$objectKey/new'
 import { Route as AppQuotesQuoteIdIndexRouteImport } from './routes/_app/quotes/$quoteId/index'
 import { Route as AppQuotesQuoteIdPrintRouteImport } from './routes/_app/quotes/$quoteId/print'
+import { Route as AppSettingsAutomationsIndexRouteImport } from './routes/_app/settings/automations/index'
+import { Route as AppSettingsAutomationsRuleIdRouteImport } from './routes/_app/settings/automations/$ruleId'
+import { Route as AppSettingsAutomationsNewRouteImport } from './routes/_app/settings/automations/new'
 import { Route as AppSettingsObjectsIndexRouteImport } from './routes/_app/settings/objects/index'
 import { Route as AppSettingsObjectsObjectKeyRouteImport } from './routes/_app/settings/objects/$objectKey'
 import { Route as AppOObjectKeyRecordIdIndexRouteImport } from './routes/_app/o/$objectKey/$recordId/index'
@@ -174,6 +178,11 @@ const AppSettingsIndexRoute = AppSettingsIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppSettingsRoute,
 } as any)
+const AppSettingsAutomationsRoute = AppSettingsAutomationsRouteImport.update({
+  id: '/automations',
+  path: '/automations',
+  getParentRoute: () => AppSettingsRoute,
+} as any)
 const AppSettingsMembersRoute = AppSettingsMembersRouteImport.update({
   id: '/members',
   path: '/members',
@@ -236,6 +245,24 @@ const AppQuotesQuoteIdPrintRoute = AppQuotesQuoteIdPrintRouteImport.update({
   path: '/print',
   getParentRoute: () => AppQuotesQuoteIdRoute,
 } as any)
+const AppSettingsAutomationsIndexRoute =
+  AppSettingsAutomationsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AppSettingsAutomationsRoute,
+  } as any)
+const AppSettingsAutomationsRuleIdRoute =
+  AppSettingsAutomationsRuleIdRouteImport.update({
+    id: '/$ruleId',
+    path: '/$ruleId',
+    getParentRoute: () => AppSettingsAutomationsRoute,
+  } as any)
+const AppSettingsAutomationsNewRoute =
+  AppSettingsAutomationsNewRouteImport.update({
+    id: '/new',
+    path: '/new',
+    getParentRoute: () => AppSettingsAutomationsRoute,
+  } as any)
 const AppSettingsObjectsIndexRoute = AppSettingsObjectsIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -280,6 +307,7 @@ export interface FileRoutesByFullPath {
   '/quotes/$quoteId': typeof AppQuotesQuoteIdRouteWithChildren
   '/quotes/new': typeof AppQuotesNewRoute
   '/reports/$reportKey': typeof AppReportsReportKeyRoute
+  '/settings/automations': typeof AppSettingsAutomationsRouteWithChildren
   '/settings/members': typeof AppSettingsMembersRoute
   '/settings/notifications': typeof AppSettingsNotificationsRoute
   '/settings/objects': typeof AppSettingsObjectsRouteWithChildren
@@ -293,10 +321,13 @@ export interface FileRoutesByFullPath {
   '/o/$objectKey/$recordId': typeof AppOObjectKeyRecordIdRouteWithChildren
   '/o/$objectKey/new': typeof AppOObjectKeyNewRoute
   '/quotes/$quoteId/print': typeof AppQuotesQuoteIdPrintRoute
+  '/settings/automations/$ruleId': typeof AppSettingsAutomationsRuleIdRoute
+  '/settings/automations/new': typeof AppSettingsAutomationsNewRoute
   '/settings/objects/$objectKey': typeof AppSettingsObjectsObjectKeyRoute
   '/forms/$formId/': typeof AppFormsFormIdIndexRoute
   '/o/$objectKey/': typeof AppOObjectKeyIndexRoute
   '/quotes/$quoteId/': typeof AppQuotesQuoteIdIndexRoute
+  '/settings/automations/': typeof AppSettingsAutomationsIndexRoute
   '/settings/objects/': typeof AppSettingsObjectsIndexRoute
   '/o/$objectKey/$recordId/edit': typeof AppOObjectKeyRecordIdEditRoute
   '/o/$objectKey/$recordId/': typeof AppOObjectKeyRecordIdIndexRoute
@@ -325,10 +356,13 @@ export interface FileRoutesByTo {
   '/forms/$formId/submissions': typeof AppFormsFormIdSubmissionsRoute
   '/o/$objectKey/new': typeof AppOObjectKeyNewRoute
   '/quotes/$quoteId/print': typeof AppQuotesQuoteIdPrintRoute
+  '/settings/automations/$ruleId': typeof AppSettingsAutomationsRuleIdRoute
+  '/settings/automations/new': typeof AppSettingsAutomationsNewRoute
   '/settings/objects/$objectKey': typeof AppSettingsObjectsObjectKeyRoute
   '/forms/$formId': typeof AppFormsFormIdIndexRoute
   '/o/$objectKey': typeof AppOObjectKeyIndexRoute
   '/quotes/$quoteId': typeof AppQuotesQuoteIdIndexRoute
+  '/settings/automations': typeof AppSettingsAutomationsIndexRoute
   '/settings/objects': typeof AppSettingsObjectsIndexRoute
   '/o/$objectKey/$recordId/edit': typeof AppOObjectKeyRecordIdEditRoute
   '/o/$objectKey/$recordId': typeof AppOObjectKeyRecordIdIndexRoute
@@ -356,6 +390,7 @@ export interface FileRoutesById {
   '/_app/quotes/$quoteId': typeof AppQuotesQuoteIdRouteWithChildren
   '/_app/quotes/new': typeof AppQuotesNewRoute
   '/_app/reports/$reportKey': typeof AppReportsReportKeyRoute
+  '/_app/settings/automations': typeof AppSettingsAutomationsRouteWithChildren
   '/_app/settings/members': typeof AppSettingsMembersRoute
   '/_app/settings/notifications': typeof AppSettingsNotificationsRoute
   '/_app/settings/objects': typeof AppSettingsObjectsRouteWithChildren
@@ -369,10 +404,13 @@ export interface FileRoutesById {
   '/_app/o/$objectKey/$recordId': typeof AppOObjectKeyRecordIdRouteWithChildren
   '/_app/o/$objectKey/new': typeof AppOObjectKeyNewRoute
   '/_app/quotes/$quoteId/print': typeof AppQuotesQuoteIdPrintRoute
+  '/_app/settings/automations/$ruleId': typeof AppSettingsAutomationsRuleIdRoute
+  '/_app/settings/automations/new': typeof AppSettingsAutomationsNewRoute
   '/_app/settings/objects/$objectKey': typeof AppSettingsObjectsObjectKeyRoute
   '/_app/forms/$formId/': typeof AppFormsFormIdIndexRoute
   '/_app/o/$objectKey/': typeof AppOObjectKeyIndexRoute
   '/_app/quotes/$quoteId/': typeof AppQuotesQuoteIdIndexRoute
+  '/_app/settings/automations/': typeof AppSettingsAutomationsIndexRoute
   '/_app/settings/objects/': typeof AppSettingsObjectsIndexRoute
   '/_app/o/$objectKey/$recordId/edit': typeof AppOObjectKeyRecordIdEditRoute
   '/_app/o/$objectKey/$recordId/': typeof AppOObjectKeyRecordIdIndexRoute
@@ -399,6 +437,7 @@ export interface FileRouteTypes {
     | '/quotes/$quoteId'
     | '/quotes/new'
     | '/reports/$reportKey'
+    | '/settings/automations'
     | '/settings/members'
     | '/settings/notifications'
     | '/settings/objects'
@@ -412,10 +451,13 @@ export interface FileRouteTypes {
     | '/o/$objectKey/$recordId'
     | '/o/$objectKey/new'
     | '/quotes/$quoteId/print'
+    | '/settings/automations/$ruleId'
+    | '/settings/automations/new'
     | '/settings/objects/$objectKey'
     | '/forms/$formId/'
     | '/o/$objectKey/'
     | '/quotes/$quoteId/'
+    | '/settings/automations/'
     | '/settings/objects/'
     | '/o/$objectKey/$recordId/edit'
     | '/o/$objectKey/$recordId/'
@@ -444,10 +486,13 @@ export interface FileRouteTypes {
     | '/forms/$formId/submissions'
     | '/o/$objectKey/new'
     | '/quotes/$quoteId/print'
+    | '/settings/automations/$ruleId'
+    | '/settings/automations/new'
     | '/settings/objects/$objectKey'
     | '/forms/$formId'
     | '/o/$objectKey'
     | '/quotes/$quoteId'
+    | '/settings/automations'
     | '/settings/objects'
     | '/o/$objectKey/$recordId/edit'
     | '/o/$objectKey/$recordId'
@@ -474,6 +519,7 @@ export interface FileRouteTypes {
     | '/_app/quotes/$quoteId'
     | '/_app/quotes/new'
     | '/_app/reports/$reportKey'
+    | '/_app/settings/automations'
     | '/_app/settings/members'
     | '/_app/settings/notifications'
     | '/_app/settings/objects'
@@ -487,10 +533,13 @@ export interface FileRouteTypes {
     | '/_app/o/$objectKey/$recordId'
     | '/_app/o/$objectKey/new'
     | '/_app/quotes/$quoteId/print'
+    | '/_app/settings/automations/$ruleId'
+    | '/_app/settings/automations/new'
     | '/_app/settings/objects/$objectKey'
     | '/_app/forms/$formId/'
     | '/_app/o/$objectKey/'
     | '/_app/quotes/$quoteId/'
+    | '/_app/settings/automations/'
     | '/_app/settings/objects/'
     | '/_app/o/$objectKey/$recordId/edit'
     | '/_app/o/$objectKey/$recordId/'
@@ -680,6 +729,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsIndexRouteImport
       parentRoute: typeof AppSettingsRoute
     }
+    '/_app/settings/automations': {
+      id: '/_app/settings/automations'
+      path: '/automations'
+      fullPath: '/settings/automations'
+      preLoaderRoute: typeof AppSettingsAutomationsRouteImport
+      parentRoute: typeof AppSettingsRoute
+    }
     '/_app/settings/members': {
       id: '/_app/settings/members'
       path: '/members'
@@ -763,6 +819,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/quotes/$quoteId/print'
       preLoaderRoute: typeof AppQuotesQuoteIdPrintRouteImport
       parentRoute: typeof AppQuotesQuoteIdRoute
+    }
+    '/_app/settings/automations/': {
+      id: '/_app/settings/automations/'
+      path: '/'
+      fullPath: '/settings/automations/'
+      preLoaderRoute: typeof AppSettingsAutomationsIndexRouteImport
+      parentRoute: typeof AppSettingsAutomationsRoute
+    }
+    '/_app/settings/automations/$ruleId': {
+      id: '/_app/settings/automations/$ruleId'
+      path: '/$ruleId'
+      fullPath: '/settings/automations/$ruleId'
+      preLoaderRoute: typeof AppSettingsAutomationsRuleIdRouteImport
+      parentRoute: typeof AppSettingsAutomationsRoute
+    }
+    '/_app/settings/automations/new': {
+      id: '/_app/settings/automations/new'
+      path: '/new'
+      fullPath: '/settings/automations/new'
+      preLoaderRoute: typeof AppSettingsAutomationsNewRouteImport
+      parentRoute: typeof AppSettingsAutomationsRoute
     }
     '/_app/settings/objects/': {
       id: '/_app/settings/objects/'
@@ -868,6 +945,24 @@ const AppReportsRouteWithChildren = AppReportsRoute._addFileChildren(
   AppReportsRouteChildren,
 )
 
+interface AppSettingsAutomationsRouteChildren {
+  AppSettingsAutomationsRuleIdRoute: typeof AppSettingsAutomationsRuleIdRoute
+  AppSettingsAutomationsNewRoute: typeof AppSettingsAutomationsNewRoute
+  AppSettingsAutomationsIndexRoute: typeof AppSettingsAutomationsIndexRoute
+}
+
+const AppSettingsAutomationsRouteChildren: AppSettingsAutomationsRouteChildren =
+  {
+    AppSettingsAutomationsRuleIdRoute: AppSettingsAutomationsRuleIdRoute,
+    AppSettingsAutomationsNewRoute: AppSettingsAutomationsNewRoute,
+    AppSettingsAutomationsIndexRoute: AppSettingsAutomationsIndexRoute,
+  }
+
+const AppSettingsAutomationsRouteWithChildren =
+  AppSettingsAutomationsRoute._addFileChildren(
+    AppSettingsAutomationsRouteChildren,
+  )
+
 interface AppSettingsObjectsRouteChildren {
   AppSettingsObjectsObjectKeyRoute: typeof AppSettingsObjectsObjectKeyRoute
   AppSettingsObjectsIndexRoute: typeof AppSettingsObjectsIndexRoute
@@ -882,6 +977,7 @@ const AppSettingsObjectsRouteWithChildren =
   AppSettingsObjectsRoute._addFileChildren(AppSettingsObjectsRouteChildren)
 
 interface AppSettingsRouteChildren {
+  AppSettingsAutomationsRoute: typeof AppSettingsAutomationsRouteWithChildren
   AppSettingsMembersRoute: typeof AppSettingsMembersRoute
   AppSettingsNotificationsRoute: typeof AppSettingsNotificationsRoute
   AppSettingsObjectsRoute: typeof AppSettingsObjectsRouteWithChildren
@@ -890,6 +986,7 @@ interface AppSettingsRouteChildren {
 }
 
 const AppSettingsRouteChildren: AppSettingsRouteChildren = {
+  AppSettingsAutomationsRoute: AppSettingsAutomationsRouteWithChildren,
   AppSettingsMembersRoute: AppSettingsMembersRoute,
   AppSettingsNotificationsRoute: AppSettingsNotificationsRoute,
   AppSettingsObjectsRoute: AppSettingsObjectsRouteWithChildren,

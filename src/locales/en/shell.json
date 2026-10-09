@@ -26,7 +26,8 @@
     "inbox": "Inbox",
     "whatsapp": "WhatsApp",
     "reports": "Reports",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "automations": "Automations"
   },
   "crumbs": {
     "dashboard": "Dashboard",
@@ -51,7 +52,9 @@
     "whatsapp": "WhatsApp",
     "reports": "Reports",
     "report": "Report",
-    "notifications": "Notifications"
+    "notifications": "Notifications",
+    "automations": "Automations",
+    "automation": "Rule"
   },
   "command": {
     "open": "Open command palette",

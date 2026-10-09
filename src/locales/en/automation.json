@@ -1,0 +1,127 @@
+{
+  "title": "Automations",
+  "description": "Automate repetitive work with \"when → for which records → do what\" rules.",
+  "new": "New rule",
+  "emptyTitle": "No rules yet",
+  "emptyDescription": "Distribute incoming requests automatically or follow up unanswered quotes with your first rule.",
+  "readOnly": "Only owners and admins can change rules.",
+  "toggle": "Turn the {{name}} rule on/off",
+  "enabled": "On",
+  "disabled": "Off",
+  "never": "Has not run yet",
+  "lastRun": "Last run {{time}}",
+  "runCount_one": "{{count}} run",
+  "runCount_other": "{{count}} runs",
+  "open": "Open the {{name}} rule",
+  "toggled": "Rule turned {{state}}.",
+  "toggledOn": "on",
+  "toggledOff": "off",
+  "editor": {
+    "newTitle": "New automation rule",
+    "name": "Rule name",
+    "enabled": "Rule is on",
+    "when": "When",
+    "which": "For which records",
+    "whichHint": "All conditions must match. Without conditions the rule runs for every record.",
+    "what": "Do what",
+    "whatHint": "Actions run in order, e.g. assign first, then a task for the new owner.",
+    "addAction": "Add action",
+    "removeAction": "Remove the {{action}} action",
+    "save": "Save",
+    "create": "Create rule",
+    "cancel": "Cancel",
+    "delete": "Delete rule",
+    "deleteTitle": "Delete this rule?",
+    "deleteDescription": "The \"{{name}}\" rule and its run history are deleted. This cannot be undone.",
+    "saved": "Rule saved.",
+    "created": "Rule created.",
+    "deleted": "Rule deleted.",
+    "invalid": "Fix the missing or invalid fields.",
+    "noFields": "This trigger has no fields to filter on."
+  },
+  "triggers": {
+    "type": "Trigger",
+    "types": {
+      "submission": {
+        "created": "A form submission arrives"
+      },
+      "record": {
+        "created": "A record is created",
+        "stageChanged": "A record changes stage"
+      },
+      "quote": {
+        "noResponse": "A sent quote gets no answer"
+      }
+    },
+    "form": "Form",
+    "anyForm": "Any form",
+    "object": "Object",
+    "stage": "Stage",
+    "anyStage": "Any stage",
+    "afterDays": "After how many days",
+    "summary": {
+      "submission": "When the {{form}} form is submitted",
+      "submissionAny": "When any form is submitted",
+      "recordCreated": "When a new {{object}} record is created",
+      "stageChanged": "When a {{object}} record moves to \"{{stage}}\"",
+      "stageChangedAny": "When a {{object}} record changes stage",
+      "noResponse_one": "When a sent quote gets no answer for {{count}} day",
+      "noResponse_other": "When a sent quote gets no answer for {{count}} days"
+    }
+  },
+  "actions": {
+    "type": "Action",
+    "types": {
+      "assignRoundRobin": "Assign in turn (round-robin)",
+      "createTask": "Create a task",
+      "sendWhatsAppTemplate": "Send a WhatsApp template",
+      "notify": "Send an in-app notification"
+    },
+    "users": "People to assign in turn",
+    "taskTitle": "Task title",
+    "dueInDays": "Due (days later)",
+    "assignee": "Task owner",
+    "to": "To",
+    "owner": "The record owner",
+    "template": "Template",
+    "noTemplates": "Your active modules have no WhatsApp templates.",
+    "summary": {
+      "assignRoundRobin": "Assign in turn: {{users}}",
+      "createTask": "Task: {{title}} → {{assignee}}",
+      "sendWhatsAppTemplate": "WhatsApp: {{template}}",
+      "notify": "Notify: {{to}}"
+    }
+  },
+  "runs": {
+    "title": "Run history",
+    "description": "Last 50 runs. A rule runs once per record and event.",
+    "empty": "This rule has not run yet.",
+    "columns": {
+      "time": "Time",
+      "record": "Record",
+      "status": "Result",
+      "actions": "Actions"
+    },
+    "statuses": {
+      "success": "Succeeded",
+      "skipped": "Skipped",
+      "failed": "Failed"
+    },
+    "actionStatuses": {
+      "done": "Done",
+      "skipped": "Skipped",
+      "failed": "Failed"
+    },
+    "reasons": {
+      "conditions": "Conditions not met",
+      "recordMissing": "Record not found",
+      "noAssignee": "No member to assign",
+      "notConnected": "WhatsApp is not connected",
+      "templateNotApproved": "Template not approved",
+      "noRecipient": "No recipient contact",
+      "noPhone": "No phone number",
+      "noOptIn": "No WhatsApp consent",
+      "missingParams": "Template variables missing"
+    }
+  }
+}

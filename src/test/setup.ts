@@ -1,19 +1,24 @@
 import "@testing-library/jest-dom/vitest"
 import "./polyfills"
 
-import { cleanup } from "@testing-library/react"
+import { cleanup, configure } from "@testing-library/react"
 import { toast } from "sonner"
 import { afterAll, afterEach, beforeAll, beforeEach } from "vitest"
 
 import { bindApiClientToSession, resetSessionStore } from "@/features/auth"
 import { resetUiPreferences } from "@/features/shell"
-import i18n from "@/lib/i18n"
+import i18n, { loadAdminResources } from "@/lib/i18n"
 import { resetDb } from "@/mocks/db"
 import { server } from "@/mocks/node"
 import { resetScenarioState } from "@/mocks/scenarios/scenario-store"
 
-beforeAll(() => {
+// Lazy chunks (dashboard widgets, charts) resolve slower when every test
+// file runs in parallel under coverage.
+configure({ asyncUtilTimeout: 3_000 })
+
+beforeAll(async () => {
   server.listen({ onUnhandledFrame: "error" })
+  await loadAdminResources()
 })
 
 beforeEach(async () => {

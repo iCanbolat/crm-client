@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router"
 import { ArrowRightIcon } from "lucide-react"
+import { Suspense } from "react"
 import { useTranslation } from "react-i18next"
 
 import { PageHeader } from "@/components/common/page-header"
@@ -11,6 +12,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 import { getDashboardWidgets, type WidgetDef } from "@/engine/modules"
 import { useSession } from "@/features/auth"
 import { useActiveModules, useWorkspace } from "@/features/workspace"
@@ -85,7 +87,10 @@ export function DashboardPage({ search, onSearchChange }: DashboardPageProps) {
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {widgets.map(({ id, size, component: Widget }) => (
               <div key={id} className={cn("min-w-0", SIZE_CLASSES[size])}>
-                <Widget range={range} />
+                {/* Module widgets may be lazy (their chart library). */}
+                <Suspense fallback={<Skeleton className="h-48 w-full" />}>
+                  <Widget range={range} />
+                </Suspense>
               </div>
             ))}
           </div>

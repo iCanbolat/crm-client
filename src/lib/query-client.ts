@@ -1,11 +1,13 @@
 import {
   MutationCache,
+  QueryCache,
   QueryClient,
   type DefaultOptions,
 } from "@tanstack/react-query"
 import { toast } from "sonner"
 
 import { getErrorMessage, isApiError } from "@/lib/api"
+import { reportError } from "@/lib/error-reporting"
 
 declare module "@tanstack/react-query" {
   interface Register {
@@ -31,12 +33,25 @@ export function shouldRetryQuery(failureCount: number, error: unknown) {
 
 export function createQueryClient(overrides: DefaultOptions = {}) {
   return new QueryClient({
+    queryCache: new QueryCache({
+      onError: (error, query) =>
+        reportError(error, {
+          source: "query",
+          tags: { queryKey: JSON.stringify(query.queryKey) },
+        }),
+    }),
     mutationCache: new MutationCache({
       onSuccess: (_data, _variables, _context, mutation) => {
         const message = mutation.meta?.successMessage
         if (message) toast.success(message)
       },
       onError: (error, _variables, _context, mutation) => {
+        reportError(error, {
+          source: "mutation",
+          tags: {
+            mutationKey: JSON.stringify(mutation.options.mutationKey ?? []),
+          },
+        })
         if (mutation.meta?.suppressErrorToast) return
         // Field-level validation errors are rendered by the form itself.
         if (isApiError(error) && error.isValidationError) return

@@ -159,18 +159,18 @@ test.describe("Faz 0 — temel iskelet", () => {
   test("a11y: şablon ekranı ve 404'te WCAG AA ihlali yok", async ({
     page,
     openApp,
-    makeAxeBuilder,
+    expectNoViolations,
   }) => {
     await openApp("/examples")
     await expect(
       page.getByRole("list", { name: "Örnek kayıtlar" })
     ).toBeVisible()
-    expect((await makeAxeBuilder().analyze()).violations).toEqual([])
+    await expectNoViolations()
 
     await openApp("/olmayan-sayfa", { as: null })
     await expect(
       page.getByRole("heading", { name: "Sayfa bulunamadı" })
     ).toBeVisible()
-    expect((await makeAxeBuilder().analyze()).violations).toEqual([])
+    await expectNoViolations()
   })
 })

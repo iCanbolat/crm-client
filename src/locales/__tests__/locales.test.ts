@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest"
 
-import { resources, supportedLanguages } from "@/locales"
+import { coreResources, supportedLanguages } from "@/locales"
+import { adminResources } from "@/locales/admin"
+
+const resources = {
+  tr: { ...coreResources.tr, ...adminResources.tr },
+  en: { ...coreResources.en, ...adminResources.en },
+}
 
 function flattenKeys(value: unknown, prefix = ""): string[] {
   if (typeof value !== "object" || value === null) return [prefix]

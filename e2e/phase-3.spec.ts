@@ -11,18 +11,6 @@ import { expect, test } from "./fixtures"
  * Mock DB sayfa belleğinde yaşar: tam sayfa yenileme yapılmaz.
  */
 
-async function expectNoViolations(
-  page: Page,
-  makeAxeBuilder: () => import("@axe-core/playwright").default
-) {
-  await page.waitForFunction(() =>
-    document
-      .getAnimations()
-      .every((animation) => animation.playState !== "running")
-  )
-  expect((await makeAxeBuilder().analyze()).violations).toEqual([])
-}
-
 async function pickLocation(
   page: Page,
   scope: ReturnType<Page["getByRole"]>,
@@ -40,7 +28,7 @@ test.describe("Faz 3 — Forwarding modülü", () => {
     page,
     openApp,
     openNav,
-    makeAxeBuilder,
+    expectNoViolations,
   }) => {
     test.setTimeout(120_000)
     await openApp("/o/lead")
@@ -85,7 +73,7 @@ test.describe("Faz 3 — Forwarding modülü", () => {
     await expect(
       convert.getByRole("radio", { name: /Yeni şirket oluştur/ })
     ).toBeChecked()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
     await convert.getByRole("button", { name: "Dönüştür", exact: true }).click()
     await expect(page).toHaveURL(/\/quotes\/new\?/)
     await expect(
@@ -116,7 +104,7 @@ test.describe("Faz 3 — Forwarding modülü", () => {
     }
     await expect(page.getByTestId("quote-margin")).toContainText("%")
     await expect(page.getByRole("alert")).toHaveCount(0)
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
     await page.getByRole("button", { name: "Kaydet", exact: true }).click()
     await expect(page.getByText("Teklif oluşturuldu.")).toBeVisible()
     await expect(page).toHaveURL(/\/quotes\/quo_/)
@@ -155,7 +143,7 @@ test.describe("Faz 3 — Forwarding modülü", () => {
       "aria-current",
       "step"
     )
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
 
     // 7. Dashboard
     await openNav()
@@ -173,7 +161,7 @@ test.describe("Faz 3 — Forwarding modülü", () => {
         .getByRole("region", { name: "Duruma göre sevkiyatlar" })
         .getByText("Yük hazır")
     ).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
   })
 
   test("acente ağı ve gecikmiş sevkiyatlar görünümü", async ({

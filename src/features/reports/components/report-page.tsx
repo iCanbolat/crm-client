@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query"
 import { BarChart3Icon, DownloadIcon } from "lucide-react"
+import { lazy, Suspense } from "react"
 import { useTranslation } from "react-i18next"
 import { toast } from "sonner"
 
@@ -45,7 +46,11 @@ import type { ReportSearch } from "../api/reports.schemas"
 import { reportToCsv } from "../lib/csv"
 import { formatReportCell } from "../lib/format"
 import { toReportParams } from "../lib/reports"
-import { ReportChart } from "./report-chart"
+
+/** recharts loads with the chart, not with the shell (B7.4). */
+const ReportChart = lazy(() =>
+  import("./report-chart").then((module) => ({ default: module.ReportChart }))
+)
 
 const ALL_OWNERS = "__all"
 
@@ -195,13 +200,15 @@ function ReportBody({
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ReportChart
-              def={{ ...def, chart }}
-              result={result}
-              valueColumn={valueColumn}
-              valueLabel={resolveI18nText(valueColumn.label, language)}
-              locale={locale}
-            />
+            <Suspense fallback={<Skeleton className="h-40 w-full" />}>
+              <ReportChart
+                def={{ ...def, chart }}
+                result={result}
+                valueColumn={valueColumn}
+                valueLabel={resolveI18nText(valueColumn.label, language)}
+                locale={locale}
+              />
+            </Suspense>
           </CardContent>
         </Card>
       ) : null}

@@ -5,17 +5,10 @@ import {
   ShipIcon,
 } from "lucide-react"
 
+import { lazy } from "react"
+
 import type { ModuleManifest } from "@/engine/modules"
 
-import {
-  DelayedShipmentsWidget,
-  OpenRequestsWidget,
-  RepPerformanceWidget,
-  RevenueWidget,
-  ShipmentStatusWidget,
-  TopLanesWidget,
-  WinRateWidget,
-} from "./components/dashboard/widgets"
 import { QuoteSummaryCard } from "./components/quote/quote-summary-card"
 import { RouteCargoCard } from "./components/route-cargo-card"
 import { MilestoneTimeline } from "./components/shipment/milestone-timeline"
@@ -35,6 +28,16 @@ import {
 import { quoteObject, shipmentObject } from "./metadata/objects"
 
 /** Company list filtered to the overseas agent network (B3.6). */
+type WidgetName = keyof typeof import("./components/dashboard/widgets")
+
+/** Widgets (and recharts) load with the dashboard, not the app shell (B7.4). */
+const widget = (name: WidgetName) =>
+  lazy(() =>
+    import("./components/dashboard/widgets").then((module) => ({
+      default: module[name],
+    }))
+  )
+
 export const AGENT_NETWORK_FILTERS = [
   { field: "companyTypes", op: "in" as const, value: ["overseas_agent"] },
 ]
@@ -78,13 +81,29 @@ export const forwardingModule: ModuleManifest = {
     ],
   },
   dashboardWidgets: [
-    { id: "forwarding.openRequests", size: 1, component: OpenRequestsWidget },
-    { id: "forwarding.winRate", size: 1, component: WinRateWidget },
-    { id: "forwarding.revenue", size: 2, component: RevenueWidget },
-    { id: "forwarding.shipments", size: 2, component: ShipmentStatusWidget },
-    { id: "forwarding.delayed", size: 2, component: DelayedShipmentsWidget },
-    { id: "forwarding.lanes", size: 2, component: TopLanesWidget },
-    { id: "forwarding.reps", size: 2, component: RepPerformanceWidget },
+    {
+      id: "forwarding.openRequests",
+      size: 1,
+      component: widget("OpenRequestsWidget"),
+    },
+    { id: "forwarding.winRate", size: 1, component: widget("WinRateWidget") },
+    { id: "forwarding.revenue", size: 2, component: widget("RevenueWidget") },
+    {
+      id: "forwarding.shipments",
+      size: 2,
+      component: widget("ShipmentStatusWidget"),
+    },
+    {
+      id: "forwarding.delayed",
+      size: 2,
+      component: widget("DelayedShipmentsWidget"),
+    },
+    { id: "forwarding.lanes", size: 2, component: widget("TopLanesWidget") },
+    {
+      id: "forwarding.reps",
+      size: 2,
+      component: widget("RepPerformanceWidget"),
+    },
   ],
   navigation: [
     {

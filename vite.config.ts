@@ -18,7 +18,7 @@ export default defineConfig({
     },
   },
   build: {
-    // Read by scripts/check-public-bundle.mjs (public chunk budget, B5.1).
+    // Read by scripts/check-bundles.mjs (bundle budgets, B5.1 / B7.4).
     manifest: true,
   },
   server: {

@@ -1,5 +1,3 @@
-import type { Page } from "@playwright/test"
-
 import { ACCOUNTS, expect, test } from "./fixtures"
 
 /**
@@ -10,19 +8,6 @@ import { ACCOUNTS, expect, test } from "./fixtures"
  * Mock DB sayfa belleğinde yaşar: akış boyunca tam sayfa yenileme yapılmaz,
  * gezinme uygulama içi linklerle olur.
  */
-
-async function expectNoViolations(
-  page: Page,
-  makeAxeBuilder: () => import("@axe-core/playwright").default
-) {
-  // Scan settled UI only: fade-in animations skew color contrast.
-  await page.waitForFunction(() =>
-    document
-      .getAnimations()
-      .every((animation) => animation.playState !== "running")
-  )
-  expect((await makeAxeBuilder().analyze()).violations).toEqual([])
-}
 
 test.describe("Faz 2 — CRM çekirdek motoru", () => {
   test("uçtan uca: şirket → kişi → lead → liste → kanban → aktivite → özel alan", async ({
@@ -300,17 +285,17 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
     page,
     openApp,
     openNav,
-    makeAxeBuilder,
+    expectNoViolations,
   }) => {
     await openApp("/o/deal")
     await expect(page.getByRole("table", { name: "Fırsatlar" })).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
 
     await page.getByRole("button", { name: "Yeni Fırsat" }).click()
     await expect(
       page.getByRole("dialog", { name: "Yeni Fırsat" })
     ).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
     await page
       .getByRole("dialog", { name: "Yeni Fırsat" })
       .getByRole("button", { name: "Vazgeç" })
@@ -320,7 +305,7 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
     await expect(
       page.getByRole("region", { name: "Fırsatlar panosu" })
     ).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
 
     await page
       .getByRole("region", { name: "Fırsatlar panosu" })
@@ -329,13 +314,13 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
       .getByRole("link")
       .click()
     await expect(page.getByRole("tablist")).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
 
     await page.getByRole("tab", { name: "Zaman çizelgesi" }).click()
     await expect(
       page.getByRole("form", { name: "Aktivite ekle" })
     ).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
 
     await openNav()
     await page
@@ -345,7 +330,7 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
     await expect(
       page.getByRole("heading", { name: "Görevlerim", level: 1 })
     ).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
 
     await openNav()
     await page
@@ -358,10 +343,10 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
       .getByRole("link", { name: /Fırsatlar/ })
       .click()
     await expect(page.getByRole("table", { name: "Alanlar" })).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
 
     await page.getByRole("tab", { name: "Pipeline" }).click()
     await expect(page.getByRole("list", { name: "Aşamalar" })).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
   })
 })

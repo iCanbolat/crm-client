@@ -20,8 +20,9 @@
     "test:coverage": "vitest run --coverage",
     "e2e": "playwright test",
     "e2e:ui": "playwright test --ui",
-    "verify": "pnpm typecheck && pnpm lint && pnpm test:coverage && pnpm build && pnpm check:public-bundle && pnpm e2e",
-    "check:public-bundle": "node scripts/check-public-bundle.mjs"
+    "verify": "pnpm typecheck && pnpm lint && pnpm check:i18n && pnpm test:coverage && pnpm build && pnpm check:bundles && pnpm e2e",
+    "check:bundles": "node scripts/check-bundles.mjs",
+    "check:i18n": "node scripts/check-i18n.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

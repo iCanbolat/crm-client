@@ -1,51 +1,33 @@
-import enActivities from "./en/activities.json"
-import enAuth from "./en/auth.json"
-import enAutomation from "./en/automation.json"
 import enCommon from "./en/common.json"
-import enDashboard from "./en/dashboard.json"
-import enDev from "./en/dev.json"
 import enEngine from "./en/engine.json"
 import enErrors from "./en/errors.json"
-import enExample from "./en/example.json"
-import enForms from "./en/forms.json"
 import enForwarding from "./en/forwarding.json"
-import enLeads from "./en/leads.json"
-import enMessaging from "./en/messaging.json"
-import enNotifications from "./en/notifications.json"
-import enPipelines from "./en/pipelines.json"
-import enRecords from "./en/records.json"
-import enRenderer from "./en/renderer.json"
-import enReports from "./en/reports.json"
-import enSubmissions from "./en/submissions.json"
-import enSites from "./en/sites.json"
 import enPublic from "./en/public.json"
-import enSettings from "./en/settings.json"
-import enShell from "./en/shell.json"
-import enWorkspace from "./en/workspace.json"
-import trActivities from "./tr/activities.json"
-import trAuth from "./tr/auth.json"
-import trAutomation from "./tr/automation.json"
+import enRenderer from "./en/renderer.json"
 import trCommon from "./tr/common.json"
-import trDashboard from "./tr/dashboard.json"
-import trDev from "./tr/dev.json"
 import trEngine from "./tr/engine.json"
 import trErrors from "./tr/errors.json"
-import trExample from "./tr/example.json"
-import trForms from "./tr/forms.json"
 import trForwarding from "./tr/forwarding.json"
-import trLeads from "./tr/leads.json"
-import trMessaging from "./tr/messaging.json"
-import trNotifications from "./tr/notifications.json"
-import trPipelines from "./tr/pipelines.json"
-import trRecords from "./tr/records.json"
-import trRenderer from "./tr/renderer.json"
-import trReports from "./tr/reports.json"
-import trSubmissions from "./tr/submissions.json"
-import trSites from "./tr/sites.json"
 import trPublic from "./tr/public.json"
-import trSettings from "./tr/settings.json"
-import trShell from "./tr/shell.json"
-import trWorkspace from "./tr/workspace.json"
+import trRenderer from "./tr/renderer.json"
+import type trActivities from "./tr/activities.json"
+import type trAuth from "./tr/auth.json"
+import type trAutomation from "./tr/automation.json"
+import type trDashboard from "./tr/dashboard.json"
+import type trDev from "./tr/dev.json"
+import type trExample from "./tr/example.json"
+import type trForms from "./tr/forms.json"
+import type trLeads from "./tr/leads.json"
+import type trMessaging from "./tr/messaging.json"
+import type trNotifications from "./tr/notifications.json"
+import type trPipelines from "./tr/pipelines.json"
+import type trRecords from "./tr/records.json"
+import type trReports from "./tr/reports.json"
+import type trSettings from "./tr/settings.json"
+import type trShell from "./tr/shell.json"
+import type trSites from "./tr/sites.json"
+import type trSubmissions from "./tr/submissions.json"
+import type trWorkspace from "./tr/workspace.json"
 
 export const supportedLanguages = ["tr", "en"] as const
 export type Language = (typeof supportedLanguages)[number]
@@ -53,65 +35,62 @@ export type Language = (typeof supportedLanguages)[number]
 export const fallbackLanguage: Language = "tr"
 export const defaultNS = "common"
 
-export const resources = {
+/**
+ * Namespaces the public form site needs (B7.4): bundled with the entry.
+ * Everything else is admin-only and loads with the admin app
+ * (`@/locales/admin`, see `loadAdminResources`).
+ */
+export const coreResources = {
   tr: {
     common: trCommon,
     errors: trErrors,
-    example: trExample,
-    dev: trDev,
-    auth: trAuth,
-    workspace: trWorkspace,
-    shell: trShell,
-    dashboard: trDashboard,
     engine: trEngine,
-    records: trRecords,
-    pipelines: trPipelines,
-    activities: trActivities,
-    settings: trSettings,
     forwarding: trForwarding,
-    leads: trLeads,
     renderer: trRenderer,
-    forms: trForms,
-    submissions: trSubmissions,
-    sites: trSites,
     public: trPublic,
-    messaging: trMessaging,
-    reports: trReports,
-    notifications: trNotifications,
-    automation: trAutomation,
   },
   en: {
     common: enCommon,
     errors: enErrors,
-    example: enExample,
-    dev: enDev,
-    auth: enAuth,
-    workspace: enWorkspace,
-    shell: enShell,
-    dashboard: enDashboard,
     engine: enEngine,
-    records: enRecords,
-    pipelines: enPipelines,
-    activities: enActivities,
-    settings: enSettings,
     forwarding: enForwarding,
-    leads: enLeads,
     renderer: enRenderer,
-    forms: enForms,
-    submissions: enSubmissions,
-    sites: enSites,
     public: enPublic,
-    messaging: enMessaging,
-    reports: enReports,
-    notifications: enNotifications,
-    automation: enAutomation,
   },
 } as const
 
-export type Namespace = keyof (typeof resources)["tr"]
+/** Every namespace (types only: admin JSON is not bundled here). */
+export interface AppResources {
+  common: typeof trCommon
+  errors: typeof trErrors
+  example: typeof trExample
+  dev: typeof trDev
+  auth: typeof trAuth
+  workspace: typeof trWorkspace
+  shell: typeof trShell
+  dashboard: typeof trDashboard
+  engine: typeof trEngine
+  records: typeof trRecords
+  pipelines: typeof trPipelines
+  activities: typeof trActivities
+  settings: typeof trSettings
+  forwarding: typeof trForwarding
+  leads: typeof trLeads
+  renderer: typeof trRenderer
+  forms: typeof trForms
+  submissions: typeof trSubmissions
+  sites: typeof trSites
+  public: typeof trPublic
+  messaging: typeof trMessaging
+  reports: typeof trReports
+  notifications: typeof trNotifications
+  automation: typeof trAutomation
+}
+
+export type Namespace = keyof AppResources
 
 /** Breadcrumb labels (`shell:crumbs.*`) a route may reference in `staticData`. */
-export type CrumbKey = keyof (typeof trShell)["crumbs"]
+export type CrumbKey = keyof AppResources["shell"]["crumbs"]
 
 export function isLanguage(value: unknown): value is Language {
   return supportedLanguages.includes(value as Language)

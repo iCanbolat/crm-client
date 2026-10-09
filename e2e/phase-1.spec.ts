@@ -253,18 +253,8 @@ test.describe("Faz 1 — auth, onboarding & app shell", () => {
     page,
     openApp,
     submitLogin,
-    makeAxeBuilder,
+    expectNoViolations,
   }) => {
-    const expectNoViolations = async () => {
-      // Scan settled UI only: fade-in animations skew color contrast.
-      await page.waitForFunction(() =>
-        document
-          .getAnimations()
-          .every((animation) => animation.playState !== "running")
-      )
-      expect((await makeAxeBuilder().analyze()).violations).toEqual([])
-    }
-
     await openApp("/login", { as: null })
     await expectNoViolations()
 

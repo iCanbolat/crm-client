@@ -15,18 +15,6 @@ import { expect, test } from "./fixtures"
 const SHIPMENT = { id: "shp_m0003", number: "SHP-2026-0003" }
 const CUSTOMER = { name: "Leyla Adıvar", phone: "+905139718111" }
 
-async function expectNoViolations(
-  page: Page,
-  makeAxeBuilder: () => import("@axe-core/playwright").default
-) {
-  await page.waitForFunction(() =>
-    document
-      .getAnimations()
-      .every((animation) => animation.playState !== "running")
-  )
-  expect((await makeAxeBuilder().analyze()).violations).toEqual([])
-}
-
 /** Full page load that keeps the persisted mock DB and session. */
 async function goto(page: Page, path: string) {
   await page.goto(path)
@@ -54,7 +42,7 @@ test.describe("Faz 6 — WhatsApp kanalı", () => {
     page,
     openApp,
     openNav,
-    makeAxeBuilder,
+    expectNoViolations,
     isMobile,
   }) => {
     test.setTimeout(150_000)
@@ -97,7 +85,7 @@ test.describe("Faz 6 — WhatsApp kanalı", () => {
     await expect(
       page.getByText(/••••7890 · .* tarihinde güncellendi/)
     ).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
 
     // 3. Şablonlar: inceleme → onay (mock 3 sn)
     await page.getByRole("tab", { name: "Şablonlar" }).click()
@@ -115,7 +103,7 @@ test.describe("Faz 6 — WhatsApp kanalı", () => {
     })
     await departed.click()
     await expect(departed).toBeChecked()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
 
     // 5. Sevkiyatta ATD → şablon otomatik gider
     await goto(page, `/o/shipment/${SHIPMENT.id}`)
@@ -188,7 +176,7 @@ test.describe("Faz 6 — WhatsApp kanalı", () => {
     await expect(
       page.getByText("Merhaba Leyla Hanım, acentemiz Balcı Group karşılayacak.")
     ).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
     if (isMobile) {
       await page.getByRole("button", { name: "Konuşmalara dön" }).click()
     }
@@ -198,7 +186,7 @@ test.describe("Faz 6 — WhatsApp kanalı", () => {
   test("agent: ayarlara erişemez, gelen kutusunda yalnız kendi + atanmamış konuşmalar", async ({
     page,
     openApp,
-    makeAxeBuilder,
+    expectNoViolations,
   }) => {
     await openApp("/settings/whatsapp", { as: "agent" })
     await expect(page.getByText("Bu sayfaya erişiminiz yok")).toBeVisible()
@@ -218,6 +206,6 @@ test.describe("Faz 6 — WhatsApp kanalı", () => {
         )
       ).toBe(false)
     }
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
   })
 })

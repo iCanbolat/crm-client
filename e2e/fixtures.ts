@@ -30,6 +30,8 @@ interface Fixtures {
   openNav: () => Promise<void>
   /** WCAG 2.1 AA scan scoped to the app (excludes dev-only tooling). */
   makeAxeBuilder: () => AxeBuilder
+  /** Waits for animations to settle, then expects no axe violations. */
+  expectNoViolations: () => Promise<void>
 }
 
 async function waitForApp(page: Page) {
@@ -86,6 +88,17 @@ export const test = base.extend<Fixtures>({
         .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
         .exclude("[data-testid='msw-badge']")
     )
+  },
+  expectNoViolations: async ({ page, makeAxeBuilder }, use) => {
+    await use(async () => {
+      // Scan settled UI only: fade-in animations skew color contrast.
+      await page.waitForFunction(() =>
+        document
+          .getAnimations()
+          .every((animation) => animation.playState !== "running")
+      )
+      expect((await makeAxeBuilder().analyze()).violations).toEqual([])
+    })
   },
 })
 

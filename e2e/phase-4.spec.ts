@@ -12,18 +12,6 @@ import { expect, test } from "./fixtures"
  * Mock DB sayfa belleğinde yaşar: tam sayfa yenileme yapılmaz.
  */
 
-async function expectNoViolations(
-  page: Page,
-  makeAxeBuilder: () => import("@axe-core/playwright").default
-) {
-  await page.waitForFunction(() =>
-    document
-      .getAnimations()
-      .every((animation) => animation.playState !== "running")
-  )
-  expect((await makeAxeBuilder().analyze()).violations).toEqual([])
-}
-
 /** Palette lives in a sheet below 1440 px; mobile opens properties after adding. */
 async function addFromPalette(page: Page, item: string, isMobile: boolean) {
   await page.getByRole("button", { name: "Alan ekle", exact: true }).click()
@@ -54,14 +42,14 @@ test.describe("Faz 4 — Form builder", () => {
     page,
     openApp,
     isMobile,
-    makeAxeBuilder,
+    expectNoViolations,
   }) => {
     test.setTimeout(150_000)
     await openApp("/forms")
     await expect(
       page.getByRole("heading", { name: "Formlar", level: 1 })
     ).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
 
     // 1. Yeni form
     await page.getByRole("button", { name: "Yeni form" }).click()
@@ -90,7 +78,7 @@ test.describe("Faz 4 — Form builder", () => {
       ).toBeVisible()
     }
     await expect(page.getByText("Tüm değişiklikler kaydedildi")).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
 
     // 3. Koşul: Taşıma modu = Hava → Ölçüler göster
     await openTab(page, "Mantık")
@@ -107,7 +95,7 @@ test.describe("Faz 4 — Form builder", () => {
     await page.getByRole("menuitemcheckbox", { name: "Ölçüler" }).click()
     await page.keyboard.press("Escape")
     await expect(rule.getByText(/Kuralı tamamlayın/)).toBeHidden()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
 
     // 4. CRM eşleme: bloklar ve zorunlu "Ad soyad" eşli
     await openTab(page, "CRM eşleme")
@@ -118,7 +106,7 @@ test.describe("Faz 4 — Form builder", () => {
     await expect(
       page.getByRole("combobox", { name: "Çıkış noktası için hedef alan" })
     ).toContainText("Çıkış")
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
 
     // 5. Tema + mobil önizleme
     await openTab(page, "Tema & ayarlar")
@@ -136,7 +124,7 @@ test.describe("Faz 4 — Form builder", () => {
       "style",
       /width: 375px/
     )
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
 
     // 6. Önizlemede doldur ve gönder
     await page.getByRole("button", { name: "Önizle" }).click()
@@ -163,7 +151,7 @@ test.describe("Faz 4 — Form builder", () => {
       .first()
       .click()
     await dialog.getByRole("checkbox", { name: /KVKK/ }).click()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
     await dialog.getByRole("button", { name: "Gönder" }).click()
     await expect(dialog.getByRole("status")).toContainText("Teşekkürler!")
     await page.keyboard.press("Escape")
@@ -186,7 +174,7 @@ test.describe("Faz 4 — Form builder", () => {
     ).toHaveValue(
       /src="http:\/\/acme-lojistik\.forms\.localhost:\d+\/embed\/navlun-teklif-formu"/
     )
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
     await done.getByRole("button", { name: "Kapat" }).click()
 
     // 8. Listede yayında
@@ -202,7 +190,7 @@ test.describe("Faz 4 — Form builder", () => {
     page,
     openApp,
     isMobile,
-    makeAxeBuilder,
+    expectNoViolations,
   }) => {
     test.setTimeout(90_000)
     await openApp("/forms/form_freight/edit")
@@ -231,7 +219,7 @@ test.describe("Faz 4 — Form builder", () => {
     await expect(
       page.getByRole("listitem", { name: "Versiyon 4" }).getByText("Yayında")
     ).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
     await page
       .getByRole("listitem", { name: "Versiyon 1" })
       .getByRole("button", { name: "Taslağa geri yükle" })

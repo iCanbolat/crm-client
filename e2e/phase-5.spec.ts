@@ -14,18 +14,6 @@ import { expect, test } from "./fixtures"
 
 const CUSTOM_DOMAIN = "teklif.acmelojistik.com"
 
-async function expectNoViolations(
-  page: Page,
-  makeAxeBuilder: () => import("@axe-core/playwright").default
-) {
-  await page.waitForFunction(() =>
-    document
-      .getAnimations()
-      .every((animation) => animation.playState !== "running")
-  )
-  expect((await makeAxeBuilder().analyze()).violations).toEqual([])
-}
-
 /** Public pages have no dev toolbar: wait for the MSW readiness flag. */
 async function openPublic(page: Page, path: string) {
   await page.goto(path)
@@ -56,7 +44,7 @@ test.describe("Faz 5 — Hosted formlar & custom domain", () => {
     page,
     openApp,
     openNav,
-    makeAxeBuilder,
+    expectNoViolations,
   }) => {
     test.setTimeout(150_000)
 
@@ -90,7 +78,7 @@ test.describe("Faz 5 — Hosted formlar & custom domain", () => {
     const domain = page.getByRole("listitem", { name: CUSTOM_DOMAIN })
     await expect(domain.getByText("cname.forms-platform.com")).toBeVisible()
     await expect(domain.getByText(`_crm-verify.${CUSTOM_DOMAIN}`)).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
     await expect(domain.getByText("Aktif", { exact: true })).toBeVisible({
       timeout: 15_000,
     })
@@ -124,7 +112,7 @@ test.describe("Faz 5 — Hosted formlar & custom domain", () => {
     await expect(
       page.getByRole("link", { name: "KVKK Aydınlatma Metni" })
     ).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
 
     await page.getByRole("textbox", { name: /Ad soyad/ }).fill("Leyla Önal")
     await page.getByRole("textbox", { name: /Firma adı/ }).fill("Önal Mobilya")
@@ -166,7 +154,7 @@ test.describe("Faz 5 — Hosted formlar & custom domain", () => {
     const sheet = page.getByRole("dialog")
     await expect(sheet.getByText("Hosted form sayfası")).toBeVisible()
     await expect(sheet.getByText("ekim", { exact: true })).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
     await sheet.getByRole("link", { name: /Leyla Önal/ }).click()
 
     // 6. Lead kaydı: kaynak web formu, rota bilgisi
@@ -182,7 +170,7 @@ test.describe("Faz 5 — Hosted formlar & custom domain", () => {
 
   test("bilinmeyen host ve yayında olmayan form marka-nötr 404 döner", async ({
     page,
-    makeAxeBuilder,
+    expectNoViolations,
   }) => {
     await openPublic(page, "/f/navlun-teklif?__host=yok.forms.localhost")
     await expect(
@@ -197,7 +185,7 @@ test.describe("Faz 5 — Hosted formlar & custom domain", () => {
     await expect(
       page.getByRole("heading", { name: "Sayfa bulunamadı" })
     ).toBeVisible()
-    await expectNoViolations(page, makeAxeBuilder)
+    await expectNoViolations()
   })
 
   test("embed görünümü yükseklik bildirir ve başlık/footer göstermez", async ({

@@ -6,10 +6,10 @@ import zodEn from "zod/v4/locales/en.js"
 import zodTr from "zod/v4/locales/tr.js"
 
 import {
+  coreResources,
   defaultNS,
   fallbackLanguage,
   isLanguage,
-  resources,
   supportedLanguages,
   type Language,
 } from "@/locales"
@@ -45,9 +45,9 @@ void i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    resources,
+    resources: coreResources,
     defaultNS,
-    ns: Object.keys(resources.tr),
+    ns: Object.keys(coreResources.tr),
     fallbackLng: fallbackLanguage,
     supportedLngs: supportedLanguages,
     nonExplicitSupportedLngs: true,
@@ -65,6 +65,26 @@ void i18n
 
 syncLanguage(i18n.resolvedLanguage)
 i18n.on("languageChanged", syncLanguage)
+
+let adminResources: Promise<void> | null = null
+
+/**
+ * Adds the admin-only namespaces (their own chunk, B7.4). The admin app, the
+ * mock backend and tests await it before rendering; repeated calls share
+ * one load.
+ */
+export function loadAdminResources() {
+  adminResources ??= import("@/locales/admin").then(
+    ({ adminResources: bundles }) => {
+      for (const language of supportedLanguages) {
+        for (const [namespace, data] of Object.entries(bundles[language])) {
+          i18n.addResourceBundle(language, namespace, data, true, true)
+        }
+      }
+    }
+  )
+  return adminResources
+}
 
 export function getCurrentLanguage(): Language {
   return getLanguage(i18n.resolvedLanguage ?? i18n.language)

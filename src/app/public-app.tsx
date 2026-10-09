@@ -1,4 +1,8 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import {
+  QueryCache,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query"
 import { useState } from "react"
 import { I18nextProvider } from "react-i18next"
 
@@ -6,6 +10,7 @@ import "./field-types"
 
 import { PublicSite } from "@/features/public-site"
 import { configureApiClient } from "@/lib/api"
+import { reportError } from "@/lib/error-reporting"
 import i18n from "@/lib/i18n"
 
 /**
@@ -17,6 +22,9 @@ export function PublicApp({ host }: { host: string }) {
     configureApiClient({ publicHost: host })
     // No toast cache: the public pages render their errors inline.
     return new QueryClient({
+      queryCache: new QueryCache({
+        onError: (error) => reportError(error, { source: "query" }),
+      }),
       defaultOptions: {
         queries: {
           retry: false,

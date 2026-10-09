@@ -1,4 +1,5 @@
 import { env } from "@/lib/env"
+import { loadAdminResources } from "@/lib/i18n"
 
 import { worker } from "./browser"
 import { loadPersistedDb, startDbPersistence } from "./db/persistence"
@@ -11,6 +12,8 @@ const apiBasePath = new URL(env.VITE_API_URL, window.location.origin).pathname
 
 export async function enableMocking() {
   applyScenarioFromSearch(window.location.search)
+  // Mock handlers localize with admin namespaces too (dev only).
+  await loadAdminResources()
 
   if (getScenarioState().persist) loadPersistedDb()
   startDbPersistence()

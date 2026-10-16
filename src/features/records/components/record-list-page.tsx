@@ -1,25 +1,26 @@
 import { useNavigate } from "@tanstack/react-router"
-import { KanbanSquareIcon, PlusIcon, SearchIcon, TableIcon } from "lucide-react"
-import { useEffect, useState, type ReactNode } from "react"
+import { KanbanSquareIcon, PlusIcon } from "lucide-react"
+import { useState, type ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 
-import { PageHeader } from "@/components/common/page-header"
-import { Button } from "@/components/ui/button"
 import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/components/ui/input-group"
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+  DATA_VIEW_CONTAINER,
+  DataViewLayoutToggle,
+  DataViewToolbar,
+  type DataViewLayoutOption,
+  type DataViewToolbarSlots,
+} from "@/components/common/data-view"
+import { PageHeader } from "@/components/common/page-header"
+import { SearchInput } from "@/components/common/search-input"
+import { Button } from "@/components/ui/button"
 import { label, type ObjectDef } from "@/engine/metadata"
 import { Can, useSession } from "@/features/auth"
 import { useWorkspace } from "@/features/workspace"
-import { useDebouncedValue } from "@/hooks/use-debounced-value"
 import { getCurrentLanguage } from "@/lib/i18n"
 import { recordScope } from "@/lib/rbac"
 
 import type { ListLayoutMode, RecordListSearch } from "../api/records.schemas"
-import { FilterBar } from "./filter-bar"
+import { AddFilterButton, FilterChips } from "./filter-bar"
 import { RecordFormSheet } from "./record-form-sheet"
 import { RecordTable } from "./record-table"
 import { ViewsMenu } from "./views-menu"
@@ -31,41 +32,6 @@ export interface RecordListPageProps {
   onViewSelect: (search: RecordListSearch | null) => void
   /** Kanban board of pipeline objects (provided by the pipelines feature). */
   board?: ReactNode
-}
-
-function ListSearchInput({
-  value,
-  placeholder,
-  onChange,
-}: {
-  value: string
-  placeholder: string
-  onChange: (value: string | undefined) => void
-}) {
-  const [text, setText] = useState(value)
-  const debounced = useDebouncedValue(text, 300)
-
-  useEffect(() => {
-    if (debounced.trim() !== value.trim())
-      onChange(debounced.trim() || undefined)
-    // Only typing triggers a search; `value` changes come from the URL.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debounced])
-
-  return (
-    <InputGroup className="w-full sm:w-64">
-      <InputGroupAddon>
-        <SearchIcon aria-hidden />
-      </InputGroupAddon>
-      <InputGroupInput
-        type="search"
-        value={text}
-        placeholder={placeholder}
-        aria-label={placeholder}
-        onChange={(event) => setText(event.target.value)}
-      />
-    </InputGroup>
-  )
 }
 
 /** Generic list screen of any object: `/o/$objectKey` (B2.2). */
@@ -93,6 +59,53 @@ export function RecordListPage({
       ? void navigate({ to: objectDef.createPath } as never)
       : setCreating(true)
 
+  const filters = search.filters ?? []
+  const changeFilters = (next: typeof filters) =>
+    onSearchChange({ filters: next.length ? next : undefined, page: 1 })
+  const changeLayout = (layout: string) =>
+    onSearchChange({ layout: layout as ListLayoutMode, page: 1 })
+  const extraLayouts: DataViewLayoutOption[] = board
+    ? [
+        {
+          value: "kanban",
+          label: t("list.kanbanLayout"),
+          icon: KanbanSquareIcon,
+        },
+      ]
+    : []
+
+  const toolbar: DataViewToolbarSlots = {
+    search: (
+      <SearchInput
+        key={search.view ?? "all"}
+        value={search.q ?? ""}
+        placeholder={t("list.search", { object: plural })}
+        onChange={(q) => onSearchChange({ q, page: 1 })}
+      />
+    ),
+    filters: (
+      <>
+        <ViewsMenu
+          objectKey={objectDef.key}
+          search={search}
+          onSelect={onViewSelect}
+        />
+        <AddFilterButton
+          objectDef={objectDef}
+          filters={filters}
+          onChange={changeFilters}
+        />
+      </>
+    ),
+    activeFilters: filters.length ? (
+      <FilterChips
+        objectDef={objectDef}
+        filters={filters}
+        onChange={changeFilters}
+      />
+    ) : undefined,
+  }
+
   const createButton = (
     <Can action="create" resource="record">
       <Button onClick={create}>
@@ -107,71 +120,30 @@ export function RecordListPage({
       <PageHeader
         title={plural}
         description={scoped ? t("workspace:visibility.listHint") : undefined}
-        actions={
-          <>
-            {board ? (
-              <ToggleGroup
-                variant="outline"
-                spacing={0}
-                aria-label={t("list.layout")}
-                value={[search.layout]}
-                onValueChange={(value) => {
-                  const next = value[0] as ListLayoutMode | undefined
-                  if (next) onSearchChange({ layout: next, page: 1 })
-                }}
-              >
-                <ToggleGroupItem
-                  value="table"
-                  aria-label={t("list.tableLayout")}
-                >
-                  <TableIcon />
-                </ToggleGroupItem>
-                <ToggleGroupItem
-                  value="kanban"
-                  aria-label={t("list.kanbanLayout")}
-                >
-                  <KanbanSquareIcon />
-                </ToggleGroupItem>
-              </ToggleGroup>
-            ) : null}
-            {createButton}
-          </>
-        }
+        actions={createButton}
       />
 
-      <div className="flex flex-col gap-3">
-        <div className="flex flex-wrap items-center gap-2">
-          <ListSearchInput
-            key={search.view ?? "all"}
-            value={search.q ?? ""}
-            placeholder={t("list.search", { object: plural })}
-            onChange={(q) => onSearchChange({ q, page: 1 })}
-          />
-          <ViewsMenu
-            objectKey={objectDef.key}
-            search={search}
-            onSelect={onViewSelect}
-          />
-        </div>
-        <FilterBar
-          objectDef={objectDef}
-          filters={search.filters ?? []}
-          onChange={(filters) =>
-            onSearchChange({
-              filters: filters.length ? filters : undefined,
-              page: 1,
-            })
-          }
-        />
-      </div>
-
       {showBoard ? (
-        board
+        <div className={`${DATA_VIEW_CONTAINER} flex min-w-0 flex-col gap-3`}>
+          <DataViewToolbar
+            {...toolbar}
+            controls={
+              <DataViewLayoutToggle
+                value="kanban"
+                onValueChange={changeLayout}
+                extraLayouts={extraLayouts}
+              />
+            }
+          />
+          {board}
+        </div>
       ) : (
         <RecordTable
           objectDef={objectDef}
           search={search}
           onSearchChange={onSearchChange}
+          toolbar={toolbar}
+          extraLayouts={extraLayouts}
           emptyAction={createButton}
         />
       )}

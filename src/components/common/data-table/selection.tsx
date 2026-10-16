@@ -30,7 +30,7 @@ export function createSelectColumn<TData>(
   }
 }
 
-function SelectAllCheckbox<TData>({ table }: { table: Table<TData> }) {
+export function SelectAllCheckbox<TData>({ table }: { table: Table<TData> }) {
   const { t } = useTranslation()
   return (
     <Checkbox

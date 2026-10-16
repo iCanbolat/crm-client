@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test"
 
-import { expect, test } from "./fixtures"
+import { dataView, expect, test } from "./fixtures"
 
 /**
  * Faz 3 simülasyonu (forwarding): FCL İstanbul → Hamburg navlun talebi →
@@ -184,6 +184,6 @@ test.describe("Faz 3 — Forwarding modülü", () => {
       .getByRole("navigation", { name: "Ana menü" })
       .getByRole("link", { name: "Sevkiyatlar" })
       .click()
-    await expect(page.getByRole("table", { name: "Sevkiyatlar" })).toBeVisible()
+    await expect(dataView(page, "Sevkiyatlar")).toBeVisible()
   })
 })

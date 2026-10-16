@@ -6,9 +6,11 @@ export {
   createSelectColumn,
   DataTableSelectionBar,
   SELECT_COLUMN_ID,
+  SelectAllCheckbox,
 } from "./selection"
-export { useDataTable } from "./use-data-table"
+export { DEFAULT_DATA_TABLE_STATE, useDataTable } from "./use-data-table"
 export type {
+  DataTableMode,
   DataTableState,
   Density,
   UseDataTableOptions,

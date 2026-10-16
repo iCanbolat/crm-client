@@ -7,14 +7,16 @@ import { useTranslation } from "react-i18next"
 
 import {
   createSelectColumn,
-  DataTable,
-  DataTablePagination,
   DataTableSelectionBar,
-  DataTableViewOptions,
   SELECT_COLUMN_ID,
   useDataTable,
   type DataTableState,
 } from "@/components/common/data-table"
+import {
+  DataView,
+  type DataViewLayoutOption,
+  type DataViewToolbarSlots,
+} from "@/components/common/data-view"
 import { EmptyState } from "@/components/common/empty-state"
 import { Button } from "@/components/ui/button"
 import {
@@ -32,6 +34,7 @@ import { recordQueries } from "../api/records.queries"
 import {
   formatSort,
   parseSort,
+  type ListLayoutMode,
   type RecordListSearch,
 } from "../api/records.schemas"
 import {
@@ -45,6 +48,10 @@ interface RecordTableProps {
   objectDef: ObjectDef
   search: RecordListSearch
   onSearchChange: (patch: Partial<RecordListSearch>) => void
+  /** Search and filter controls of the list page. */
+  toolbar?: DataViewToolbarSlots
+  /** Layouts the page renders itself (kanban); picking one updates `layout`. */
+  extraLayouts?: readonly DataViewLayoutOption[]
   /** Rendered in the empty state of an unfiltered, empty list. */
   emptyAction?: ReactNode
 }
@@ -56,6 +63,8 @@ export function RecordTable({
   objectDef,
   search,
   onSearchChange,
+  toolbar,
+  extraLayouts,
   emptyAction,
 }: RecordTableProps) {
   const { t } = useTranslation("records")
@@ -212,32 +221,34 @@ export function RecordTable({
   )
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex justify-end">
-        <DataTableViewOptions
-          table={table}
-          density={search.density}
-          onDensityChange={(density) => onSearchChange({ density })}
-        />
-      </div>
-      <DataTableSelectionBar
-        count={selectedIds.length}
-        onClear={() => setRowSelection({})}
-      >
-        <BulkActions
-          objectDef={objectDef}
-          ids={selectedIds}
-          onDone={() => setRowSelection({})}
-        />
-      </DataTableSelectionBar>
-      <DataTable
-        table={table}
-        label={plural}
-        density={search.density}
-        isFetching={isFetching}
-        emptyState={emptyState}
-      />
-      {data.meta.total > 0 ? <DataTablePagination table={table} /> : null}
-    </div>
+    <DataView
+      table={table}
+      label={plural}
+      viewKey={`records:${objectDef.key}`}
+      layout={search.layout}
+      onLayoutChange={(layout) =>
+        onSearchChange({ layout: layout as ListLayoutMode, page: 1 })
+      }
+      extraLayouts={extraLayouts}
+      card={{ title: objectDef.primaryField }}
+      cardMinWidth={300}
+      toolbar={toolbar}
+      density={search.density}
+      onDensityChange={(density) => onSearchChange({ density })}
+      isFetching={isFetching}
+      emptyState={emptyState}
+      selectionBar={
+        <DataTableSelectionBar
+          count={selectedIds.length}
+          onClear={() => setRowSelection({})}
+        >
+          <BulkActions
+            objectDef={objectDef}
+            ids={selectedIds}
+            onDone={() => setRowSelection({})}
+          />
+        </DataTableSelectionBar>
+      }
+    />
   )
 }

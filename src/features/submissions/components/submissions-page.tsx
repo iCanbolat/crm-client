@@ -6,12 +6,8 @@ import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { toast } from "sonner"
 
-import {
-  DataTable,
-  DataTablePagination,
-  useDataTable,
-  type DataTableState,
-} from "@/components/common/data-table"
+import { useDataTable } from "@/components/common/data-table"
+import { DataView } from "@/components/common/data-view"
 import { EmptyState } from "@/components/common/empty-state"
 import { PageHeader } from "@/components/common/page-header"
 import { SearchInput } from "@/components/common/search-input"
@@ -87,6 +83,7 @@ export function SubmissionsPage({
       },
       {
         id: "contact",
+        enableHiding: false,
         header: t("columns.contact"),
         meta: { label: t("columns.contact") },
         cell: ({ row: { original: item } }) => {
@@ -154,21 +151,14 @@ export function SubmissionsPage({
     [t, language, form]
   )
 
-  const state: DataTableState = {
-    pagination: { pageIndex: search.page - 1, pageSize: search.pageSize },
-    sorting: [],
-    columnVisibility: {},
-    columnOrder: [],
-    columnPinning: { left: [], right: [] },
-    rowSelection: {},
-  }
-
   const table = useDataTable({
     data: data.data,
     columns,
     rowCount: data.meta.total,
     getRowId: (item) => item.id,
-    state,
+    state: {
+      pagination: { pageIndex: search.page - 1, pageSize: search.pageSize },
+    },
     onStateChange: (patch) => {
       if (!patch.pagination) return
       const { pageIndex, pageSize } = patch.pagination
@@ -230,67 +220,74 @@ export function SubmissionsPage({
         }
       />
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-        <SearchInput
-          value={search.q ?? ""}
-          placeholder={t("searchPlaceholder")}
-          onChange={(q) => onSearchChange({ q, page: 1 })}
-        />
-        <Select
-          items={statusItems}
-          value={search.status ?? null}
-          onValueChange={(value) =>
-            onSearchChange({
-              status: (value as SubmissionStatus | null) ?? undefined,
-              page: 1,
-            })
-          }
-        >
-          <SelectTrigger
-            className="w-full sm:w-52"
-            aria-label={t("status.label")}
-          >
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {statusItems.map((item) => (
-              <SelectItem key={item.value ?? "all"} value={item.value}>
-                {item.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        {form ? null : (
-          <Select
-            items={formItems}
-            value={search.formId ?? null}
-            onValueChange={(value) =>
-              onSearchChange({
-                formId: (value as string | null) ?? undefined,
-                page: 1,
-              })
-            }
-          >
-            <SelectTrigger
-              className="w-full sm:w-56"
-              aria-label={t("filters.form")}
-            >
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {formItems.map((item) => (
-                <SelectItem key={item.value ?? "all"} value={item.value}>
-                  {item.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        )}
-      </div>
-
-      <DataTable
+      <DataView
         table={table}
         label={t("list.label")}
+        viewKey={form ? "submissions:form" : "submissions"}
+        card={{ title: "contact", subtitle: "createdAt", badge: "status" }}
+        toolbar={{
+          search: (
+            <SearchInput
+              value={search.q ?? ""}
+              placeholder={t("searchPlaceholder")}
+              onChange={(q) => onSearchChange({ q, page: 1 })}
+            />
+          ),
+          filters: (
+            <>
+              <Select
+                items={statusItems}
+                value={search.status ?? null}
+                onValueChange={(value) =>
+                  onSearchChange({
+                    status: (value as SubmissionStatus | null) ?? undefined,
+                    page: 1,
+                  })
+                }
+              >
+                <SelectTrigger
+                  className="w-36 @xl/data-view:w-52"
+                  aria-label={t("status.label")}
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {statusItems.map((item) => (
+                    <SelectItem key={item.value ?? "all"} value={item.value}>
+                      {item.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              {form ? null : (
+                <Select
+                  items={formItems}
+                  value={search.formId ?? null}
+                  onValueChange={(value) =>
+                    onSearchChange({
+                      formId: (value as string | null) ?? undefined,
+                      page: 1,
+                    })
+                  }
+                >
+                  <SelectTrigger
+                    className="w-40 @xl/data-view:w-56"
+                    aria-label={t("filters.form")}
+                  >
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {formItems.map((item) => (
+                      <SelectItem key={item.value ?? "all"} value={item.value}>
+                        {item.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            </>
+          ),
+        }}
         isFetching={isFetching}
         emptyState={
           filtered ? (
@@ -322,7 +319,6 @@ export function SubmissionsPage({
           )
         }
       />
-      {data.meta.total > 0 ? <DataTablePagination table={table} /> : null}
 
       <SubmissionSheet submissionId={openId} onClose={() => setOpenId(null)} />
     </div>

@@ -1,8 +1,16 @@
 import { useQuery, useSuspenseQuery } from "@tanstack/react-query"
 import { Link } from "@tanstack/react-router"
+import type { ColumnDef } from "@tanstack/react-table"
+import { useMemo } from "react"
 import { useTranslation } from "react-i18next"
 
+import {
+  DataTableColumnHeader,
+  useDataTable,
+} from "@/components/common/data-table"
+import { DataView } from "@/components/common/data-view"
 import { EmptyState } from "@/components/common/empty-state"
+import { SearchInput } from "@/components/common/search-input"
 import {
   Card,
   CardContent,
@@ -11,14 +19,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
 import { ColorBadge } from "@/engine/field-types"
 import { getMessageTriggers } from "@/engine/modules"
 import { usePermission } from "@/features/auth"
@@ -29,14 +29,111 @@ import { resolveI18nText } from "@/lib/i18n-text"
 
 import { useUpdateTriggers } from "../../api/messaging.mutations"
 import { messagingQueries } from "../../api/messaging.queries"
+import type { Dispatch } from "../../api/messaging.schemas"
 import { isApproved } from "../../lib/templates"
 
 function DispatchLog() {
-  const { t } = useTranslation("messaging")
+  const { t } = useTranslation(["messaging", "common"])
   const language = getCurrentLanguage()
   const workspace = useWorkspace()
   const triggers = getMessageTriggers(workspace.modules)
   const { data: dispatches = [] } = useQuery(messagingQueries.dispatches())
+  const triggerLabel = (id: string) => {
+    const trigger = triggers.find((item) => item.id === id)
+    return trigger ? resolveI18nText(trigger.label, language) : id
+  }
+
+  const columns = useMemo<ColumnDef<Dispatch, string>[]>(
+    () => [
+      {
+        id: "time",
+        accessorFn: (dispatch) => dispatch.createdAt,
+        enableHiding: false,
+        meta: { label: t("notifications.columns.time") },
+        header: ({ table, column }) => (
+          <DataTableColumnHeader
+            table={table}
+            column={column}
+            title={t("notifications.columns.time")}
+          />
+        ),
+        cell: ({ row }) =>
+          formatDate(row.original.createdAt, language, {
+            dateStyle: "short",
+            timeStyle: "short",
+          }),
+      },
+      {
+        id: "trigger",
+        accessorFn: (dispatch) => triggerLabel(dispatch.triggerId),
+        meta: { label: t("notifications.columns.trigger") },
+        header: ({ table, column }) => (
+          <DataTableColumnHeader
+            table={table}
+            column={column}
+            title={t("notifications.columns.trigger")}
+          />
+        ),
+      },
+      {
+        id: "record",
+        accessorFn: (dispatch) => dispatch.record.label,
+        meta: { label: t("notifications.columns.record") },
+        header: ({ table, column }) => (
+          <DataTableColumnHeader
+            table={table}
+            column={column}
+            title={t("notifications.columns.record")}
+          />
+        ),
+        cell: ({ row: { original: dispatch } }) => (
+          <Link
+            to="/o/$objectKey/$recordId"
+            params={{
+              objectKey: dispatch.record.objectKey,
+              recordId: dispatch.record.recordId,
+            }}
+            className="underline-offset-4 hover:underline"
+          >
+            {dispatch.record.label}
+          </Link>
+        ),
+      },
+      {
+        id: "result",
+        accessorFn: (dispatch) => t(`notifications.${dispatch.status}`),
+        meta: { label: t("notifications.columns.result") },
+        header: t("notifications.columns.result"),
+        enableSorting: false,
+        cell: ({ row: { original: dispatch } }) => (
+          <div className="flex flex-col gap-0.5">
+            <ColorBadge color={dispatch.status === "sent" ? "green" : "gray"}>
+              {t(`notifications.${dispatch.status}`)}
+            </ColorBadge>
+            {dispatch.reason ? (
+              <span className="text-xs text-muted-foreground">
+                {t(`notifications.reasons.${dispatch.reason}`)}
+              </span>
+            ) : null}
+          </div>
+        ),
+      },
+    ],
+    // `triggerLabel` only depends on the workspace modules and language.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [t, language, workspace.modules]
+  )
+
+  const table = useDataTable({
+    data: dispatches,
+    columns,
+    getRowId: (dispatch) => dispatch.id,
+    mode: "client",
+    initialState: {
+      pagination: { pageIndex: 0, pageSize: 10 },
+      sorting: [{ id: "time", desc: true }],
+    },
+  })
 
   return (
     <Card>
@@ -52,68 +149,27 @@ function DispatchLog() {
             {t("notifications.logEmpty")}
           </p>
         ) : (
-          <div className="relative overflow-x-auto">
-            <Table aria-label={t("notifications.logTitle")}>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>{t("notifications.columns.time")}</TableHead>
-                  <TableHead>{t("notifications.columns.trigger")}</TableHead>
-                  <TableHead>{t("notifications.columns.record")}</TableHead>
-                  <TableHead>{t("notifications.columns.result")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {dispatches.map((dispatch) => {
-                  const trigger = triggers.find(
-                    (item) => item.id === dispatch.triggerId
-                  )
-                  return (
-                    <TableRow key={dispatch.id}>
-                      <TableCell className="whitespace-nowrap">
-                        {formatDate(dispatch.createdAt, language, {
-                          dateStyle: "short",
-                          timeStyle: "short",
-                        })}
-                      </TableCell>
-                      <TableCell>
-                        {trigger
-                          ? resolveI18nText(trigger.label, language)
-                          : dispatch.triggerId}
-                      </TableCell>
-                      <TableCell>
-                        <Link
-                          to="/o/$objectKey/$recordId"
-                          params={{
-                            objectKey: dispatch.record.objectKey,
-                            recordId: dispatch.record.recordId,
-                          }}
-                          className="underline-offset-4 hover:underline"
-                        >
-                          {dispatch.record.label}
-                        </Link>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex flex-col gap-0.5">
-                          <ColorBadge
-                            color={
-                              dispatch.status === "sent" ? "green" : "gray"
-                            }
-                          >
-                            {t(`notifications.${dispatch.status}`)}
-                          </ColorBadge>
-                          {dispatch.reason ? (
-                            <span className="text-xs text-muted-foreground">
-                              {t(`notifications.reasons.${dispatch.reason}`)}
-                            </span>
-                          ) : null}
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  )
-                })}
-              </TableBody>
-            </Table>
-          </div>
+          <DataView
+            table={table}
+            label={t("notifications.logTitle")}
+            viewKey="messaging:dispatches"
+            card={{ title: "record", subtitle: "time", badge: "result" }}
+            pageSizeOptions={[10, 20, 50]}
+            emptyState={
+              <p className="text-sm text-muted-foreground">
+                {t("common:dataTable.noResults")}
+              </p>
+            }
+            toolbar={{
+              search: (
+                <SearchInput
+                  value=""
+                  placeholder={t("common:dataTable.search")}
+                  onChange={(q) => table.setGlobalFilter(q ?? "")}
+                />
+              ),
+            }}
+          />
         )}
       </CardContent>
     </Card>

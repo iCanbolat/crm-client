@@ -2,6 +2,7 @@ import { FilterIcon, PlusIcon, XIcon } from "lucide-react"
 import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
+import { DATA_VIEW_COMPACT_LABEL } from "@/components/common/data-view"
 import { Button } from "@/components/ui/button"
 import {
   Popover,
@@ -86,56 +87,82 @@ function FilterChip({
   )
 }
 
-/** Active filter chips + "Add filter". The state lives in the URL. */
-export function FilterBar({ objectDef, filters, onChange }: FilterBarProps) {
+/** Active filter chips + "Clear"; nothing while no filter is set. */
+export function FilterChips({ objectDef, filters, onChange }: FilterBarProps) {
+  const { t } = useTranslation("records")
+  if (!filters.length) return null
+
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <ul aria-label={t("filters.active")} className="flex flex-wrap gap-2">
+        {filters.map((condition, index) => (
+          <FilterChip
+            key={`${condition.field}-${index}`}
+            objectDef={objectDef}
+            condition={condition}
+            onChange={(next) =>
+              onChange(filters.map((item, i) => (i === index ? next : item)))
+            }
+            onRemove={() => onChange(filters.filter((_, i) => i !== index))}
+          />
+        ))}
+      </ul>
+      <Button
+        variant="ghost"
+        size="sm"
+        className="shrink-0"
+        onClick={() => onChange([])}
+      >
+        {t("filters.clear")}
+      </Button>
+    </div>
+  )
+}
+
+/** "Add filter" popover; collapses to an icon in a narrow data view. */
+export function AddFilterButton({
+  objectDef,
+  filters,
+  onChange,
+}: FilterBarProps) {
   const { t } = useTranslation("records")
   const [adding, setAdding] = useState(false)
 
   return (
+    <Popover open={adding} onOpenChange={setAdding}>
+      <PopoverTrigger
+        render={
+          <Button variant="outline" size="sm" aria-label={t("filters.add")} />
+        }
+      >
+        {filters.length ? (
+          <PlusIcon data-icon="inline-start" />
+        ) : (
+          <FilterIcon data-icon="inline-start" />
+        )}
+        <span className={DATA_VIEW_COMPACT_LABEL}>{t("filters.add")}</span>
+      </PopoverTrigger>
+      <PopoverContent align="start" className="w-80 max-w-[calc(100vw-2rem)]">
+        <PopoverTitle className="text-sm">{t("filters.addTitle")}</PopoverTitle>
+        <FilterEditor
+          objectDef={objectDef}
+          onApply={(condition) => {
+            onChange([...filters, condition])
+            setAdding(false)
+          }}
+          onCancel={() => setAdding(false)}
+        />
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+/** Active filter chips + "Add filter". The state lives in the URL. */
+export function FilterBar(props: FilterBarProps) {
+  return (
     <div className="flex flex-wrap items-center gap-2">
-      {filters.length ? (
-        <ul aria-label={t("filters.active")} className="flex flex-wrap gap-2">
-          {filters.map((condition, index) => (
-            <FilterChip
-              key={`${condition.field}-${index}`}
-              objectDef={objectDef}
-              condition={condition}
-              onChange={(next) =>
-                onChange(filters.map((item, i) => (i === index ? next : item)))
-              }
-              onRemove={() => onChange(filters.filter((_, i) => i !== index))}
-            />
-          ))}
-        </ul>
-      ) : null}
-      <Popover open={adding} onOpenChange={setAdding}>
-        <PopoverTrigger render={<Button variant="outline" size="sm" />}>
-          {filters.length ? (
-            <PlusIcon data-icon="inline-start" />
-          ) : (
-            <FilterIcon data-icon="inline-start" />
-          )}
-          {t("filters.add")}
-        </PopoverTrigger>
-        <PopoverContent align="start" className="w-80">
-          <PopoverTitle className="text-sm">
-            {t("filters.addTitle")}
-          </PopoverTitle>
-          <FilterEditor
-            objectDef={objectDef}
-            onApply={(condition) => {
-              onChange([...filters, condition])
-              setAdding(false)
-            }}
-            onCancel={() => setAdding(false)}
-          />
-        </PopoverContent>
-      </Popover>
-      {filters.length ? (
-        <Button variant="ghost" size="sm" onClick={() => onChange([])}>
-          {t("filters.clear")}
-        </Button>
-      ) : null}
+      <FilterChips {...props} />
+      <AddFilterButton {...props} />
     </div>
   )
 }

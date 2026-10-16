@@ -69,6 +69,11 @@ export const test = base.extend<Fixtures>({
         return
       }
 
+      // Signing in again within one test: drop the previous session, or
+      // /login sends the old user straight back into the app.
+      if (page.url().startsWith("http")) {
+        await page.evaluate(() => localStorage.removeItem("auth:session"))
+      }
       await page.goto(`/login?redirect=${encodeURIComponent(path)}`)
       await waitForApp(page)
       await submitLogin(as)
@@ -107,3 +112,47 @@ export const test = base.extend<Fixtures>({
 })
 
 export { expect }
+
+/**
+ * A DataView by its label: the table on wide screens, the card list when the
+ * container is too narrow for a table (mobile project).
+ */
+export function dataView(page: Page, name: string) {
+  return page.getByRole("table", { name }).or(page.getByRole("list", { name }))
+}
+
+/** Data rows of a DataView (table body rows or cards) in display order. */
+export function dataRows(page: Page, name: string) {
+  return page
+    .getByRole("table", { name })
+    .getByRole("row")
+    .filter({ has: page.getByRole("cell") })
+    .or(page.getByRole("list", { name }).getByRole("listitem"))
+}
+
+/** Sorts a DataView: column header menu on tables, sort menu on cards. */
+export async function sortDataView(
+  page: Page,
+  {
+    column,
+    direction,
+    isMobile,
+  }: {
+    column: string
+    direction: "asc" | "desc"
+    isMobile: boolean
+  }
+) {
+  const directionLabel = direction === "asc" ? "Artan sırala" : "Azalan sırala"
+  if (!isMobile) {
+    await page
+      .getByRole("button", { name: `${column} kolonu seçenekleri` })
+      .click()
+    await page.getByRole("menuitem", { name: directionLabel }).click()
+    return
+  }
+  await page.getByRole("button", { name: /^Sırala/ }).click()
+  await page.getByRole("menuitemradio", { name: column, exact: true }).click()
+  await page.getByRole("menuitemradio", { name: directionLabel }).click()
+  await page.keyboard.press("Escape")
+}

@@ -75,7 +75,21 @@
     "moveRight": "Move right",
     "hide": "Hide column",
     "columnMenu": "{{column}} column options",
-    "loading": "Loading records…"
+    "loading": "Loading records…",
+    "layout": {
+      "label": "Layout",
+      "table": "Table",
+      "grid": "Cards"
+    },
+    "sort": {
+      "label": "Sort",
+      "by": "Sort by",
+      "none": "Default order",
+      "direction": "Direction"
+    },
+    "selectPage": "Select all on this page",
+    "search": "Search…",
+    "noResults": "No matching results."
   },
   "sortable": {
     "handle": "Reorder: {{label}}",

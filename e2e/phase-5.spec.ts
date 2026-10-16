@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test"
 
-import { expect, test } from "./fixtures"
+import { dataRows, expect, test } from "./fixtures"
 
 /**
  * Faz 5 simülasyonu (hosted formlar & custom domain): site ayarlarında
@@ -140,10 +140,7 @@ test.describe("Faz 5 — Hosted formlar & custom domain", () => {
     // 5. Gönderim kutusu → yeni gönderim (UTM, oluşan lead); oturum kalıcı
     await page.goto("/submissions")
     await expect(page.getByTestId("msw-badge")).toBeVisible()
-    const first = page
-      .getByRole("table", { name: "Gönderimler" })
-      .getByRole("row")
-      .nth(1)
+    const first = dataRows(page, "Gönderimler").first()
     await expect(first).toContainText("Leyla Önal · leyla@onalmobilya.test")
     await expect(first).toContainText("Navlun Teklif Formu")
     await expect(first).toContainText("google")

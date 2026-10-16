@@ -33,7 +33,7 @@ export interface RecordListParams {
 
 export const DEFAULT_PAGE_SIZE = 20
 
-export const LIST_LAYOUTS = ["table", "kanban"] as const
+export const LIST_LAYOUTS = ["table", "grid", "kanban"] as const
 export type ListLayoutMode = (typeof LIST_LAYOUTS)[number]
 
 export const DENSITIES = ["comfortable", "compact"] as const

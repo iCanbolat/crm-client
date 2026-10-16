@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test"
 
-import { expect, test } from "./fixtures"
+import { dataRows, expect, test } from "./fixtures"
 
 /**
  * Faz 7 simülasyonu: yönetici "web formundan gelen talepleri dağıt" kuralını
@@ -98,8 +98,7 @@ test.describe("Faz 7 — Raporlama, bildirimler & otomasyon", () => {
 
     // 3. Çalışma geçmişi: Zeynep'e atandı, görev açıldı
     await goto(page, "/settings/automations/aut_acme_webform")
-    const runs = page.getByRole("table", { name: "Çalışma geçmişi" })
-    const run = runs.getByRole("row").nth(1)
+    const run = dataRows(page, "Çalışma geçmişi").first()
     await expect(run).toContainText(LEAD)
     await expect(run).toContainText("Başarılı")
     await expect(run).toContainText(

@@ -15,18 +15,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import { DATA_VIEW_COMPACT_LABEL } from "../data-view/layout-classes"
 import type { Density } from "./use-data-table"
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>
-  density: Density
-  onDensityChange: (density: Density) => void
+  density?: Density
+  /** Shows the density choice (table layout only). */
+  onDensityChange?: (density: Density) => void
 }
 
 /** Column visibility + row density. */
 export function DataTableViewOptions<TData>({
   table,
-  density,
+  density = "comfortable",
   onDensityChange,
 }: DataTableViewOptionsProps<TData>) {
   const { t } = useTranslation()
@@ -36,9 +38,19 @@ export function DataTableViewOptions<TData>({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="outline" size="sm" />}>
+      <DropdownMenuTrigger
+        render={
+          <Button
+            variant="outline"
+            size="sm"
+            aria-label={t("dataTable.viewOptions")}
+          />
+        }
+      >
         <Settings2Icon data-icon="inline-start" />
-        {t("dataTable.viewOptions")}
+        <span className={DATA_VIEW_COMPACT_LABEL}>
+          {t("dataTable.viewOptions")}
+        </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="max-h-96 min-w-56">
         <DropdownMenuGroup>
@@ -53,21 +65,25 @@ export function DataTableViewOptions<TData>({
             </DropdownMenuCheckboxItem>
           ))}
         </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuLabel>{t("dataTable.density")}</DropdownMenuLabel>
-          <DropdownMenuRadioGroup
-            value={density}
-            onValueChange={(value) => onDensityChange(value as Density)}
-          >
-            <DropdownMenuRadioItem value="comfortable">
-              {t("dataTable.comfortable")}
-            </DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="compact">
-              {t("dataTable.compact")}
-            </DropdownMenuRadioItem>
-          </DropdownMenuRadioGroup>
-        </DropdownMenuGroup>
+        {onDensityChange ? (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuLabel>{t("dataTable.density")}</DropdownMenuLabel>
+              <DropdownMenuRadioGroup
+                value={density}
+                onValueChange={(value) => onDensityChange(value as Density)}
+              >
+                <DropdownMenuRadioItem value="comfortable">
+                  {t("dataTable.comfortable")}
+                </DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="compact">
+                  {t("dataTable.compact")}
+                </DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
+            </DropdownMenuGroup>
+          </>
+        ) : null}
       </DropdownMenuContent>
     </DropdownMenu>
   )

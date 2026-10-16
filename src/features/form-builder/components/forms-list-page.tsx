@@ -14,12 +14,8 @@ import { useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 
 import { ConfirmDialog } from "@/components/common/confirm-dialog"
-import {
-  DataTable,
-  DataTablePagination,
-  useDataTable,
-  type DataTableState,
-} from "@/components/common/data-table"
+import { useDataTable } from "@/components/common/data-table"
+import { DataView } from "@/components/common/data-view"
 import { EmptyState } from "@/components/common/empty-state"
 import { PageHeader } from "@/components/common/page-header"
 import { SearchInput } from "@/components/common/search-input"
@@ -76,6 +72,7 @@ export function FormsListPage({ search, onSearchChange }: FormsListPageProps) {
     () => [
       {
         id: "name",
+        enableHiding: false,
         header: t("columns.name"),
         meta: { label: t("columns.name") },
         cell: ({ row: { original: form } }) => (
@@ -147,6 +144,7 @@ export function FormsListPage({ search, onSearchChange }: FormsListPageProps) {
       },
       {
         id: "actions",
+        enableHiding: false,
         header: () => <span className="sr-only">{t("columns.actions")}</span>,
         meta: { label: t("columns.actions") },
         cell: ({ row: { original: form } }) => (
@@ -200,21 +198,14 @@ export function FormsListPage({ search, onSearchChange }: FormsListPageProps) {
     [t, language, canEdit, canDelete]
   )
 
-  const state: DataTableState = {
-    pagination: { pageIndex: search.page - 1, pageSize: search.pageSize },
-    sorting: [],
-    columnVisibility: {},
-    columnOrder: [],
-    columnPinning: { left: [], right: [] },
-    rowSelection: {},
-  }
-
   const table = useDataTable({
     data: data.data,
     columns,
     rowCount: data.meta.total,
     getRowId: (form) => form.id,
-    state,
+    state: {
+      pagination: { pageIndex: search.page - 1, pageSize: search.pageSize },
+    },
     onStateChange: (patch) => {
       if (!patch.pagination) return
       const { pageIndex, pageSize } = patch.pagination
@@ -245,41 +236,46 @@ export function FormsListPage({ search, onSearchChange }: FormsListPageProps) {
         actions={createButton}
       />
 
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-        <SearchInput
-          value={search.q ?? ""}
-          placeholder={t("searchPlaceholder")}
-          onChange={(q) => onSearchChange({ q, page: 1 })}
-        />
-        <Select
-          items={statusItems}
-          value={search.status ?? null}
-          onValueChange={(value) =>
-            onSearchChange({
-              status: (value as FormStatus | null) ?? undefined,
-              page: 1,
-            })
-          }
-        >
-          <SelectTrigger
-            className="w-full sm:w-44"
-            aria-label={t("status.label")}
-          >
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            {statusItems.map((item) => (
-              <SelectItem key={item.value ?? "all"} value={item.value}>
-                {item.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
-
-      <DataTable
+      <DataView
         table={table}
         label={t("list.label")}
+        viewKey="forms"
+        card={{ title: "name", badge: "status", actions: "actions" }}
+        toolbar={{
+          search: (
+            <SearchInput
+              value={search.q ?? ""}
+              placeholder={t("searchPlaceholder")}
+              onChange={(q) => onSearchChange({ q, page: 1 })}
+            />
+          ),
+          filters: (
+            <Select
+              items={statusItems}
+              value={search.status ?? null}
+              onValueChange={(value) =>
+                onSearchChange({
+                  status: (value as FormStatus | null) ?? undefined,
+                  page: 1,
+                })
+              }
+            >
+              <SelectTrigger
+                className="w-36 @xl/data-view:w-44"
+                aria-label={t("status.label")}
+              >
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {statusItems.map((item) => (
+                  <SelectItem key={item.value ?? "all"} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          ),
+        }}
         isFetching={isFetching}
         emptyState={
           filtered ? (
@@ -307,7 +303,6 @@ export function FormsListPage({ search, onSearchChange }: FormsListPageProps) {
           )
         }
       />
-      {data.meta.total > 0 ? <DataTablePagination table={table} /> : null}
 
       <CreateFormDialog open={creating} onOpenChange={setCreating} />
       <FormPreviewDialog

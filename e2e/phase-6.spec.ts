@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test"
 
-import { expect, test } from "./fixtures"
+import { dataRows, expect, test } from "./fixtures"
 
 /**
  * Faz 6 simülasyonu (WhatsApp kanalı): Marmara yöneticisi kendi WABA'sını
@@ -124,9 +124,9 @@ test.describe("Faz 6 — WhatsApp kanalı", () => {
 
     // 6. Günlükte "Gönderildi"
     await goto(page, "/settings/whatsapp?tab=notifications")
-    const log = page.getByRole("table")
-    await expect(log.getByRole("row").nth(1)).toContainText(SHIPMENT.number)
-    await expect(log.getByRole("row").nth(1)).toContainText("Gönderildi")
+    const latest = dataRows(page, "Gönderim günlüğü").first()
+    await expect(latest).toContainText(SHIPMENT.number)
+    await expect(latest).toContainText("Gönderildi")
 
     // 7. Gelen kutusu: müşteri henüz yazmadı → serbest metin kilitli
     await goto(page, "/inbox")

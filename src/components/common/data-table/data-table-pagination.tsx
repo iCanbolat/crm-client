@@ -1,4 +1,5 @@
 import type { Table } from "@tanstack/react-table"
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import { useId } from "react"
 import { useTranslation } from "react-i18next"
 
@@ -10,6 +11,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+
+import { DATA_VIEW_COMPACT_LABEL } from "../data-view/layout-classes"
 
 export const PAGE_SIZE_OPTIONS = [10, 20, 50, 100] as const
 
@@ -40,7 +43,10 @@ export function DataTablePagination<TData>({
       </span>
       <div className="flex flex-wrap items-center gap-3">
         <div className="flex items-center gap-2">
-          <span id={pageSizeLabelId} className="text-muted-foreground">
+          <span
+            id={pageSizeLabelId}
+            className="text-muted-foreground @max-xl/data-view:sr-only"
+          >
             {t("pagination.pageSize")}
           </span>
           <Select
@@ -72,10 +78,14 @@ export function DataTablePagination<TData>({
           <Button
             variant="outline"
             size="sm"
+            aria-label={t("actions.previous")}
             disabled={!table.getCanPreviousPage()}
             onClick={() => table.previousPage()}
           >
-            {t("actions.previous")}
+            <ChevronLeftIcon data-icon="inline-start" />
+            <span className={DATA_VIEW_COMPACT_LABEL}>
+              {t("actions.previous")}
+            </span>
           </Button>
           <span aria-live="polite" className="tabular-nums">
             {t("pagination.pageOf", { page: pageIndex + 1, pageCount })}
@@ -83,10 +93,12 @@ export function DataTablePagination<TData>({
           <Button
             variant="outline"
             size="sm"
+            aria-label={t("actions.next")}
             disabled={!table.getCanNextPage()}
             onClick={() => table.nextPage()}
           >
-            {t("actions.next")}
+            <span className={DATA_VIEW_COMPACT_LABEL}>{t("actions.next")}</span>
+            <ChevronRightIcon data-icon="inline-end" />
           </Button>
         </div>
       </div>

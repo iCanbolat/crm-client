@@ -75,7 +75,21 @@
     "moveRight": "Sağa taşı",
     "hide": "Kolonu gizle",
     "columnMenu": "{{column}} kolonu seçenekleri",
-    "loading": "Kayıtlar yükleniyor…"
+    "loading": "Kayıtlar yükleniyor…",
+    "layout": {
+      "label": "Görünüm düzeni",
+      "table": "Tablo",
+      "grid": "Kartlar"
+    },
+    "sort": {
+      "label": "Sırala",
+      "by": "Sıralama ölçütü",
+      "none": "Varsayılan sıra",
+      "direction": "Yön"
+    },
+    "selectPage": "Bu sayfadakilerin tümünü seç",
+    "search": "Ara…",
+    "noResults": "Eşleşen sonuç yok."
   },
   "sortable": {
     "handle": "Sırala: {{label}}",

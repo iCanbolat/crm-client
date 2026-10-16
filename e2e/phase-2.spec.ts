@@ -1,4 +1,11 @@
-import { ACCOUNTS, expect, test } from "./fixtures"
+import {
+  ACCOUNTS,
+  dataRows,
+  dataView,
+  expect,
+  sortDataView,
+  test,
+} from "./fixtures"
 
 /**
  * Faz 2 simülasyonu: şirket oluştur → kişi ekle → lead oluştur → listede
@@ -15,6 +22,7 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
     openApp,
     openNav,
     submitLogin,
+    isMobile,
   }) => {
     test.setTimeout(90_000)
     await openApp("/o/company")
@@ -89,14 +97,22 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
     await search.fill("")
     await expect(page.getByText("Toplam 201 kayıt")).toBeVisible()
 
-    await page
-      .getByRole("button", { name: "Ad soyad kolonu seçenekleri" })
-      .click()
-    await page.getByRole("menuitem", { name: "Artan sırala" }).click()
+    // Dar ekranda liste kartlara geçer: sıralama başlık yerine menüden.
+    await sortDataView(page, {
+      column: "Ad soyad",
+      direction: "asc",
+      isMobile,
+    })
     await expect(page).toHaveURL(/sort=name%3Aasc/)
-    await expect(
-      page.getByRole("columnheader", { name: /Ad soyad/ })
-    ).toHaveAttribute("aria-sort", "ascending")
+    if (isMobile) {
+      await expect(
+        page.getByRole("button", { name: "Sırala: Ad soyad" })
+      ).toBeVisible()
+    } else {
+      await expect(
+        page.getByRole("columnheader", { name: /Ad soyad/ })
+      ).toHaveAttribute("aria-sort", "ascending")
+    }
 
     await page.getByRole("button", { name: "Filtre ekle" }).click()
     const filter = page.getByRole("dialog", { name: "Filtre ekle" })
@@ -223,7 +239,9 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
 
     await page.getByRole("button", { name: "Listeyi aç" }).click()
     await expect(
-      page.getByRole("columnheader", { name: /Gümrük durumu/ })
+      isMobile
+        ? dataView(page, "Navlun talepleri").getByText("Gümrük durumu").first()
+        : page.getByRole("columnheader", { name: /Gümrük durumu/ })
     ).toBeVisible()
     await page.getByRole("button", { name: "Yeni Navlun talebi" }).click()
     await expect(
@@ -236,6 +254,7 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
   test("TC-2.2-02 paylaşılan link aynı filtre ve sıralamayla açılır", async ({
     page,
     openApp,
+    isMobile,
   }) => {
     const filters = encodeURIComponent(
       JSON.stringify([{ field: "stage", op: "in", value: ["won"] }])
@@ -247,11 +266,16 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
         .getByRole("list", { name: "Etkin filtreler" })
         .getByText("Aşama şunlardan biri: Kazanıldı")
     ).toBeVisible()
-    await expect(
-      page.getByRole("columnheader", { name: /Tutar/ })
-    ).toHaveAttribute("aria-sort", "descending")
-    const rows = page.getByRole("table", { name: "Fırsatlar" }).getByRole("row")
-    await expect(rows.nth(1)).toContainText("Kazanıldı")
+    if (isMobile) {
+      await expect(
+        page.getByRole("button", { name: "Sırala: Tutar" })
+      ).toBeVisible()
+    } else {
+      await expect(
+        page.getByRole("columnheader", { name: /Tutar/ })
+      ).toHaveAttribute("aria-sort", "descending")
+    }
+    await expect(dataRows(page, "Fırsatlar").first()).toContainText("Kazanıldı")
   })
 
   test("TC-2.5-01 kanban kartı fareyle sürüklenince aşaması değişir", async ({
@@ -290,7 +314,7 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
     expectNoViolations,
   }) => {
     await openApp("/o/deal")
-    await expect(page.getByRole("table", { name: "Fırsatlar" })).toBeVisible()
+    await expect(dataView(page, "Fırsatlar")).toBeVisible()
     await expectNoViolations()
 
     await page.getByRole("button", { name: "Yeni Fırsat" }).click()

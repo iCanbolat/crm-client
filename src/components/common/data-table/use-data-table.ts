@@ -1,5 +1,8 @@
 import {
   getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
   useReactTable,
   type ColumnDef,
   type ColumnOrderState,
@@ -12,6 +15,7 @@ import {
   type Updater,
   type VisibilityState,
 } from "@tanstack/react-table"
+import { useState } from "react"
 
 declare module "@tanstack/react-table" {
   // Generic parameters must match the library's declaration.
@@ -33,6 +37,24 @@ export interface DataTableState {
   columnOrder: ColumnOrderState
   columnPinning: ColumnPinningState
   rowSelection: RowSelectionState
+  /** Free text search over all columns (client mode only). */
+  globalFilter?: string
+}
+
+/**
+ * `server`: the API pages, sorts and filters; `rowCount` is the server total.
+ * `client`: every row is loaded and TanStack does it in memory.
+ */
+export type DataTableMode = "server" | "client"
+
+export const DEFAULT_DATA_TABLE_STATE: DataTableState = {
+  pagination: { pageIndex: 0, pageSize: 20 },
+  sorting: [],
+  columnVisibility: {},
+  columnOrder: [],
+  columnPinning: { left: [], right: [] },
+  rowSelection: {},
+  globalFilter: "",
 }
 
 export interface UseDataTableOptions<TData> {
@@ -40,12 +62,18 @@ export interface UseDataTableOptions<TData> {
   // Column value types differ per column.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   columns: ColumnDef<TData, any>[]
-  /** Total matching rows on the server. */
-  rowCount: number
+  /** Total matching rows on the server (defaults to `data.length`). */
+  rowCount?: number
   getRowId: (row: TData) => string
-  state: DataTableState
+  mode?: DataTableMode
+  /**
+   * Controlled pieces of state (usually URL search params). Anything left
+   * out is kept inside the hook, seeded from `initialState`.
+   */
+  state?: Partial<DataTableState>
+  initialState?: Partial<DataTableState>
   /** Receives resolved values only (no updater functions). */
-  onStateChange: (patch: Partial<DataTableState>) => void
+  onStateChange?: (patch: Partial<DataTableState>) => void
   enableRowSelection?: boolean | ((row: Row<TData>) => boolean)
 }
 
@@ -56,51 +84,71 @@ function resolve<T>(updater: Updater<T>, current: T): T {
 }
 
 /**
- * Server-driven TanStack Table: pagination, sorting and filtering happen in
- * the API; the caller owns every piece of state (usually URL search params).
+ * TanStack Table with fully resolved state. In `server` mode pagination,
+ * sorting and filtering happen in the API; in `client` mode in memory.
  */
 export function useDataTable<TData>({
   data,
   columns,
   rowCount,
   getRowId,
-  state,
+  mode = "server",
+  state: controlled,
+  initialState,
   onStateChange,
   enableRowSelection = false,
 }: UseDataTableOptions<TData>) {
+  const [internal, setInternal] = useState<DataTableState>(() => ({
+    ...DEFAULT_DATA_TABLE_STATE,
+    ...initialState,
+  }))
+  const state: DataTableState = { ...internal, ...controlled }
+  const manual = mode === "server"
+
+  const change = (patch: Partial<DataTableState>) => {
+    setInternal((current) => ({ ...current, ...patch }))
+    onStateChange?.(patch)
+  }
+
   // TanStack Table returns non-memoizable functions; that is expected.
   // eslint-disable-next-line react-hooks/incompatible-library
   return useReactTable({
     data,
     columns,
-    rowCount,
+    rowCount: manual ? (rowCount ?? data.length) : undefined,
     getRowId,
     state,
     getCoreRowModel: getCoreRowModel(),
-    manualPagination: true,
-    manualSorting: true,
-    manualFiltering: true,
+    getPaginationRowModel: manual ? undefined : getPaginationRowModel(),
+    getSortedRowModel: manual ? undefined : getSortedRowModel(),
+    getFilteredRowModel: manual ? undefined : getFilteredRowModel(),
+    manualPagination: manual,
+    manualSorting: manual,
+    manualFiltering: manual,
     enableMultiSort: false,
     enableRowSelection,
     // Selection survives paging: rows are keyed by record id.
     autoResetPageIndex: false,
     onPaginationChange: (updater) =>
-      onStateChange({ pagination: resolve(updater, state.pagination) }),
+      change({ pagination: resolve(updater, state.pagination) }),
     onSortingChange: (updater) =>
-      onStateChange({
+      change({
         sorting: resolve(updater, state.sorting),
         // A new order starts from the first page.
         pagination: { ...state.pagination, pageIndex: 0 },
       }),
-    onColumnVisibilityChange: (updater) =>
-      onStateChange({
-        columnVisibility: resolve(updater, state.columnVisibility),
+    onGlobalFilterChange: (updater) =>
+      change({
+        globalFilter: resolve(updater, state.globalFilter ?? ""),
+        pagination: { ...state.pagination, pageIndex: 0 },
       }),
+    onColumnVisibilityChange: (updater) =>
+      change({ columnVisibility: resolve(updater, state.columnVisibility) }),
     onColumnOrderChange: (updater) =>
-      onStateChange({ columnOrder: resolve(updater, state.columnOrder) }),
+      change({ columnOrder: resolve(updater, state.columnOrder) }),
     onColumnPinningChange: (updater) =>
-      onStateChange({ columnPinning: resolve(updater, state.columnPinning) }),
+      change({ columnPinning: resolve(updater, state.columnPinning) }),
     onRowSelectionChange: (updater) =>
-      onStateChange({ rowSelection: resolve(updater, state.rowSelection) }),
+      change({ rowSelection: resolve(updater, state.rowSelection) }),
   })
 }

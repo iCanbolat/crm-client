@@ -1,6 +1,6 @@
 import type { Page } from "@playwright/test"
 
-import { expect, test } from "./fixtures"
+import { dataRows, expect, test } from "./fixtures"
 
 /**
  * Faz 4 simülasyonu (form builder): "Navlun Teklif Formu" oluştur → Rota +
@@ -179,8 +179,8 @@ test.describe("Faz 4 — Form builder", () => {
 
     // 8. Listede yayında
     await page.getByLabel("Formlara dön").click()
-    const row = page.getByRole("row", {
-      name: /Navlun Teklif Formu \/f\/navlun-teklif-formu/,
+    const row = dataRows(page, "Formlar").filter({
+      hasText: /Navlun Teklif Formu\s*\/f\/navlun-teklif-formu/,
     })
     await expect(row.getByText("Yayında", { exact: true })).toBeVisible()
     await expect(row.getByText("v1", { exact: true })).toBeVisible()

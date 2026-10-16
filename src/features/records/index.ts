@@ -54,7 +54,11 @@ export type {
   ViewState,
 } from "./api/records.schemas"
 export { useObjectCrumb, useRecordCrumb } from "./components/crumbs"
-export { FilterBar } from "./components/filter-bar"
+export {
+  AddFilterButton,
+  FilterBar,
+  FilterChips,
+} from "./components/filter-bar"
 export { RECORD_TABS, RecordDetailPage } from "./components/record-detail-page"
 export type { RecordExtraTab, RecordTab } from "./components/record-detail-page"
 export { RecordForm } from "./components/record-form"

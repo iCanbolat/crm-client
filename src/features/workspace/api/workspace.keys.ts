@@ -5,3 +5,8 @@ export const workspaceKeys = {
   members: () => [...workspaceKeys.all, "members"] as const,
   invites: () => [...workspaceKeys.all, "invites"] as const,
 }
+
+/** Invitation links are not tenant scoped (read before joining). */
+export const invitationKeys = {
+  detail: (token: string) => ["invitation", token] as const,
+}

@@ -10,7 +10,7 @@ type User = Awaited<ReturnType<typeof renderRoute>>["user"]
 
 async function startOnboarding() {
   const utils = await renderRoute("/dashboard", { as: "newcomer" })
-  await screen.findByRole("heading", { name: "Şirket bilgileri" })
+  await screen.findByRole("heading", { name: "Sektörünüz" })
   return utils
 }
 
@@ -23,16 +23,17 @@ async function selectOption(user: User, label: string, option: string) {
   await user.click(await screen.findByRole("option", { name: option }))
 }
 
-async function completeCompanyStep(user: User) {
-  await selectOption(user, "Para birimi", "USD — ABD doları")
+async function completeVerticalStep(
+  user: User,
+  vertical = "Forwarding (Lojistik)"
+) {
+  await user.click(screen.getByRole("radio", { name: vertical }))
   await next(user)
-  await screen.findByRole("heading", { name: "Sektör modülü" })
+  await screen.findByRole("heading", { name: "Şirket bilgileri" })
 }
 
-async function completeModulesStep(user: User) {
-  await user.click(
-    screen.getByRole("checkbox", { name: "Forwarding (Lojistik)" })
-  )
+async function completeCompanyStep(user: User) {
+  await selectOption(user, "Para birimi", "USD — ABD doları")
   await next(user)
   await screen.findByRole("heading", { name: "Ekibinizi davet edin" })
 }
@@ -41,10 +42,12 @@ const kuzey = () => db.workspaces.findById(WORKSPACE_IDS.kuzey)!
 
 describe("workspace onboarding (B1.2)", () => {
   it("redirects a workspace that is not set up to the onboarding wizard", async () => {
-    const { router } = await startOnboarding()
+    const { router, user } = await startOnboarding()
 
     expect(router.state.location.pathname).toBe("/onboarding")
     expect(screen.getByText("Adım 1 / 4")).toBeInTheDocument()
+    await completeVerticalStep(user)
+    expect(screen.getByText("Adım 2 / 4")).toBeInTheDocument()
     // Prefilled from the sign-up and sensible defaults.
     expect(screen.getByLabelText("Şirket adı")).toHaveValue("Kuzey Lojistik")
     expect(screen.getByRole("combobox", { name: "Ülke" })).toHaveTextContent(
@@ -54,6 +57,7 @@ describe("workspace onboarding (B1.2)", () => {
 
   it("TC-1.2-01 validates the company step", async () => {
     const { user } = await startOnboarding()
+    await completeVerticalStep(user)
 
     await user.clear(screen.getByLabelText("Şirket adı"))
     await next(user)
@@ -61,11 +65,12 @@ describe("workspace onboarding (B1.2)", () => {
     const name = screen.getByLabelText("Şirket adı")
     expect(name).toHaveAttribute("aria-invalid", "true")
     expect(name).toHaveAccessibleDescription(/çok küçük/i)
-    expect(kuzey().onboarding.step).toBe(0)
+    expect(kuzey().onboarding.step).toBe(1)
   })
 
   it("TC-1.2-01 rejects a logo that is too large or not an image", async () => {
     const { user } = await startOnboarding()
+    await completeVerticalStep(user)
     const input = screen.getByLabelText("Logo")
 
     await user.upload(
@@ -88,16 +93,15 @@ describe("workspace onboarding (B1.2)", () => {
     expect(screen.queryByRole("alert")).not.toBeInTheDocument()
   })
 
-  it("TC-1.2-01 requires a module and validates invitations", async () => {
+  it("TC-10.1-01 requires a sector and validates invitations", async () => {
     const { user } = await startOnboarding()
-    await completeCompanyStep(user)
 
     await next(user)
-    expect(
-      await screen.findByText("En az bir aktif modül seçin.")
-    ).toBeInTheDocument()
+    expect(await screen.findByText("Bir sektör seçin.")).toBeInTheDocument()
+    expect(kuzey().onboarding.step).toBe(0)
 
-    await completeModulesStep(user)
+    await completeVerticalStep(user)
+    await completeCompanyStep(user)
     await user.click(screen.getByRole("button", { name: "Davet ekle" }))
     await user.click(screen.getByRole("button", { name: "Davet ekle" }))
     await user.type(screen.getByLabelText("1. davet e-postası"), "gecersiz")
@@ -126,6 +130,9 @@ describe("workspace onboarding (B1.2)", () => {
 
   it("shows a form-level message when saving a step fails", async () => {
     const { user } = await startOnboarding()
+    await user.click(
+      screen.getByRole("radio", { name: "Forwarding (Lojistik)" })
+    )
     setScenarioState({ scenario: "validation" })
 
     await next(user)
@@ -136,25 +143,34 @@ describe("workspace onboarding (B1.2)", () => {
     expect(screen.getByText("Adım 1 / 4")).toBeInTheDocument()
   })
 
-  it("TC-1.2-02 coming-soon modules cannot be selected", async () => {
+  it("TC-10.1-01 a single sector is picked; coming-soon ones are disabled", async () => {
     const { user } = await startOnboarding()
-    await completeCompanyStep(user)
 
-    const checkbox = screen.getByRole("checkbox", { name: "Sağlık Turizmi" })
-    expect(checkbox).toHaveAttribute("aria-disabled", "true")
-    await user.click(checkbox)
-    expect(checkbox).not.toBeChecked()
+    const health = screen.getByRole("radio", { name: "Sağlık Turizmi" })
+    expect(health).toHaveAttribute("aria-disabled", "true")
+    await user.click(health)
+    expect(health).not.toBeChecked()
     expect(screen.getAllByText("Yakında")).toHaveLength(1)
-    // Released in Faz 8 (TC-8.1-05).
+
+    const forwarding = screen.getByRole("radio", {
+      name: "Forwarding (Lojistik)",
+    })
+    const visa = screen.getByRole("radio", {
+      name: "Vize & Eğitim Danışmanlığı",
+    })
+    await user.click(forwarding)
+    await user.click(visa)
+    expect(visa).toBeChecked()
+    expect(forwarding).not.toBeChecked()
     expect(
-      screen.getByRole("checkbox", { name: "Vize & Eğitim Danışmanlığı" })
-    ).not.toHaveAttribute("aria-disabled", "true")
+      screen.getByText(/Sektör kurulumdan sonra değiştirilemez/)
+    ).toBeInTheDocument()
   })
 
-  it("TC-1.2-03 completes the setup, activates forwarding and opens the shell", async () => {
+  it("TC-1.2-03 completes the setup, locks the sector and opens the shell", async () => {
     const { user, router } = await startOnboarding()
+    await completeVerticalStep(user)
     await completeCompanyStep(user)
-    await completeModulesStep(user)
 
     await user.click(screen.getByRole("button", { name: "Davet ekle" }))
     await user.type(
@@ -186,6 +202,7 @@ describe("workspace onboarding (B1.2)", () => {
     ).toBeInTheDocument()
 
     expect(kuzey()).toMatchObject({
+      vertical: "forwarding",
       modules: ["forwarding"],
       currency: "USD",
       onboarding: { status: "completed" },
@@ -197,27 +214,35 @@ describe("workspace onboarding (B1.2)", () => {
 
   it("TC-1.2-04 resumes an interrupted onboarding at the saved step", async () => {
     const first = await startOnboarding()
+    await completeVerticalStep(first.user)
     await completeCompanyStep(first.user)
     first.unmount()
 
     expect(kuzey().onboarding).toMatchObject({
       status: "pending",
-      step: 1,
-      draft: { company: { name: "Kuzey Lojistik", currency: "USD" } },
+      step: 2,
+      draft: {
+        vertical: "forwarding",
+        company: { name: "Kuzey Lojistik", currency: "USD" },
+      },
     })
 
     // Fresh app instance (new router + empty cache), e.g. the next day.
     const { user } = await renderRoute("/onboarding", { as: "newcomer" })
 
     expect(
-      await screen.findByRole("heading", { name: "Sektör modülü" })
+      await screen.findByRole("heading", { name: "Ekibinizi davet edin" })
     ).toBeInTheDocument()
-    expect(screen.getByText("Adım 2 / 4")).toBeInTheDocument()
+    expect(screen.getByText("Adım 3 / 4")).toBeInTheDocument()
 
     await user.click(screen.getByRole("button", { name: "Geri" }))
     expect(
       await screen.findByRole("combobox", { name: "Para birimi" })
     ).toHaveTextContent("USD — ABD doları")
+    await user.click(screen.getByRole("button", { name: "Geri" }))
+    expect(
+      await screen.findByRole("radio", { name: "Forwarding (Lojistik)" })
+    ).toBeChecked()
   })
 
   it("leaves completed workspaces out of the wizard", async () => {
@@ -244,7 +269,7 @@ describe("workspace onboarding (B1.2)", () => {
       await screen.findByText("Çalışma alanı henüz kurulmadı")
     ).toBeInTheDocument()
     expect(
-      screen.queryByRole("heading", { name: "Şirket bilgileri" })
+      screen.queryByRole("heading", { name: "Sektörünüz" })
     ).not.toBeInTheDocument()
   })
 })

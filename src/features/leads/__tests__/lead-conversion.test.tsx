@@ -105,7 +105,7 @@ describe("lead conversion (B3.3)", () => {
     const { user } = await renderRoute(`/o/lead/${lead.id}`, { as: "owner" })
     await user.click(await screen.findByRole("button", { name: "Dönüştür" }))
     const dialog = await screen.findByRole("dialog", {
-      name: "Lead'i dönüştür",
+      name: "Navlun talebi kaydını dönüştür",
     })
     const suggested = await within(dialog).findByRole("radio", {
       name: new RegExp(`Mevcut: ${company.values.name}`),
@@ -120,7 +120,7 @@ describe("lead conversion (B3.3)", () => {
     })
     await user.click(await screen.findByRole("button", { name: "Dönüştür" }))
     const dialog = await screen.findByRole("dialog", {
-      name: "Lead'i dönüştür",
+      name: "Navlun talebi kaydını dönüştür",
     })
     await within(dialog).findByRole("radio", {
       name: new RegExp(`Mevcut: ${company.values.name}`),
@@ -156,7 +156,9 @@ describe("lead conversion (B3.3)", () => {
     await waitFor(() =>
       expect(router.state.location.pathname).toBe(`/o/deal/${deal.id}`)
     )
-    expect(await screen.findByText("Lead dönüştürüldü.")).toBeInTheDocument()
+    expect(
+      await screen.findByText("Dönüştürme tamamlandı.")
+    ).toBeInTheDocument()
   })
 
   it("creates a new company when nothing matches and refuses a second conversion", async () => {
@@ -218,7 +220,7 @@ describe("lead conversion (B3.3)", () => {
   it("moving a lead to “Converted” on the board opens the conversion dialog", async () => {
     const { lead } = seedMatchingLead()
     const { user } = await renderRoute("/o/lead?layout=kanban", { as: "owner" })
-    await screen.findByRole("region", { name: "Lead'ler panosu" })
+    await screen.findByRole("region", { name: "Navlun talepleri panosu" })
     await user.click(
       await screen.findByRole("button", { name: "Taşı: Deniz Kaya" })
     )
@@ -226,7 +228,9 @@ describe("lead conversion (B3.3)", () => {
       await screen.findByRole("menuitem", { name: "Dönüştürüldü" })
     )
     expect(
-      await screen.findByRole("dialog", { name: "Lead'i dönüştür" })
+      await screen.findByRole("dialog", {
+        name: "Navlun talebi kaydını dönüştür",
+      })
     ).toBeInTheDocument()
     // Nothing moved yet: the dialog decides.
     expect(db.records.findById(lead.id)!.values.stage).toBe("qualified")

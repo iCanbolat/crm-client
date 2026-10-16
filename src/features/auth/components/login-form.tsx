@@ -136,6 +136,15 @@ export function LoginForm({ onSuccess }: LoginFormProps) {
               ) : null}
               {t("login.submit")}
             </Button>
+            <p className="text-center text-sm text-muted-foreground">
+              {t("login.noAccount")}{" "}
+              <Link
+                to="/register"
+                className="font-medium text-foreground underline-offset-4 hover:underline"
+              >
+                {t("login.register")}
+              </Link>
+            </p>
           </FieldGroup>
         </form>
       </CardContent>

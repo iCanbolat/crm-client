@@ -6,9 +6,16 @@
     "agent": "Temsilci",
     "viewer": "İzleyici"
   },
+  "roleDescriptions": {
+    "owner": "Çalışma alanının sahibi; her şeye erişir.",
+    "admin": "Ekip, ayarlar, kanallar ve tüm kayıtları yönetir.",
+    "manager": "Tüm kayıtları görür ve düzenler; ekip ayarlarını değiştiremez.",
+    "agent": "Kayıt oluşturur, kendi kayıtlarını düzenler.",
+    "viewer": "Kayıtları salt okunur görür."
+  },
   "onboarding": {
     "title": "Çalışma alanınızı kuralım",
-    "description": "Birkaç adımda şirket bilgilerinizi girin, sektör modülünüzü seçin ve ekibinizi davet edin.",
+    "description": "Birkaç adımda sektörünüzü seçin, şirket bilgilerinizi girin ve ekibinizi davet edin.",
     "progress": "Kurulum adımları",
     "stepOf": "Adım {{step}} / {{total}}",
     "back": "Geri",
@@ -19,15 +26,15 @@
     "pendingDescription": "Kurulumu çalışma alanı sahibi veya bir yönetici tamamlayabilir. Lütfen daha sonra tekrar deneyin."
   },
   "steps": {
+    "vertical": {
+      "short": "Sektör",
+      "title": "Sektörünüz",
+      "description": "Panel, menüler ve terimler seçtiğiniz sektöre göre hazırlanır."
+    },
     "company": {
       "short": "Şirket",
       "title": "Şirket bilgileri",
       "description": "Teklif, fatura ve raporlarda kullanılacak temel bilgiler."
-    },
-    "modules": {
-      "short": "Modül",
-      "title": "Sektör modülü",
-      "description": "Çalışma alanınızı sektörünüze göre özelleştiren modülü seçin."
     },
     "team": {
       "short": "Ekip",
@@ -56,10 +63,11 @@
     "timezone": "Saat dilimi",
     "language": "Varsayılan dil"
   },
-  "modules": {
-    "legend": "Sektör modülleri",
+  "vertical": {
+    "legend": "Sektör",
     "comingSoon": "Yakında",
-    "required": "En az bir aktif modül seçin."
+    "required": "Bir sektör seçin.",
+    "lockedHint": "Sektör kurulumdan sonra değiştirilemez. Farklı bir sektör için yeni bir çalışma alanı oluşturabilirsiniz."
   },
   "team": {
     "empty": "Henüz davet eklenmedi. Ekibinizi daha sonra Ayarlar → Ekip üzerinden de davet edebilirsiniz.",
@@ -73,8 +81,8 @@
     "duplicateEmail": "Bu e-posta zaten listede."
   },
   "review": {
-    "ready": "Kurulumu tamamladığınızda seçtiğiniz modül çalışma alanınıza eklenecek.",
-    "modules": "Modüller",
+    "ready": "Kurulumu tamamladığınızda çalışma alanınız seçtiğiniz sektöre göre hazırlanacak.",
+    "vertical": "Sektör",
     "invites": "Davetler",
     "inviteCount": "{{count}} kişi davet edilecek",
     "noInvites": "Davet yok",
@@ -82,7 +90,12 @@
   },
   "switcher": {
     "label": "Çalışma alanları",
-    "trigger": "Çalışma alanı: {{name}}"
+    "trigger": "Çalışma alanı: {{name}}",
+    "create": "Yeni çalışma alanı",
+    "createTitle": "Yeni çalışma alanı oluştur",
+    "createDescription": "Her çalışma alanı tek bir sektörde çalışır. Yeni alanın sektörünü kurulumda seçeceksiniz.",
+    "createSubmit": "Oluştur ve kur",
+    "noVertical": "Kurulum bekliyor"
   },
   "members": {
     "title": "Ekip üyeleri",
@@ -96,6 +109,57 @@
     "inviteSent": "Davet gönderildi.",
     "invitesTitle": "Bekleyen davetler",
     "invitesDescription": "Henüz kabul edilmemiş davetler.",
-    "noInvites": "Bekleyen davet yok."
+    "noInvites": "Bekleyen davet yok.",
+    "roleChanged": "Rol güncellendi.",
+    "removed": "Üye çalışma alanından çıkarıldı.",
+    "inviteRevoked": "Davet iptal edildi.",
+    "inviteResent": "Davet yeniden gönderildi.",
+    "changeRole": "{{name}} için rol",
+    "remove": "Çıkar",
+    "removeLabel": "{{name}} kişisini çıkar",
+    "removeTitle": "{{name}} çıkarılsın mı?",
+    "removeDescription": "Bu kişi çalışma alanına erişemez; kayıtları atanmamış havuza döner.",
+    "you": "Siz",
+    "copyLink": "Bağlantıyı kopyala",
+    "copyLinkLabel": "{{email}} davet bağlantısını kopyala",
+    "linkCopied": "Davet bağlantısı kopyalandı.",
+    "resend": "Yeniden gönder",
+    "resendLabel": "{{email}} davetini yeniden gönder",
+    "revoke": "İptal et",
+    "revokeLabel": "{{email}} davetini iptal et",
+    "expires": "Son geçerlilik: {{date}}"
+  },
+  "visibility": {
+    "title": "Kayıt görünürlüğü",
+    "description": "{{role}} rolündeki üyelerin hangi kayıtları göreceğini seçin.",
+    "saved": "Görünürlük ayarı kaydedildi.",
+    "assigned": {
+      "title": "Yalnız atanan kayıtlar",
+      "description": "{{role}} kendisine atanan ve henüz kimseye atanmamış kayıtları görür."
+    },
+    "all": {
+      "title": "Tüm kayıtlar",
+      "description": "{{role}} çalışma alanındaki tüm kayıtları görür; yalnız kendi kayıtlarını düzenler."
+    },
+    "listHint": "Yalnız size atanan ve atanmamış kayıtlar listeleniyor."
+  },
+  "invitation": {
+    "title": "{{workspace}} sizi bekliyor",
+    "description": "{{inviter}} sizi {{workspace}} çalışma alanına {{role}} olarak davet etti.",
+    "sector": "Sektör",
+    "email": "Davet edilen e-posta",
+    "accept": "Daveti kabul et",
+    "accepted": "{{workspace}} çalışma alanına katıldınız.",
+    "mismatchTitle": "Bu davet başka bir hesap için",
+    "mismatchDescription": "Şu an {{current}} ile oturum açtınız; davet {{email}} adresine gönderildi.",
+    "switchAccount": "Hesap değiştir",
+    "signUpTitle": "Hesabınızı oluşturun",
+    "signUpSubmit": "Hesap oluştur ve katıl",
+    "haveAccount": "Bu e-postayla hesabınız var mı?",
+    "signIn": "Giriş yapın",
+    "invalidTitle": "Davet geçersiz",
+    "invalidDescription": "Bağlantı hatalı, iptal edilmiş, kullanılmış veya süresi dolmuş olabilir. Yeni bir davet isteyin.",
+    "toLogin": "Girişe dön",
+    "accountExists": "Bu e-postayla zaten bir hesap var. Giriş yapıp daveti kabul edin."
   }
 }

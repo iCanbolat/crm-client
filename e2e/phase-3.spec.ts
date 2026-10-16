@@ -34,8 +34,8 @@ test.describe("Faz 3 — Forwarding modülü", () => {
     await openApp("/o/lead")
 
     // 1. FCL navlun talebi
-    await page.getByRole("button", { name: "Yeni Lead" }).click()
-    const sheet = page.getByRole("dialog", { name: "Yeni Lead" })
+    await page.getByRole("button", { name: "Yeni Navlun talebi" }).click()
+    const sheet = page.getByRole("dialog", { name: "Yeni Navlun talebi" })
     await sheet.getByRole("textbox", { name: /Ad soyad/ }).fill("Kerem Aksoy")
     await sheet
       .getByRole("textbox", { name: "Şirket adı" })
@@ -69,7 +69,9 @@ test.describe("Faz 3 — Forwarding modülü", () => {
 
     // 3. Dönüştür (+ teklif taslağı)
     await page.getByRole("button", { name: "Dönüştür", exact: true }).click()
-    const convert = page.getByRole("dialog", { name: "Lead'i dönüştür" })
+    const convert = page.getByRole("dialog", {
+      name: "Navlun talebi kaydını dönüştür",
+    })
     await expect(
       convert.getByRole("radio", { name: /Yeni şirket oluştur/ })
     ).toBeChecked()

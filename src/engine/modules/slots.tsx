@@ -30,7 +30,11 @@ export function ModuleSlot({
   objectDef,
   record,
 }: ModuleSlotProps) {
-  const slots = getSlotDefs(name, activeModuleIds)
+  const slots = getSlotDefs(name, activeModuleIds).filter(
+    (slot) =>
+      !slot.requiresField ||
+      objectDef.fields.some((field) => field.key === slot.requiresField)
+  )
   if (slots.length === 0) return null
 
   return (

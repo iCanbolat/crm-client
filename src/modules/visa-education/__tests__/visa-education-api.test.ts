@@ -114,18 +114,27 @@ describe("module activation & seed (B8.1, B8.3)", () => {
     expect(program.values.country).toBe(institution.values.country)
   })
 
-  it("TC-8.1-04 activating on a forwarding tenant adds the module once", async () => {
-    signInAs("owner")
+  it("TC-8.1-04 activating on a sector-less tenant adds the module once", async () => {
+    signInAs("newcomer")
     await activateModule("visa-education")
     const workspace = await activateModule("visa-education")
-    expect(workspace.modules).toEqual(["forwarding", "visa-education"])
-    expect(rows(WORKSPACE_IDS.acme, "institution")).toHaveLength(40)
+    expect(workspace).toMatchObject({
+      vertical: "visa-education",
+      modules: ["visa-education"],
+    })
+    expect(rows(WORKSPACE_IDS.kuzey, "institution")).toHaveLength(40)
 
     const lead = (await fetchObjects()).data.find((def) => def.key === "lead")!
     const keys = lead.fields.map((field) => field.key)
-    expect(keys).toEqual(
-      expect.arrayContaining(["transportMode", "serviceType"])
-    )
+    expect(keys).toContain("serviceType")
+    expect(keys).not.toContain("transportMode")
+
+    // A forwarding tenant keeps its sector (TC-10.1-02).
+    signInAs("owner")
+    await expect(activateModule("visa-education")).rejects.toMatchObject({
+      status: 409,
+      code: "VERTICAL_LOCKED",
+    })
   })
 
   it("TC-8.3-01 a programme takes its country from the institution", async () => {
@@ -518,6 +527,12 @@ describe("checklist API (B8.7)", () => {
   it("TC-8.7-07 agents cannot edit other counsellors' files", async () => {
     const visa = await visaFile()
     signInAs("atlasEducation")
+    // Assigned-only workspace: the file does not exist for them (TC-10.4-01).
+    await expect(
+      fetchChecklist("visaApplication", visa.id)
+    ).rejects.toMatchObject({ status: 404 })
+
+    db.workspaces.update(WORKSPACE_IDS.atlas, { agentVisibility: "all" })
     const { items } = await fetchChecklist("visaApplication", visa.id)
     await expect(
       updateChecklistItem("visaApplication", visa.id, items[0]!.id, {

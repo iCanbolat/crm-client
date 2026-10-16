@@ -2,9 +2,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useNavigate } from "@tanstack/react-router"
 import { useTranslation } from "react-i18next"
 
-import { signIn, signOut } from "../lib/session"
-import { requestPasswordReset } from "./auth.api"
-import type { LoginInput } from "./auth.schemas"
+import { signIn, signOut, signUp } from "../lib/session"
+import {
+  requestPasswordReset,
+  resendVerificationCode,
+  verifyEmail,
+} from "./auth.api"
+import { authKeys } from "./auth.keys"
+import type { LoginInput, RegisterInput } from "./auth.schemas"
 
 export function useLoginMutation() {
   const queryClient = useQueryClient()
@@ -13,6 +18,36 @@ export function useLoginMutation() {
     mutationFn: (input: LoginInput) => signIn(queryClient, input),
     // The login form renders its own error message.
     meta: { suppressErrorToast: true },
+  })
+}
+
+export function useRegisterMutation() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (input: RegisterInput) => signUp(queryClient, input),
+    // The form renders field and form errors itself.
+    meta: { suppressErrorToast: true },
+  })
+}
+
+export function useVerifyEmailMutation() {
+  const { t } = useTranslation("auth")
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: verifyEmail,
+    meta: { successMessage: t("verify.done"), suppressErrorToast: true },
+    onSuccess: (me) => queryClient.setQueryData(authKeys.me(), me),
+  })
+}
+
+export function useResendVerificationMutation() {
+  const { t } = useTranslation("auth")
+
+  return useMutation({
+    mutationFn: resendVerificationCode,
+    meta: { successMessage: t("verify.resent") },
   })
 }
 

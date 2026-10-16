@@ -1,8 +1,8 @@
 {
   "convert": {
     "action": "Dönüştür",
-    "title": "Lead'i dönüştür",
-    "description": "{{name}} için şirket, kişi ve fırsat kayıtları oluşturulur; lead “Dönüştürüldü” aşamasına geçer.",
+    "title": "{{object}} kaydını dönüştür",
+    "description": "{{name}} için gerekli kayıtlar oluşturulur ve kayıt “Dönüştürüldü” aşamasına geçer.",
     "company": "Şirket",
     "contact": "Kişi",
     "deal": "Fırsat",
@@ -26,7 +26,7 @@
     "dealNameDefault": "{{company}} — yeni iş",
     "createQuote": "Ardından teklif taslağı hazırla",
     "submit": "Dönüştür",
-    "success": "Lead dönüştürüldü.",
+    "success": "Dönüştürme tamamlandı.",
     "searching": "Eşleşmeler aranıyor…",
     "pickRequired": "Bir kayıt seçin.",
     "noCompany": "Şirket yok (bireysel)",

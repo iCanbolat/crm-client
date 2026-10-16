@@ -29,12 +29,14 @@ import {
   inviteInputSchema,
   type InviteInput,
 } from "../api/workspace.schemas"
+import { useRoleLabels } from "../hooks/use-role-label"
 import { FormSelect } from "./form-select"
 
 export function InviteMemberDialog() {
   const { t } = useTranslation(["workspace", "common"])
   const [open, setOpen] = useState(false)
   const mutation = useCreateInvite()
+  const roles = useRoleLabels()
   const form = useForm<InviteInput>({
     resolver: zodResolver(inviteInputSchema),
     defaultValues: { email: "", role: "agent" },
@@ -42,7 +44,7 @@ export function InviteMemberDialog() {
   const emailError = form.formState.errors.email
   const roleItems = INVITABLE_ROLES.map((role) => ({
     value: role,
-    label: t(`workspace:roles.${role}`),
+    label: roles.label(role),
   }))
 
   const onSubmit = form.handleSubmit(async (values) => {
@@ -88,14 +90,22 @@ export function InviteMemberDialog() {
               control={form.control}
               name="role"
               render={({ field, fieldState }) => (
-                <FormSelect
-                  id="invite-role"
-                  label={t("members.role")}
-                  items={roleItems}
-                  value={field.value}
-                  onChange={field.onChange}
-                  error={fieldState.error}
-                />
+                <div className="flex flex-col gap-2">
+                  <FormSelect
+                    id="invite-role"
+                    label={t("members.role")}
+                    items={roleItems}
+                    value={field.value}
+                    onChange={field.onChange}
+                    error={fieldState.error}
+                  />
+                  <p
+                    id="invite-role-description"
+                    className="text-sm text-muted-foreground"
+                  >
+                    {roles.description(field.value)}
+                  </p>
+                </div>
               )}
             />
           </FieldGroup>

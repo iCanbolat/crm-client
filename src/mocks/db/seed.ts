@@ -26,6 +26,31 @@ export interface MembershipRecord {
 export interface InviteRecord extends Invite {
   workspaceId: string
   invitedBy: string
+  /** Secret of the invitation link (`/invite/:token`, Faz 10). */
+  token: string
+  expiresAt: string
+}
+
+/** E-mails the mock backend "sends" (dev toolbar → E-mails, Faz 10). */
+export interface OutboxEmail {
+  id: string
+  to: string
+  kind: "verifyEmail" | "invite"
+  subject: string
+  /** Verification code, if any. */
+  code: string | null
+  /** Link in the e-mail (relative to the admin app), if any. */
+  link: string | null
+  createdAt: string
+}
+
+/** Pending e-mail verification of a self sign-up (id = user id). */
+export interface EmailVerification {
+  id: string
+  code: string
+  expiresAt: string
+  sentAt: string
+  attempts: number
 }
 
 export interface RevokedToken {
@@ -57,7 +82,9 @@ export function seedWorkspaces(): Workspace[] {
       currency: "TRY",
       timezone: "Europe/Istanbul",
       language: "tr",
+      vertical: "forwarding",
       modules: ["forwarding"],
+      agentVisibility: "all",
       onboarding: COMPLETED,
       createdAt: createdAt(400),
     },
@@ -70,7 +97,9 @@ export function seedWorkspaces(): Workspace[] {
       currency: "USD",
       timezone: "Europe/Istanbul",
       language: "en",
+      vertical: "forwarding",
       modules: ["forwarding"],
+      agentVisibility: "all",
       onboarding: COMPLETED,
       createdAt: createdAt(120),
     },
@@ -84,7 +113,9 @@ export function seedWorkspaces(): Workspace[] {
       currency: null,
       timezone: null,
       language: null,
+      vertical: null,
       modules: [],
+      agentVisibility: "assigned",
       onboarding: { status: "pending", step: 0, draft: {} },
       createdAt: createdAt(0),
     },
@@ -98,7 +129,10 @@ export function seedWorkspaces(): Workspace[] {
       currency: "TRY",
       timezone: "Europe/Istanbul",
       language: "tr",
+      vertical: "visa-education",
       modules: ["visa-education"],
+      // Counsellors see their own files and the unassigned pool (Faz 10).
+      agentVisibility: "assigned",
       onboarding: COMPLETED,
       createdAt: createdAt(300),
     },
@@ -155,6 +189,7 @@ export function seedUsers(): MockUser[] {
   return Object.values(SEED_USERS).map((user) => ({
     ...user,
     avatarUrl: null,
+    emailVerified: true,
     password: DEMO_PASSWORD,
   }))
 }
@@ -201,6 +236,9 @@ export function seedInvites(): InviteRecord[] {
       status: "pending",
       invitedAt: createdAt(3),
       invitedBy: SEED_USERS.owner.id,
+      token: "acme-operasyon-davet",
+      // Invitations stay valid for 14 days from the real "today".
+      expiresAt: new Date(Date.now() + 14 * 86_400_000).toISOString(),
     },
   ]
 }

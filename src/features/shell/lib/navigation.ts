@@ -1,13 +1,9 @@
 import {
   BellIcon,
-  BuildingIcon,
-  ContactIcon,
   FileTextIcon,
   FlaskConicalIcon,
   GlobeIcon,
   MailboxIcon,
-  HandCoinsIcon,
-  InboxIcon,
   LayoutDashboardIcon,
   ListTodoIcon,
   MessageCircleIcon,
@@ -19,22 +15,20 @@ import {
   type LucideIcon,
 } from "lucide-react"
 
-import type { ModuleManifest } from "@/engine/modules"
+import type { ObjectDef } from "@/engine/metadata"
+import {
+  buildHref,
+  resolveNavItem,
+  type ModuleManifest,
+  type ResolvedNavLink,
+} from "@/engine/modules"
 import type { Language } from "@/lib/i18n"
 import { resolveI18nText } from "@/lib/i18n-text"
 import { can, type Action, type Resource, type Subject } from "@/lib/rbac"
 
-export interface NavLink {
-  id: string
-  title: string
-  icon: LucideIcon
-  to: string
-  params?: Record<string, string>
-  /** Search params of the link (e.g. a saved view of a list). */
-  search?: Record<string, unknown>
-  /** Resolved path, used for active state and search. */
-  href: string
-}
+export type NavLink = ResolvedNavLink
+
+export { buildHref }
 
 export interface NavGroup {
   id: string
@@ -45,10 +39,6 @@ export interface NavGroup {
 type CoreLabelKey =
   | "dashboard"
   | "tasks"
-  | "leads"
-  | "companies"
-  | "contacts"
-  | "deals"
   | "members"
   | "objects"
   | "examples"
@@ -70,11 +60,14 @@ interface CoreNavItem {
 }
 
 interface CoreNavGroup {
-  id: "workspace" | "crm" | "marketing" | "settings"
+  id: "workspace" | "marketing" | "settings"
   items: CoreNavItem[]
 }
 
-/** Core CRM navigation; sector modules append their own groups. */
+/**
+ * Core navigation. CRM objects (leads, contacts, …) are not here: each
+ * sector lists them in its own groups and terms (`navGroups`, Faz 10).
+ */
 export const CORE_NAVIGATION: CoreNavGroup[] = [
   {
     id: "workspace",
@@ -92,35 +85,6 @@ export const CORE_NAVIGATION: CoreNavGroup[] = [
         icon: ChartColumnIcon,
         to: "/reports",
         permission: { action: "read", resource: "report" },
-      },
-    ],
-  },
-  {
-    id: "crm",
-    items: [
-      {
-        id: "leads",
-        icon: InboxIcon,
-        to: "/o/$objectKey",
-        params: { objectKey: "lead" },
-      },
-      {
-        id: "companies",
-        icon: BuildingIcon,
-        to: "/o/$objectKey",
-        params: { objectKey: "company" },
-      },
-      {
-        id: "contacts",
-        icon: ContactIcon,
-        to: "/o/$objectKey",
-        params: { objectKey: "contact" },
-      },
-      {
-        id: "deals",
-        icon: HandCoinsIcon,
-        to: "/o/$objectKey",
-        params: { objectKey: "deal" },
       },
     ],
   },
@@ -180,14 +144,10 @@ export const CORE_NAVIGATION: CoreNavGroup[] = [
   },
 ]
 
-export function buildHref(to: string, params: Record<string, string> = {}) {
-  return to.replace(/\$(\w+)/g, (_, name: string) =>
-    encodeURIComponent(params[name] ?? "")
-  )
-}
-
 interface BuildNavigationOptions {
   modules: readonly ModuleManifest[]
+  /** Workspace metadata: object items take label and icon from it. */
+  objects: readonly ObjectDef[] | undefined
   subject: Subject | null
   language: Language
   /** Translates `shell:nav.*` / `shell:navGroups.*` keys. */
@@ -197,11 +157,12 @@ interface BuildNavigationOptions {
 }
 
 /**
- * Core groups + one group per active module, filtered by the current role.
- * The settings group stays last.
+ * Workspace group + the sector's groups + marketing + settings, filtered by
+ * the current role and the workspace metadata.
  */
 export function buildNavigation({
   modules,
+  objects,
   subject,
   language,
   translate,
@@ -224,33 +185,25 @@ export function buildNavigation({
       })),
   })
 
-  const moduleGroups: NavGroup[] = modules
-    .filter((manifest) => manifest.navigation?.length)
-    .map((manifest) => ({
-      id: `module:${manifest.id}`,
-      title: resolveI18nText(manifest.label, language),
-      items: (manifest.navigation ?? [])
+  const sectorGroups: NavGroup[] = modules.flatMap((manifest) =>
+    (manifest.navGroups ?? []).map((group) => ({
+      id: `module:${group.id}`,
+      title: resolveI18nText(group.label, language),
+      items: group.items
         .filter((item) => allowed(item.permission))
-        .map((item) => ({
-          id: item.id,
-          title: resolveI18nText(item.label, language),
-          icon: item.icon,
-          to: item.to,
-          params: item.params,
-          search: item.search,
-          href: buildHref(item.to, item.params),
-        })),
+        .map((item) => resolveNavItem(item, objects, language))
+        .filter((item): item is NavLink => item !== null),
     }))
-
-  const coreGroups = CORE_NAVIGATION.filter((group) => group.id !== "settings")
-  const settingsGroups = CORE_NAVIGATION.filter(
-    (group) => group.id === "settings"
   )
 
+  const coreGroup = (id: CoreNavGroup["id"]) =>
+    CORE_NAVIGATION.filter((group) => group.id === id).map(toCoreGroup)
+
   return [
-    ...coreGroups.map(toCoreGroup),
-    ...moduleGroups,
-    ...settingsGroups.map(toCoreGroup),
+    ...coreGroup("workspace"),
+    ...sectorGroups,
+    ...coreGroup("marketing"),
+    ...coreGroup("settings"),
   ].filter((group) => group.items.length > 0)
 }
 

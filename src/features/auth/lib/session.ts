@@ -2,9 +2,14 @@ import type { QueryClient } from "@tanstack/react-query"
 
 import { isApiError } from "@/lib/api"
 
-import { login, logout, refreshTokens } from "../api/auth.api"
+import { login, logout, refreshTokens, register } from "../api/auth.api"
 import { authQueries } from "../api/auth.queries"
-import type { LoginInput, Me, Membership } from "../api/auth.schemas"
+import type {
+  LoginInput,
+  Me,
+  Membership,
+  RegisterInput,
+} from "../api/auth.schemas"
 import {
   clearSession,
   getSessionState,
@@ -86,6 +91,14 @@ export async function ensureSession(
 export async function signIn(queryClient: QueryClient, input: LoginInput) {
   const tokens = await login(input)
   // A new identity must never see the previous user's cached data.
+  queryClient.clear()
+  setSessionTokens(tokens)
+  return ensureSession(queryClient)
+}
+
+/** Self sign-up (Faz 10): the new account is signed in right away. */
+export async function signUp(queryClient: QueryClient, input: RegisterInput) {
+  const tokens = await register(input)
   queryClient.clear()
   setSessionTokens(tokens)
   return ensureSession(queryClient)

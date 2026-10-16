@@ -2,6 +2,7 @@ import type { LucideIcon } from "lucide-react"
 import { z } from "zod"
 
 import type { I18nText } from "@/lib/i18n-text"
+import type { FieldSensitivity } from "@/lib/rbac"
 
 /** How a report column is formatted (table, chart tooltip and CSV). */
 export const REPORT_COLUMN_KINDS = [
@@ -37,6 +38,8 @@ export interface ReportDef {
   icon: LucideIcon
   columns: ReportColumn[]
   chart?: ReportChart
+  /** Hidden from roles that may not read this kind of data (Faz 10). */
+  sensitivity?: FieldSensitivity
 }
 
 const cellSchema = z.union([z.string(), z.number(), z.null()])

@@ -2,7 +2,7 @@ import type { LucideIcon } from "lucide-react"
 import type { ComponentType } from "react"
 
 import type { I18nText } from "@/lib/i18n-text"
-import type { Action, Resource } from "@/lib/rbac"
+import type { Action, FieldSensitivity, Resource, Role } from "@/lib/rbac"
 
 import type { AnyFieldTypeDefinition } from "../field-types/types"
 import type { FormBlockDef } from "../forms/schemas"
@@ -28,17 +28,42 @@ export type ModuleId = (typeof MODULE_IDS)[number]
 
 export type ModuleStatus = "active" | "coming-soon"
 
-export interface NavItem {
+interface NavItemBase {
   id: string
-  label: I18nText
-  icon: LucideIcon
-  /** Route path, e.g. `/o/$objectKey`. */
-  to: string
-  params?: Record<string, string>
   /** Search params of the link (e.g. a saved view). */
   search?: Record<string, unknown>
   /** Hidden unless the current role is allowed to perform it. */
   permission?: { action: Action; resource: Resource }
+}
+
+/** Link to any route. */
+export interface NavRouteItem extends NavItemBase {
+  label: I18nText
+  icon: LucideIcon
+  /** Route path, e.g. `/inbox` or `/o/$objectKey`. */
+  to: string
+  params?: Record<string, string>
+}
+
+/**
+ * Link to the list of a metadata object (`/o/$objectKey`). Label and icon
+ * come from the workspace metadata unless given (a saved view, e.g.
+ * "Sponsors"), so renamed objects read the same everywhere; the item is
+ * hidden when the workspace has no such object (Faz 10).
+ */
+export interface NavObjectItem extends NavItemBase {
+  objectKey: string
+  label?: I18nText
+  icon?: LucideIcon
+}
+
+export type NavItem = NavRouteItem | NavObjectItem
+
+/** Sidebar group a sector contributes (e.g. "Sales", "Operations"). */
+export interface NavGroupDef {
+  id: string
+  label: I18nText
+  items: NavItem[]
 }
 
 export interface RecordSlotProps {
@@ -50,6 +75,12 @@ export interface RecordSlotProps {
 export interface SlotDef {
   id: string
   component: ComponentType<RecordSlotProps>
+  /**
+   * Rendered only when the object metadata has this field — e.g. a
+   * commission card disappears for roles that may not read commissions
+   * (sensitive fields are left out of their metadata, Faz 10).
+   */
+  requiresField?: string
 }
 
 /**
@@ -91,7 +122,31 @@ export interface WidgetDef {
   size: 1 | 2 | 4
   component: ComponentType<DashboardWidgetProps>
   permission?: { action: Action; resource: Resource }
+  /** Hidden from roles that may not read this kind of data (Faz 10). */
+  sensitivity?: FieldSensitivity
 }
+
+/** Core CRM objects every workspace starts with. */
+export const CORE_OBJECT_KEYS = ["lead", "company", "contact", "deal"] as const
+export type CoreObjectKey = (typeof CORE_OBJECT_KEYS)[number]
+
+/**
+ * How a sector shapes a core object (Faz 10): turned off entirely
+ * (`enabled: false` — no list, record, search hit, relation or report), or
+ * renamed to the sector's own term with fields that make no sense there
+ * hidden. Labels and icon are written into the workspace metadata on
+ * activation (the tenant may still rename them); `enabled` and
+ * `hiddenFields` apply on every read.
+ */
+export type CoreObjectOverride =
+  | { enabled: false }
+  | {
+      enabled?: true
+      label?: I18nText
+      pluralLabel?: I18nText
+      icon?: string
+      hiddenFields?: string[]
+    }
 
 /** Module record a lead may be converted into (e.g. a school application). */
 export interface LeadConversionTarget {
@@ -129,7 +184,12 @@ export interface ModuleManifest {
   objects?: ObjectDef[]
   extend?: Record<string, ObjectExtension>
   fieldTypes?: AnyFieldTypeDefinition[]
-  navigation?: NavItem[]
+  /**
+   * The sector's sidebar groups (Faz 10): its own objects and the core ones
+   * (leads, contacts, …) under its own terms. The core shell only adds the
+   * workspace, marketing and settings groups.
+   */
+  navGroups?: NavGroupDef[]
   recordSlots?: Partial<Record<RecordSlotName, SlotDef[]>>
   dashboardWidgets?: WidgetDef[]
   /** Sector blocks of the form builder palette (B4.2). */
@@ -145,6 +205,13 @@ export interface ModuleManifest {
   reports?: ReportDef[]
   /** Lead conversion options of the sector (B8.4). */
   leadConversion?: LeadConversionDef
+  /**
+   * The sector's names for the generic roles (Faz 10), e.g. agent →
+   * "Counsellor". Permissions stay those of `lib/rbac`.
+   */
+  roleLabels?: Partial<Record<Role, { label: I18nText; description: I18nText }>>
+  /** Core objects the sector turns off or renames (Faz 10). */
+  coreObjects?: Partial<Record<CoreObjectKey, CoreObjectOverride>>
 }
 
 export function isModuleId(value: unknown): value is ModuleId {

@@ -2,7 +2,7 @@ import { z } from "zod"
 
 import { MODULE_IDS } from "@/engine/modules"
 import i18n, { supportedLanguages } from "@/lib/i18n"
-import { ROLES } from "@/lib/rbac"
+import { AGENT_VISIBILITIES, ROLES } from "@/lib/rbac"
 
 import { COUNTRY_CODES, CURRENCIES, TIMEZONES } from "../lib/reference"
 
@@ -23,10 +23,16 @@ export const companyInfoSchema = z.object({
 })
 export type CompanyInfo = z.infer<typeof companyInfoSchema>
 
-export const moduleSelectionSchema = z.object({
-  modules: z.array(z.enum(MODULE_IDS)).min(1),
-})
-export type ModuleSelection = z.infer<typeof moduleSelectionSchema>
+/**
+ * The sector ("vertical") of a workspace: picked once during onboarding and
+ * locked afterwards. Panel, navigation, terminology and role names follow it
+ * (Faz 10); another sector means another workspace.
+ */
+export const verticalSchema = z.enum(MODULE_IDS)
+export type Vertical = z.infer<typeof verticalSchema>
+
+export const verticalSelectionSchema = z.object({ vertical: verticalSchema })
+export type VerticalSelection = z.infer<typeof verticalSelectionSchema>
 
 /** The owner role cannot be handed out by invitation. */
 export const INVITABLE_ROLES = ["admin", "manager", "agent", "viewer"] as const
@@ -59,13 +65,13 @@ export const teamInvitesSchema = z.object({
 })
 export type TeamInvites = z.infer<typeof teamInvitesSchema>
 
-export const ONBOARDING_STEPS = ["company", "modules", "team", "done"] as const
+export const ONBOARDING_STEPS = ["vertical", "company", "team", "done"] as const
 export type OnboardingStep = (typeof ONBOARDING_STEPS)[number]
 export const LAST_ONBOARDING_STEP = ONBOARDING_STEPS.length - 1
 
 export const onboardingDraftSchema = z.object({
+  vertical: verticalSchema.optional(),
   company: companyInfoSchema.optional(),
-  modules: moduleSelectionSchema.shape.modules.optional(),
   invites: z.array(inviteInputSchema).optional(),
 })
 export type OnboardingDraft = z.infer<typeof onboardingDraftSchema>
@@ -85,8 +91,8 @@ export const saveOnboardingInputSchema = z.object({
 export type SaveOnboardingInput = z.infer<typeof saveOnboardingInputSchema>
 
 export const completeOnboardingInputSchema = z.object({
+  vertical: verticalSchema,
   company: companyInfoSchema,
-  modules: moduleSelectionSchema.shape.modules,
   invites: teamInvitesSchema.shape.invites,
 })
 export type CompleteOnboardingInput = z.infer<
@@ -102,12 +108,30 @@ export const workspaceSchema = z.object({
   currency: z.string().nullable(),
   timezone: z.string().nullable(),
   language: z.enum(supportedLanguages).nullable(),
-  /** Activated sector modules (module ids). */
+  /** Locked sector of the workspace; `null` until onboarding picks it. */
+  vertical: verticalSchema.nullable(),
+  /** Activated sector modules (module ids) — `[vertical]` (Faz 10). */
   modules: z.array(z.string()),
+  /** Records agents see: their own + unassigned, or all (Faz 10). */
+  agentVisibility: z.enum(AGENT_VISIBILITIES).default("assigned"),
   onboarding: onboardingStateSchema,
   createdAt: z.iso.datetime(),
 })
 export type Workspace = z.infer<typeof workspaceSchema>
+
+/** A further workspace of the signed-in user (another sector, Faz 10). */
+export const createWorkspaceInputSchema = z.object({
+  name: z.string().trim().min(WORKSPACE_NAME_MIN).max(WORKSPACE_NAME_MAX),
+})
+export type CreateWorkspaceInput = z.infer<typeof createWorkspaceInputSchema>
+
+/** Workspace-wide settings an owner/admin changes (Settings → Team). */
+export const workspaceSettingsInputSchema = z.object({
+  agentVisibility: z.enum(AGENT_VISIBILITIES),
+})
+export type WorkspaceSettingsInput = z.infer<
+  typeof workspaceSettingsInputSchema
+>
 
 export const memberSchema = z.object({
   userId: z.string(),
@@ -125,8 +149,36 @@ export const inviteSchema = z.object({
   role: invitableRoleSchema,
   status: z.enum(["pending", "accepted", "revoked"]),
   invitedAt: z.iso.datetime(),
+  /** Faz 10: invitations expire; the link can be copied by managers. */
+  expiresAt: z.iso.datetime().optional(),
+  link: z.string().nullable().optional(),
 })
 export type Invite = z.infer<typeof inviteSchema>
+
+export const memberRoleInputSchema = z.object({ role: invitableRoleSchema })
+export type MemberRoleInput = z.infer<typeof memberRoleInputSchema>
+
+/** What the invitation page shows before signing in (`/invite/:token`). */
+export const invitationSchema = z.object({
+  email: z.email(),
+  role: invitableRoleSchema,
+  workspaceName: z.string(),
+  workspaceLogoUrl: z.string().nullable(),
+  vertical: verticalSchema.nullable(),
+  inviterName: z.string(),
+  expiresAt: z.iso.datetime(),
+})
+export type Invitation = z.infer<typeof invitationSchema>
+
+export const acceptInviteResponseSchema = z.object({ workspaceId: z.string() })
+
+/** Account of an invited person; the e-mail comes from the invitation. */
+export const inviteSignUpInputSchema = z.object({
+  name: z.string().trim().min(2).max(80),
+  password: z.string().min(8).max(72),
+  acceptTerms: z.literal(true),
+})
+export type InviteSignUpInput = z.infer<typeof inviteSignUpInputSchema>
 
 export const membersResponseSchema = z.object({ data: z.array(memberSchema) })
 export const invitesResponseSchema = z.object({ data: z.array(inviteSchema) })

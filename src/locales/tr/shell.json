@@ -6,16 +6,11 @@
   },
   "navGroups": {
     "workspace": "Genel",
-    "crm": "CRM",
     "marketing": "Pazarlama",
     "settings": "Ayarlar"
   },
   "nav": {
     "dashboard": "Panel",
-    "leads": "Lead'ler",
-    "companies": "Şirketler",
-    "contacts": "Kişiler",
-    "deals": "Fırsatlar",
     "members": "Ekip",
     "examples": "Örnek kayıtlar",
     "tasks": "Görevlerim",

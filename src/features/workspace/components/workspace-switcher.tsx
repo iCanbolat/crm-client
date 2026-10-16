@@ -1,15 +1,18 @@
 import { useQueryClient } from "@tanstack/react-query"
 import { useRouter } from "@tanstack/react-router"
-import { ChevronsUpDownIcon } from "lucide-react"
+import { ChevronsUpDownIcon, PlusIcon } from "lucide-react"
+import { useState } from "react"
 import { useTranslation } from "react-i18next"
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
+  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
@@ -20,16 +23,31 @@ import {
 } from "@/components/ui/sidebar"
 import { switchWorkspace, useSession } from "@/features/auth"
 
+import { useRoleLabels } from "../hooks/use-role-label"
 import { useWorkspace } from "../hooks/use-workspace"
+import { getModule } from "@/engine/modules"
+import { getCurrentLanguage } from "@/lib/i18n"
+import { resolveI18nText } from "@/lib/i18n-text"
+
+import { CreateWorkspaceDialog } from "./create-workspace-dialog"
 import { WorkspaceAvatar } from "./workspace-avatar"
 
 export function WorkspaceSwitcher() {
   const { t } = useTranslation("workspace")
   const workspace = useWorkspace()
   const { memberships, role } = useSession()
+  const roles = useRoleLabels()
   const queryClient = useQueryClient()
   const router = useRouter()
   const { isMobile, setOpenMobile } = useSidebar()
+  const [creating, setCreating] = useState(false)
+  const language = getCurrentLanguage()
+  const sectorName = (vertical: string | null) => {
+    const manifest = vertical ? getModule(vertical) : undefined
+    return manifest
+      ? resolveI18nText(manifest.label, language)
+      : t("switcher.noVertical")
+  }
 
   async function handleSelect(workspaceId: string) {
     if (workspaceId === workspace.id) return
@@ -40,69 +58,83 @@ export function WorkspaceSwitcher() {
   }
 
   return (
-    <SidebarMenu>
-      <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            render={
-              <SidebarMenuButton
-                size="lg"
-                aria-label={t("switcher.trigger", { name: workspace.name })}
-                className="data-popup-open:bg-sidebar-accent"
+    <>
+      <CreateWorkspaceDialog open={creating} onOpenChange={setCreating} />
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <SidebarMenuButton
+                  size="lg"
+                  aria-label={t("switcher.trigger", { name: workspace.name })}
+                  className="data-popup-open:bg-sidebar-accent"
+                />
+              }
+            >
+              <WorkspaceAvatar
+                name={workspace.name}
+                logoUrl={workspace.logoUrl}
               />
-            }
-          >
-            <WorkspaceAvatar
-              name={workspace.name}
-              logoUrl={workspace.logoUrl}
-            />
-            <span className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-medium">{workspace.name}</span>
-              {role ? (
-                <span className="truncate text-xs text-muted-foreground">
-                  {t(`roles.${role}`)}
-                </span>
-              ) : null}
-            </span>
-            <ChevronsUpDownIcon className="ml-auto" aria-hidden />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            align="start"
-            side={isMobile ? "bottom" : "right"}
-            className="min-w-60"
-          >
-            <DropdownMenuGroup>
-              <DropdownMenuLabel>{t("switcher.label")}</DropdownMenuLabel>
-              <DropdownMenuRadioGroup
-                value={workspace.id}
-                onValueChange={(value) => void handleSelect(String(value))}
+              <span className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-medium">{workspace.name}</span>
+                {role ? (
+                  <span className="truncate text-xs text-muted-foreground">
+                    {roles.label(role)}
+                  </span>
+                ) : null}
+              </span>
+              <ChevronsUpDownIcon className="ml-auto" aria-hidden />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="start"
+              side={isMobile ? "bottom" : "right"}
+              className="min-w-60"
+            >
+              <DropdownMenuGroup>
+                <DropdownMenuLabel>{t("switcher.label")}</DropdownMenuLabel>
+                <DropdownMenuRadioGroup
+                  value={workspace.id}
+                  onValueChange={(value) => void handleSelect(String(value))}
+                >
+                  {memberships.map((membership) => (
+                    <DropdownMenuRadioItem
+                      key={membership.workspaceId}
+                      value={membership.workspaceId}
+                      closeOnClick
+                    >
+                      <WorkspaceAvatar
+                        name={membership.workspaceName}
+                        logoUrl={membership.workspaceLogoUrl}
+                        className="size-6 rounded-lg"
+                      />
+                      <span className="flex min-w-0 flex-col">
+                        <span className="truncate">
+                          {membership.workspaceName}
+                        </span>
+                        <span className="truncate text-xs text-muted-foreground">
+                          {roles.label(membership.role, membership.vertical)} ·{" "}
+                          {sectorName(membership.vertical)}
+                        </span>
+                      </span>
+                    </DropdownMenuRadioItem>
+                  ))}
+                </DropdownMenuRadioGroup>
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => {
+                  setOpenMobile(false)
+                  setCreating(true)
+                }}
               >
-                {memberships.map((membership) => (
-                  <DropdownMenuRadioItem
-                    key={membership.workspaceId}
-                    value={membership.workspaceId}
-                    closeOnClick
-                  >
-                    <WorkspaceAvatar
-                      name={membership.workspaceName}
-                      logoUrl={membership.workspaceLogoUrl}
-                      className="size-6 rounded-lg"
-                    />
-                    <span className="flex min-w-0 flex-col">
-                      <span className="truncate">
-                        {membership.workspaceName}
-                      </span>
-                      <span className="truncate text-xs text-muted-foreground">
-                        {t(`roles.${membership.role}`)}
-                      </span>
-                    </span>
-                  </DropdownMenuRadioItem>
-                ))}
-              </DropdownMenuRadioGroup>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </SidebarMenuItem>
-    </SidebarMenu>
+                <PlusIcon aria-hidden />
+                {t("switcher.create")}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    </>
   )
 }

@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { useSession } from "@/features/auth"
 import { useWorkspace } from "@/features/workspace"
 import { getCurrentLanguage } from "@/lib/i18n"
 import { resolveI18nText } from "@/lib/i18n-text"
@@ -20,7 +21,8 @@ export function ReportsPage() {
   const { t } = useTranslation("reports")
   const language = getCurrentLanguage()
   const workspace = useWorkspace()
-  const reports = getAvailableReports(workspace.modules)
+  const { subject } = useSession()
+  const reports = getAvailableReports(workspace.modules, subject)
 
   return (
     <div className="flex flex-col gap-6">

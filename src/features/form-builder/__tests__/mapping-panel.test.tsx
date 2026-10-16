@@ -18,7 +18,7 @@ async function openMapping() {
 
 const requiredCard = () =>
   screen
-    .getByText("Zorunlu Lead alanları")
+    .getByText("Zorunlu Navlun talebi alanları")
     .closest("[data-slot=card]") as HTMLElement
 
 describe("mapping panel (B4.5)", () => {

@@ -42,17 +42,17 @@ describe("workspace api (contract with MSW)", () => {
     })
   })
 
-  it("TC-1.2-02 refuses coming-soon modules on the server too", async () => {
+  it("TC-10.1-01 refuses coming-soon sectors on the server too", async () => {
     signInAs("newcomer")
 
     await expect(
       saveOnboardingProgress({
-        step: 2,
-        draft: { company, modules: ["health-tourism"] },
+        step: 1,
+        draft: { vertical: "health-tourism" },
       })
     ).rejects.toMatchObject({
       status: 422,
-      fieldErrors: { modules: ["Bu modül henüz kullanılamıyor."] },
+      fieldErrors: { vertical: ["Bu modül henüz kullanılamıyor."] },
     })
     await expect(activateModule("health-tourism")).rejects.toMatchObject({
       status: 422,
@@ -66,7 +66,30 @@ describe("workspace api (contract with MSW)", () => {
     await activateModule("forwarding")
     const workspace = await activateModule("forwarding")
 
-    expect(workspace.modules).toEqual(["forwarding"])
+    expect(workspace).toMatchObject({
+      vertical: "forwarding",
+      modules: ["forwarding"],
+    })
+  })
+
+  it("TC-10.1-02 locks the sector: another one needs another workspace", async () => {
+    signInAs("owner")
+
+    await expect(activateModule("visa-education")).rejects.toMatchObject({
+      status: 409,
+      code: "VERTICAL_LOCKED",
+    })
+    expect(db.workspaces.findById(WORKSPACE_IDS.acme)).toMatchObject({
+      vertical: "forwarding",
+      modules: ["forwarding"],
+    })
+
+    signInAs("newcomer")
+    await activateModule("visa-education")
+    await expect(activateModule("forwarding")).rejects.toMatchObject({
+      status: 409,
+      code: "VERTICAL_LOCKED",
+    })
   })
 
   it("only lets owners/admins drive onboarding and modules", async () => {
@@ -134,7 +157,7 @@ describe("getResumeStep", () => {
       getResumeStep({
         status: "pending",
         step: 2,
-        draft: { company, modules: ["forwarding"] },
+        draft: { vertical: "forwarding", company },
       })
     ).toBe(2)
   })
@@ -143,6 +166,13 @@ describe("getResumeStep", () => {
     expect(getResumeStep({ status: "pending", step: 3, draft: {} })).toBe(0)
     expect(
       getResumeStep({ status: "pending", step: 3, draft: { company } })
+    ).toBe(0)
+    expect(
+      getResumeStep({
+        status: "pending",
+        step: 3,
+        draft: { vertical: "visa-education" },
+      })
     ).toBe(1)
   })
 })

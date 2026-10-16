@@ -48,7 +48,7 @@ describe("Settings → Objects (B2.7)", () => {
     ).toEqual([
       expect.stringContaining("Şirketler"),
       expect.stringContaining("Kişiler"),
-      expect.stringContaining("Lead'ler"),
+      expect.stringContaining("Navlun talepleri"),
       expect.stringContaining("Fırsatlar"),
       expect.stringContaining("Teklifler"),
       expect.stringContaining("Sevkiyatlar"),

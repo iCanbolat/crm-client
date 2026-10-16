@@ -38,7 +38,7 @@ test.describe("Faz 1 — auth, onboarding & app shell", () => {
 
     await expect(page).toHaveURL("/o/lead")
     await expect(
-      page.getByRole("heading", { name: "Lead'ler", level: 1 })
+      page.getByRole("heading", { name: "Navlun talepleri", level: 1 })
     ).toBeVisible()
   })
 
@@ -50,24 +50,24 @@ test.describe("Faz 1 — auth, onboarding & app shell", () => {
   }) => {
     await openApp("/dashboard", { as: "newcomer" })
 
-    // Şirket bilgileri
+    // Sektör seçimi (tek, kilitli) — "Yakında" sektörler seçilemez
     await expect(page).toHaveURL("/onboarding")
+    await expect(
+      page.getByRole("heading", { name: "Sektörünüz" })
+    ).toBeVisible()
+    await expect(
+      page.getByRole("radio", { name: "Sağlık Turizmi" })
+    ).toBeDisabled()
+    await page.getByRole("radio", { name: "Forwarding (Lojistik)" }).click()
+    await page.getByRole("button", { name: "Devam et" }).click()
+
+    // Şirket bilgileri
     await expect(
       page.getByRole("heading", { name: "Şirket bilgileri" })
     ).toBeVisible()
     await page.getByLabel("Şirket adı").fill("Kuzey Lojistik A.Ş.")
     await page.getByRole("combobox", { name: "Para birimi" }).click()
     await page.getByRole("option", { name: "EUR — Euro" }).click()
-    await page.getByRole("button", { name: "Devam et" }).click()
-
-    // Modül seçimi — "Yakında" modüller seçilemez
-    await expect(
-      page.getByRole("heading", { name: "Sektör modülü" })
-    ).toBeVisible()
-    await expect(
-      page.getByRole("checkbox", { name: "Sağlık Turizmi" })
-    ).toBeDisabled()
-    await page.getByRole("checkbox", { name: "Forwarding (Lojistik)" }).click()
     await page.getByRole("button", { name: "Devam et" }).click()
 
     // Ekip daveti — atlanabilir
@@ -116,9 +116,10 @@ test.describe("Faz 1 — auth, onboarding & app shell", () => {
     submitLogin,
   }) => {
     await openApp("/dashboard", { as: "newcomer" })
+    await page.getByRole("radio", { name: "Forwarding (Lojistik)" }).click()
     await page.getByRole("button", { name: "Devam et" }).click()
     await expect(
-      page.getByRole("heading", { name: "Sektör modülü" })
+      page.getByRole("heading", { name: "Şirket bilgileri" })
     ).toBeVisible()
 
     await page.getByRole("button", { name: "Çıkış yap" }).click()
@@ -127,7 +128,7 @@ test.describe("Faz 1 — auth, onboarding & app shell", () => {
 
     await expect(page).toHaveURL("/onboarding")
     await expect(
-      page.getByRole("heading", { name: "Sektör modülü" })
+      page.getByRole("heading", { name: "Şirket bilgileri" })
     ).toBeVisible()
     await expect(page.getByText("Adım 2 / 4")).toBeVisible()
   })

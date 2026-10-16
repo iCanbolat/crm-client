@@ -1,38 +1,35 @@
 import { zodResolver } from "@hookform/resolvers/zod"
+import { LockIcon } from "lucide-react"
 import { Controller, useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 
 import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
 import { FieldError, FieldGroup } from "@/components/ui/field"
-import { getModules, type ModuleId } from "@/engine/modules"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { getModules } from "@/engine/modules"
 import { getCurrentLanguage } from "@/lib/i18n"
 import { resolveI18nText } from "@/lib/i18n-text"
 import { cn } from "@/lib/utils"
 
 import {
-  moduleSelectionSchema,
-  type ModuleSelection,
+  verticalSelectionSchema,
+  type VerticalSelection,
 } from "../../api/workspace.schemas"
 import { FormRootError, StepActions } from "./step-actions"
 import { useStepSubmit } from "./use-step-submit"
 
-interface ModulesStepProps {
-  defaultValues: ModuleSelection
-  onSubmit: (values: ModuleSelection) => Promise<void>
-  onBack: () => void
+interface VerticalStepProps {
+  defaultValues: Partial<VerticalSelection>
+  onSubmit: (values: VerticalSelection) => Promise<void>
 }
 
-export function ModulesStep({
-  defaultValues,
-  onSubmit,
-  onBack,
-}: ModulesStepProps) {
+/** Single choice: the sector the whole workspace is built around. */
+export function VerticalStep({ defaultValues, onSubmit }: VerticalStepProps) {
   const { t } = useTranslation("workspace")
   const language = getCurrentLanguage()
-  const form = useForm<ModuleSelection>({
-    resolver: zodResolver(moduleSelectionSchema),
-    defaultValues,
+  const form = useForm<VerticalSelection>({
+    resolver: zodResolver(verticalSelectionSchema),
+    defaultValues: defaultValues as VerticalSelection,
   })
   const { errors } = form.formState
   const submit = useStepSubmit(form, onSubmit)
@@ -43,27 +40,22 @@ export function ModulesStep({
         <FormRootError message={errors.root?.server?.message} />
         <Controller
           control={form.control}
-          name="modules"
-          render={({ field, fieldState }) => {
-            const toggle = (id: ModuleId, checked: boolean) =>
-              field.onChange(
-                checked
-                  ? [...field.value, id]
-                  : field.value.filter((value) => value !== id)
-              )
-
-            return (
-              <fieldset
-                className="flex flex-col gap-3"
-                aria-describedby={
-                  fieldState.error ? "modules-error" : undefined
-                }
+          name="vertical"
+          render={({ field, fieldState }) => (
+            <fieldset
+              className="flex flex-col gap-3"
+              aria-describedby={fieldState.error ? "vertical-error" : undefined}
+            >
+              <legend className="sr-only">{t("vertical.legend")}</legend>
+              <RadioGroup
+                value={field.value ?? null}
+                onValueChange={(value) => field.onChange(value)}
+                aria-label={t("vertical.legend")}
               >
-                <legend className="sr-only">{t("modules.legend")}</legend>
                 {getModules().map((manifest) => {
                   const comingSoon = manifest.status !== "active"
-                  const checked = field.value.includes(manifest.id)
-                  const titleId = `module-${manifest.id}-title`
+                  const checked = field.value === manifest.id
+                  const titleId = `vertical-${manifest.id}-title`
                   const Icon = manifest.icon
 
                   return (
@@ -88,7 +80,7 @@ export function ModulesStep({
                           </span>
                           {comingSoon ? (
                             <Badge variant="outline">
-                              {t("modules.comingSoon")}
+                              {t("vertical.comingSoon")}
                             </Badge>
                           ) : null}
                         </span>
@@ -96,33 +88,31 @@ export function ModulesStep({
                           {resolveI18nText(manifest.description, language)}
                         </span>
                       </div>
-                      <Checkbox
+                      <RadioGroupItem
+                        value={manifest.id}
                         aria-labelledby={titleId}
-                        checked={checked}
                         disabled={comingSoon}
-                        onCheckedChange={(next) =>
-                          toggle(manifest.id, next === true)
-                        }
                       />
                     </label>
                   )
                 })}
-                <FieldError
-                  id="modules-error"
-                  errors={[
-                    fieldState.error
-                      ? { message: t("modules.required") }
-                      : undefined,
-                  ]}
-                />
-              </fieldset>
-            )
-          }}
+              </RadioGroup>
+              <p className="flex items-center gap-2 text-xs text-muted-foreground">
+                <LockIcon className="size-3.5 shrink-0" aria-hidden />
+                {t("vertical.lockedHint")}
+              </p>
+              <FieldError
+                id="vertical-error"
+                errors={[
+                  fieldState.error
+                    ? { message: t("vertical.required") }
+                    : undefined,
+                ]}
+              />
+            </fieldset>
+          )}
         />
-        <StepActions
-          onBack={onBack}
-          isSubmitting={form.formState.isSubmitting}
-        />
+        <StepActions isSubmitting={form.formState.isSubmitting} />
       </FieldGroup>
     </form>
   )

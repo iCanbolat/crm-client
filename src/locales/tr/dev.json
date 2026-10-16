@@ -22,5 +22,10 @@
   "whatsappPhone": "Müşteri numarası (E.164)",
   "whatsappText": "Mesaj",
   "whatsappSend": "Mesajı gönder",
-  "whatsappSent": "Gelen WhatsApp mesajı oluşturuldu."
+  "whatsappSent": "Gelen WhatsApp mesajı oluşturuldu.",
+  "outbox": {
+    "title": "E-postalar",
+    "empty": "Henüz gönderilmiş e-posta yok.",
+    "openLink": "Davet bağlantısını aç"
+  }
 }

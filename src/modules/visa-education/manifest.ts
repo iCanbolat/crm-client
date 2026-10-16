@@ -2,9 +2,9 @@ import {
   BookOpenIcon,
   CalendarClockIcon,
   GraduationCapIcon,
+  HandHeartIcon,
   SchoolIcon,
   StampIcon,
-  UsersIcon,
 } from "lucide-react"
 
 import { lazy } from "react"
@@ -18,7 +18,7 @@ import {
   visaEducationMessageTemplates,
   visaEducationMessageTriggers,
 } from "./message-templates"
-import { APPLICANT_FILTERS } from "./lib/constants"
+import { APPLICANT_FILTERS, SPONSOR_FILTERS } from "./lib/constants"
 import { visaEducationConversion } from "./metadata/conversion"
 import { contactExtension, leadExtension } from "./metadata/extend"
 import {
@@ -118,7 +118,11 @@ export const visaEducationModule: ModuleManifest = {
     ],
     "enrollment.detail.sidebar": [
       { id: "visa-education.eligibility", component: EligibilityCard },
-      { id: "visa-education.commission", component: CommissionCard },
+      {
+        id: "visa-education.commission",
+        component: CommissionCard,
+        requiresField: "commissionExpected",
+      },
     ],
     "visaApplication.detail.main": [
       { id: "visa-education.checklist", component: ChecklistCard },
@@ -129,6 +133,46 @@ export const visaEducationModule: ModuleManifest = {
     ],
   },
   leadConversion: visaEducationConversion,
+  roleLabels: {
+    manager: {
+      label: { tr: "Ekip lideri", en: "Team lead" },
+      description: {
+        tr: "Tüm başvuruları görür, danışmanlara iş dağıtır, komisyonları izler.",
+        en: "Sees every file, assigns counsellors and follows commissions.",
+      },
+    },
+    agent: {
+      label: { tr: "Danışman", en: "Counsellor" },
+      description: {
+        tr: "Kendisine atanan başvuranlar ve dosyalarla çalışır; komisyonları görmez.",
+        en: "Works on the applicants and files assigned to them; no commissions.",
+      },
+    },
+    viewer: {
+      label: { tr: "Gözlemci", en: "Observer" },
+      description: {
+        tr: "Kayıtları salt okunur görür; pasaport ve doğum tarihi gizlidir.",
+        en: "Read-only access; passports and dates of birth are hidden.",
+      },
+    },
+  },
+  // B2C consultancy (Faz 10): no companies or deals; leads are enquiries
+  // and contacts are applicants (and their sponsors).
+  coreObjects: {
+    company: { enabled: false },
+    deal: { enabled: false },
+    lead: {
+      label: { tr: "Talep", en: "Enquiry" },
+      pluralLabel: { tr: "Talepler", en: "Enquiries" },
+      hiddenFields: ["companyName"],
+    },
+    contact: {
+      label: { tr: "Başvuran", en: "Applicant" },
+      pluralLabel: { tr: "Başvuranlar", en: "Applicants" },
+      icon: "users",
+      hiddenFields: ["title"],
+    },
+  },
   messageTemplates: visaEducationMessageTemplates,
   messageTriggers: visaEducationMessageTriggers,
   reports: visaEducationReports,
@@ -147,6 +191,7 @@ export const visaEducationModule: ModuleManifest = {
       id: "visa-education.commission",
       size: 2,
       component: widget("CommissionWidget"),
+      sensitivity: "financial",
     },
     {
       id: "visa-education.enrollments",
@@ -179,49 +224,61 @@ export const visaEducationModule: ModuleManifest = {
       component: widget("IntakeForecastWidget"),
     },
   ],
-  navigation: [
+  navGroups: [
     {
-      id: "visa-education.applicants",
-      label: { tr: "Başvuranlar", en: "Applicants" },
-      icon: UsersIcon,
-      to: "/o/$objectKey",
-      params: { objectKey: "contact" },
-      search: { filters: APPLICANT_FILTERS },
+      id: "visa-education.consulting",
+      label: { tr: "Danışmanlık", en: "Consulting" },
+      items: [
+        { id: "visa-education.enquiries", objectKey: "lead" },
+        {
+          id: "visa-education.applicants",
+          objectKey: "contact",
+          search: { filters: APPLICANT_FILTERS },
+        },
+        {
+          id: "visa-education.sponsors",
+          objectKey: "contact",
+          label: { tr: "Sponsorlar", en: "Sponsors" },
+          icon: HandHeartIcon,
+          search: { filters: SPONSOR_FILTERS },
+        },
+        {
+          id: "visa-education.enrollments",
+          objectKey: "enrollment",
+          label: { tr: "Okul başvuruları", en: "School applications" },
+          icon: GraduationCapIcon,
+        },
+        {
+          id: "visa-education.visas",
+          objectKey: "visaApplication",
+          label: { tr: "Vize başvuruları", en: "Visa applications" },
+          icon: StampIcon,
+        },
+        {
+          id: "visa-education.appointments",
+          objectKey: "appointment",
+          label: { tr: "Randevular", en: "Appointments" },
+          icon: CalendarClockIcon,
+        },
+      ],
     },
     {
-      id: "visa-education.enrollments",
-      label: { tr: "Okul başvuruları", en: "School applications" },
-      icon: GraduationCapIcon,
-      to: "/o/$objectKey",
-      params: { objectKey: "enrollment" },
-    },
-    {
-      id: "visa-education.visas",
-      label: { tr: "Vize başvuruları", en: "Visa applications" },
-      icon: StampIcon,
-      to: "/o/$objectKey",
-      params: { objectKey: "visaApplication" },
-    },
-    {
-      id: "visa-education.appointments",
-      label: { tr: "Randevular", en: "Appointments" },
-      icon: CalendarClockIcon,
-      to: "/o/$objectKey",
-      params: { objectKey: "appointment" },
-    },
-    {
-      id: "visa-education.institutions",
-      label: { tr: "Kurumlar", en: "Institutions" },
-      icon: SchoolIcon,
-      to: "/o/$objectKey",
-      params: { objectKey: "institution" },
-    },
-    {
-      id: "visa-education.programs",
-      label: { tr: "Programlar", en: "Programmes" },
-      icon: BookOpenIcon,
-      to: "/o/$objectKey",
-      params: { objectKey: "program" },
+      id: "visa-education.catalog",
+      label: { tr: "Katalog", en: "Catalogue" },
+      items: [
+        {
+          id: "visa-education.institutions",
+          objectKey: "institution",
+          label: { tr: "Kurumlar", en: "Institutions" },
+          icon: SchoolIcon,
+        },
+        {
+          id: "visa-education.programs",
+          objectKey: "program",
+          label: { tr: "Programlar", en: "Programmes" },
+          icon: BookOpenIcon,
+        },
+      ],
     },
   ],
 }

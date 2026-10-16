@@ -12,9 +12,11 @@ import {
 } from "@/components/ui/input-group"
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
 import { label, type ObjectDef } from "@/engine/metadata"
-import { Can } from "@/features/auth"
+import { Can, useSession } from "@/features/auth"
+import { useWorkspace } from "@/features/workspace"
 import { useDebouncedValue } from "@/hooks/use-debounced-value"
 import { getCurrentLanguage } from "@/lib/i18n"
+import { recordScope } from "@/lib/rbac"
 
 import type { ListLayoutMode, RecordListSearch } from "../api/records.schemas"
 import { FilterBar } from "./filter-bar"
@@ -74,12 +76,15 @@ export function RecordListPage({
   onViewSelect,
   board,
 }: RecordListPageProps) {
-  const { t } = useTranslation("records")
+  const { t } = useTranslation(["records", "workspace"])
   const language = getCurrentLanguage()
   const [creating, setCreating] = useState(false)
   const plural = label(objectDef.pluralLabel, language)
   const singular = label(objectDef.label, language)
   const showBoard = !!board && search.layout === "kanban"
+  const { subject } = useSession()
+  const workspace = useWorkspace()
+  const scoped = recordScope(subject, workspace.agentVisibility) === "assigned"
 
   const navigate = useNavigate()
   // Objects with a dedicated create screen (e.g. the quote builder).
@@ -101,6 +106,7 @@ export function RecordListPage({
     <div className="flex flex-col gap-6">
       <PageHeader
         title={plural}
+        description={scoped ? t("workspace:visibility.listHint") : undefined}
         actions={
           <>
             {board ? (

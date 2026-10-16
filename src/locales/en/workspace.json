@@ -6,9 +6,16 @@
     "agent": "Agent",
     "viewer": "Viewer"
   },
+  "roleDescriptions": {
+    "owner": "Owns the workspace; full access.",
+    "admin": "Manages the team, settings, channels and every record.",
+    "manager": "Sees and edits every record; cannot change team settings.",
+    "agent": "Creates records and edits their own.",
+    "viewer": "Read-only access to records."
+  },
   "onboarding": {
     "title": "Let's set up your workspace",
-    "description": "Add your company details, pick your sector module and invite your team in a few steps.",
+    "description": "Pick your sector, enter your company details and invite your team in a few steps.",
     "progress": "Setup steps",
     "stepOf": "Step {{step}} of {{total}}",
     "back": "Back",
@@ -19,15 +26,15 @@
     "pendingDescription": "The workspace owner or an admin can complete the setup. Please try again later."
   },
   "steps": {
+    "vertical": {
+      "short": "Sector",
+      "title": "Your sector",
+      "description": "Your panel, menus and terminology are tailored to the sector you pick."
+    },
     "company": {
       "short": "Company",
       "title": "Company details",
       "description": "Basics used on quotes, invoices and reports."
-    },
-    "modules": {
-      "short": "Module",
-      "title": "Sector module",
-      "description": "Choose the module that tailors the workspace to your industry."
     },
     "team": {
       "short": "Team",
@@ -56,10 +63,11 @@
     "timezone": "Time zone",
     "language": "Default language"
   },
-  "modules": {
-    "legend": "Sector modules",
+  "vertical": {
+    "legend": "Sector",
     "comingSoon": "Coming soon",
-    "required": "Select at least one available module."
+    "required": "Pick a sector.",
+    "lockedHint": "The sector cannot be changed after setup. Create a new workspace for another sector."
   },
   "team": {
     "empty": "No invitations yet. You can also invite your team later under Settings → Team.",
@@ -73,8 +81,8 @@
     "duplicateEmail": "This email is already on the list."
   },
   "review": {
-    "ready": "When you finish, the selected module is added to your workspace.",
-    "modules": "Modules",
+    "ready": "When you finish, your workspace is set up for the sector you picked.",
+    "vertical": "Sector",
     "invites": "Invitations",
     "inviteCount": "{{count}} people will be invited",
     "noInvites": "No invitations",
@@ -82,7 +90,12 @@
   },
   "switcher": {
     "label": "Workspaces",
-    "trigger": "Workspace: {{name}}"
+    "trigger": "Workspace: {{name}}",
+    "create": "New workspace",
+    "createTitle": "Create a new workspace",
+    "createDescription": "Each workspace works in a single sector. You'll pick the new one's sector during setup.",
+    "createSubmit": "Create and set up",
+    "noVertical": "Setup pending"
   },
   "members": {
     "title": "Team members",
@@ -96,6 +109,57 @@
     "inviteSent": "Invitation sent.",
     "invitesTitle": "Pending invitations",
     "invitesDescription": "Invitations that have not been accepted yet.",
-    "noInvites": "No pending invitations."
+    "noInvites": "No pending invitations.",
+    "roleChanged": "Role updated.",
+    "removed": "Member removed from the workspace.",
+    "inviteRevoked": "Invitation revoked.",
+    "inviteResent": "Invitation sent again.",
+    "changeRole": "Role of {{name}}",
+    "remove": "Remove",
+    "removeLabel": "Remove {{name}}",
+    "removeTitle": "Remove {{name}}?",
+    "removeDescription": "They lose access to the workspace; their records return to the unassigned pool.",
+    "you": "You",
+    "copyLink": "Copy link",
+    "copyLinkLabel": "Copy the invitation link of {{email}}",
+    "linkCopied": "Invitation link copied.",
+    "resend": "Resend",
+    "resendLabel": "Resend the invitation of {{email}}",
+    "revoke": "Revoke",
+    "revokeLabel": "Revoke the invitation of {{email}}",
+    "expires": "Valid until {{date}}"
+  },
+  "visibility": {
+    "title": "Record visibility",
+    "description": "Choose which records members with the {{role}} role see.",
+    "saved": "Visibility setting saved.",
+    "assigned": {
+      "title": "Assigned records only",
+      "description": "{{role}} sees records assigned to them and unassigned ones."
+    },
+    "all": {
+      "title": "All records",
+      "description": "{{role}} sees every record of the workspace; edits only their own."
+    },
+    "listHint": "Showing records assigned to you and unassigned ones."
+  },
+  "invitation": {
+    "title": "{{workspace}} is waiting for you",
+    "description": "{{inviter}} invited you to {{workspace}} as {{role}}.",
+    "sector": "Sector",
+    "email": "Invited email",
+    "accept": "Accept invitation",
+    "accepted": "You joined {{workspace}}.",
+    "mismatchTitle": "This invitation is for another account",
+    "mismatchDescription": "You are signed in as {{current}}; the invitation was sent to {{email}}.",
+    "switchAccount": "Switch account",
+    "signUpTitle": "Create your account",
+    "signUpSubmit": "Create account and join",
+    "haveAccount": "Already have an account with this email?",
+    "signIn": "Sign in",
+    "invalidTitle": "Invitation not valid",
+    "invalidDescription": "The link may be wrong, revoked, used or expired. Ask for a new invitation.",
+    "toLogin": "Back to sign in",
+    "accountExists": "An account with this email already exists. Sign in to accept the invitation."
   }
 }

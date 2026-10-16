@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest"
 
 import type { ObjectDef } from "@/engine/metadata"
 import {
+  applyCoreObjectOverrides,
   applyModuleMetadata,
+  getCoreObjectOverrides,
+  getDisabledObjectKeys,
   applyObjectExtension,
   getDashboardWidgets,
   getModuleObjects,
@@ -157,5 +160,89 @@ describe("module system (B3.1)", () => {
     expect(isModuleActive("forwarding", ["forwarding"])).toBe(true)
     expect(isModuleActive("health-tourism", ["health-tourism"])).toBe(false)
     expect(isModuleActive(undefined, [])).toBe(true)
+  })
+})
+
+describe("core object overrides (Faz 10)", () => {
+  function core(key: string, fields: ObjectDef["fields"] = []): ObjectDef {
+    const base = testObject()
+    return {
+      ...base,
+      key,
+      fields: [field("name", "text"), ...fields],
+      layouts: {
+        list: { columns: ["name", ...fields.map((item) => item.key)] },
+        detail: {
+          highlights: fields.map((item) => item.key),
+          sections: [
+            {
+              key: "main",
+              label: t("Ana"),
+              fields: ["name", ...fields.map((item) => item.key)],
+            },
+          ],
+          related: [{ objectKey: "deal", field: "contactId" }],
+        },
+      },
+    }
+  }
+
+  const companyId = field("companyId", "relation", {
+    relation: { objectKey: "company", displayField: "name" },
+  })
+  const jobTitle = field("title", "text")
+  const defs = [
+    core("company"),
+    core("deal"),
+    core("contact", [companyId, jobTitle]),
+  ]
+
+  it("TC-10.2-01 removes turned-off objects and every relation to them", () => {
+    const result = applyCoreObjectOverrides(defs, {
+      company: { enabled: false },
+      deal: { enabled: false },
+      contact: { hiddenFields: ["title"] },
+    })
+
+    expect(result.map((def) => def.key)).toEqual(["contact"])
+    const contact = result[0]!
+    expect(contact.fields.map((item) => item.key)).not.toContain("companyId")
+    expect(contact.fields.map((item) => item.key)).not.toContain("title")
+    expect(contact.layouts.list.columns).toEqual(["name"])
+    expect(contact.layouts.detail.highlights).toEqual([])
+    expect(contact.layouts.detail.related).toEqual([])
+
+    // Idempotent and pure.
+    expect(
+      applyCoreObjectOverrides(result, {
+        company: { enabled: false },
+        deal: { enabled: false },
+        contact: { hiddenFields: ["title"] },
+      })
+    ).toEqual(result)
+    expect(defs[2]!.fields.map((item) => item.key)).toContain("companyId")
+  })
+
+  it("TC-10.2-01 renames core objects on activation, once", () => {
+    const manifest: ModuleManifest = {
+      id: "visa-education",
+      status: "active",
+      label: t("Vize"),
+      description: t("Vize"),
+      icon: ShipIcon,
+      coreObjects: {
+        contact: { label: t("Başvuran"), pluralLabel: t("Başvuranlar") },
+      },
+    }
+    const once = applyModuleMetadata(defs, manifest)
+    expect(once.find((def) => def.key === "contact")).toMatchObject({
+      label: t("Başvuran"),
+      pluralLabel: t("Başvuranlar"),
+    })
+    expect(applyModuleMetadata(once, manifest)).toEqual(once)
+    expect(getCoreObjectOverrides([manifest])).toEqual(manifest.coreObjects)
+    expect(
+      getDisabledObjectKeys({ deal: { enabled: false }, lead: {} })
+    ).toEqual(["deal"])
   })
 })

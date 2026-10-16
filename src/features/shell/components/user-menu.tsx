@@ -12,11 +12,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { useRoleLabels } from "@/features/workspace"
 import { useSession } from "@/features/auth"
 
 export function UserMenu({ onSignOut }: { onSignOut: () => void }) {
   const { t } = useTranslation(["shell", "workspace"])
   const { user, role } = useSession()
+  const roles = useRoleLabels()
 
   return (
     <DropdownMenu>
@@ -41,7 +43,7 @@ export function UserMenu({ onSignOut }: { onSignOut: () => void }) {
             <span className="truncate text-xs font-normal">{user.email}</span>
             {role ? (
               <span className="truncate text-xs font-normal">
-                {t(`workspace:roles.${role}`)}
+                {roles.label(role)}
               </span>
             ) : null}
           </DropdownMenuLabel>

@@ -1,8 +1,8 @@
 {
   "convert": {
     "action": "Convert",
-    "title": "Convert lead",
-    "description": "Creates the company, contact and deal for {{name}}; the lead moves to “Converted”.",
+    "title": "Convert {{object}}",
+    "description": "Creates the records needed for {{name}} and moves it to “Converted”.",
     "company": "Company",
     "contact": "Contact",
     "deal": "Deal",
@@ -26,7 +26,7 @@
     "dealNameDefault": "{{company}} — new business",
     "createQuote": "Then prepare a draft quote",
     "submit": "Convert",
-    "success": "Lead converted.",
+    "success": "Conversion completed.",
     "searching": "Looking for matches…",
     "pickRequired": "Pick a record.",
     "noCompany": "No company (individual)",

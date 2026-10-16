@@ -1,7 +1,12 @@
 import { queryOptions } from "@tanstack/react-query"
 
-import { fetchInvites, fetchMembers, fetchWorkspace } from "./workspace.api"
-import { workspaceKeys } from "./workspace.keys"
+import {
+  fetchInvitation,
+  fetchInvites,
+  fetchMembers,
+  fetchWorkspace,
+} from "./workspace.api"
+import { invitationKeys, workspaceKeys } from "./workspace.keys"
 
 export const workspaceQueries = {
   current: () =>
@@ -18,5 +23,11 @@ export const workspaceQueries = {
     queryOptions({
       queryKey: workspaceKeys.invites(),
       queryFn: ({ signal }) => fetchInvites(signal),
+    }),
+  invitation: (token: string) =>
+    queryOptions({
+      queryKey: invitationKeys.detail(token),
+      queryFn: ({ signal }) => fetchInvitation(token, signal),
+      retry: false,
     }),
 }

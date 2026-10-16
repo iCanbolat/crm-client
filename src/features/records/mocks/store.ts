@@ -13,11 +13,24 @@ import {
   type RecordRef,
   type RecordValues,
 } from "@/engine/metadata"
-import { stripInactiveModules } from "@/engine/modules"
+import {
+  applyCoreObjectOverrides,
+  getCoreObjectOverrides,
+  redactSensitiveFields,
+  stripInactiveModules,
+} from "@/engine/modules"
 import { clearHiddenFields, metadataToZod } from "@/engine/records"
 import { MAX_PAGE_SIZE, type FieldErrors } from "@/lib/api"
+import {
+  canReadField,
+  inRecordScope,
+  recordScope,
+  type AgentVisibility,
+  type Subject,
+} from "@/lib/rbac"
 import i18n from "@/lib/i18n"
 import { db } from "@/mocks/db"
+import { getActiveManifests } from "@/mocks/modules"
 import { emitMockEvent } from "@/mocks/events"
 import type { getRequestT } from "@/mocks/utils/http"
 
@@ -26,15 +39,49 @@ import { newRecordId, objectRowId, type RecordRow } from "./factory"
 
 type RequestT = ReturnType<typeof getRequestT>
 
-/** Metadata contributed by modules the workspace no longer uses is hidden. */
+/**
+ * Metadata contributed by modules the workspace no longer uses is hidden,
+ * and the sector's core object overrides apply (Faz 10).
+ */
 function visibleDefs(workspaceId: string, defs: ObjectDef[]) {
   const modules = db.workspaces.findById(workspaceId)?.modules ?? []
-  return stripInactiveModules(defs, (moduleId) => modules.includes(moduleId))
+  const stripped = stripInactiveModules(defs, (moduleId) =>
+    modules.includes(moduleId)
+  )
+  return applyCoreObjectOverrides(
+    stripped,
+    getCoreObjectOverrides(getActiveManifests(modules))
+  )
 }
 
 export function getObjectDef(workspaceId: string, objectKey: string) {
   const def = db.objects.findById(objectRowId(workspaceId, objectKey))?.def
   return def ? visibleDefs(workspaceId, [def])[0] : undefined
+}
+
+/** `getObjectDef` as the requester may see it (sensitive fields, Faz 10). */
+export function getObjectDefFor(
+  context: { workspace: { id: string }; subject: Subject },
+  objectKey: string
+) {
+  const def = getObjectDef(context.workspace.id, objectKey)
+  return def
+    ? redactSensitiveFields(def, (sensitivity) =>
+        canReadField(context.subject, sensitivity)
+      )
+    : undefined
+}
+
+/** `listObjectDefs` as the requester may see it. */
+export function listObjectDefsFor(context: {
+  workspace: { id: string }
+  subject: Subject
+}) {
+  return listObjectDefs(context.workspace.id).map((def) =>
+    redactSensitiveFields(def, (sensitivity) =>
+      canReadField(context.subject, sensitivity)
+    )
+  )
 }
 
 export function saveObjectDef(workspaceId: string, def: ObjectDef) {
@@ -231,6 +278,39 @@ export function recordsOf(workspaceId: string, objectKey: string) {
   )
 }
 
+/* ----------------------------------------------------------------------------
+ * Data scope of the requester (Faz 10, `lib/rbac`): agents of an
+ * "assigned" workspace only see their own and unassigned records. Records
+ * outside the scope behave as if they did not exist (404).
+ * ------------------------------------------------------------------------- */
+
+export interface ScopeContext {
+  workspace: { id: string; agentVisibility?: AgentVisibility }
+  subject: Subject
+}
+
+export function isRowInScope(context: ScopeContext, row: RecordRow) {
+  const scope = recordScope(context.subject, context.workspace.agentVisibility)
+  return inRecordScope(context.subject, scope, row.values.ownerId)
+}
+
+/** `recordsOf` limited to the requester's scope. */
+export function scopedRecordsOf(context: ScopeContext, objectKey: string) {
+  return recordsOf(context.workspace.id, objectKey).filter((row) =>
+    isRowInScope(context, row)
+  )
+}
+
+/** `findRecordRow` limited to the requester's scope. */
+export function findScopedRecordRow(
+  context: ScopeContext,
+  objectKey: string,
+  id: string
+) {
+  const row = findRecordRow(context.workspace.id, objectKey, id)
+  return row && isRowInScope(context, row) ? row : undefined
+}
+
 /** Label of a related record (its primary/display field). */
 export function getRecordRef(
   workspaceId: string,
@@ -247,9 +327,21 @@ export function getRecordRef(
   }
 }
 
-/** Joins labels of relation and user values. */
+/**
+ * Joins labels of relation and user values. Given a redacted definition
+ * (`getObjectDefFor`), values of the removed sensitive fields are left out.
+ */
 export function toCrmRecord(def: ObjectDef, row: RecordRow): CrmRecord {
   const refs: CrmRecord["refs"] = {}
+  const kept = new Set(def.fields.map((field) => field.key))
+  const hidden = (getObjectDef(row.workspaceId, def.key)?.fields ?? []).filter(
+    (field) => field.sensitivity && !kept.has(field.key)
+  )
+  let values = row.values
+  if (hidden.length) {
+    values = { ...row.values }
+    for (const field of hidden) delete values[field.key]
+  }
   for (const field of def.fields) {
     const value = row.values[field.key]
     if (typeof value !== "string" || !value) continue
@@ -264,7 +356,7 @@ export function toCrmRecord(def: ObjectDef, row: RecordRow): CrmRecord {
       )
     }
   }
-  return { id: row.id, values: row.values, refs }
+  return { id: row.id, values, refs }
 }
 
 export interface ParsedRecordQuery {

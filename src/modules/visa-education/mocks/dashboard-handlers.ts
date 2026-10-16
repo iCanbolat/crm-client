@@ -1,6 +1,7 @@
 import { http, HttpResponse } from "msw"
 
-import { getObjectDef } from "@/features/records/mocks/store"
+import { getObjectDef, isRowInScope } from "@/features/records/mocks/store"
+import { canReadField } from "@/lib/rbac"
 import { authenticate } from "@/mocks/auth/authenticate"
 import { db } from "@/mocks/db"
 import { FX_RATES } from "@/mocks/db/fx-rates"
@@ -42,19 +43,28 @@ export const dashboardHandlers = [
             fieldErrors: { from: [t("validation")] },
           })
         }
+        // Agents of an "assigned" workspace see their own numbers (Faz 10).
+        const records = db.records.findMany(
+          (row) =>
+            row.workspaceId === workspaceId && isRowInScope(auth.context, row)
+        )
+        const visible = new Set(records.map((row) => row.id))
+        const dashboard = buildVisaEducationDashboard({
+          records,
+          plans: db.paymentPlans.findMany(
+            (row) =>
+              row.workspaceId === workspaceId && visible.has(row.recordId)
+          ),
+          range,
+          now: new Date().toISOString(),
+          currency: REPORT_CURRENCY,
+          rates: FX_RATES.rates,
+        })
+        // Commissions are financial data (Faz 10): not sent to other roles.
         return HttpResponse.json(
-          buildVisaEducationDashboard({
-            records: db.records.findMany(
-              (row) => row.workspaceId === workspaceId
-            ),
-            plans: db.paymentPlans.findMany(
-              (row) => row.workspaceId === workspaceId
-            ),
-            range,
-            now: new Date().toISOString(),
-            currency: REPORT_CURRENCY,
-            rates: FX_RATES.rates,
-          })
+          canReadField(auth.context.subject, "financial")
+            ? dashboard
+            : { ...dashboard, commission: { expected: 0, received: 0 } }
         )
       },
       {

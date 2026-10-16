@@ -53,7 +53,7 @@ describe("records api (contract with MSW)", () => {
       "shipment",
     ])
     const lead = data.find((def) => def.key === "lead")!
-    expect(lead.pluralLabel.tr).toBe("Lead'ler")
+    expect(lead.pluralLabel.tr).toBe("Navlun talepleri")
     expect(lead.pipeline?.stages.map((stage) => stage.key)).toEqual([
       "new",
       "contacted",

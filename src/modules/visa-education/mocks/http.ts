@@ -1,6 +1,9 @@
 import { z } from "zod"
 
-import { findRecordRow, getObjectDef } from "@/features/records/mocks/store"
+import {
+  findScopedRecordRow,
+  getObjectDef,
+} from "@/features/records/mocks/store"
 import i18n from "@/lib/i18n"
 
 /** Keys are built at runtime (error codes), so the typed `t` is widened. */
@@ -46,7 +49,7 @@ export function resolveRecord(
   const workspaceId = auth.context.workspace.id
   const row =
     objectKeys.includes(objectKey) && getObjectDef(workspaceId, objectKey)
-      ? findRecordRow(workspaceId, objectKey, id)
+      ? findScopedRecordRow(auth.context, objectKey, id)
       : undefined
   if (!row) {
     return { response: apiError(404, "NOT_FOUND", t("mock.notFound")) } as const

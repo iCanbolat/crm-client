@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppRouteImport } from './routes/_app'
 import { Route as AuthRouteImport } from './routes/_auth'
 import { Route as OnboardingRouteImport } from './routes/onboarding'
+import { Route as VerifyEmailRouteImport } from './routes/verify-email'
 import { Route as AppDashboardRouteImport } from './routes/_app/dashboard'
 import { Route as AppExamplesRouteImport } from './routes/_app/examples'
 import { Route as AppFormsRouteImport } from './routes/_app/forms'
@@ -25,6 +26,8 @@ import { Route as AppSubmissionsRouteImport } from './routes/_app/submissions'
 import { Route as AppTasksRouteImport } from './routes/_app/tasks'
 import { Route as AuthForgotPasswordRouteImport } from './routes/_auth/forgot-password'
 import { Route as AuthLoginRouteImport } from './routes/_auth/login'
+import { Route as AuthRegisterRouteImport } from './routes/_auth/register'
+import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as AppFormsIndexRouteImport } from './routes/_app/forms/index'
 import { Route as AppFormsFormIdRouteImport } from './routes/_app/forms/$formId'
 import { Route as AppOObjectKeyRouteImport } from './routes/_app/o/$objectKey'
@@ -71,6 +74,11 @@ const AuthRoute = AuthRouteImport.update({
 const OnboardingRoute = OnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerifyEmailRoute = VerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppDashboardRoute = AppDashboardRouteImport.update({
@@ -132,6 +140,16 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/login',
   path: '/login',
   getParentRoute: () => AuthRoute,
+} as any)
+const AuthRegisterRoute = AuthRegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => AuthRoute,
+} as any)
+const InviteTokenRoute = InviteTokenRouteImport.update({
+  id: '/invite/$token',
+  path: '/invite/$token',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AppFormsIndexRoute = AppFormsIndexRouteImport.update({
   id: '/',
@@ -290,6 +308,7 @@ const AppOObjectKeyRecordIdEditRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/dashboard': typeof AppDashboardRoute
   '/examples': typeof AppExamplesRoute
   '/forms': typeof AppFormsRouteWithChildren
@@ -302,6 +321,8 @@ export interface FileRoutesByFullPath {
   '/tasks': typeof AppTasksRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
+  '/register': typeof AuthRegisterRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/forms/$formId': typeof AppFormsFormIdRouteWithChildren
   '/o/$objectKey': typeof AppOObjectKeyRouteWithChildren
   '/quotes/$quoteId': typeof AppQuotesQuoteIdRouteWithChildren
@@ -335,6 +356,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/onboarding': typeof OnboardingRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/dashboard': typeof AppDashboardRoute
   '/examples': typeof AppExamplesRoute
   '/inbox': typeof AppInboxRoute
@@ -343,6 +365,8 @@ export interface FileRoutesByTo {
   '/tasks': typeof AppTasksRoute
   '/forgot-password': typeof AuthForgotPasswordRoute
   '/login': typeof AuthLoginRoute
+  '/register': typeof AuthRegisterRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/quotes/new': typeof AppQuotesNewRoute
   '/reports/$reportKey': typeof AppReportsReportKeyRoute
   '/settings/members': typeof AppSettingsMembersRoute
@@ -373,6 +397,7 @@ export interface FileRoutesById {
   '/_app': typeof AppRouteWithChildren
   '/_auth': typeof AuthRouteWithChildren
   '/onboarding': typeof OnboardingRoute
+  '/verify-email': typeof VerifyEmailRoute
   '/_app/dashboard': typeof AppDashboardRoute
   '/_app/examples': typeof AppExamplesRoute
   '/_app/forms': typeof AppFormsRouteWithChildren
@@ -385,6 +410,8 @@ export interface FileRoutesById {
   '/_app/tasks': typeof AppTasksRoute
   '/_auth/forgot-password': typeof AuthForgotPasswordRoute
   '/_auth/login': typeof AuthLoginRoute
+  '/_auth/register': typeof AuthRegisterRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/_app/forms/$formId': typeof AppFormsFormIdRouteWithChildren
   '/_app/o/$objectKey': typeof AppOObjectKeyRouteWithChildren
   '/_app/quotes/$quoteId': typeof AppQuotesQuoteIdRouteWithChildren
@@ -420,6 +447,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/onboarding'
+    | '/verify-email'
     | '/dashboard'
     | '/examples'
     | '/forms'
@@ -432,6 +460,8 @@ export interface FileRouteTypes {
     | '/tasks'
     | '/forgot-password'
     | '/login'
+    | '/register'
+    | '/invite/$token'
     | '/forms/$formId'
     | '/o/$objectKey'
     | '/quotes/$quoteId'
@@ -465,6 +495,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/onboarding'
+    | '/verify-email'
     | '/dashboard'
     | '/examples'
     | '/inbox'
@@ -473,6 +504,8 @@ export interface FileRouteTypes {
     | '/tasks'
     | '/forgot-password'
     | '/login'
+    | '/register'
+    | '/invite/$token'
     | '/quotes/new'
     | '/reports/$reportKey'
     | '/settings/members'
@@ -502,6 +535,7 @@ export interface FileRouteTypes {
     | '/_app'
     | '/_auth'
     | '/onboarding'
+    | '/verify-email'
     | '/_app/dashboard'
     | '/_app/examples'
     | '/_app/forms'
@@ -514,6 +548,8 @@ export interface FileRouteTypes {
     | '/_app/tasks'
     | '/_auth/forgot-password'
     | '/_auth/login'
+    | '/_auth/register'
+    | '/invite/$token'
     | '/_app/forms/$formId'
     | '/_app/o/$objectKey'
     | '/_app/quotes/$quoteId'
@@ -550,6 +586,8 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRouteWithChildren
   OnboardingRoute: typeof OnboardingRoute
+  VerifyEmailRoute: typeof VerifyEmailRoute
+  InviteTokenRoute: typeof InviteTokenRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -580,6 +618,13 @@ declare module '@tanstack/react-router' {
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_app/dashboard': {
@@ -665,6 +710,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/login'
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof AuthRoute
+    }
+    '/_auth/register': {
+      id: '/_auth/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof AuthRegisterRouteImport
+      parentRoute: typeof AuthRoute
+    }
+    '/invite/$token': {
+      id: '/invite/$token'
+      path: '/invite/$token'
+      fullPath: '/invite/$token'
+      preLoaderRoute: typeof InviteTokenRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_app/forms/': {
       id: '/_app/forms/'
@@ -1062,11 +1121,13 @@ const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 interface AuthRouteChildren {
   AuthForgotPasswordRoute: typeof AuthForgotPasswordRoute
   AuthLoginRoute: typeof AuthLoginRoute
+  AuthRegisterRoute: typeof AuthRegisterRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthForgotPasswordRoute: AuthForgotPasswordRoute,
   AuthLoginRoute: AuthLoginRoute,
+  AuthRegisterRoute: AuthRegisterRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
@@ -1076,6 +1137,8 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRouteWithChildren,
   OnboardingRoute: OnboardingRoute,
+  VerifyEmailRoute: VerifyEmailRoute,
+  InviteTokenRoute: InviteTokenRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

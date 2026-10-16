@@ -27,16 +27,16 @@ import { useWorkspace } from "../../hooks/use-workspace"
 import { getResumeStep } from "../../lib/onboarding"
 import { COMPANY_DEFAULTS } from "../../lib/reference"
 import { CompanyStep } from "./company-step"
-import { ModulesStep } from "./modules-step"
 import { ReviewStep } from "./review-step"
 import { TeamStep } from "./team-step"
+import { VerticalStep } from "./vertical-step"
 
 interface OnboardingWizardProps {
   onCompleted: () => void | Promise<void>
 }
 
 /**
- * Company → module → team → review. Every "next" persists the draft and the
+ * Sector (vertical) → company → team → review. Every "next" persists the draft and the
  * step on the server, so an interrupted onboarding resumes where it stopped.
  */
 export function OnboardingWizard({ onCompleted }: OnboardingWizardProps) {
@@ -49,7 +49,7 @@ export function OnboardingWizard({ onCompleted }: OnboardingWizardProps) {
   const saveProgress = useSaveOnboardingProgress()
   const complete = useCompleteOnboarding()
 
-  const stepKey = ONBOARDING_STEPS[step] ?? "company"
+  const stepKey = ONBOARDING_STEPS[step] ?? "vertical"
 
   async function advance(patch: OnboardingDraft) {
     const nextDraft = { ...draft, ...patch }
@@ -69,8 +69,8 @@ export function OnboardingWizard({ onCompleted }: OnboardingWizardProps) {
   }
 
   const review = completeOnboardingInputSchema.safeParse({
+    vertical: draft.vertical,
     company: draft.company,
-    modules: draft.modules,
     invites: draft.invites ?? [],
   })
 
@@ -124,21 +124,22 @@ export function OnboardingWizard({ onCompleted }: OnboardingWizardProps) {
           <CardDescription>{t(`steps.${stepKey}.description`)}</CardDescription>
         </CardHeader>
         <CardContent>
+          {stepKey === "vertical" ? (
+            <VerticalStep
+              defaultValues={{ vertical: draft.vertical }}
+              onSubmit={({ vertical }) => advance({ vertical })}
+            />
+          ) : null}
           {stepKey === "company" ? (
             <CompanyStep
               defaultValues={companyDefaults}
               onSubmit={(company) => advance({ company })}
-            />
-          ) : null}
-          {stepKey === "modules" ? (
-            <ModulesStep
-              defaultValues={{ modules: draft.modules ?? [] }}
-              onSubmit={({ modules }) => advance({ modules })}
               onBack={goBack}
             />
           ) : null}
           {stepKey === "team" ? (
             <TeamStep
+              vertical={draft.vertical}
               defaultValues={{ invites: draft.invites ?? [] }}
               onSubmit={({ invites }) => advance({ invites })}
               onBack={goBack}

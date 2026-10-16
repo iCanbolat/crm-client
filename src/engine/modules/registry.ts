@@ -1,3 +1,5 @@
+import type { Role } from "@/lib/rbac"
+
 import { registerFieldTypes } from "../field-types/registry"
 import type { LeadConversionDef, ModuleId, ModuleManifest } from "./types"
 
@@ -106,4 +108,9 @@ export function mergeLeadConversion(
 
 export function getLeadConversion(activeIds: readonly string[]) {
   return mergeLeadConversion(getActiveModules(activeIds))
+}
+
+/** The sector's name and description of a role, if it renames it (Faz 10). */
+export function getRoleLabel(vertical: string | null | undefined, role: Role) {
+  return vertical ? getModule(vertical)?.roleLabels?.[role] : undefined
 }

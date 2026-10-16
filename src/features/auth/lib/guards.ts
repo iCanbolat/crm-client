@@ -32,6 +32,8 @@ export async function requireAuth(
   if (!me || !membership) {
     throw redirect({ to: "/login", search: { redirect: location.href } })
   }
+  // Self sign-ups confirm their e-mail before anything else (Faz 10).
+  if (!me.user.emailVerified) throw redirect({ to: "/verify-email" })
 
   return {
     me,
@@ -47,4 +49,15 @@ export function requirePermission(
   resource: Resource
 ) {
   if (!can(auth.subject, action, resource)) throw new ForbiddenError()
+}
+
+/**
+ * `beforeLoad` guard of the e-mail verification page: signed-in but not yet
+ * verified users only.
+ */
+export async function requireUnverified(queryClient: QueryClient) {
+  const me = await ensureSession(queryClient)
+  if (!me) throw redirect({ to: "/login" })
+  if (me.user.emailVerified) throw redirect({ to: "/dashboard" })
+  return me
 }

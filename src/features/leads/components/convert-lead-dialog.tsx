@@ -148,6 +148,9 @@ function ConvertLeadForm({
   const id = useId()
   const leadDef = useObjectDef("lead")!
   const quoteDef = useOptionalObjectDef("quote")
+  // A sector may turn companies or deals off entirely (Faz 10).
+  const hasCompanies = !!useOptionalObjectDef("company")
+  const hasDeals = !!useOptionalObjectDef("deal")
   const workspace = useWorkspace()
   const conversion = getLeadConversion(workspace.modules)
   const language = i18n.language === "en" ? "en" : "tr"
@@ -162,16 +165,18 @@ function ConvertLeadForm({
   // Until the user picks, the best suggestion (or "new") is preselected.
   const [companyChoice, setCompanyChoice] = useState<string | null>(null)
   const [contactChoice, setContactChoice] = useState<string | null>(null)
-  const company =
-    companyChoice ??
-    companyMatches[0]?.id ??
-    (conversion.companyOptional && !companyName ? NONE : NEW)
+  const company = !hasCompanies
+    ? NONE
+    : (companyChoice ??
+      companyMatches[0]?.id ??
+      (conversion.companyOptional && !companyName ? NONE : NEW))
   const contact = contactChoice ?? contactMatches[0]?.id ?? NEW
   const [pickedCompany, setPickedCompany] = useState<string | null>(null)
   const [pickedContact, setPickedContact] = useState<string | null>(null)
   const [newCompanyName, setNewCompanyName] = useState(companyName || leadName)
   const [newContactName, setNewContactName] = useState(leadName)
-  const [createDeal, setCreateDeal] = useState(conversion.targets.length === 0)
+  const [dealChecked, setCreateDeal] = useState(conversion.targets.length === 0)
+  const createDeal = hasDeals && dealChecked
   const [targets, setTargets] = useState<string[]>(() =>
     conversion.targets
       .filter(
@@ -259,7 +264,14 @@ function ConvertLeadForm({
   return (
     <form onSubmit={submit} noValidate className="flex flex-col gap-6">
       <DialogHeader>
-        <DialogTitle>{t("convert.title")}</DialogTitle>
+        <DialogTitle>
+          {t("convert.title", {
+            object:
+              language === "en"
+                ? resolveI18nText(leadDef.label, language).toLowerCase()
+                : resolveI18nText(leadDef.label, language),
+          })}
+        </DialogTitle>
         <DialogDescription>
           {t("convert.description", { name: leadName })}
         </DialogDescription>
@@ -271,54 +283,58 @@ function ConvertLeadForm({
         </p>
       ) : null}
 
-      <div className="flex flex-col gap-3">
-        <Choice
-          legend={t("convert.company")}
-          name="company"
-          value={company}
-          onChange={setCompanyChoice}
-          matches={companyMatches}
-          options={[
-            { value: PICK, label: t("convert.searchExisting") },
-            { value: NEW, label: t("convert.newCompany") },
-            ...(conversion.companyOptional
-              ? [{ value: NONE, label: t("convert.noCompany") }]
-              : []),
-          ]}
-        />
-        {company === PICK ? (
-          <Field data-invalid={submitted && companyMissing ? true : undefined}>
-            <FieldLabel htmlFor={`${id}-company`} id={`${id}-company-label`}>
-              {t("convert.existingPicker")}
-            </FieldLabel>
-            <RelationInput
-              id={`${id}-company`}
-              labelId={`${id}-company-label`}
-              field={relationField("company", t("convert.company"))}
-              value={pickedCompany}
-              onChange={setPickedCompany}
-              invalid={submitted && companyMissing}
-            />
-            {submitted && companyMissing ? (
-              <FieldError>{t("convert.pickRequired")}</FieldError>
-            ) : null}
-          </Field>
-        ) : null}
-        {company === NEW ? (
-          <Field>
-            <FieldLabel htmlFor={`${id}-company-name`}>
-              {t("convert.name")}
-            </FieldLabel>
-            <Input
-              id={`${id}-company-name`}
-              value={newCompanyName}
-              required
-              aria-invalid={submitted && companyMissing ? true : undefined}
-              onChange={(event) => setNewCompanyName(event.target.value)}
-            />
-          </Field>
-        ) : null}
-      </div>
+      {hasCompanies ? (
+        <div className="flex flex-col gap-3">
+          <Choice
+            legend={t("convert.company")}
+            name="company"
+            value={company}
+            onChange={setCompanyChoice}
+            matches={companyMatches}
+            options={[
+              { value: PICK, label: t("convert.searchExisting") },
+              { value: NEW, label: t("convert.newCompany") },
+              ...(conversion.companyOptional
+                ? [{ value: NONE, label: t("convert.noCompany") }]
+                : []),
+            ]}
+          />
+          {company === PICK ? (
+            <Field
+              data-invalid={submitted && companyMissing ? true : undefined}
+            >
+              <FieldLabel htmlFor={`${id}-company`} id={`${id}-company-label`}>
+                {t("convert.existingPicker")}
+              </FieldLabel>
+              <RelationInput
+                id={`${id}-company`}
+                labelId={`${id}-company-label`}
+                field={relationField("company", t("convert.company"))}
+                value={pickedCompany}
+                onChange={setPickedCompany}
+                invalid={submitted && companyMissing}
+              />
+              {submitted && companyMissing ? (
+                <FieldError>{t("convert.pickRequired")}</FieldError>
+              ) : null}
+            </Field>
+          ) : null}
+          {company === NEW ? (
+            <Field>
+              <FieldLabel htmlFor={`${id}-company-name`}>
+                {t("convert.name")}
+              </FieldLabel>
+              <Input
+                id={`${id}-company-name`}
+                value={newCompanyName}
+                required
+                aria-invalid={submitted && companyMissing ? true : undefined}
+                onChange={(event) => setNewCompanyName(event.target.value)}
+              />
+            </Field>
+          ) : null}
+        </div>
+      ) : null}
 
       <div className="flex flex-col gap-3">
         <Choice
@@ -330,7 +346,10 @@ function ConvertLeadForm({
           options={[
             { value: PICK, label: t("convert.searchExistingContact") },
             { value: NEW, label: t("convert.newContact") },
-            { value: NONE, label: t("convert.noContact") },
+            // Without companies the person is the customer.
+            ...(hasCompanies
+              ? [{ value: NONE, label: t("convert.noContact") }]
+              : []),
           ]}
         />
         {contact === PICK ? (
@@ -399,45 +418,49 @@ function ConvertLeadForm({
         </FieldSet>
       ) : null}
 
-      <FieldSet>
-        <FieldLegend variant="label">{t("convert.deal")}</FieldLegend>
-        <Field orientation="horizontal">
-          <Checkbox
-            id={`${id}-deal`}
-            checked={createDeal}
-            onCheckedChange={(checked) => setCreateDeal(checked === true)}
-          />
-          <FieldLabel htmlFor={`${id}-deal`} className="font-normal">
-            {t("convert.createDeal")}
-          </FieldLabel>
-        </Field>
-        {createDeal ? (
-          <Field>
-            <FieldLabel htmlFor={`${id}-deal-name`}>
-              {t("convert.dealName")}
-            </FieldLabel>
-            <Input
-              id={`${id}-deal-name`}
-              value={dealName}
-              required
-              aria-invalid={submitted && dealMissing ? true : undefined}
-              onChange={(event) => setDealName(event.target.value)}
-            />
-          </Field>
-        ) : null}
-        {canQuote ? (
-          <Field orientation="horizontal">
-            <Checkbox
-              id={`${id}-quote`}
-              checked={createQuote}
-              onCheckedChange={(checked) => setCreateQuote(checked === true)}
-            />
-            <FieldLabel htmlFor={`${id}-quote`} className="font-normal">
-              {t("convert.createQuote")}
-            </FieldLabel>
-          </Field>
-        ) : null}
-      </FieldSet>
+      {hasDeals || canQuote ? (
+        <FieldSet>
+          <FieldLegend variant="label">{t("convert.deal")}</FieldLegend>
+          {hasDeals ? (
+            <Field orientation="horizontal">
+              <Checkbox
+                id={`${id}-deal`}
+                checked={createDeal}
+                onCheckedChange={(checked) => setCreateDeal(checked === true)}
+              />
+              <FieldLabel htmlFor={`${id}-deal`} className="font-normal">
+                {t("convert.createDeal")}
+              </FieldLabel>
+            </Field>
+          ) : null}
+          {createDeal ? (
+            <Field>
+              <FieldLabel htmlFor={`${id}-deal-name`}>
+                {t("convert.dealName")}
+              </FieldLabel>
+              <Input
+                id={`${id}-deal-name`}
+                value={dealName}
+                required
+                aria-invalid={submitted && dealMissing ? true : undefined}
+                onChange={(event) => setDealName(event.target.value)}
+              />
+            </Field>
+          ) : null}
+          {canQuote ? (
+            <Field orientation="horizontal">
+              <Checkbox
+                id={`${id}-quote`}
+                checked={createQuote}
+                onCheckedChange={(checked) => setCreateQuote(checked === true)}
+              />
+              <FieldLabel htmlFor={`${id}-quote`} className="font-normal">
+                {t("convert.createQuote")}
+              </FieldLabel>
+            </Field>
+          ) : null}
+        </FieldSet>
+      ) : null}
 
       <DialogFooter>
         <Button type="button" variant="outline" onClick={onDone}>

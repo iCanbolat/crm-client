@@ -65,6 +65,7 @@ export const visaEducationReports: ReportDef[] = [
   },
   {
     key: "commissionByInstitution",
+    sensitivity: "financial",
     label: t("Kurum bazlı komisyon", "Commission by institution"),
     description: t(
       "Kayıt olan öğrenciler için beklenen, tahsil edilen ve açık okul komisyonu.",

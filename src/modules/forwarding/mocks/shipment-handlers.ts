@@ -2,7 +2,10 @@ import { http, HttpResponse } from "msw"
 import { z } from "zod"
 
 import { dispatchMessageEvent } from "@/features/messaging/mocks/dispatch"
-import { findRecordRow, getObjectDef } from "@/features/records/mocks/store"
+import {
+  findScopedRecordRow,
+  getObjectDef,
+} from "@/features/records/mocks/store"
 import { authenticate, authorize } from "@/mocks/auth/authenticate"
 import { db } from "@/mocks/db"
 import { withScenario } from "@/mocks/scenarios/with-scenario"
@@ -38,7 +41,7 @@ function resolveShipment(request: Request, shipmentId: string) {
   const t = getRequestT(request)
   const workspaceId = auth.context.workspace.id
   const row = getObjectDef(workspaceId, "shipment")
-    ? findRecordRow(workspaceId, "shipment", shipmentId)
+    ? findScopedRecordRow(auth.context, "shipment", shipmentId)
     : undefined
   if (!row) {
     return { response: apiError(404, "NOT_FOUND", t("mock.notFound")) } as const

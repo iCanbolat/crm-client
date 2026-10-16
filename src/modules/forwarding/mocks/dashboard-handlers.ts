@@ -1,6 +1,6 @@
 import { http, HttpResponse } from "msw"
 
-import { getObjectDef } from "@/features/records/mocks/store"
+import { getObjectDef, isRowInScope } from "@/features/records/mocks/store"
 import { authenticate } from "@/mocks/auth/authenticate"
 import { db } from "@/mocks/db"
 import { withScenario } from "@/mocks/scenarios/with-scenario"
@@ -35,8 +35,11 @@ export const dashboardHandlers = [
         }
         return HttpResponse.json(
           buildForwardingDashboard({
+            // Agents of an "assigned" workspace see their own numbers.
             records: db.records.findMany(
-              (row) => row.workspaceId === workspaceId
+              (row) =>
+                row.workspaceId === workspaceId &&
+                isRowInScope(auth.context, row)
             ),
             range: { from, to },
             today: today(),

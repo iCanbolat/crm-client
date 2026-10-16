@@ -99,6 +99,7 @@ export function institutionObject(): ObjectDef {
       },
       {
         key: "commissionBasis",
+        sensitivity: "financial",
         label: t("Komisyon bazı", "Commission basis"),
         type: "select",
         system: true,
@@ -106,6 +107,7 @@ export function institutionObject(): ObjectDef {
       },
       {
         key: "commissionRate",
+        sensitivity: "financial",
         label: t("Komisyon oranı", "Commission rate"),
         type: "percent",
         system: true,
@@ -119,6 +121,7 @@ export function institutionObject(): ObjectDef {
       },
       {
         key: "flatCommission",
+        sensitivity: "financial",
         label: t("Sabit komisyon", "Flat commission"),
         type: "currency",
         system: true,
@@ -517,17 +520,20 @@ export function enrollmentObject(): ObjectDef {
       },
       {
         key: "commissionRate",
+        sensitivity: "financial",
         label: t("Komisyon oranı", "Commission rate"),
         type: "percent",
         system: true,
       },
       readOnly({
         key: "commissionExpected",
+        sensitivity: "financial",
         label: t("Beklenen komisyon", "Expected commission"),
         type: "currency",
       }),
       {
         key: "commissionStatus",
+        sensitivity: "financial",
         label: t("Komisyon durumu", "Commission status"),
         type: "select",
         system: true,
@@ -535,12 +541,14 @@ export function enrollmentObject(): ObjectDef {
       },
       {
         key: "commissionReceived",
+        sensitivity: "financial",
         label: t("Tahsil edilen komisyon", "Commission received"),
         type: "currency",
         system: true,
       },
       {
         key: "commissionReceivedAt",
+        sensitivity: "financial",
         label: t("Komisyon tahsil tarihi", "Commission received on"),
         type: "date",
         system: true,

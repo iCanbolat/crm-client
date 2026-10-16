@@ -237,6 +237,10 @@ export const APPLICANT_FILTERS = [
   { field: "personRoles", op: "in" as const, value: ["applicant"] },
 ]
 
+export const SPONSOR_FILTERS = [
+  { field: "personRoles", op: "in" as const, value: ["sponsor"] },
+]
+
 /* ---------------------------------------------------------- institution */
 
 export const INSTITUTION_TYPES = [

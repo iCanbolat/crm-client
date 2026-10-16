@@ -15,6 +15,7 @@ export const ACCOUNTS = {
   // Atlas Yurtdışı Eğitim (Faz 8)
   atlasOwner: { email: "owner@atlas.test", name: "Ayşe Korkmaz" },
   atlasVisa: { email: "onur@atlas.test", name: "Onur Aksoy" },
+  atlasEducation: { email: "ece@atlas.test", name: "Ece Yıldız" },
 } as const
 export type Account = keyof typeof ACCOUNTS
 export const DEMO_PASSWORD = "Demo123!"

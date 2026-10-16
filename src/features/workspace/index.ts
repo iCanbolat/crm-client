@@ -13,10 +13,10 @@ export {
   inviteInputSchema,
   inviteSchema,
   memberSchema,
-  moduleSelectionSchema,
   ONBOARDING_STEPS,
   onboardingDraftSchema,
   saveOnboardingInputSchema,
+  verticalSchema,
   workspaceSchema,
 } from "./api/workspace.schemas"
 export type {
@@ -27,8 +27,10 @@ export type {
   Member,
   OnboardingDraft,
   OnboardingState,
+  Vertical,
   Workspace,
 } from "./api/workspace.schemas"
+export { InvitationInvalid, InvitationPage } from "./components/invitation-page"
 export { MembersPanel } from "./components/members-panel"
 export { LogoField } from "./components/onboarding/logo-field"
 export {
@@ -38,6 +40,7 @@ export {
 export { OnboardingWizard } from "./components/onboarding/onboarding-wizard"
 export { WorkspaceAvatar } from "./components/workspace-avatar"
 export { WorkspaceSwitcher } from "./components/workspace-switcher"
+export { useRoleLabels } from "./hooks/use-role-label"
 export { useActiveModules, useWorkspace } from "./hooks/use-workspace"
 export { getResumeStep, isOnboardingComplete } from "./lib/onboarding"
 export { ensureModuleActive } from "./lib/module-guard"

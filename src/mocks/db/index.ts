@@ -76,8 +76,10 @@ import {
   seedUsers,
   seedWorkspaces,
   WORKSPACE_IDS,
+  type EmailVerification,
   type InviteRecord,
   type MembershipRecord,
+  type OutboxEmail,
   type MockUser,
   type RevokedToken,
 } from "./seed"
@@ -109,6 +111,15 @@ export const db = {
   }),
   revokedTokens: createCollection<RevokedToken>({
     name: "revokedTokens",
+    onChange: notify,
+  }),
+  // Self sign-up & invitations (Faz 10)
+  emailVerifications: createCollection<EmailVerification>({
+    name: "emailVerifications",
+    onChange: notify,
+  }),
+  outbox: createCollection<OutboxEmail>({
+    name: "outbox",
     onChange: notify,
   }),
   examples: createCollection<ExampleRecord>({

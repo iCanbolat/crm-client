@@ -8,6 +8,7 @@ import { withScenario } from "@/mocks/scenarios/with-scenario"
 import { apiError, apiPath, getRequestT } from "@/mocks/utils/http"
 import {
   findRecordRow,
+  findScopedRecordRow,
   getObjectDef,
   getRecordRef,
 } from "@/features/records/mocks/store"
@@ -80,8 +81,8 @@ export const activitiesHandlers = [
         if (!auth.ok) return auth.response
         const workspaceId = auth.context.workspace.id
         if (
-          !findRecordRow(
-            workspaceId,
+          !findScopedRecordRow(
+            auth.context,
             String(params.objectKey),
             String(params.id)
           )
@@ -117,8 +118,8 @@ export const activitiesHandlers = [
         if (denied) return denied
         const t = getRequestT(request)
         const workspaceId = auth.context.workspace.id
-        const record = findRecordRow(
-          workspaceId,
+        const record = findScopedRecordRow(
+          auth.context,
           String(params.objectKey),
           String(params.id)
         )

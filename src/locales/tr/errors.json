@@ -21,6 +21,7 @@
     "tenantRequired": "Çalışma alanı seçilmedi.",
     "notMember": "Bu çalışma alanının üyesi değilsiniz.",
     "moduleUnavailable": "Bu modül henüz kullanılamıyor.",
+    "verticalLocked": "Bu çalışma alanının sektörü değiştirilemez. Farklı bir sektör için yeni bir çalışma alanı oluşturun.",
     "alreadyMember": "Bu kişi zaten ekipte.",
     "alreadyInvited": "Bu e-postaya zaten davet gönderildi.",
     "onboardingCompleted": "Çalışma alanı kurulumu zaten tamamlandı.",
@@ -65,6 +66,17 @@
     "templateManaged": "Şablonlar sektörünüze göre otomatik yönetilir ve düzenlenemez.",
     "invalidTemplateParams": "Şablon değişkenleri boş olamaz; satır sonu ve sekme içeremez.",
     "noRecipient": "Bu kayıt için WhatsApp alıcısı bulunamadı.",
-    "noPhone": "Alıcının telefon numarası yok."
+    "noPhone": "Alıcının telefon numarası yok.",
+    "emailTaken": "Bu e-posta ile zaten bir hesap var.",
+    "codeExpired": "Kodun süresi doldu. Yeni bir kod isteyin.",
+    "invalidCode": "Kod hatalı.",
+    "resendTooSoon": "Yeni kod istemeden önce biraz bekleyin.",
+    "inviteInvalid": "Davet bulunamadı veya iptal edildi.",
+    "inviteExpired": "Davetin süresi doldu.",
+    "inviteEmailMismatch": "Bu davet başka bir e-posta adresine gönderildi.",
+    "lastAdmin": "Çalışma alanında en az bir sahip veya yönetici kalmalı.",
+    "ownerProtected": "Çalışma alanı sahibi değiştirilemez veya çıkarılamaz.",
+    "selfChange": "Kendi rolünüzü değiştiremez veya kendinizi çıkaramazsınız.",
+    "objectDisabled": "Bu kayıt türü bu sektörde kullanılmıyor."
   }
 }

@@ -11,13 +11,18 @@ export const healthTourismModule: ModuleManifest = {
     en: "Patient requests, treatment plans, package quotes and travel logistics.",
   },
   icon: HeartPulseIcon,
-  navigation: [
+  navGroups: [
     {
-      id: "health-tourism.treatments",
-      label: { tr: "Tedavi talepleri", en: "Treatment requests" },
-      icon: StethoscopeIcon,
-      to: "/o/$objectKey",
-      params: { objectKey: "treatment" },
+      id: "health-tourism.patients",
+      label: { tr: "Hasta yönetimi", en: "Patients" },
+      items: [
+        {
+          id: "health-tourism.treatments",
+          objectKey: "treatment",
+          label: { tr: "Tedavi talepleri", en: "Treatment requests" },
+          icon: StethoscopeIcon,
+        },
+      ],
     },
   ],
 }

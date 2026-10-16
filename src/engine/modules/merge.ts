@@ -5,7 +5,11 @@ import type {
   PipelineDef,
   SelectOption,
 } from "../metadata/schemas"
-import type { ModuleManifest, ObjectExtension } from "./types"
+import type {
+  CoreObjectOverride,
+  ModuleManifest,
+  ObjectExtension,
+} from "./types"
 
 /**
  * Pure metadata merge of a module into a workspace's objects (B3.1). The
@@ -141,12 +145,57 @@ export function applyModuleMetadata(
 ): ObjectDef[] {
   const extended = objectDefs.map((def) => {
     const extension = manifest.extend?.[def.key]
-    return extension ? applyObjectExtension(def, manifest.id, extension) : def
+    const merged = extension
+      ? applyObjectExtension(def, manifest.id, extension)
+      : def
+    return renameCoreObject(merged, manifest.coreObjects?.[def.key as never])
   })
   const added = getModuleObjects(manifest).filter(
     (def) => !extended.some((current) => current.key === def.key)
   )
   return [...extended, ...added]
+}
+
+/** The sector's term for a core object (written once, on activation). */
+function renameCoreObject(
+  def: ObjectDef,
+  override: CoreObjectOverride | undefined
+): ObjectDef {
+  if (!override || override.enabled === false) return def
+  return {
+    ...def,
+    ...(override.label ? { label: override.label } : {}),
+    ...(override.pluralLabel ? { pluralLabel: override.pluralLabel } : {}),
+    ...(override.icon ? { icon: override.icon } : {}),
+  }
+}
+
+/** Removes fields (and their layout slots) that do not pass `keep`. */
+function keepFields(def: ObjectDef, keep: (field: FieldDef) => boolean) {
+  const fields = def.fields.filter(keep)
+  if (fields.length === def.fields.length) return def
+  const keys = new Set(fields.map((field) => field.key))
+  const { list, detail } = def.layouts
+  return {
+    ...def,
+    fields,
+    layouts: {
+      list: {
+        ...list,
+        columns: list.columns.filter((key) => keys.has(key)),
+      },
+      detail: {
+        ...detail,
+        highlights: detail.highlights.filter((key) => keys.has(key)),
+        sections: detail.sections
+          .map((section) => ({
+            ...section,
+            fields: section.fields.filter((key) => keys.has(key)),
+          }))
+          .filter((section) => section.fields.length > 0),
+      },
+    },
+  }
 }
 
 /**
@@ -159,31 +208,78 @@ export function stripInactiveModules(
 ): ObjectDef[] {
   return objectDefs
     .filter((def) => !def.moduleId || isActive(def.moduleId))
+    .map((def) =>
+      keepFields(def, (field) => !field.moduleId || isActive(field.moduleId))
+    )
+}
+
+/** Core object overrides of the active modules, merged (later wins). */
+export function getCoreObjectOverrides(
+  manifests: readonly ModuleManifest[]
+): Partial<Record<string, CoreObjectOverride>> {
+  return Object.assign({}, ...manifests.map((item) => item.coreObjects ?? {}))
+}
+
+/** Keys of the core objects a workspace's sector turned off. */
+export function getDisabledObjectKeys(
+  overrides: Partial<Record<string, CoreObjectOverride>>
+) {
+  return Object.entries(overrides)
+    .filter(([, override]) => override?.enabled === false)
+    .map(([key]) => key)
+}
+
+/**
+ * Object metadata as one reader may see it (Faz 10): sensitive fields the
+ * reader may not read are removed together with their layout slots.
+ */
+export function redactSensitiveFields(
+  def: ObjectDef,
+  canRead: (sensitivity: NonNullable<FieldDef["sensitivity"]>) => boolean
+): ObjectDef {
+  return keepFields(
+    def,
+    (field) => !field.sensitivity || canRead(field.sensitivity)
+  )
+}
+
+/**
+ * Read-time view of the core objects in a sector (Faz 10): turned-off
+ * objects disappear together with every relation field and related list
+ * pointing at them; hidden fields leave forms, lists and detail pages.
+ * Pure and idempotent; the stored metadata is not touched.
+ */
+export function applyCoreObjectOverrides(
+  objectDefs: readonly ObjectDef[],
+  overrides: Partial<Record<string, CoreObjectOverride>>
+): ObjectDef[] {
+  const disabled = new Set(getDisabledObjectKeys(overrides))
+  if (!disabled.size && !Object.keys(overrides).length) return [...objectDefs]
+
+  return objectDefs
+    .filter((def) => !disabled.has(def.key))
     .map((def) => {
-      const fields = def.fields.filter(
-        (field) => !field.moduleId || isActive(field.moduleId)
+      const override = overrides[def.key]
+      const hidden = new Set(
+        override && override.enabled !== false
+          ? (override.hiddenFields ?? [])
+          : []
       )
-      if (fields.length === def.fields.length) return def
-      const keys = new Set(fields.map((field) => field.key))
-      const { list, detail } = def.layouts
+      const next = keepFields(
+        def,
+        (field) =>
+          !hidden.has(field.key) &&
+          !(field.relation && disabled.has(field.relation.objectKey))
+      )
+      const related = next.layouts.detail.related.filter(
+        (item) => !disabled.has(item.objectKey)
+      )
+      if (related.length === next.layouts.detail.related.length) return next
       return {
-        ...def,
-        fields,
+        ...next,
         layouts: {
-          list: {
-            ...list,
-            columns: list.columns.filter((key) => keys.has(key)),
-          },
-          detail: {
-            ...detail,
-            highlights: detail.highlights.filter((key) => keys.has(key)),
-            sections: detail.sections
-              .map((section) => ({
-                ...section,
-                fields: section.fields.filter((key) => keys.has(key)),
-              }))
-              .filter((section) => section.fields.length > 0),
-          },
+          ...next.layouts,
+          detail: { ...next.layouts.detail, related },
         },
       }
     })

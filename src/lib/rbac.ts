@@ -151,6 +151,59 @@ export function can(
   )
 }
 
+/* ----------------------------------------------------------------------------
+ * Data scope (Faz 10): which records a role sees at all — on top of what it
+ * may do with them. Agents of a workspace with `agentVisibility: "assigned"`
+ * see only records they own and unassigned ones (the shared pool).
+ * ------------------------------------------------------------------------- */
+
+export const AGENT_VISIBILITIES = ["assigned", "all"] as const
+export type AgentVisibility = (typeof AGENT_VISIBILITIES)[number]
+
+export type RecordScope = "all" | "assigned"
+
+export function recordScope(
+  subject: Subject | null | undefined,
+  agentVisibility: AgentVisibility = "assigned"
+): RecordScope {
+  return subject?.role === "agent" && agentVisibility === "assigned"
+    ? "assigned"
+    : "all"
+}
+
+/** Whether a record with `ownerId` is inside the subject's scope. */
+export function inRecordScope(
+  subject: Subject | null | undefined,
+  scope: RecordScope,
+  ownerId: unknown
+) {
+  if (scope === "all") return true
+  return ownerId == null || ownerId === "" || ownerId === subject?.userId
+}
+
+/* ----------------------------------------------------------------------------
+ * Sensitive fields (Faz 10): `financial` values (commissions, margins) are
+ * for owners, admins and managers; `personal` identity data (passport,
+ * date of birth) is hidden from viewers. Applied to metadata and values by
+ * the API, so hidden data never reaches the browser.
+ * ------------------------------------------------------------------------- */
+
+export const FIELD_SENSITIVITIES = ["financial", "personal"] as const
+export type FieldSensitivity = (typeof FIELD_SENSITIVITIES)[number]
+
+const SENSITIVE_READERS: Record<FieldSensitivity, readonly Role[]> = {
+  financial: ["owner", "admin", "manager"],
+  personal: ["owner", "admin", "manager", "agent"],
+}
+
+export function canReadField(
+  subject: Subject | null | undefined,
+  sensitivity: FieldSensitivity | undefined
+) {
+  if (!sensitivity) return true
+  return !!subject && SENSITIVE_READERS[sensitivity].includes(subject.role)
+}
+
 /** Thrown by route guards; rendered as the 403 page by the route error boundary. */
 export class ForbiddenError extends Error {
   override readonly name = "ForbiddenError"

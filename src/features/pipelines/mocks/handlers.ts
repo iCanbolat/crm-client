@@ -5,9 +5,9 @@ import { authenticate } from "@/mocks/auth/authenticate"
 import { withScenario } from "@/mocks/scenarios/with-scenario"
 import { apiError, apiPath, getRequestT } from "@/mocks/utils/http"
 import {
-  getObjectDef,
+  getObjectDefFor,
   parseFilters,
-  recordsOf,
+  scopedRecordsOf,
   toCrmRecord,
 } from "@/features/records/mocks/store"
 
@@ -23,18 +23,21 @@ export const pipelinesHandlers = [
         const auth = authenticate(request)
         if (!auth.ok) return auth.response
         const t = getRequestT(request)
-        const workspaceId = auth.context.workspace.id
-        const def = getObjectDef(workspaceId, String(params.objectKey))
+        const def = getObjectDefFor(auth.context, String(params.objectKey))
         if (!def?.pipeline) {
           return apiError(404, "NOT_FOUND", t("mock.notFound"))
         }
 
         const url = new URL(request.url)
-        const rows = queryRecordValues(def, recordsOf(workspaceId, def.key), {
-          q: url.searchParams.get("q")?.trim() || undefined,
-          filters: parseFilters(url.searchParams.get("filters")),
-          sort: { field: "updatedAt", direction: "desc" },
-        })
+        const rows = queryRecordValues(
+          def,
+          scopedRecordsOf(auth.context, def.key),
+          {
+            q: url.searchParams.get("q")?.trim() || undefined,
+            filters: parseFilters(url.searchParams.get("filters")),
+            sort: { field: "updatedAt", direction: "desc" },
+          }
+        )
         const pipeline = def.pipeline
         const board: Board = {
           columns: pipeline.stages.map((stage) => {
@@ -57,10 +60,7 @@ export const pipelinesHandlers = [
         empty: ({ request, params }) => {
           const auth = authenticate(request)
           if (!auth.ok) return auth.response
-          const def = getObjectDef(
-            auth.context.workspace.id,
-            String(params.objectKey)
-          )
+          const def = getObjectDefFor(auth.context, String(params.objectKey))
           return HttpResponse.json({
             columns: (def?.pipeline?.stages ?? []).map((stage) => ({
               stage: stage.key,

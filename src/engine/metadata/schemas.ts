@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+import { FIELD_SENSITIVITIES } from "@/lib/rbac"
+
 import { conditionSchema } from "../logic/conditions"
 
 /**
@@ -83,6 +85,11 @@ export const fieldDefSchema = z.object({
    * values, e.g. containers for FCL only. Hidden values are not submitted.
    */
   visibleWhen: z.array(conditionSchema).optional(),
+  /**
+   * Sensitive data (Faz 10, `lib/rbac`): roles that may not read it never
+   * receive the field or its values from the API.
+   */
+  sensitivity: z.enum(FIELD_SENSITIVITIES).optional(),
 })
 
 export const STAGE_KINDS = ["open", "won", "lost"] as const

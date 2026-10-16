@@ -108,7 +108,7 @@ describe("partners & forwarding pipeline (B3.6)", () => {
 
   it("activating forwarding later migrates deals and seeds module objects", async () => {
     // Marmara without the module: core metadata only.
-    db.workspaces.update(WORKSPACE_IDS.marmara, { modules: [] })
+    db.workspaces.update(WORKSPACE_IDS.marmara, { vertical: null, modules: [] })
     signInAs("owner", { workspaceId: WORKSPACE_IDS.marmara })
     expect((await fetchObjects()).data.map((def) => def.key)).toEqual([
       "company",

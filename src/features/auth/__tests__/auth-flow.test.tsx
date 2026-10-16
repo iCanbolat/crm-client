@@ -94,7 +94,7 @@ describe("authentication (B1.1)", () => {
     await fillLogin(user, SEED_USERS.manager.email, DEMO_PASSWORD)
 
     expect(
-      await screen.findByRole("heading", { name: "Lead'ler", level: 1 })
+      await screen.findByRole("heading", { name: "Navlun talepleri", level: 1 })
     ).toBeInTheDocument()
     expect(router.state.location.pathname).toBe("/o/lead")
   })

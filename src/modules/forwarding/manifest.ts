@@ -105,28 +105,64 @@ export const forwardingModule: ModuleManifest = {
       component: widget("RepPerformanceWidget"),
     },
   ],
-  navigation: [
+  roleLabels: {
+    manager: {
+      label: { tr: "Satış müdürü", en: "Sales manager" },
+      description: {
+        tr: "Tüm talepleri, teklifleri ve sevkiyatları yönetir.",
+        en: "Manages every enquiry, quote and shipment.",
+      },
+    },
+    agent: {
+      label: { tr: "Satış temsilcisi", en: "Sales rep" },
+      description: {
+        tr: "Talepleri karşılar, teklif hazırlar ve kendi kayıtlarını düzenler.",
+        en: "Handles enquiries, prepares quotes and edits their own records.",
+      },
+    },
+  },
+  // B2B freight sales (Faz 10): companies are customers and partners.
+  coreObjects: {
+    lead: {
+      label: { tr: "Navlun talebi", en: "Freight enquiry" },
+      pluralLabel: { tr: "Navlun talepleri", en: "Freight enquiries" },
+    },
+  },
+  navGroups: [
     {
-      id: "forwarding.quotes",
-      label: { tr: "Teklifler", en: "Quotes" },
-      icon: ReceiptIcon,
-      to: "/o/$objectKey",
-      params: { objectKey: "quote" },
+      id: "forwarding.sales",
+      label: { tr: "Satış", en: "Sales" },
+      items: [
+        { id: "forwarding.leads", objectKey: "lead" },
+        { id: "forwarding.companies", objectKey: "company" },
+        { id: "forwarding.contacts", objectKey: "contact" },
+        { id: "forwarding.deals", objectKey: "deal" },
+        {
+          id: "forwarding.quotes",
+          objectKey: "quote",
+          label: { tr: "Teklifler", en: "Quotes" },
+          icon: ReceiptIcon,
+        },
+      ],
     },
     {
-      id: "forwarding.shipments",
-      label: { tr: "Sevkiyatlar", en: "Shipments" },
-      icon: ContainerIcon,
-      to: "/o/$objectKey",
-      params: { objectKey: "shipment" },
-    },
-    {
-      id: "forwarding.partners",
-      label: { tr: "Acente ağı", en: "Agent network" },
-      icon: HandshakeIcon,
-      to: "/o/$objectKey",
-      params: { objectKey: "company" },
-      search: { filters: AGENT_NETWORK_FILTERS },
+      id: "forwarding.operations",
+      label: { tr: "Operasyon", en: "Operations" },
+      items: [
+        {
+          id: "forwarding.shipments",
+          objectKey: "shipment",
+          label: { tr: "Sevkiyatlar", en: "Shipments" },
+          icon: ContainerIcon,
+        },
+        {
+          id: "forwarding.partners",
+          objectKey: "company",
+          label: { tr: "Acente ağı", en: "Agent network" },
+          icon: HandshakeIcon,
+          search: { filters: AGENT_NETWORK_FILTERS },
+        },
+      ],
     },
   ],
 }

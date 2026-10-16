@@ -77,11 +77,11 @@ export const leadsHandlers = [
       if ("response" in resolved) return resolved.response
       const { auth, row } = resolved
       const workspaceId = auth.workspace.id
+      const hasCompanies = !!getObjectDef(workspaceId, "company")
       return HttpResponse.json({
-        companies: matchCompanies(
-          row.values,
-          recordsOf(workspaceId, "company")
-        ),
+        companies: hasCompanies
+          ? matchCompanies(row.values, recordsOf(workspaceId, "company"))
+          : [],
         contacts: matchContacts(row.values, recordsOf(workspaceId, "contact")),
       })
     })
@@ -143,6 +143,16 @@ export const leadsHandlers = [
         apiError(422, code, t("validation"), {
           fieldErrors: { [key]: [t("mock.validation")] },
         })
+      // A sector may turn companies or deals off (Faz 10).
+      if (
+        input.company.mode !== "none" &&
+        !getObjectDef(workspaceId, "company")
+      ) {
+        return invalid("company", "OBJECT_DISABLED")
+      }
+      if (input.deal.create && !getObjectDef(workspaceId, "deal")) {
+        return invalid("deal", "OBJECT_DISABLED")
+      }
       if (input.company.mode === "none" && !conversion.companyOptional) {
         return invalid("company")
       }

@@ -12,6 +12,7 @@ import {
   reportSearchSchema,
   toReportParams,
 } from "@/features/reports"
+import { useSession } from "@/features/auth"
 import { useWorkspace, workspaceQueries } from "@/features/workspace"
 
 export const Route = createFileRoute("/_app/reports/$reportKey")({
@@ -24,7 +25,12 @@ export const Route = createFileRoute("/_app/reports/$reportKey")({
       workspaceQueries.current()
     )
     // Unknown key or a report of a module the workspace does not use.
-    if (!findReport(params.reportKey, workspace.modules)) throw notFound()
+    // …or one the role may not read (Faz 10).
+    if (
+      !findReport(params.reportKey, workspace.modules, context.auth.subject)
+    ) {
+      throw notFound()
+    }
     await context.queryClient.ensureQueryData(
       reportQueries.detail(params.reportKey, toReportParams(deps))
     )
@@ -37,7 +43,8 @@ function ReportRoute() {
   const search = Route.useSearch()
   const navigate = Route.useNavigate()
   const workspace = useWorkspace()
-  const def = findReport(reportKey, workspace.modules)
+  const { subject } = useSession()
+  const def = findReport(reportKey, workspace.modules, subject)
   if (!def) return null
   return (
     <ReportPage

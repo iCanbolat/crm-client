@@ -2,7 +2,7 @@ import { http, HttpResponse } from "msw"
 
 import { getRecordTitle, label } from "@/engine/metadata"
 import { matchesSearch } from "@/engine/records"
-import { listObjectDefs, recordsOf } from "@/features/records/mocks/store"
+import { listObjectDefs, scopedRecordsOf } from "@/features/records/mocks/store"
 import { authenticate } from "@/mocks/auth/authenticate"
 import { db } from "@/mocks/db"
 import { withScenario } from "@/mocks/scenarios/with-scenario"
@@ -28,7 +28,7 @@ export const shellHandlers = [
         const language = getRequestLanguage(request)
         const records: SearchHit[] = listObjectDefs(workspaceId).flatMap(
           (def) =>
-            recordsOf(workspaceId, def.key)
+            scopedRecordsOf(auth.context, def.key)
               .filter((row) => matchesSearch(def, row.values, q))
               .map((row) => ({
                 id: row.id,

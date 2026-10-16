@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest"
 
+import type { ObjectDef } from "@/engine/metadata"
 import { getModules } from "@/engine/modules"
 import type { Role } from "@/lib/rbac"
 
@@ -15,12 +16,39 @@ import "@/app/modules"
 
 const translate = (key: string) => key
 
-function navigationFor(role: Role, moduleIds: string[] = ["forwarding"]) {
+/** Just enough metadata for nav items: key, plural label, icon. */
+const object = (key: string, en: string) =>
+  ({ key, pluralLabel: { tr: en, en }, icon: "inbox" }) as ObjectDef
+
+const FORWARDING_OBJECTS = [
+  object("lead", "Freight enquiries"),
+  object("company", "Companies"),
+  object("contact", "Contacts"),
+  object("deal", "Deals"),
+  object("quote", "Quotes"),
+  object("shipment", "Shipments"),
+]
+const VISA_OBJECTS = [
+  object("lead", "Enquiries"),
+  object("contact", "Applicants"),
+  object("enrollment", "School applications"),
+  object("visaApplication", "Visa applications"),
+  object("appointment", "Appointments"),
+  object("institution", "Institutions"),
+  object("program", "Programmes"),
+]
+
+function navigationFor(
+  role: Role,
+  moduleIds: string[] = ["forwarding"],
+  objects: ObjectDef[] = FORWARDING_OBJECTS
+) {
   return buildNavigation({
     modules: getModules().filter(
       (manifest) =>
         manifest.status === "active" && moduleIds.includes(manifest.id)
     ),
+    objects,
     subject: { userId: "u1", role },
     language: "en",
     translate,
@@ -31,20 +59,29 @@ const ids = (groups: ReturnType<typeof navigationFor>) =>
   groups.flatMap((group) => group.items.map((item) => item.id))
 
 describe("navigation", () => {
-  it("TC-1.3-01 puts module groups between the core and settings groups", () => {
+  it("TC-10.3-02 forwarding: sales and operations groups between core groups", () => {
     const groups = navigationFor("owner")
 
     expect(groups.map((group) => group.id)).toEqual([
       "workspace",
-      "crm",
+      "module:forwarding.sales",
+      "module:forwarding.operations",
       "marketing",
-      "module:forwarding",
       "settings",
     ])
-    expect(groups[3]).toMatchObject({
-      title: "Forwarding (Logistics)",
+    expect(groups[1]).toMatchObject({
+      title: "Sales",
       items: [
+        { title: "Freight enquiries", href: "/o/lead" },
+        { title: "Companies", href: "/o/company" },
+        { title: "Contacts", href: "/o/contact" },
+        { title: "Deals", href: "/o/deal" },
         { title: "Quotes", href: "/o/quote" },
+      ],
+    })
+    expect(groups[2]).toMatchObject({
+      title: "Operations",
+      items: [
         { title: "Shipments", href: "/o/shipment" },
         {
           title: "Agent network",
@@ -59,9 +96,54 @@ describe("navigation", () => {
     })
   })
 
+  it("TC-10.3-01 visa: no CRM group, companies, deals or duplicate contacts", () => {
+    const groups = navigationFor("owner", ["visa-education"], VISA_OBJECTS)
+
+    expect(groups.map((group) => group.id)).toEqual([
+      "workspace",
+      "module:visa-education.consulting",
+      "module:visa-education.catalog",
+      "marketing",
+      "settings",
+    ])
+    const links = groups.flatMap((group) => group.items)
+    expect(links.map((link) => link.href)).not.toContain("/o/company")
+    expect(links.map((link) => link.href)).not.toContain("/o/deal")
+    expect(
+      links.filter((link) => link.href === "/o/contact").map((l) => l.title)
+    ).toEqual(["Applicants", "Sponsors"])
+    expect(groups[1]!.items.map((item) => item.title)).toEqual([
+      "Enquiries",
+      "Applicants",
+      "Sponsors",
+      "School applications",
+      "Visa applications",
+      "Appointments",
+    ])
+  })
+
+  it("TC-10.3-03 object items follow the metadata and vanish without it", () => {
+    const renamed = FORWARDING_OBJECTS.map((def) =>
+      def.key === "deal"
+        ? { ...def, pluralLabel: { tr: "Fırsatlar", en: "Opportunities" } }
+        : def
+    )
+    const links = navigationFor("owner", ["forwarding"], renamed).flatMap(
+      (group) => group.items
+    )
+    expect(links.find((link) => link.id === "forwarding.deals")?.title).toBe(
+      "Opportunities"
+    )
+
+    const withoutDeals = FORWARDING_OBJECTS.filter((def) => def.key !== "deal")
+    expect(
+      ids(navigationFor("owner", ["forwarding"], withoutDeals))
+    ).not.toContain("forwarding.deals")
+  })
+
   it("marks a saved-filter link active only on its own list", () => {
     const links = navigationFor("owner").flatMap((group) => group.items)
-    const companies = links.find((link) => link.id === "companies")!
+    const companies = links.find((link) => link.id === "forwarding.companies")!
     const agents = links.find((link) => link.id === "forwarding.partners")!
 
     expect(isActiveLink(companies, "/o/company", {}, links)).toBe(true)

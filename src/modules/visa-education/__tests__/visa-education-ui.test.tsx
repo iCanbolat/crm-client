@@ -48,19 +48,20 @@ describe("visa & education screens (B8.1–B8.10)", () => {
     expect(await card("Talep özeti")).toBeInTheDocument()
     await user.click(await screen.findByRole("button", { name: "Dönüştür" }))
     const dialog = await screen.findByRole("dialog", {
-      name: "Lead'i dönüştür",
+      name: "Talep kaydını dönüştür",
     })
+    // Companies and deals are off in the visa sector (TC-10.2-03).
     expect(
-      within(dialog).getByRole("radio", { name: "Şirket yok (bireysel)" })
-    ).toBeChecked()
+      within(dialog).queryByRole("radiogroup", { name: "Şirket" })
+    ).not.toBeInTheDocument()
+    expect(
+      within(dialog).queryByRole("checkbox", { name: "Fırsat oluştur" })
+    ).not.toBeInTheDocument()
     expect(
       within(dialog).getByRole("checkbox", { name: "Okul başvurusu aç" })
     ).toBeChecked()
     expect(
       within(dialog).getByRole("checkbox", { name: "Vize başvurusu aç" })
-    ).not.toBeChecked()
-    expect(
-      within(dialog).getByRole("checkbox", { name: "Fırsat oluştur" })
     ).not.toBeChecked()
     await user.click(within(dialog).getByRole("button", { name: "Dönüştür" }))
 

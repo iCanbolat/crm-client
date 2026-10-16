@@ -32,9 +32,14 @@ import { useStepSubmit } from "./use-step-submit"
 interface CompanyStepProps {
   defaultValues: CompanyInfo
   onSubmit: (values: CompanyInfo) => Promise<void>
+  onBack?: () => void
 }
 
-export function CompanyStep({ defaultValues, onSubmit }: CompanyStepProps) {
+export function CompanyStep({
+  defaultValues,
+  onSubmit,
+  onBack,
+}: CompanyStepProps) {
   const { t } = useTranslation(["workspace", "common"])
   const language = getCurrentLanguage()
   const form = useForm<CompanyInfo>({
@@ -151,7 +156,10 @@ export function CompanyStep({ defaultValues, onSubmit }: CompanyStepProps) {
           />
         </div>
 
-        <StepActions isSubmitting={form.formState.isSubmitting} />
+        <StepActions
+          onBack={onBack}
+          isSubmitting={form.formState.isSubmitting}
+        />
       </FieldGroup>
     </form>
   )

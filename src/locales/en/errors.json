@@ -21,6 +21,7 @@
     "tenantRequired": "No workspace selected.",
     "notMember": "You are not a member of this workspace.",
     "moduleUnavailable": "This module is not available yet.",
+    "verticalLocked": "The sector of this workspace cannot be changed. Create a new workspace for another sector.",
     "alreadyMember": "This person is already on the team.",
     "alreadyInvited": "An invitation was already sent to this email.",
     "onboardingCompleted": "The workspace setup is already complete.",
@@ -65,6 +66,17 @@
     "templateManaged": "Templates are managed for your industry and cannot be edited.",
     "invalidTemplateParams": "Template variables cannot be empty or contain line breaks or tabs.",
     "noRecipient": "No WhatsApp recipient was found for this record.",
-    "noPhone": "The recipient has no phone number."
+    "noPhone": "The recipient has no phone number.",
+    "emailTaken": "An account with this email already exists.",
+    "codeExpired": "The code has expired. Request a new one.",
+    "invalidCode": "Incorrect code.",
+    "resendTooSoon": "Please wait a moment before requesting a new code.",
+    "inviteInvalid": "The invitation was not found or has been revoked.",
+    "inviteExpired": "The invitation has expired.",
+    "inviteEmailMismatch": "This invitation was sent to another email address.",
+    "lastAdmin": "The workspace needs at least one owner or admin.",
+    "ownerProtected": "The workspace owner cannot be changed or removed.",
+    "selfChange": "You cannot change your own role or remove yourself.",
+    "objectDisabled": "This record type is not used in this sector."
   }
 }

@@ -33,10 +33,14 @@ describe("app shell (B1.3)", () => {
     await renderShell()
 
     const nav = within(mainNav())
-    expect(nav.getByText("Forwarding (Lojistik)")).toBeInTheDocument()
+    expect(nav.getByText("Satış")).toBeInTheDocument()
+    expect(nav.getByText("Operasyon")).toBeInTheDocument()
+    expect(nav.queryByText("CRM")).not.toBeInTheDocument()
     for (const name of [
       "Panel",
-      "Lead'ler",
+      "Navlun talepleri",
+      "Şirketler",
+      "Fırsatlar",
       "Teklifler",
       "Sevkiyatlar",
       "Ekip",
@@ -61,13 +65,38 @@ describe("app shell (B1.3)", () => {
     await renderShell()
 
     const nav = within(mainNav())
-    expect(nav.getByRole("link", { name: "Lead'ler" })).toBeInTheDocument()
+    expect(nav.getByRole("link", { name: "Panel" })).toBeInTheDocument()
     expect(
       nav.queryByRole("link", { name: "Teklifler" })
     ).not.toBeInTheDocument()
     expect(
       nav.queryByRole("link", { name: "Tedavi talepleri" })
     ).not.toBeInTheDocument()
+  })
+
+  it("TC-10.3-01 a visa workspace shows its own groups and terms only", async () => {
+    await renderRoute("/dashboard", { as: "atlasOwner" })
+    await screen.findByRole("navigation", { name: "Ana menü" })
+
+    const nav = within(mainNav())
+    expect(nav.getByText("Danışmanlık")).toBeInTheDocument()
+    expect(nav.getByText("Katalog")).toBeInTheDocument()
+    for (const name of [
+      "Talepler",
+      "Başvuranlar",
+      "Sponsorlar",
+      "Okul başvuruları",
+      "Vize başvuruları",
+      "Randevular",
+      "Kurumlar",
+      "Programlar",
+    ]) {
+      expect(nav.getByRole("link", { name })).toBeInTheDocument()
+    }
+    for (const name of ["Şirketler", "Fırsatlar", "Kişiler", "Lead'ler"]) {
+      expect(nav.queryByRole("link", { name })).not.toBeInTheDocument()
+    }
+    expect(nav.queryByText("CRM")).not.toBeInTheDocument()
   })
 
   it("marks the current page and shows breadcrumbs", async () => {

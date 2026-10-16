@@ -34,9 +34,15 @@ export function profileFields(): FieldDef[] {
       key: "dateOfBirth",
       label: t("Doğum tarihi", "Date of birth"),
       type: "date",
+      sensitivity: "personal",
     },
     { key: "nationality", label: t("Uyruk", "Nationality"), type: "country" },
-    { key: "passport", label: t("Pasaport", "Passport"), type: "passport" },
+    {
+      key: "passport",
+      label: t("Pasaport", "Passport"),
+      type: "passport",
+      sensitivity: "personal",
+    },
     {
       key: "languageScores",
       label: t("Dil sınavları", "Language tests"),

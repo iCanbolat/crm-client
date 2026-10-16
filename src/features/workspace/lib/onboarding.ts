@@ -8,8 +8,8 @@ import {
  * prerequisites are missing from the draft (e.g. after a schema change).
  */
 export function getResumeStep({ step, draft }: OnboardingState): number {
-  if (!draft.company) return 0
-  if (!draft.modules?.length) return Math.min(step, 1)
+  if (!draft.vertical) return 0
+  if (!draft.company) return Math.min(step, 1)
   return Math.min(step, LAST_ONBOARDING_STEP)
 }
 

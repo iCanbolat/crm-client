@@ -13,12 +13,22 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
-import { getDashboardWidgets, type WidgetDef } from "@/engine/modules"
+import {
+  getDashboardWidgets,
+  resolveNavItem,
+  type ResolvedNavLink,
+  type WidgetDef,
+} from "@/engine/modules"
 import { useSession } from "@/features/auth"
-import { useActiveModules, useWorkspace } from "@/features/workspace"
+import { useObjectDefs } from "@/features/records"
+import {
+  useActiveModules,
+  useRoleLabels,
+  useWorkspace,
+} from "@/features/workspace"
 import { getCurrentLanguage } from "@/lib/i18n"
 import { resolveI18nText } from "@/lib/i18n-text"
-import { can } from "@/lib/rbac"
+import { can, canReadField } from "@/lib/rbac"
 import { cn } from "@/lib/utils"
 
 import { resolveRange, type DashboardSearch } from "../lib/range"
@@ -46,11 +56,14 @@ export function DashboardPage({ search, onSearchChange }: DashboardPageProps) {
   const { user, role, subject } = useSession()
   const workspace = useWorkspace()
   const modules = useActiveModules()
+  const objects = useObjectDefs()
+  const roles = useRoleLabels()
   const firstName = user.name.split(" ")[0] ?? user.name
   const widgets = getDashboardWidgets(workspace.modules).filter(
     (widget) =>
-      !widget.permission ||
-      can(subject, widget.permission.action, widget.permission.resource)
+      (!widget.permission ||
+        can(subject, widget.permission.action, widget.permission.resource)) &&
+      canReadField(subject, widget.sensitivity)
   )
   const range = resolveRange(search)
 
@@ -60,9 +73,7 @@ export function DashboardPage({ search, onSearchChange }: DashboardPageProps) {
         title={t("greeting", { name: firstName })}
         description={t("description", { workspace: workspace.name })}
         actions={
-          role ? (
-            <Badge variant="secondary">{t(`workspace:roles.${role}`)}</Badge>
-          ) : null
+          role ? <Badge variant="secondary">{roles.label(role)}</Badge> : null
         }
       />
 
@@ -129,18 +140,22 @@ export function DashboardPage({ search, onSearchChange }: DashboardPageProps) {
                     </div>
                   </CardHeader>
                   <CardContent className="flex flex-wrap gap-2">
-                    {manifest.navigation?.map((item) => (
-                      <Link
-                        key={item.id}
-                        to={item.to}
-                        params={item.params}
-                        search={item.search}
-                        className="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm hover:bg-muted"
-                      >
-                        {resolveI18nText(item.label, language)}
-                        <ArrowRightIcon className="size-3.5" aria-hidden />
-                      </Link>
-                    ))}
+                    {(manifest.navGroups ?? [])
+                      .flatMap((group) => group.items)
+                      .map((item) => resolveNavItem(item, objects, language))
+                      .filter((item): item is ResolvedNavLink => item !== null)
+                      .map((item) => (
+                        <Link
+                          key={item.id}
+                          to={item.to}
+                          params={item.params}
+                          search={item.search}
+                          className="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm hover:bg-muted"
+                        >
+                          {item.title}
+                          <ArrowRightIcon className="size-3.5" aria-hidden />
+                        </Link>
+                      ))}
                   </CardContent>
                 </Card>
               )

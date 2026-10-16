@@ -17,19 +17,29 @@ import {
   MAX_INVITES,
   teamInvitesSchema,
   type TeamInvites,
+  type Vertical,
 } from "../../api/workspace.schemas"
 import { FormSelect } from "../form-select"
+import { useRoleLabels } from "../../hooks/use-role-label"
 import { FormRootError, StepActions } from "./step-actions"
 import { useStepSubmit } from "./use-step-submit"
 
 interface TeamStepProps {
+  /** Sector picked in the first step: role names follow it. */
+  vertical?: Vertical
   defaultValues: TeamInvites
   onSubmit: (values: TeamInvites) => Promise<void>
   onBack: () => void
 }
 
-export function TeamStep({ defaultValues, onSubmit, onBack }: TeamStepProps) {
+export function TeamStep({
+  defaultValues,
+  vertical,
+  onSubmit,
+  onBack,
+}: TeamStepProps) {
   const { t } = useTranslation(["workspace", "common"])
+  const roles = useRoleLabels()
   const form = useForm<TeamInvites>({
     resolver: zodResolver(teamInvitesSchema),
     defaultValues,
@@ -42,7 +52,7 @@ export function TeamStep({ defaultValues, onSubmit, onBack }: TeamStepProps) {
   const submit = useStepSubmit(form, onSubmit)
   const roleItems = INVITABLE_ROLES.map((role) => ({
     value: role,
-    label: t(`workspace:roles.${role}`),
+    label: roles.label(role, vertical),
   }))
 
   return (

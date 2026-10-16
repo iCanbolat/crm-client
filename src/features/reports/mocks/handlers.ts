@@ -1,6 +1,8 @@
 import { http, HttpResponse } from "msw"
 
 import { getObjectDef } from "@/features/records/mocks/store"
+import { getModuleReports } from "@/engine/modules"
+import { canReadField } from "@/lib/rbac"
 import { authenticate, authorize } from "@/mocks/auth/authenticate"
 import { db } from "@/mocks/db"
 import { withScenario } from "@/mocks/scenarios/with-scenario"
@@ -38,6 +40,13 @@ export const reportHandlers = [
           (builder.moduleId && !workspace.modules.includes(builder.moduleId))
         ) {
           return apiError(404, "NOT_FOUND", t("mock.notFound"))
+        }
+
+        const def = getModuleReports(workspace.modules).find(
+          ({ report }) => report.key === params.key
+        )?.report
+        if (!canReadField(subject, def?.sensitivity)) {
+          return apiError(403, "FORBIDDEN", t("mock.forbidden"))
         }
 
         const url = new URL(request.url)

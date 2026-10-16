@@ -14,8 +14,12 @@ const acme = (objectKey: string) =>
 async function openLeadSheet() {
   const utils = await renderRoute("/o/lead", { as: "owner" })
   await screen.findByRole("table")
-  await utils.user.click(screen.getByRole("button", { name: "Yeni Lead" }))
-  const sheet = await screen.findByRole("dialog", { name: "Yeni Lead" })
+  await utils.user.click(
+    screen.getByRole("button", { name: "Yeni Navlun talebi" })
+  )
+  const sheet = await screen.findByRole("dialog", {
+    name: "Yeni Navlun talebi",
+  })
   return { ...utils, sheet }
 }
 

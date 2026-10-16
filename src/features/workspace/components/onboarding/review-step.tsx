@@ -30,9 +30,14 @@ export function ReviewStep({
 }: ReviewStepProps) {
   const { t } = useTranslation(["workspace", "common"])
   const language = getCurrentLanguage()
-  const { company, modules, invites } = values
+  const { company, vertical, invites } = values
+  const manifest = getModule(vertical)
 
   const rows = [
+    {
+      label: t("review.vertical"),
+      value: manifest ? resolveI18nText(manifest.label, language) : vertical,
+    },
     { label: t("company.name"), value: company.name },
     {
       label: t("company.country"),
@@ -46,15 +51,6 @@ export function ReviewStep({
     {
       label: t("company.language"),
       value: t(`common:language.${company.language}`),
-    },
-    {
-      label: t("review.modules"),
-      value: modules
-        .map((id) => {
-          const manifest = getModule(id)
-          return manifest ? resolveI18nText(manifest.label, language) : id
-        })
-        .join(", "),
     },
     {
       label: t("review.invites"),

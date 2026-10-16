@@ -34,6 +34,7 @@ import {
   setScenarioState,
   useScenarioState,
 } from "../scenarios/scenario-store"
+import { Outbox } from "./outbox"
 import { WhatsappSimulator } from "./whatsapp-simulator"
 
 interface DevToolbarProps {
@@ -154,6 +155,10 @@ export default function DevToolbar({ onSignedIn }: DevToolbarProps) {
               {t("quickLoginHint")}
             </p>
           </div>
+
+          <Separator />
+
+          <Outbox onNavigate={() => setOpen(false)} />
 
           <Separator />
 

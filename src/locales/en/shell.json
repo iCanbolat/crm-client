@@ -6,16 +6,11 @@
   },
   "navGroups": {
     "workspace": "General",
-    "crm": "CRM",
     "marketing": "Marketing",
     "settings": "Settings"
   },
   "nav": {
     "dashboard": "Dashboard",
-    "leads": "Leads",
-    "companies": "Companies",
-    "contacts": "Contacts",
-    "deals": "Deals",
     "members": "Team",
     "examples": "Example records",
     "tasks": "My tasks",

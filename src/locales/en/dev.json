@@ -22,5 +22,10 @@
   "whatsappPhone": "Customer number (E.164)",
   "whatsappText": "Message",
   "whatsappSend": "Send message",
-  "whatsappSent": "Incoming WhatsApp message created."
+  "whatsappSent": "Incoming WhatsApp message created.",
+  "outbox": {
+    "title": "E-mails",
+    "empty": "No e-mails sent yet.",
+    "openLink": "Open invitation link"
+  }
 }

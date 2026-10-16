@@ -62,13 +62,13 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
     await openNav()
     await page
       .getByRole("navigation", { name: "Ana menü" })
-      .getByRole("link", { name: "Lead'ler" })
+      .getByRole("link", { name: "Navlun talepleri" })
       .click()
     await expect(
-      page.getByRole("heading", { name: "Lead'ler", level: 1 })
+      page.getByRole("heading", { name: "Navlun talepleri", level: 1 })
     ).toBeVisible()
-    await page.getByRole("button", { name: "Yeni Lead" }).click()
-    const leadSheet = page.getByRole("dialog", { name: "Yeni Lead" })
+    await page.getByRole("button", { name: "Yeni Navlun talebi" }).click()
+    const leadSheet = page.getByRole("dialog", { name: "Yeni Navlun talebi" })
     await leadSheet.getByRole("textbox", { name: /Ad soyad/ }).fill("Mert Kaya")
     await leadSheet
       .getByRole("textbox", { name: "Şirket adı" })
@@ -80,7 +80,9 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
     await expect(page.getByText("Toplam 201 kayıt")).toBeVisible()
 
     // 4. Listede ara, sırala, filtrele
-    const search = page.getByRole("searchbox", { name: "Lead'ler içinde ara…" })
+    const search = page.getByRole("searchbox", {
+      name: "Navlun talepleri içinde ara…",
+    })
     await search.fill("Mert Kaya")
     await expect(page.getByText("Toplam 1 kayıt")).toBeVisible()
     await expect(page.getByRole("link", { name: "Mert Kaya" })).toBeVisible()
@@ -113,7 +115,7 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
 
     // 5. Kanban: klavyeyle iki aşama ilerlet, ardından aşama kapısıyla "Kayıp"
     await page.getByRole("button", { name: "Kanban" }).click()
-    const board = page.getByRole("region", { name: "Lead'ler panosu" })
+    const board = page.getByRole("region", { name: "Navlun talepleri panosu" })
     await expect(board).toBeVisible()
     const handle = board.getByRole("button", { name: "Sürükle: Mert Kaya" })
     await handle.focus()
@@ -206,7 +208,7 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
       .press("Enter")
     await page
       .getByRole("list", { name: "Nesneler" })
-      .getByRole("link", { name: /Lead'ler/ })
+      .getByRole("link", { name: /Navlun talepleri/ })
       .click()
     await page.getByRole("button", { name: "Alan ekle" }).click()
     const fieldDialog = page.getByRole("dialog", { name: "Yeni alan" })
@@ -223,10 +225,10 @@ test.describe("Faz 2 — CRM çekirdek motoru", () => {
     await expect(
       page.getByRole("columnheader", { name: /Gümrük durumu/ })
     ).toBeVisible()
-    await page.getByRole("button", { name: "Yeni Lead" }).click()
+    await page.getByRole("button", { name: "Yeni Navlun talebi" }).click()
     await expect(
       page
-        .getByRole("dialog", { name: "Yeni Lead" })
+        .getByRole("dialog", { name: "Yeni Navlun talebi" })
         .getByRole("textbox", { name: "Gümrük durumu" })
     ).toBeVisible()
   })

@@ -37,9 +37,11 @@ import {
   applyRecordHook,
   checkStageGuards,
   createRecord,
-  findRecordRow,
+  findScopedRecordRow,
+  getObjectDefFor,
+  listObjectDefsFor,
+  scopedRecordsOf,
   getObjectDef,
-  listObjectDefs,
   notifyAttachmentAdded,
   notifyRecordSaved,
   parseRecordQuery,
@@ -206,9 +208,7 @@ const metadataHandlers = [
       ({ request }) => {
         const auth = authenticate(request)
         if (!auth.ok) return auth.response
-        return HttpResponse.json({
-          data: listObjectDefs(auth.context.workspace.id),
-        })
+        return HttpResponse.json({ data: listObjectDefsFor(auth.context) })
       },
       { critical: true }
     )
@@ -219,10 +219,7 @@ const metadataHandlers = [
     withScenario(({ request, params }) => {
       const auth = authenticate(request)
       if (!auth.ok) return auth.response
-      const def = getObjectDef(
-        auth.context.workspace.id,
-        String(params.objectKey)
-      )
+      const def = getObjectDefFor(auth.context, String(params.objectKey))
       return def ? HttpResponse.json(def) : notFound(getRequestT(request))
     })
   ),
@@ -406,7 +403,8 @@ const metadataHandlers = [
 function resolveObject(request: Request, objectKey: string) {
   const auth = authenticate(request)
   if (!auth.ok) return { response: auth.response } as const
-  const def = getObjectDef(auth.context.workspace.id, objectKey)
+  // As the requester may see it: sensitive fields and values left out.
+  const def = getObjectDefFor(auth.context, objectKey)
   if (!def) return { response: notFound(getRequestT(request)) } as const
   return { auth: auth.context, def } as const
 }
@@ -421,15 +419,11 @@ const recordHandlers = [
         const { auth, def } = resolved
 
         const query = parseRecordQuery(new URL(request.url))
-        const rows = queryRecordValues(
-          def,
-          recordsOf(auth.workspace.id, def.key),
-          {
-            q: query.q,
-            filters: query.filters,
-            sort: query.sort ?? def.layouts.list.defaultSort,
-          }
-        )
+        const rows = queryRecordValues(def, scopedRecordsOf(auth, def.key), {
+          q: query.q,
+          filters: query.filters,
+          sort: query.sort ?? def.layouts.list.defaultSort,
+        })
         const page = paginate(rows, query.page, query.pageSize)
         return HttpResponse.json({
           ...page,
@@ -481,7 +475,7 @@ const recordHandlers = [
       const resolved = resolveObject(request, String(params.objectKey))
       if ("response" in resolved) return resolved.response
       const { auth, def } = resolved
-      const row = findRecordRow(auth.workspace.id, def.key, String(params.id))
+      const row = findScopedRecordRow(auth, def.key, String(params.id))
       return row
         ? HttpResponse.json(toCrmRecord(def, row))
         : notFound(getRequestT(request))
@@ -495,7 +489,7 @@ const recordHandlers = [
       if ("response" in resolved) return resolved.response
       const { auth, def } = resolved
       const t = getRequestT(request)
-      const row = findRecordRow(auth.workspace.id, def.key, String(params.id))
+      const row = findScopedRecordRow(auth, def.key, String(params.id))
       if (!row) return notFound(t)
 
       const denied = authorize(request, auth, "update", "record", {
@@ -557,7 +551,7 @@ const recordHandlers = [
       if ("response" in resolved) return resolved.response
       const { auth, def } = resolved
       const t = getRequestT(request)
-      const row = findRecordRow(auth.workspace.id, def.key, String(params.id))
+      const row = findScopedRecordRow(auth, def.key, String(params.id))
       if (!row || !def.pipeline) return notFound(t)
 
       const denied = authorize(request, auth, "update", "record", {
@@ -625,7 +619,7 @@ const recordHandlers = [
       if ("response" in resolved) return resolved.response
       const { auth, def } = resolved
       const t = getRequestT(request)
-      const row = findRecordRow(auth.workspace.id, def.key, String(params.id))
+      const row = findScopedRecordRow(auth, def.key, String(params.id))
       if (!row) return notFound(t)
 
       const denied = authorize(request, auth, "delete", "record", {
@@ -670,7 +664,7 @@ const recordHandlers = [
       }
 
       const rows = input.ids.flatMap(
-        (id) => findRecordRow(auth.workspace.id, def.key, id) ?? []
+        (id) => findScopedRecordRow(auth, def.key, id) ?? []
       )
       // Nothing allowed at all → 403; partially allowed → skipped ids.
       if (
@@ -775,7 +769,7 @@ const fileHandlers = [
         const resolved = resolveObject(request, String(params.objectKey))
         if ("response" in resolved) return resolved.response
         const { auth, def } = resolved
-        if (!findRecordRow(auth.workspace.id, def.key, String(params.id))) {
+        if (!findScopedRecordRow(auth, def.key, String(params.id))) {
           return notFound(getRequestT(request))
         }
         const data = db.attachments
@@ -800,7 +794,7 @@ const fileHandlers = [
       if ("response" in resolved) return resolved.response
       const { auth, def } = resolved
       const t = getRequestT(request)
-      const row = findRecordRow(auth.workspace.id, def.key, String(params.id))
+      const row = findScopedRecordRow(auth, def.key, String(params.id))
       if (!row) return notFound(t)
       const denied = authorize(request, auth, "create", "record")
       if (denied) return denied

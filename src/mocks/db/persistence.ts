@@ -30,9 +30,25 @@ export function clearPersistedDb() {
   localStorage.removeItem(DB_STORAGE_KEY)
 }
 
-/** Saves every DB change while the `persist` toggle is on. */
+/**
+ * Saves DB changes while the `persist` toggle is on. A handler may write
+ * hundreds of rows (e.g. module activation); serializing the whole DB per row
+ * took seconds, so the writes of one synchronous run are saved once.
+ */
 export function startDbPersistence() {
-  return onDbChange(() => {
-    if (getScenarioState().persist) savePersistedDb()
+  let pending = false
+  const flush = () => {
+    if (!pending) return
+    pending = false
+    savePersistedDb()
+  }
+  const unsubscribe = onDbChange(() => {
+    if (!getScenarioState().persist || pending) return
+    pending = true
+    queueMicrotask(flush)
   })
+  return () => {
+    unsubscribe()
+    flush()
+  }
 }

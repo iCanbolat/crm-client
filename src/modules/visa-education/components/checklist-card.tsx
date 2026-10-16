@@ -6,7 +6,7 @@ import {
   Trash2Icon,
   UploadIcon,
 } from "lucide-react"
-import { useId, useRef, useState } from "react"
+import { useEffect, useId, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 
 import { Badge } from "@/components/ui/badge"
@@ -34,6 +34,7 @@ import {
   visaEducationQueries,
 } from "../api/visa-education.queries"
 import { isItemOutdated } from "../lib/checklist"
+import { templateKeyFor } from "../lib/checklist-templates"
 import {
   CHECKLIST_STATUSES,
   DOCUMENT_TYPE_LABELS,
@@ -76,6 +77,18 @@ export function ChecklistCard({ objectDef, record }: RecordSlotProps) {
 
   const data = query.data
   const summary = data?.summary
+
+  // Saving the record (e.g. picking a programme) seeds the checklist on the
+  // server; its query is not a record query, so refetch when the template
+  // the record now resolves to differs from the loaded one.
+  const expectedTemplate = templateKeyFor(objectDef.key, record.values)
+  const loadedTemplate = data?.templateKey
+  const { refetch } = query
+  useEffect(() => {
+    if (loadedTemplate !== undefined && loadedTemplate !== expectedTemplate) {
+      void refetch()
+    }
+  }, [expectedTemplate, loadedTemplate, refetch])
   const label = (item: ChecklistItem) =>
     typeof item.label === "string"
       ? item.label

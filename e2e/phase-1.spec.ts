@@ -260,8 +260,9 @@ test.describe("Faz 1 — auth, onboarding & app shell", () => {
     await expectNoViolations()
 
     await submitLogin("newcomer")
+    // Onboarding starts with the sector step (Faz 10).
     await expect(
-      page.getByRole("heading", { name: "Şirket bilgileri" })
+      page.getByRole("heading", { name: "Sektörünüz" })
     ).toBeVisible()
     await expectNoViolations()
 

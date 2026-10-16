@@ -61,7 +61,15 @@ export function AgentVisibilityCard() {
                   <span id={titleId} className="text-sm font-medium">
                     {t(`visibility.${value}.title`)}
                   </span>
-                  <span className="text-sm text-muted-foreground">
+                  <span
+                    className={cn(
+                      "text-sm",
+                      // Muted grey fails AA contrast on the tinted card.
+                      workspace.agentVisibility === value
+                        ? "text-foreground/75"
+                        : "text-muted-foreground"
+                    )}
+                  >
                     {t(`visibility.${value}.description`, { role: agent })}
                   </span>
                 </span>

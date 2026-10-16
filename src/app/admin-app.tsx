@@ -1,4 +1,4 @@
-import { RouterProvider } from "@tanstack/react-router"
+import { RouterContextProvider, RouterProvider } from "@tanstack/react-router"
 import { lazy, Suspense } from "react"
 
 import { createQueryClient } from "@/lib/query-client"
@@ -19,14 +19,18 @@ export function AdminApp() {
     <AppProviders queryClient={queryClient}>
       <RouterProvider router={router} />
       {DevToolbar ? (
-        <Suspense fallback={null}>
-          <DevToolbar
-            onSignedIn={async () => {
-              await router.navigate({ to: "/dashboard" })
-              await router.invalidate()
-            }}
-          />
-        </Suspense>
+        // Outside RouterProvider: the router context still lets the outbox
+        // render invitation links.
+        <RouterContextProvider router={router}>
+          <Suspense fallback={null}>
+            <DevToolbar
+              onSignedIn={async () => {
+                await router.navigate({ to: "/dashboard" })
+                await router.invalidate()
+              }}
+            />
+          </Suspense>
+        </RouterContextProvider>
       ) : null}
     </AppProviders>
   )

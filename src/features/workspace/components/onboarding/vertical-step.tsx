@@ -84,7 +84,15 @@ export function VerticalStep({ defaultValues, onSubmit }: VerticalStepProps) {
                             </Badge>
                           ) : null}
                         </span>
-                        <span className="text-sm text-muted-foreground">
+                        <span
+                          className={cn(
+                            "text-sm",
+                            // Muted grey fails AA contrast on the tinted card.
+                            checked
+                              ? "text-foreground/75"
+                              : "text-muted-foreground"
+                          )}
+                        >
                           {resolveI18nText(manifest.description, language)}
                         </span>
                       </div>

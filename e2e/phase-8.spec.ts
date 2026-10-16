@@ -71,7 +71,7 @@ test.describe("Faz 8 — Vize & Eğitim Danışmanlığı", () => {
     await expect(
       page.getByRole("heading", { name: "Talep özeti", level: 2 })
     ).toBeVisible()
-    await page.getByRole("button", { name: "Dönüştür" }).click()
+    await page.getByRole("button", { name: "Dönüştür", exact: true }).click()
     const dialog = page.getByRole("dialog", { name: "Talep kaydını dönüştür" })
     // No companies in the visa sector (Faz 10).
     await expect(
@@ -81,7 +81,7 @@ test.describe("Faz 8 — Vize & Eğitim Danışmanlığı", () => {
       dialog.getByRole("checkbox", { name: "Okul başvurusu aç" })
     ).toBeChecked()
     await expectNoViolations()
-    await dialog.getByRole("button", { name: "Dönüştür" }).click()
+    await dialog.getByRole("button", { name: "Dönüştür", exact: true }).click()
     await expect(page).toHaveURL(/\/o\/enrollment\/enr_/)
     await expect(
       page.getByText("Belge listesi program seçilince oluşur.")

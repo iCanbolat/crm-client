@@ -1,5 +1,5 @@
 import { registerFieldTypes } from "../field-types/registry"
-import type { ModuleId, ModuleManifest } from "./types"
+import type { LeadConversionDef, ModuleId, ModuleManifest } from "./types"
 
 const registry = new Map<ModuleId, ModuleManifest>()
 
@@ -80,4 +80,30 @@ export function getModuleReports(activeIds: readonly string[]) {
       report,
     }))
   )
+}
+
+/**
+ * Lead conversion options of several modules merged (B8.4): a company is
+ * optional when any active module says so; targets are concatenated.
+ */
+export function mergeLeadConversion(
+  manifests: readonly ModuleManifest[]
+): Required<Pick<LeadConversionDef, "companyOptional" | "targets">> &
+  Pick<LeadConversionDef, "contactValues"> {
+  const defs = manifests.flatMap((manifest) =>
+    manifest.leadConversion ? [manifest.leadConversion] : []
+  )
+  const contactValues = Object.assign(
+    {},
+    ...defs.map((def) => def.contactValues ?? {})
+  ) as LeadConversionDef["contactValues"]
+  return {
+    companyOptional: defs.some((def) => def.companyOptional),
+    targets: defs.flatMap((def) => def.targets ?? []),
+    ...(Object.keys(contactValues ?? {}).length ? { contactValues } : {}),
+  }
+}
+
+export function getLeadConversion(activeIds: readonly string[]) {
+  return mergeLeadConversion(getActiveModules(activeIds))
 }

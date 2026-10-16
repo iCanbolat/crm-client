@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next"
 
 import { Button } from "@/components/ui/button"
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
+import { DateTimePicker } from "@/components/ui/date-picker"
 import { Input } from "@/components/ui/input"
 import {
   Select,
@@ -167,11 +168,10 @@ export function ActivityComposer({
           <FieldLabel htmlFor={`${id}-when`}>
             {t("composer.occurredAt")}
           </FieldLabel>
-          <Input
+          <DateTimePicker
             id={`${id}-when`}
-            type="datetime-local"
             value={draft.occurredAt}
-            onChange={(event) => update({ occurredAt: event.target.value })}
+            onChange={(value) => update({ occurredAt: value })}
           />
         </Field>
         {hasDuration ? (

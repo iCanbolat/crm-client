@@ -20,6 +20,11 @@
     "keepEditing": "Düzenlemeye devam et",
     "moreActions": "Diğer işlemler"
   },
+  "datePicker": {
+    "placeholder": "Tarih seçin",
+    "dateTimePlaceholder": "Tarih ve saat seçin",
+    "time": "Saat"
+  },
   "theme": {
     "label": "Tema",
     "light": "Açık",

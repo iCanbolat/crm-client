@@ -10,12 +10,14 @@ import type { MessageTemplateDef, MessageTriggerDef } from "../messaging/types"
 import type {
   CrmRecord,
   DetailSection,
+  RecordValues,
   FieldDef,
   ObjectDef,
   PipelineDef,
   RelatedList,
 } from "../metadata/schemas"
 import type { ReportDef } from "../reports/types"
+import type { Condition } from "../logic/conditions"
 
 export const MODULE_IDS = [
   "forwarding",
@@ -91,6 +93,28 @@ export interface WidgetDef {
   permission?: { action: Action; resource: Resource }
 }
 
+/** Module record a lead may be converted into (e.g. a school application). */
+export interface LeadConversionTarget {
+  objectKey: string
+  label: I18nText
+  /** Preselected in the dialog when the lead matches (engine/logic). */
+  defaultWhen?: Condition[]
+  /**
+   * Values derived from the lead on top of the fields both objects share by
+   * key and type (e.g. first target country → destination).
+   */
+  values?: (lead: RecordValues) => RecordValues
+}
+
+/** How a module's leads are converted (B8.4). */
+export interface LeadConversionDef {
+  /** B2C: the lead may be converted without a company. */
+  companyOptional?: boolean
+  /** Values of a contact created by the conversion (e.g. its role). */
+  contactValues?: RecordValues
+  targets?: LeadConversionTarget[]
+}
+
 /**
  * Module manifest (plan §4.5). The data part (`objects`, `extend`) is what
  * the backend seeds into a workspace when the module is activated; the UI
@@ -119,6 +143,8 @@ export interface ModuleManifest {
   messageTriggers?: MessageTriggerDef[]
   /** Ready-made reports of the sector (B7.1). */
   reports?: ReportDef[]
+  /** Lead conversion options of the sector (B8.4). */
+  leadConversion?: LeadConversionDef
 }
 
 export function isModuleId(value: unknown): value is ModuleId {

@@ -1,22 +1,13 @@
 import { BanknoteIcon, HashIcon, PercentIcon } from "lucide-react"
-import { useState } from "react"
-import { useTranslation } from "react-i18next"
 import { z } from "zod"
 
 import { Input } from "@/components/ui/input"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-import { CURRENCIES, formatMoney } from "@/lib/currencies"
+import { formatMoney } from "@/lib/currencies"
 import { formatNumber } from "@/lib/format"
 import { getCurrentLanguage } from "@/lib/i18n"
 
 import type { FieldDef } from "../../metadata/schemas"
-import { useFieldServices } from "../services"
+import { lazyFieldInput } from "../lazy"
 import type {
   FieldCellProps,
   FieldInputProps,
@@ -48,7 +39,7 @@ function numberSchema(field: FieldDef) {
 const toNumber = (value: unknown) =>
   typeof value === "number" && Number.isFinite(value) ? value : null
 
-function parseNumber(raw: string) {
+export function parseNumber(raw: string) {
   if (raw.trim() === "") return null
   const value = Number(raw)
   return Number.isFinite(value) ? value : null
@@ -130,63 +121,12 @@ export interface MoneyValue {
   currency: string
 }
 
-function toMoney(value: unknown): MoneyValue | null {
+export function toMoney(value: unknown): MoneyValue | null {
   if (typeof value !== "object" || value === null) return null
   const { amount, currency } = value as Partial<MoneyValue>
   return typeof amount === "number" && typeof currency === "string"
     ? { amount, currency }
     : null
-}
-
-function CurrencyInput(props: FieldInputProps<MoneyValue>) {
-  const { t } = useTranslation("engine")
-  const { defaultCurrency } = useFieldServices()
-  // A currency picked before any amount was typed.
-  const [preferred, setPreferred] = useState<string | null>(null)
-  const money = toMoney(props.value)
-  const currency = money?.currency ?? preferred ?? defaultCurrency
-
-  return (
-    <div className="flex gap-2">
-      <Input
-        {...inputA11yProps(props)}
-        type="number"
-        step="any"
-        inputMode="decimal"
-        className="flex-1"
-        value={money?.amount ?? ""}
-        onChange={(event) => {
-          const amount = parseNumber(event.target.value)
-          props.onChange(amount === null ? null : { amount, currency })
-        }}
-      />
-      <Select
-        items={CURRENCIES.map((code) => ({ value: code, label: code }))}
-        value={currency}
-        onValueChange={(next) => {
-          if (typeof next !== "string") return
-          setPreferred(next)
-          if (money) props.onChange({ amount: money.amount, currency: next })
-        }}
-        disabled={props.disabled}
-      >
-        <SelectTrigger
-          className="w-24"
-          aria-label={t("input.currency")}
-          aria-invalid={props.invalid ? true : undefined}
-        >
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          {CURRENCIES.map((code) => (
-            <SelectItem key={code} value={code}>
-              {code}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
-  )
 }
 
 export const currencyFieldType: FieldTypeDefinition<MoneyValue> = {
@@ -216,5 +156,7 @@ export const currencyFieldType: FieldTypeDefinition<MoneyValue> = {
       />
     )
   },
-  Input: CurrencyInput,
+  Input: lazyFieldInput(() =>
+    import("./inputs").then((module) => module.CurrencyInput)
+  ),
 }

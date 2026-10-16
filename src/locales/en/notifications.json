@@ -46,6 +46,24 @@
         "title": "{{rule}}",
         "body": "{{title}}"
       }
+    },
+    "appointment": {
+      "upcoming": {
+        "title": "Upcoming visa appointment",
+        "body": "{{title}} · {{at}}"
+      }
+    },
+    "installment": {
+      "overdue": {
+        "title": "Overdue instalment",
+        "body": "{{title}} · due {{date}}"
+      }
+    },
+    "document": {
+      "expiring": {
+        "title": "Passport expiring",
+        "body": "{{title}} · expires {{date}}"
+      }
     }
   },
   "preferences": {
@@ -71,6 +89,15 @@
       },
       "automation": {
         "notify": "An automation rule notifies you"
+      },
+      "appointment": {
+        "upcoming": "When an appointment of one of your applicants is within two days"
+      },
+      "installment": {
+        "overdue": "When an instalment in your files is overdue"
+      },
+      "document": {
+        "expiring": "When an applicant with an open file has a passport expiring within 6 months"
       }
     }
   }

@@ -15,6 +15,7 @@ import enSettings from "./en/settings.json"
 import enShell from "./en/shell.json"
 import enSites from "./en/sites.json"
 import enSubmissions from "./en/submissions.json"
+import enVisaEducation from "./en/visaEducation.json"
 import enWorkspace from "./en/workspace.json"
 import trActivities from "./tr/activities.json"
 import trAuth from "./tr/auth.json"
@@ -33,6 +34,7 @@ import trSettings from "./tr/settings.json"
 import trShell from "./tr/shell.json"
 import trSites from "./tr/sites.json"
 import trSubmissions from "./tr/submissions.json"
+import trVisaEducation from "./tr/visaEducation.json"
 import trWorkspace from "./tr/workspace.json"
 
 /** Admin-only namespaces, loaded as their own chunk (B7.4). */
@@ -56,6 +58,7 @@ export const adminResources = {
     reports: trReports,
     notifications: trNotifications,
     automation: trAutomation,
+    visaEducation: trVisaEducation,
   },
   en: {
     example: enExample,
@@ -76,5 +79,6 @@ export const adminResources = {
     reports: enReports,
     notifications: enNotifications,
     automation: enAutomation,
+    visaEducation: enVisaEducation,
   },
 } as const

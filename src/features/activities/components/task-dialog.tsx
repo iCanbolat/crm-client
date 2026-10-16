@@ -12,6 +12,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
+import { DatePicker } from "@/components/ui/date-picker"
 import { Input } from "@/components/ui/input"
 import {
   Select,
@@ -150,11 +151,10 @@ export function TaskDialog({ open, onOpenChange, related }: TaskDialogProps) {
                 <FieldLabel htmlFor={`${id}-due`}>
                   {t("tasks.fields.dueDate")}
                 </FieldLabel>
-                <Input
+                <DatePicker
                   id={`${id}-due`}
-                  type="date"
                   value={dueDate}
-                  onChange={(event) => setDueDate(event.target.value)}
+                  onChange={setDueDate}
                   {...invalid("dueDate")}
                 />
                 {fieldError("dueDate")}

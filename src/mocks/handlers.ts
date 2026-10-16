@@ -15,6 +15,7 @@ import { submissionHandlers } from "@/features/submissions/mocks/handlers"
 import { shellHandlers } from "@/features/shell/mocks/handlers"
 import { workspaceHandlers } from "@/features/workspace/mocks/handlers"
 import { forwardingHandlers } from "@/modules/forwarding/mocks/handlers"
+import { visaEducationHandlers } from "@/modules/visa-education/mocks/handlers"
 
 /** Aggregates the colocated handlers of every feature/module. */
 export const handlers = [
@@ -38,4 +39,5 @@ export const handlers = [
   ...automationHandlers,
   // Sector modules
   ...forwardingHandlers,
+  ...visaEducationHandlers,
 ]

@@ -21,10 +21,19 @@ export function notificationText(
     body = t("types.submission.new.bodyNoRecord", params)
   } else if (type === "record.assigned" && notification.params.actor) {
     body = t("types.record.assigned.bodyByActor", params)
-  } else if (type === "quote.expiring" && notification.params.date) {
-    body = t("types.quote.expiring.body", {
+  } else if (notification.params.date) {
+    // Dates travel as `yyyy-MM-dd` / ISO and are shown in the user's locale.
+    body = t(`${key}.body`, {
       ...notification.params,
       date: formatDate(notification.params.date, locale),
+    })
+  } else if (notification.params.at) {
+    body = t(`${key}.body`, {
+      ...notification.params,
+      at: formatDate(notification.params.at, locale, {
+        dateStyle: "medium",
+        timeStyle: "short",
+      }),
     })
   } else {
     body = t(`${key}.body`, params)

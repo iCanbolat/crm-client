@@ -2,7 +2,7 @@ import { format as formatPattern, isValid, parseISO } from "date-fns"
 import { CalendarClockIcon, CalendarIcon } from "lucide-react"
 import { z } from "zod"
 
-import { Input } from "@/components/ui/input"
+import { DatePicker, DateTimePicker } from "@/components/ui/date-picker"
 import { formatDate } from "@/lib/format"
 import { getCurrentLanguage } from "@/lib/i18n"
 
@@ -43,16 +43,15 @@ function formatDateTime(value: string, language: string) {
 
 function DateInput(props: FieldInputProps<string>) {
   return (
-    <Input
+    <DatePicker
       {...inputA11yProps(props)}
-      type="date"
       value={props.value ?? ""}
-      onChange={(event) => props.onChange(event.target.value || null)}
+      onChange={(value) => props.onChange(value || null)}
     />
   )
 }
 
-/** ISO instant ↔ `<input type="datetime-local">` (the user's time zone). */
+/** ISO instant ↔ local `YYYY-MM-DDTHH:mm` picker value (the user's time zone). */
 export function toLocalInputValue(value: string | null | undefined) {
   const date = parseValue(value)
   return date ? formatPattern(date, "yyyy-MM-dd'T'HH:mm") : ""
@@ -66,13 +65,10 @@ export function fromLocalInputValue(value: string) {
 
 function DateTimeInput(props: FieldInputProps<string>) {
   return (
-    <Input
+    <DateTimePicker
       {...inputA11yProps(props)}
-      type="datetime-local"
       value={toLocalInputValue(props.value)}
-      onChange={(event) =>
-        props.onChange(fromLocalInputValue(event.target.value))
-      }
+      onChange={(value) => props.onChange(fromLocalInputValue(value))}
     />
   )
 }

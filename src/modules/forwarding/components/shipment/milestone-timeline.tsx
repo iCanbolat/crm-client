@@ -21,7 +21,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog"
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+import { DateTimePicker } from "@/components/ui/date-picker"
 import {
   Select,
   SelectContent,
@@ -268,14 +268,13 @@ function RecordMilestoneDialog({
           </Field>
           <Field data-invalid={errors.at ? true : undefined}>
             <FieldLabel htmlFor={`${id}-at`}>{t("shipment.at")}</FieldLabel>
-            <Input
+            <DateTimePicker
               id={`${id}-at`}
-              type="datetime-local"
               value={at}
               max={toLocalInputValue(new Date().toISOString())}
               aria-invalid={errors.at ? true : undefined}
               aria-describedby={errors.at ? `${id}-at-error` : undefined}
-              onChange={(event) => setAt(event.target.value)}
+              onChange={setAt}
             />
             <FieldError id={`${id}-at-error`}>{errors.at?.[0]}</FieldError>
           </Field>

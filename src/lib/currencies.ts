@@ -1,4 +1,14 @@
-export const CURRENCIES = ["TRY", "USD", "EUR", "GBP", "CNY"] as const
+export const CURRENCIES = [
+  "TRY",
+  "USD",
+  "EUR",
+  "GBP",
+  "CNY",
+  // Study destinations (Faz 8)
+  "CAD",
+  "AUD",
+  "CHF",
+] as const
 export type Currency = (typeof CURRENCIES)[number]
 
 export function isCurrency(value: unknown): value is Currency {

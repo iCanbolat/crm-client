@@ -5,6 +5,7 @@ import { cleanup, configure } from "@testing-library/react"
 import { toast } from "sonner"
 import { afterAll, afterEach, beforeAll, beforeEach } from "vitest"
 
+import { preloadFieldInputs } from "@/engine/field-types"
 import { bindApiClientToSession, resetSessionStore } from "@/features/auth"
 import { resetUiPreferences } from "@/features/shell"
 import i18n, { loadAdminResources } from "@/lib/i18n"
@@ -19,6 +20,8 @@ configure({ asyncUtilTimeout: 3_000 })
 beforeAll(async () => {
   server.listen({ onUnhandledFrame: "error" })
   await loadAdminResources()
+  // Field inputs load lazily; preloaded, they render synchronously as before.
+  await preloadFieldInputs()
 })
 
 beforeEach(async () => {

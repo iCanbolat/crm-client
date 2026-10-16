@@ -1,4 +1,5 @@
 import { activateForwarding } from "@/modules/forwarding/mocks/activate"
+import { activateVisaEducation } from "@/modules/visa-education/mocks/activate"
 
 import { db } from "./db"
 import { withModuleMetadata } from "./modules"
@@ -6,6 +7,7 @@ import { withModuleMetadata } from "./modules"
 /** Data migrations a module needs beyond its metadata. */
 const ACTIVATION_HOOKS: Record<string, (workspaceId: string) => void> = {
   forwarding: activateForwarding,
+  "visa-education": activateVisaEducation,
 }
 
 /**

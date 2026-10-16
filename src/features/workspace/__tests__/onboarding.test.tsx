@@ -140,13 +140,15 @@ describe("workspace onboarding (B1.2)", () => {
     const { user } = await startOnboarding()
     await completeCompanyStep(user)
 
-    for (const name of ["Vize & Eğitim Danışmanlığı", "Sağlık Turizmi"]) {
-      const checkbox = screen.getByRole("checkbox", { name })
-      expect(checkbox).toHaveAttribute("aria-disabled", "true")
-      await user.click(checkbox)
-      expect(checkbox).not.toBeChecked()
-    }
-    expect(screen.getAllByText("Yakında")).toHaveLength(2)
+    const checkbox = screen.getByRole("checkbox", { name: "Sağlık Turizmi" })
+    expect(checkbox).toHaveAttribute("aria-disabled", "true")
+    await user.click(checkbox)
+    expect(checkbox).not.toBeChecked()
+    expect(screen.getAllByText("Yakında")).toHaveLength(1)
+    // Released in Faz 8 (TC-8.1-05).
+    expect(
+      screen.getByRole("checkbox", { name: "Vize & Eğitim Danışmanlığı" })
+    ).not.toHaveAttribute("aria-disabled", "true")
   })
 
   it("TC-1.2-03 completes the setup, activates forwarding and opens the shell", async () => {

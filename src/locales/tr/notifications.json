@@ -46,6 +46,24 @@
         "title": "{{rule}}",
         "body": "{{title}}"
       }
+    },
+    "appointment": {
+      "upcoming": {
+        "title": "Yaklaşan vize randevusu",
+        "body": "{{title}} · {{at}}"
+      }
+    },
+    "installment": {
+      "overdue": {
+        "title": "Geciken taksit",
+        "body": "{{title}} · vade {{date}}"
+      }
+    },
+    "document": {
+      "expiring": {
+        "title": "Pasaport süresi doluyor",
+        "body": "{{title}} · bitiş {{date}}"
+      }
     }
   },
   "preferences": {
@@ -71,6 +89,15 @@
       },
       "automation": {
         "notify": "Bir otomasyon kuralı size bildirim gönderdiğinde"
+      },
+      "appointment": {
+        "upcoming": "Danışmanı olduğunuz bir başvuranın randevusu 2 gün içinde olduğunda"
+      },
+      "installment": {
+        "overdue": "Dosyalarınızdaki bir taksitin vadesi geçtiğinde"
+      },
+      "document": {
+        "expiring": "Açık dosyası olan bir başvuranın pasaportu 6 ay içinde dolacağında"
       }
     }
   }

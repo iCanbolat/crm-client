@@ -1,5 +1,6 @@
 import { registerFieldTypes } from "@/engine/field-types"
 import { forwardingFieldTypes } from "@/modules/forwarding/field-types"
+import { visaEducationFieldTypes } from "@/modules/visa-education/field-types"
 
 /**
  * Public form site (B5.1): only the sector field types a published form can
@@ -7,3 +8,4 @@ import { forwardingFieldTypes } from "@/modules/forwarding/field-types"
  * into the public bundle; the admin app registers them via `./modules`.
  */
 registerFieldTypes(forwardingFieldTypes)
+registerFieldTypes(visaEducationFieldTypes)

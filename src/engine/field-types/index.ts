@@ -32,3 +32,4 @@ export type {
   FormatContext,
 } from "./types"
 export { ColorBadge, EmptyValue, OptionBadge, optionColorClass } from "./ui"
+export { lazyFieldInput, preloadFieldInputs } from "./lazy"

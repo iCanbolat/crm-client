@@ -28,7 +28,11 @@ import {
   type CrmRecord,
   type FieldDef,
 } from "@/engine/metadata"
+import { getLeadConversion } from "@/engine/modules"
+import { matchesConditions } from "@/engine/records"
 import { useObjectDef, useOptionalObjectDef } from "@/features/records"
+import { useWorkspace } from "@/features/workspace"
+import { resolveI18nText } from "@/lib/i18n-text"
 
 import { leadQueries } from "../api/leads.queries"
 import { useConvertLead } from "../api/leads.mutations"
@@ -43,7 +47,10 @@ interface ConvertLeadDialogProps {
   onOpenChange: (open: boolean) => void
 }
 
-/** Lead conversion (B3.3): company + contact (+ deal, + draft quote). */
+/**
+ * Lead conversion (B3.3): company + contact (+ deal, + draft quote). Sector
+ * modules may make the company optional and add their own records (B8.4).
+ */
 export function ConvertLeadDialog({
   lead,
   onOpenChange,
@@ -136,11 +143,14 @@ function ConvertLeadForm({
   lead: CrmRecord
   onDone: () => void
 }) {
-  const { t } = useTranslation(["leads", "common"])
+  const { t, i18n } = useTranslation(["leads", "common"])
   const navigate = useNavigate()
   const id = useId()
   const leadDef = useObjectDef("lead")!
   const quoteDef = useOptionalObjectDef("quote")
+  const workspace = useWorkspace()
+  const conversion = getLeadConversion(workspace.modules)
+  const language = i18n.language === "en" ? "en" : "tr"
   const suggestions = useQuery(leadQueries.suggestions(lead.id))
   const mutation = useConvertLead(lead.id)
 
@@ -152,13 +162,25 @@ function ConvertLeadForm({
   // Until the user picks, the best suggestion (or "new") is preselected.
   const [companyChoice, setCompanyChoice] = useState<string | null>(null)
   const [contactChoice, setContactChoice] = useState<string | null>(null)
-  const company = companyChoice ?? companyMatches[0]?.id ?? NEW
+  const company =
+    companyChoice ??
+    companyMatches[0]?.id ??
+    (conversion.companyOptional && !companyName ? NONE : NEW)
   const contact = contactChoice ?? contactMatches[0]?.id ?? NEW
   const [pickedCompany, setPickedCompany] = useState<string | null>(null)
   const [pickedContact, setPickedContact] = useState<string | null>(null)
   const [newCompanyName, setNewCompanyName] = useState(companyName || leadName)
   const [newContactName, setNewContactName] = useState(leadName)
-  const [createDeal, setCreateDeal] = useState(true)
+  const [createDeal, setCreateDeal] = useState(conversion.targets.length === 0)
+  const [targets, setTargets] = useState<string[]>(() =>
+    conversion.targets
+      .filter(
+        (target) =>
+          target.defaultWhen &&
+          matchesConditions(leadDef, lead.values, target.defaultWhen)
+      )
+      .map((target) => target.objectKey)
+  )
   const [dealName, setDealName] = useState(
     t("convert.dealNameDefault", { company: companyName || leadName })
   )
@@ -174,16 +196,19 @@ function ConvertLeadForm({
     (contact === PICK && !pickedContact) ||
     (contact === NEW && !newContactName.trim())
   const dealMissing = createDeal && !dealName.trim()
+  const personMissing = company === NONE && contact === NONE
 
   function buildInput(): ConvertLeadInput {
     return {
       company:
-        company === NEW
-          ? { mode: "new", name: newCompanyName }
-          : {
-              mode: "existing",
-              id: company === PICK ? pickedCompany! : company,
-            },
+        company === NONE
+          ? { mode: "none" }
+          : company === NEW
+            ? { mode: "new", name: newCompanyName }
+            : {
+                mode: "existing",
+                id: company === PICK ? pickedCompany! : company,
+              },
       contact:
         contact === NONE
           ? { mode: "none" }
@@ -194,13 +219,16 @@ function ConvertLeadForm({
                 id: contact === PICK ? pickedContact! : contact,
               },
       deal: createDeal ? { create: true, name: dealName } : { create: false },
+      targets,
     }
   }
 
   async function submit(event: React.FormEvent) {
     event.preventDefault()
     setSubmitted(true)
-    if (companyMissing || contactMissing || dealMissing) return
+    if (companyMissing || contactMissing || dealMissing || personMissing) {
+      return
+    }
     const result = await mutation.mutateAsync(buildInput()).catch(() => null)
     if (!result) return
     onDone()
@@ -212,6 +240,14 @@ function ConvertLeadForm({
           ...(result.dealId ? { dealId: result.dealId } : {}),
         },
       } as never)
+    } else if (result.targets[0]) {
+      await navigate({
+        to: "/o/$objectKey/$recordId",
+        params: {
+          objectKey: result.targets[0].objectKey,
+          recordId: result.targets[0].id,
+        },
+      })
     } else if (result.dealId) {
       await navigate({
         to: "/o/$objectKey/$recordId",
@@ -245,6 +281,9 @@ function ConvertLeadForm({
           options={[
             { value: PICK, label: t("convert.searchExisting") },
             { value: NEW, label: t("convert.newCompany") },
+            ...(conversion.companyOptional
+              ? [{ value: NONE, label: t("convert.noCompany") }]
+              : []),
           ]}
         />
         {company === PICK ? (
@@ -326,7 +365,39 @@ function ConvertLeadForm({
             />
           </Field>
         ) : null}
+        {submitted && personMissing ? (
+          <p role="alert" className="text-sm text-destructive">
+            {t("convert.personRequired")}
+          </p>
+        ) : null}
       </div>
+
+      {conversion.targets.length > 0 ? (
+        <FieldSet>
+          <FieldLegend variant="label">{t("convert.targets")}</FieldLegend>
+          {conversion.targets.map((target) => (
+            <Field key={target.objectKey} orientation="horizontal">
+              <Checkbox
+                id={`${id}-target-${target.objectKey}`}
+                checked={targets.includes(target.objectKey)}
+                onCheckedChange={(checked) =>
+                  setTargets((current) =>
+                    checked === true
+                      ? [...current, target.objectKey]
+                      : current.filter((key) => key !== target.objectKey)
+                  )
+                }
+              />
+              <FieldLabel
+                htmlFor={`${id}-target-${target.objectKey}`}
+                className="font-normal"
+              >
+                {resolveI18nText(target.label, language)}
+              </FieldLabel>
+            </Field>
+          ))}
+        </FieldSet>
+      ) : null}
 
       <FieldSet>
         <FieldLegend variant="label">{t("convert.deal")}</FieldLegend>

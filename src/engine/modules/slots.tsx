@@ -1,3 +1,5 @@
+import { Suspense } from "react"
+
 import type { CrmRecord, ObjectDef } from "../metadata/schemas"
 import { getActiveModules } from "./registry"
 import type { RecordSlotName, SlotDef } from "./types"
@@ -18,7 +20,10 @@ interface ModuleSlotProps {
   record: CrmRecord
 }
 
-/** Renders what active modules contribute to a record page region. */
+/**
+ * Renders what active modules contribute to a record page region. Slot
+ * components may be lazy (loaded with the record page, not the shell).
+ */
 export function ModuleSlot({
   name,
   activeModuleIds,
@@ -31,7 +36,9 @@ export function ModuleSlot({
   return (
     <div data-slot-name={name} className="flex flex-col gap-4">
       {slots.map(({ id, component: Component }) => (
-        <Component key={id} objectDef={objectDef} record={record} />
+        <Suspense key={id} fallback={null}>
+          <Component objectDef={objectDef} record={record} />
+        </Suspense>
       ))}
     </div>
   )

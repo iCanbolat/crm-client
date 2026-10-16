@@ -25,6 +25,8 @@ export const convertLeadInputSchema = z.object({
   company: z.discriminatedUnion("mode", [
     z.object({ mode: z.literal("existing"), id: z.string().min(1) }),
     z.object({ mode: z.literal("new"), name: requiredText }),
+    // Individuals (B2C modules, B8.4).
+    z.object({ mode: z.literal("none") }),
   ]),
   contact: z.discriminatedUnion("mode", [
     z.object({ mode: z.literal("existing"), id: z.string().min(1) }),
@@ -35,13 +37,18 @@ export const convertLeadInputSchema = z.object({
     z.object({ create: z.literal(true), name: requiredText }),
     z.object({ create: z.literal(false) }),
   ]),
+  /** Module records to create (`ModuleManifest.leadConversion.targets`). */
+  targets: z.array(z.string().min(1)).max(5).default([]),
 })
-export type ConvertLeadInput = z.infer<typeof convertLeadInputSchema>
+export type ConvertLeadInput = z.input<typeof convertLeadInputSchema>
 
 export const convertLeadResultSchema = z.object({
   lead: crmRecordSchema,
-  companyId: z.string(),
+  companyId: z.string().nullable(),
   contactId: z.string().nullable(),
   dealId: z.string().nullable(),
+  targets: z
+    .array(z.object({ objectKey: z.string(), id: z.string() }))
+    .default([]),
 })
 export type ConvertLeadResult = z.infer<typeof convertLeadResultSchema>

@@ -89,6 +89,53 @@ export function applyRecordHook(
 }
 
 /* ----------------------------------------------------------------------------
+ * Stage guards: server-side checks a record must pass before it enters a
+ * pipeline stage (e.g. complete document checklist, Faz 8). Unlike the
+ * metadata stage gate they may look beyond the record's own values.
+ * ------------------------------------------------------------------------- */
+
+export interface StageGuardContext {
+  workspaceId: string
+  objectKey: string
+  /** `null` while the record is being created. */
+  recordId: string | null
+  /** Stage before the move; `null` on create. */
+  from: string | null
+  to: string
+  values: RecordValues
+}
+
+export interface StageGuardFailure {
+  code: string
+  message: string
+  details?: unknown
+}
+
+export type StageGuard = (
+  context: StageGuardContext
+) => StageGuardFailure | null
+
+const stageGuards = new Map<string, Set<StageGuard>>()
+
+export function registerStageGuard(objectKey: string, guard: StageGuard) {
+  const guards = stageGuards.get(objectKey) ?? new Set<StageGuard>()
+  guards.add(guard)
+  stageGuards.set(objectKey, guards)
+}
+
+/** First failing guard of a stage entry; `null` when the move is allowed. */
+export function checkStageGuards(
+  context: StageGuardContext
+): StageGuardFailure | null {
+  if (context.from === context.to) return null
+  for (const guard of stageGuards.get(context.objectKey) ?? []) {
+    const failure = guard(context)
+    if (failure) return failure
+  }
+  return null
+}
+
+/* ----------------------------------------------------------------------------
  * Change listeners: side effects of saved records and uploaded files
  * (e.g. WhatsApp notifications, Faz 6). Run after the change is stored.
  * ------------------------------------------------------------------------- */
@@ -333,8 +380,10 @@ export type CreateRecordResult =
   | { ok: true; row: RecordRow }
   | {
       ok: false
-      code: "VALIDATION_ERROR" | "STAGE_GATE"
+      code: string
       fieldErrors: FieldErrors
+      /** Set by a stage guard (`code` is the guard's). */
+      guard?: StageGuardFailure
     }
 
 /**
@@ -374,6 +423,22 @@ export function createRecord(
     const stage = String(result.values[def.pipeline.field])
     const gate = stageGateErrors(def, stage, result.values)
     if (gate) return { ok: false, code: "STAGE_GATE", fieldErrors: gate }
+    const guard = checkStageGuards({
+      workspaceId,
+      objectKey: def.key,
+      recordId: null,
+      from: null,
+      to: stage,
+      values: result.values,
+    })
+    if (guard) {
+      return {
+        ok: false,
+        code: guard.code,
+        fieldErrors: { [def.pipeline.field]: [guard.message] },
+        guard,
+      }
+    }
   }
 
   const now = new Date().toISOString()

@@ -35,6 +35,7 @@ import {
 import type { AttachmentRow, ViewRow } from "./factory"
 import {
   applyRecordHook,
+  checkStageGuards,
   createRecord,
   findRecordRow,
   getObjectDef,
@@ -46,6 +47,7 @@ import {
   saveObjectDef,
   stageGateErrors,
   toCrmRecord,
+  type StageGuardFailure,
   validateRecordInput,
 } from "./store"
 
@@ -57,6 +59,13 @@ function validationError(
   code = "VALIDATION_ERROR"
 ) {
   return apiError(422, code, t("validation"), { fieldErrors })
+}
+
+/** 422 of a failed stage guard: its own code, message and details. */
+function guardError(failure: StageGuardFailure) {
+  return apiError(422, failure.code, failure.message, {
+    details: failure.details,
+  })
 }
 
 function zodError(t: RequestT, error: z.ZodError) {
@@ -455,7 +464,9 @@ const recordHandlers = [
           actorId: auth.user.id,
         })
         if (!created.ok) {
-          return validationError(t, created.fieldErrors, created.code)
+          return created.guard
+            ? guardError(created.guard)
+            : validationError(t, created.fieldErrors, created.code)
         }
         const { row } = created
         return HttpResponse.json(toCrmRecord(def, row), { status: 201 })
@@ -506,6 +517,15 @@ const recordHandlers = [
       if (stageField && stageField in result.values) {
         const gate = stageGateErrors(def, String(values[stageField]), values)
         if (gate) return validationError(t, gate, "STAGE_GATE")
+        const guard = checkStageGuards({
+          workspaceId: auth.workspace.id,
+          objectKey: def.key,
+          recordId: row.id,
+          from: String(row.values[stageField] ?? ""),
+          to: String(values[stageField]),
+          values,
+        })
+        if (guard) return guardError(guard)
       }
 
       const updated = db.records.update(row.id, {
@@ -565,9 +585,27 @@ const recordHandlers = [
       }
       const gate = stageGateErrors(def, stage, values)
       if (gate) return validationError(t, gate, "STAGE_GATE")
+      const guard = checkStageGuards({
+        workspaceId: auth.workspace.id,
+        objectKey: def.key,
+        recordId: row.id,
+        from: String(row.values[def.pipeline.field] ?? ""),
+        to: stage,
+        values,
+      })
+      if (guard) return guardError(guard)
 
+      // Module hooks keep derived values in sync on board moves too.
       const updated = db.records.update(row.id, {
-        values: { ...values, updatedAt: new Date().toISOString() },
+        values: applyRecordHook(
+          def.key,
+          { ...values, updatedAt: new Date().toISOString() },
+          {
+            workspaceId: auth.workspace.id,
+            isNew: false,
+            previous: row.values,
+          }
+        ),
       })!
       notifyRecordSaved({
         workspaceId: auth.workspace.id,

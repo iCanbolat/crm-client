@@ -45,6 +45,24 @@ export const COUNTRIES = [
   { code: "CA", dial: "1" },
   { code: "MX", dial: "52" },
   { code: "BR", dial: "55" },
+  // Study / visa destinations (Faz 8)
+  { code: "IE", dial: "353" },
+  { code: "SE", dial: "46" },
+  { code: "DK", dial: "45" },
+  { code: "FI", dial: "358" },
+  { code: "NO", dial: "47" },
+  { code: "MT", dial: "356" },
+  { code: "CY", dial: "357" },
+  { code: "LT", dial: "370" },
+  { code: "LV", dial: "371" },
+  { code: "EE", dial: "372" },
+  { code: "SK", dial: "421" },
+  { code: "SI", dial: "386" },
+  { code: "HR", dial: "385" },
+  { code: "LU", dial: "352" },
+  { code: "IS", dial: "354" },
+  { code: "AU", dial: "61" },
+  { code: "NZ", dial: "64" },
 ] as const
 
 export type CountryCode = (typeof COUNTRIES)[number]["code"]

@@ -1,0 +1,55 @@
+{
+  "passport": {
+    "number": "Passport no",
+    "issuingCountry": "Issuing country",
+    "issuedAt": "Issued on",
+    "expiresAt": "Expires on",
+    "validity": {
+      "ok": "Valid",
+      "expiresSoon": "Expires within 6 months",
+      "insufficient": "Not valid long enough",
+      "expired": "Expired",
+      "missing": "No passport"
+    },
+    "expiresOn": "Expires {{date}}"
+  },
+  "language": {
+    "exam": "Exam",
+    "overall": "Overall",
+    "level": "Level",
+    "listening": "Listening",
+    "reading": "Reading",
+    "writing": "Writing",
+    "speaking": "Speaking",
+    "testDate": "Test date",
+    "add": "Add test result",
+    "expired": "expired",
+    "more": "+{{count}}"
+  },
+  "education": {
+    "level": "Level",
+    "institution": "School",
+    "country": "Country",
+    "field": "Field",
+    "gpa": "GPA",
+    "gpaScale": "Scale",
+    "graduationYear": "Graduation year",
+    "add": "Add education",
+    "scaleValue": "out of {{value}}"
+  },
+  "intake": {
+    "month": "Month",
+    "year": "Year"
+  },
+  "removeRow": "Remove row",
+  "validation": {
+    "passport": "Enter the passport number (5–12 letters/digits), issuing country and expiry date.",
+    "passportDates": "The expiry date must be after the issue date.",
+    "scoreRequired": "Enter the overall score for {{exam}}.",
+    "levelRequired": "Select the level for {{exam}}.",
+    "scoreRange": "{{exam}} scores range from {{min}} to {{max}}.",
+    "scoreStep": "{{exam}} scores go in steps of {{step}}.",
+    "education": "Each row needs a level and a school; the GPA cannot exceed its scale.",
+    "intake": "Select a month and a year (2020–2040)."
+  }
+}

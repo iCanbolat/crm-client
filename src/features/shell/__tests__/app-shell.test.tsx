@@ -43,16 +43,19 @@ describe("app shell (B1.3)", () => {
     ]) {
       expect(nav.getByRole("link", { name })).toBeInTheDocument()
     }
-    // Coming-soon modules never show up.
+    // Coming-soon / inactive modules never show up.
     expect(
-      nav.queryByRole("link", { name: "Başvurular" })
+      nav.queryByRole("link", { name: "Tedavi talepleri" })
+    ).not.toBeInTheDocument()
+    expect(
+      nav.queryByRole("link", { name: "Vize başvuruları" })
     ).not.toBeInTheDocument()
   })
 
   it("TC-1.3-01 hides module navigation when the module is not active", async () => {
     db.workspaces.update(WORKSPACE_IDS.acme, {
       // A coming-soon id must be ignored even if it was stored.
-      modules: ["visa-education"],
+      modules: ["health-tourism"],
     })
 
     await renderShell()
@@ -63,7 +66,7 @@ describe("app shell (B1.3)", () => {
       nav.queryByRole("link", { name: "Teklifler" })
     ).not.toBeInTheDocument()
     expect(
-      nav.queryByRole("link", { name: "Başvurular" })
+      nav.queryByRole("link", { name: "Tedavi talepleri" })
     ).not.toBeInTheDocument()
   })
 

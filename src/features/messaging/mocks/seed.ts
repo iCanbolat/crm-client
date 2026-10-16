@@ -47,16 +47,43 @@ export function seedWaChannels(): WaChannelRow[] {
       tokenUpdatedAt: CONNECTED_AT,
       connectedAt: CONNECTED_AT,
     },
+    {
+      // Atlas Yurtdışı Eğitim (Faz 8)
+      id: `wa_${WORKSPACE_IDS.atlas}`,
+      workspaceId: WORKSPACE_IDS.atlas,
+      wabaId: "104857600067890",
+      phoneNumberId: "109876543267890",
+      displayPhoneNumber: "+90 850 455 12 34",
+      verifiedName: "Atlas Yurtdışı Eğitim",
+      qualityRating: "GREEN",
+      messagingLimitTier: "TIER_1K",
+      accessToken: "EAAGmockSeedAccessTokenForAtlasEgitim2b8q",
+      appSecret: "fedcba9876543210fedcba9876543210",
+      tokenUpdatedAt: CONNECTED_AT,
+      connectedAt: CONNECTED_AT,
+    },
   ]
 }
 
+/** Atlas starts with its reminders and decision notices switched on. */
+const ATLAS_TRIGGERS = {
+  "visa-education.appointmentReminder": true,
+  "visa-education.visaApproved": true,
+  "visa-education.visaRefused": true,
+  "visa-education.enrollmentPaymentDue": true,
+  "visa-education.visaPaymentDue": true,
+}
+
 export function seedWaSettings(): WaSettingsRow[] {
-  return [WORKSPACE_IDS.acme, WORKSPACE_IDS.marmara].map((workspaceId) => ({
-    id: `was_${workspaceId}`,
-    workspaceId,
-    verifyToken: `vt_${workspaceId.replace("ws_", "")}_9c41e2`,
-    triggers: {},
-  }))
+  return [WORKSPACE_IDS.acme, WORKSPACE_IDS.marmara, WORKSPACE_IDS.atlas].map(
+    (workspaceId) => ({
+      id: `was_${workspaceId}`,
+      workspaceId,
+      verifyToken: `vt_${workspaceId.replace("ws_", "")}_9c41e2`,
+      triggers:
+        workspaceId === WORKSPACE_IDS.atlas ? { ...ATLAS_TRIGGERS } : {},
+    })
+  )
 }
 
 const forwardingTemplates = () =>
@@ -64,20 +91,30 @@ const forwardingTemplates = () =>
     (manifest) => manifest.messageTemplates ?? []
   )
 
+/** Connected seed workspaces start with their modules' templates approved. */
+const CONNECTED_WORKSPACES = [
+  { workspaceId: WORKSPACE_IDS.acme, moduleId: "forwarding" },
+  { workspaceId: WORKSPACE_IDS.atlas, moduleId: "visa-education" },
+] as const
+
 export function seedWaTemplates(): WaTemplateRow[] {
-  return forwardingTemplates().flatMap((def) =>
-    TEMPLATE_LANGUAGES.map((language) => ({
-      id: `wat_acme_${def.name}_${language}`,
-      workspaceId: WORKSPACE_IDS.acme,
-      templateId: def.id,
-      moduleId: "forwarding",
-      name: def.name,
-      language,
-      status: "approved" as const,
-      rejectionReason: null,
-      submittedAt: CONNECTED_AT,
-      updatedAt: CONNECTED_AT,
-    }))
+  return CONNECTED_WORKSPACES.flatMap(({ workspaceId, moduleId }) =>
+    getActiveManifests([moduleId])
+      .flatMap((manifest) => manifest.messageTemplates ?? [])
+      .flatMap((def) =>
+        TEMPLATE_LANGUAGES.map((language) => ({
+          id: `wat_${workspaceId.replace("ws_", "")}_${def.name}_${language}`,
+          workspaceId,
+          templateId: def.id,
+          moduleId,
+          name: def.name,
+          language,
+          status: "approved" as const,
+          rejectionReason: null,
+          submittedAt: CONNECTED_AT,
+          updatedAt: CONNECTED_AT,
+        }))
+      )
   )
 }
 

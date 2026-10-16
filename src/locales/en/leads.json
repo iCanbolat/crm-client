@@ -28,6 +28,9 @@
     "submit": "Convert",
     "success": "Lead converted.",
     "searching": "Looking for matches…",
-    "pickRequired": "Pick a record."
+    "pickRequired": "Pick a record.",
+    "noCompany": "No company (individual)",
+    "targets": "Files to open",
+    "personRequired": "Pick or create a contact when converting an individual."
   }
 }

@@ -173,7 +173,7 @@ describe("lead conversion (B3.3)", () => {
     })
     expect(result.contactId).toBeNull()
     expect(result.dealId).toBeNull()
-    expect(db.records.findById(result.companyId)!.values.name).toBe(
+    expect(db.records.findById(result.companyId!)!.values.name).toBe(
       "Yepyeni A.Ş."
     )
     expect(result.lead.values.stage).toBe("converted")

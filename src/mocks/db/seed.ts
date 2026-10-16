@@ -38,6 +38,7 @@ export const WORKSPACE_IDS = {
   acme: "ws_acme",
   marmara: "ws_marmara",
   kuzey: "ws_kuzey",
+  atlas: "ws_atlas",
 } as const
 
 const createdAt = (daysAgo: number) =>
@@ -87,6 +88,20 @@ export function seedWorkspaces(): Workspace[] {
       onboarding: { status: "pending", step: 0, draft: {} },
       createdAt: createdAt(0),
     },
+    {
+      // Visa & education consultancy (Faz 8).
+      id: WORKSPACE_IDS.atlas,
+      name: "Atlas Yurtdışı Eğitim",
+      slug: "atlas-yurtdisi-egitim",
+      logoUrl: null,
+      country: "TR",
+      currency: "TRY",
+      timezone: "Europe/Istanbul",
+      language: "tr",
+      modules: ["visa-education"],
+      onboarding: COMPLETED,
+      createdAt: createdAt(300),
+    },
   ]
 }
 
@@ -105,6 +120,32 @@ export const SEED_USERS = {
     id: "usr_newcomer",
     email: "selin@kuzey.test",
     name: "Selin Aydın",
+  },
+  // Atlas Yurtdışı Eğitim (Faz 8)
+  atlasOwner: {
+    id: "usr_atlas_owner",
+    email: "owner@atlas.test",
+    name: "Ayşe Korkmaz",
+  },
+  atlasManager: {
+    id: "usr_atlas_manager",
+    email: "manager@atlas.test",
+    name: "Burak Şahin",
+  },
+  atlasEducation: {
+    id: "usr_atlas_education",
+    email: "ece@atlas.test",
+    name: "Ece Yıldız",
+  },
+  atlasVisa: {
+    id: "usr_atlas_visa",
+    email: "onur@atlas.test",
+    name: "Onur Aksoy",
+  },
+  atlasViewer: {
+    id: "usr_atlas_viewer",
+    email: "viewer@atlas.test",
+    name: "Gizem Ak",
   },
 } as const
 
@@ -132,7 +173,7 @@ const membership = (
 })
 
 export function seedMemberships(): MembershipRecord[] {
-  const { acme, marmara, kuzey } = WORKSPACE_IDS
+  const { acme, marmara, kuzey, atlas } = WORKSPACE_IDS
   return [
     membership(SEED_USERS.owner.id, acme, "owner", 400),
     membership(SEED_USERS.admin.id, acme, "admin", 380),
@@ -142,6 +183,11 @@ export function seedMemberships(): MembershipRecord[] {
     membership(SEED_USERS.owner.id, marmara, "admin", 120),
     membership(SEED_USERS.admin.id, marmara, "owner", 120),
     membership(SEED_USERS.newcomer.id, kuzey, "owner", 0),
+    membership(SEED_USERS.atlasOwner.id, atlas, "owner", 300),
+    membership(SEED_USERS.atlasManager.id, atlas, "manager", 280),
+    membership(SEED_USERS.atlasEducation.id, atlas, "agent", 240),
+    membership(SEED_USERS.atlasVisa.id, atlas, "agent", 200),
+    membership(SEED_USERS.atlasViewer.id, atlas, "viewer", 60),
   ]
 }
 

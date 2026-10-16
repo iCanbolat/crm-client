@@ -2,16 +2,19 @@ import { http, HttpResponse } from "msw"
 import { z } from "zod"
 
 import { getField, type ObjectDef, type RecordValues } from "@/engine/metadata"
+import { mergeLeadConversion } from "@/engine/modules"
 import { newRecordId } from "@/features/records/mocks/factory"
 import {
   applyRecordHook,
   findRecordRow,
   getObjectDef,
+  notifyRecordSaved,
   recordsOf,
   toCrmRecord,
 } from "@/features/records/mocks/store"
 import { authenticate, authorize } from "@/mocks/auth/authenticate"
 import { db } from "@/mocks/db"
+import { getActiveManifests } from "@/mocks/modules"
 import { withScenario } from "@/mocks/scenarios/with-scenario"
 import { apiError, apiPath, getRequestT } from "@/mocks/utils/http"
 
@@ -38,11 +41,13 @@ const NOT_COPIED = new Set([
 export function sharedValues(
   from: ObjectDef,
   to: ObjectDef,
-  values: RecordValues
+  values: RecordValues,
+  { moduleFieldsOnly = false }: { moduleFieldsOnly?: boolean } = {}
 ): RecordValues {
   const shared: RecordValues = {}
   for (const field of from.fields) {
     if (NOT_COPIED.has(field.key) || field.readOnly) continue
+    if (moduleFieldsOnly && !field.moduleId) continue
     const target = getField(to, field.key)
     if (!target || target.readOnly || target.type !== field.type) continue
     const value = values[field.key]
@@ -131,6 +136,29 @@ export const leadsHandlers = [
           ),
         })
 
+      const conversion = mergeLeadConversion(
+        getActiveManifests(auth.workspace.modules)
+      )
+      const invalid = (key: string, code = "VALIDATION_ERROR") =>
+        apiError(422, code, t("validation"), {
+          fieldErrors: { [key]: [t("mock.validation")] },
+        })
+      if (input.company.mode === "none" && !conversion.companyOptional) {
+        return invalid("company")
+      }
+      if (input.company.mode === "none" && input.contact.mode === "none") {
+        return invalid("contact", "CONTACT_REQUIRED")
+      }
+      const targets = conversion.targets.filter((target) =>
+        input.targets.includes(target.objectKey)
+      )
+      if (
+        targets.length !== new Set(input.targets).size ||
+        targets.some((target) => !getObjectDef(workspaceId, target.objectKey))
+      ) {
+        return invalid("targets")
+      }
+
       const missing = (key: string) =>
         apiError(422, "VALIDATION_ERROR", t("validation"), {
           fieldErrors: { [key]: [t("mock.invalidRelation")] },
@@ -151,18 +179,29 @@ export const leadsHandlers = [
       const companyId =
         input.company.mode === "existing"
           ? input.company.id
-          : create("company", {
-              name: input.company.name,
-              email: lead.email ?? null,
-              phone: lead.phone ?? null,
-              country: lead.country ?? null,
-            }).id
+          : input.company.mode === "new"
+            ? create("company", {
+                name: input.company.name,
+                email: lead.email ?? null,
+                phone: lead.phone ?? null,
+                country: lead.country ?? null,
+              }).id
+            : null
 
+      const contactDef = getObjectDef(workspaceId, "contact")
       const contactId =
         input.contact.mode === "existing"
           ? input.contact.id
           : input.contact.mode === "new"
             ? create("contact", {
+                // Module profile fields (e.g. passport, B8.4); the core
+                // B2B conversion stays as it was.
+                ...(contactDef
+                  ? sharedValues(def, contactDef, lead, {
+                      moduleFieldsOnly: true,
+                    })
+                  : {}),
+                ...conversion.contactValues,
                 name: input.contact.name,
                 companyId,
                 email: lead.email ?? null,
@@ -186,6 +225,40 @@ export const leadsHandlers = [
             }).id
           : null
 
+      // Module records (school / visa application, B8.4).
+      const created = targets.map((target) => {
+        const targetDef = getObjectDef(workspaceId, target.objectKey)!
+        const contactField = targetDef.fields.find(
+          (field) =>
+            field.type === "relation" &&
+            field.relation?.objectKey === "contact" &&
+            !field.readOnly
+        )
+        const leadField = targetDef.fields.find(
+          (field) =>
+            field.type === "relation" && field.relation?.objectKey === "lead"
+        )
+        const targetRow = create(target.objectKey, {
+          ...sharedValues(def, targetDef, lead),
+          ...target.values?.(lead),
+          ...(contactField && contactId
+            ? { [contactField.key]: contactId }
+            : {}),
+          ...(leadField ? { [leadField.key]: row.id } : {}),
+          ...(targetDef.pipeline
+            ? { [targetDef.pipeline.field]: targetDef.pipeline.stages[0]!.key }
+            : {}),
+        })
+        notifyRecordSaved({
+          workspaceId,
+          objectKey: target.objectKey,
+          row: targetRow,
+          previous: null,
+          actorId: auth.user.id,
+        })
+        return { objectKey: target.objectKey, id: targetRow.id }
+      })
+
       const updated = db.records.update(row.id, {
         values: {
           ...lead,
@@ -201,6 +274,7 @@ export const leadsHandlers = [
         companyId,
         contactId,
         dealId,
+        targets: created,
       })
     })
   ),

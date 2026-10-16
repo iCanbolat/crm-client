@@ -11,6 +11,10 @@ export const NOTIFICATION_TYPES = [
   "task.due",
   "quote.expiring",
   "automation.notify",
+  // Visa & education (Faz 8)
+  "appointment.upcoming",
+  "installment.overdue",
+  "document.expiring",
 ] as const
 export type NotificationType = (typeof NOTIFICATION_TYPES)[number]
 

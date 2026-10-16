@@ -16,6 +16,7 @@ export {
   useUpdateField,
   useUpdateObject,
   useUpdateRecord,
+  useUploadAttachments,
 } from "./api/records.mutations"
 export {
   directoryQueries,

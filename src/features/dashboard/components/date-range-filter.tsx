@@ -1,7 +1,7 @@
 import { useId } from "react"
 import { useTranslation } from "react-i18next"
 
-import { Input } from "@/components/ui/input"
+import { DatePicker } from "@/components/ui/date-picker"
 import { Label } from "@/components/ui/label"
 import {
   Select,
@@ -68,30 +68,24 @@ export function DateRangeFilter({
             <Label htmlFor={`${id}-from`} className="text-xs">
               {t("range.from")}
             </Label>
-            <Input
+            <DatePicker
               id={`${id}-from`}
-              type="date"
               className="w-40"
               value={range.from}
               max={range.to}
-              onChange={(event) =>
-                event.target.value && onChange({ from: event.target.value })
-              }
+              onChange={(value) => value && onChange({ from: value })}
             />
           </div>
           <div className="flex flex-col gap-1">
             <Label htmlFor={`${id}-to`} className="text-xs">
               {t("range.to")}
             </Label>
-            <Input
+            <DatePicker
               id={`${id}-to`}
-              type="date"
               className="w-40"
               value={range.to}
               min={range.from}
-              onChange={(event) =>
-                event.target.value && onChange({ to: event.target.value })
-              }
+              onChange={(value) => value && onChange({ to: value })}
             />
           </div>
         </>

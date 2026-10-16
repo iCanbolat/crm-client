@@ -1,0 +1,55 @@
+{
+  "passport": {
+    "number": "Pasaport no",
+    "issuingCountry": "Veren ülke",
+    "issuedAt": "Veriliş tarihi",
+    "expiresAt": "Geçerlilik bitişi",
+    "validity": {
+      "ok": "Geçerli",
+      "expiresSoon": "6 ay içinde doluyor",
+      "insufficient": "Süresi yetersiz",
+      "expired": "Süresi dolmuş",
+      "missing": "Pasaport yok"
+    },
+    "expiresOn": "Bitiş {{date}}"
+  },
+  "language": {
+    "exam": "Sınav",
+    "overall": "Genel puan",
+    "level": "Seviye",
+    "listening": "Dinleme",
+    "reading": "Okuma",
+    "writing": "Yazma",
+    "speaking": "Konuşma",
+    "testDate": "Sınav tarihi",
+    "add": "Sınav sonucu ekle",
+    "expired": "süresi dolmuş",
+    "more": "+{{count}}"
+  },
+  "education": {
+    "level": "Seviye",
+    "institution": "Okul",
+    "country": "Ülke",
+    "field": "Bölüm",
+    "gpa": "Not ortalaması",
+    "gpaScale": "Ölçek",
+    "graduationYear": "Mezuniyet yılı",
+    "add": "Eğitim ekle",
+    "scaleValue": "{{value}}'lük"
+  },
+  "intake": {
+    "month": "Ay",
+    "year": "Yıl"
+  },
+  "removeRow": "Satırı kaldır",
+  "validation": {
+    "passport": "Pasaport no (5–12 harf/rakam), veren ülke ve bitiş tarihi girin.",
+    "passportDates": "Bitiş tarihi veriliş tarihinden sonra olmalı.",
+    "scoreRequired": "{{exam}} için genel puan girin.",
+    "levelRequired": "{{exam}} için seviye seçin.",
+    "scoreRange": "{{exam}} puanı {{min}}–{{max}} arasında olmalı.",
+    "scoreStep": "{{exam}} puanı {{step}} adımlarla girilir.",
+    "education": "Her satırda seviye ve okul adı zorunlu; not ortalaması ölçeği aşamaz.",
+    "intake": "Ay ve yıl seçin (2020–2040)."
+  }
+}

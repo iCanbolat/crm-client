@@ -28,6 +28,9 @@
     "submit": "Dönüştür",
     "success": "Lead dönüştürüldü.",
     "searching": "Eşleşmeler aranıyor…",
-    "pickRequired": "Bir kayıt seçin."
+    "pickRequired": "Bir kayıt seçin.",
+    "noCompany": "Şirket yok (bireysel)",
+    "targets": "Oluşturulacak dosyalar",
+    "personRequired": "Bireysel dönüşümde bir kişi seçin veya oluşturun."
   }
 }

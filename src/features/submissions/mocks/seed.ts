@@ -26,6 +26,9 @@ export const SEED_SUBMISSION_COUNTS: Record<string, number> = {
   form_webinar: 50,
   form_freight: 164,
   form_marmara_quote: 21,
+  // Atlas Yurtdışı Eğitim (Faz 8)
+  form_atlas_study: 28,
+  form_atlas_visa: 14,
 }
 const SPAM_PER_FORM = 2
 /** The most recent submissions are still unreviewed. */

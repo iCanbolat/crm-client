@@ -4,12 +4,14 @@ import enErrors from "./en/errors.json"
 import enForwarding from "./en/forwarding.json"
 import enPublic from "./en/public.json"
 import enRenderer from "./en/renderer.json"
+import enVisaFields from "./en/visaFields.json"
 import trCommon from "./tr/common.json"
 import trEngine from "./tr/engine.json"
 import trErrors from "./tr/errors.json"
 import trForwarding from "./tr/forwarding.json"
 import trPublic from "./tr/public.json"
 import trRenderer from "./tr/renderer.json"
+import trVisaFields from "./tr/visaFields.json"
 import type trActivities from "./tr/activities.json"
 import type trAuth from "./tr/auth.json"
 import type trAutomation from "./tr/automation.json"
@@ -27,6 +29,7 @@ import type trSettings from "./tr/settings.json"
 import type trShell from "./tr/shell.json"
 import type trSites from "./tr/sites.json"
 import type trSubmissions from "./tr/submissions.json"
+import type trVisaEducation from "./tr/visaEducation.json"
 import type trWorkspace from "./tr/workspace.json"
 
 export const supportedLanguages = ["tr", "en"] as const
@@ -46,6 +49,7 @@ export const coreResources = {
     errors: trErrors,
     engine: trEngine,
     forwarding: trForwarding,
+    visaFields: trVisaFields,
     renderer: trRenderer,
     public: trPublic,
   },
@@ -54,6 +58,7 @@ export const coreResources = {
     errors: enErrors,
     engine: enEngine,
     forwarding: enForwarding,
+    visaFields: enVisaFields,
     renderer: enRenderer,
     public: enPublic,
   },
@@ -75,6 +80,8 @@ export interface AppResources {
   activities: typeof trActivities
   settings: typeof trSettings
   forwarding: typeof trForwarding
+  visaFields: typeof trVisaFields
+  visaEducation: typeof trVisaEducation
   leads: typeof trLeads
   renderer: typeof trRenderer
   forms: typeof trForms

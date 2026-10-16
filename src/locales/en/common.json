@@ -20,6 +20,11 @@
     "keepEditing": "Keep editing",
     "moreActions": "More actions"
   },
+  "datePicker": {
+    "placeholder": "Pick a date",
+    "dateTimePlaceholder": "Pick date and time",
+    "time": "Time"
+  },
   "theme": {
     "label": "Theme",
     "light": "Light",

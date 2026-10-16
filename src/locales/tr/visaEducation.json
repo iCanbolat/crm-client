@@ -1,0 +1,174 @@
+{
+  "errors": {
+    "checklistIncomplete": "{{count}} zorunlu belge tamamlanmadı: {{items}}",
+    "appointmentRequired": "\"Randevu alındı\" aşaması için planlanmış bir konsolosluk randevusu ekleyin.",
+    "passport": {
+      "missing": "Başvuranın pasaport bilgisi yok.",
+      "expired": "Başvuranın pasaportunun süresi dolmuş.",
+      "insufficient": "Pasaportun geçerlilik süresi bu ülke için yetersiz."
+    },
+    "unknownTemplate": "Bu kontrol listesi şablonu bulunamadı.",
+    "unknownFile": "Dosya bu kayda ait değil.",
+    "attachmentRequired": "Onaylamak için önce belgeyi yükleyin.",
+    "invalidItemStatus": "Onaylanmış belge yeniden istenemez; önce reddedin.",
+    "templateItem": "Şablondan gelen belge silinemez; \"Gerekli değil\" olarak işaretleyin.",
+    "installmentPaid": "Ödemesi alınmış taksit silinemez veya tutarı değiştirilemez.",
+    "plan": {
+      "PLAN_TOTAL_MISMATCH": "Taksitlerin toplamı ({{actual}}) hizmet bedeline ({{expected}}) eşit olmalı.",
+      "DUE_DATES_ORDER": "Vade tarihleri sıralı olmalı.",
+      "AMOUNT_INVALID": "Tutarlar sıfırdan büyük olmalı.",
+      "OVERPAID": "Ödeme, taksitin kalan tutarını aşıyor."
+    },
+    "enrollmentNotReady": "Vize başvurusu, kabul onay belgesi (CAS / I-20 / CoE) alındıktan sonra başlatılabilir.",
+    "visaAlreadyStarted": "Bu okul başvurusu için vize dosyası zaten açılmış.",
+    "visaNotCreated": "Vize dosyası oluşturulamadı."
+  },
+  "loading": "Yükleniyor…",
+  "checklist": {
+    "title": "Belge kontrol listesi",
+    "error": "Kontrol listesi yüklenemedi.",
+    "emptyWithTemplate": "Bu dosya için henüz belge listesi oluşturulmadı.",
+    "noTemplate": {
+      "enrollment": "Belge listesi program seçilince oluşur.",
+      "visa": "Belge listesi ülke ve vize türü seçilince oluşur."
+    },
+    "applyTemplate": "Standart listeyi uygula",
+    "templateApplied": "Belge listesi oluşturuldu.",
+    "progress": "{{complete}} / {{required}} zorunlu belge tamam",
+    "ready": "Başvuruya hazır",
+    "missing": "{{count}} eksik",
+    "request": "Eksikleri iste",
+    "requested": "Eksik belgeler başvurandan istendi.",
+    "add": "Belge ekle",
+    "added": "Belge listeye eklendi.",
+    "addTitle": "Listeye belge ekle",
+    "itemLabel": "Belge adı",
+    "category": "Belge türü",
+    "required": "Zorunlu",
+    "optional": "İsteğe bağlı",
+    "hasFile": "Dosya yüklendi",
+    "outdated": "Güncel değil",
+    "statusOf": "{{label}} durumu",
+    "upload": "{{label}} yükle",
+    "remove": "{{label}} kaldır",
+    "status": {
+      "missing": "Eksik",
+      "requested": "İstendi",
+      "received": "Teslim alındı",
+      "approved": "Onaylandı",
+      "rejected": "Reddedildi",
+      "not_applicable": "Gerekli değil"
+    }
+  },
+  "payments": {
+    "title": "Ödeme planı",
+    "error": "Ödeme planı yüklenemedi.",
+    "empty": "Bu dosya için ödeme planı yok.",
+    "create": "Plan oluştur",
+    "replan": "Yeniden planla",
+    "saved": "Ödeme planı kaydedildi.",
+    "recorded": "Ödeme kaydedildi.",
+    "total": "Hizmet bedeli",
+    "paid": "Tahsil edilen",
+    "outstanding": "Kalan",
+    "status": "Durum",
+    "statuses": {
+      "none": "Plan yok",
+      "on_track": "Zamanında",
+      "overdue": "Gecikmede",
+      "paid": "Ödendi"
+    },
+    "installments": "Taksitler",
+    "installment": "Taksit",
+    "dueDate": "Vade",
+    "amount": "Tutar",
+    "state": "Durum",
+    "actions": "İşlemler",
+    "pending": "Bekliyor",
+    "partial": "{{amount}} ödendi",
+    "collect": "Ödeme al",
+    "planTitle": "Ödeme planı oluştur",
+    "fee": "Hizmet bedeli",
+    "currency": "Para birimi",
+    "count": "Taksit sayısı",
+    "firstDue": "İlk vade",
+    "monthly": "Taksitler aylık ve eşit bölünür; kuruş farkı son taksite eklenir.",
+    "payTitle": "{{label}}. taksit ödemesi",
+    "amountWithCurrency": "Tutar ({{currency}})",
+    "paidAt": "Ödeme tarihi",
+    "method": "Ödeme yöntemi",
+    "methods": {
+      "cash": "Nakit",
+      "transfer": "Havale / EFT",
+      "card": "Kredi kartı"
+    }
+  },
+  "eligibility": {
+    "title": "Uygunluk",
+    "ok": "Başvuran programın şartlarını karşılıyor.",
+    "codes": {
+      "LANGUAGE_MISSING": "Dil sınavı sonucu yok.",
+      "LANGUAGE_BELOW_MIN": "Dil skoru yetersiz: {{actual}} (gerekli: {{required}}).",
+      "LANGUAGE_EXPIRED": "Dil sınavı sonucunun süresi dolmuş ({{date}}).",
+      "GPA_BELOW_MIN": "Not ortalaması {{actual}} / 4 (en az {{required}}).",
+      "DEADLINE_PASSED": "Son başvuru tarihi geçti ({{date}}).",
+      "INTAKE_NOT_OFFERED": "Program seçilen dönemde başlamıyor."
+    }
+  },
+  "commission": {
+    "title": "Okul komisyonu",
+    "expected": "Beklenen",
+    "received": "Tahsil edilen",
+    "markReceived": "Tahsilatı işle",
+    "saved": "Komisyon tahsilatı kaydedildi."
+  },
+  "enrollment": {
+    "visaTitle": "Öğrenci vizesi",
+    "startVisa": "Vize başvurusu başlat",
+    "visaStarted": "Vize dosyası açıldı.",
+    "openVisa": "Vize dosyası {{number}}",
+    "visaLinked": "Bu kayıt için öğrenci vizesi dosyası açıldı.",
+    "visaReady": "{{document}} alındı; öğrenci vizesi dosyası açılabilir.",
+    "visaNotReady": "Öğrenci vizesi, kabul onay belgesi (CAS / I-20 / CoE / LOA) alınınca başlatılır."
+  },
+  "appointments": {
+    "title": "Randevular",
+    "add": "Randevu ekle",
+    "empty": "Henüz randevu yok."
+  },
+  "profile": {
+    "enquiryTitle": "Talep özeti",
+    "applicantTitle": "Başvuran profili",
+    "service": "Hizmet",
+    "countries": "Hedef ülkeler",
+    "level": "Seviye",
+    "intake": "Dönem",
+    "language": "Dil skoru",
+    "passport": "Pasaport",
+    "expired": "süresi dolmuş",
+    "age": "Yaş",
+    "ageValue": "{{age}}",
+    "nationality": "Uyruk"
+  },
+  "dashboard": {
+    "empty": "Bu aralıkta veri yok.",
+    "openInquiries": "Açık talepler",
+    "openInquiriesHint": "Aralıkta gelen, henüz dönüştürülmemiş talepler",
+    "unknownService": "Belirtilmemiş",
+    "approvalRate": "Vize onay oranı",
+    "approvalRateHint": "{{approved}} onay · {{refused}} ret",
+    "enrollments": "Okul başvuruları",
+    "visas": "Vize başvuruları",
+    "createdInRange": "Aralıkta açılan dosyalar, aşamalarına göre",
+    "appointments": "Yaklaşan randevular",
+    "appointmentsHint": "Önümüzdeki 7 gün",
+    "missingDocuments": "Eksik belgeler",
+    "missingDocumentsHint": "En çok eksiği olan açık dosyalar",
+    "missingCount": "{{count}} eksik",
+    "overdue": "Geciken taksitler",
+    "intakes": "Dönem tahmini",
+    "intakesHint": "Kesin kabul ve sonrası öğrenciler, başlangıç dönemine göre",
+    "commission": "Okul komisyonu",
+    "commissionHint": "Aralıkta kayıt olanlar · {{currency}}"
+  }
+}

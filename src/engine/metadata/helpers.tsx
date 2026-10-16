@@ -1,13 +1,18 @@
 import {
+  BookOpenIcon,
   BoxIcon,
   BuildingIcon,
+  CalendarClockIcon,
   ContactIcon,
   ContainerIcon,
   FileTextIcon,
+  GraduationCapIcon,
   HandCoinsIcon,
   InboxIcon,
   ReceiptIcon,
+  SchoolIcon,
   ShipIcon,
+  StampIcon,
   UsersIcon,
   type LucideIcon,
 } from "lucide-react"
@@ -34,6 +39,12 @@ const OBJECT_ICONS: Record<string, LucideIcon> = {
   receipt: ReceiptIcon,
   container: ContainerIcon,
   users: UsersIcon,
+  // Visa & education (Faz 8)
+  school: SchoolIcon,
+  "book-open": BookOpenIcon,
+  "graduation-cap": GraduationCapIcon,
+  stamp: StampIcon,
+  "calendar-clock": CalendarClockIcon,
 }
 
 export function getObjectIcon(name: string): LucideIcon {

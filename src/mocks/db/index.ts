@@ -59,6 +59,12 @@ import type {
   MilestoneRow,
   QuoteVersionRow,
 } from "@/modules/forwarding/mocks/types"
+import { seedVisaEducationForms } from "@/modules/visa-education/mocks/forms-seed"
+import { seedVisaEducation } from "@/modules/visa-education/mocks/seed"
+import type {
+  ChecklistItemRow,
+  PaymentPlanRow,
+} from "@/modules/visa-education/mocks/types"
 
 import { seedModuleObjects } from "../modules"
 
@@ -124,12 +130,19 @@ export const db = {
   }),
   records: createCollection<RecordRow>({
     name: "records",
-    seed: () => seedForwarding(seedRecords()).records,
+    seed: () => [
+      ...seedForwarding(seedRecords()).records,
+      ...seedVisaEducation().records,
+    ],
     onChange: notify,
   }),
   views: createCollection<ViewRow>({
     name: "views",
-    seed: () => [...seedViews(), ...seedForwarding(seedRecords()).views],
+    seed: () => [
+      ...seedViews(),
+      ...seedForwarding(seedRecords()).views,
+      ...seedVisaEducation().views,
+    ],
     onChange: notify,
   }),
   viewPrefs: createCollection<ViewPrefRow>({
@@ -151,7 +164,7 @@ export const db = {
   }),
   tasks: createCollection<TaskRow>({
     name: "tasks",
-    seed: seedTasks,
+    seed: () => [...seedTasks(), ...seedVisaEducation().tasks],
     onChange: notify,
   }),
   // Forwarding module (Faz 3)
@@ -165,15 +178,34 @@ export const db = {
     seed: () => seedForwarding(seedRecords()).milestones,
     onChange: notify,
   }),
+  // Visa & education module (Faz 8)
+  checklistItems: createCollection<ChecklistItemRow>({
+    name: "checklistItems",
+    seed: () => seedVisaEducation().checklistItems,
+    onChange: notify,
+  }),
+  paymentPlans: createCollection<PaymentPlanRow>({
+    name: "paymentPlans",
+    seed: () => seedVisaEducation().paymentPlans,
+    onChange: notify,
+  }),
   // Form builder (Faz 4)
   forms: createCollection<FormRow>({
     name: "forms",
-    seed: () => [...seedForms().forms, ...seedForwardingForms().forms],
+    seed: () => [
+      ...seedForms().forms,
+      ...seedForwardingForms().forms,
+      ...seedVisaEducationForms().forms,
+    ],
     onChange: notify,
   }),
   formVersions: createCollection<FormVersionRow>({
     name: "formVersions",
-    seed: () => [...seedForms().versions, ...seedForwardingForms().versions],
+    seed: () => [
+      ...seedForms().versions,
+      ...seedForwardingForms().versions,
+      ...seedVisaEducationForms().versions,
+    ],
     onChange: notify,
   }),
   // Public form site (Faz 5)
@@ -191,13 +223,21 @@ export const db = {
     seed: () =>
       seedSubmissions(
         {
-          forms: [...seedForms().forms, ...seedForwardingForms().forms],
+          forms: [
+            ...seedForms().forms,
+            ...seedForwardingForms().forms,
+            ...seedVisaEducationForms().forms,
+          ],
           versions: [
             ...seedForms().versions,
             ...seedForwardingForms().versions,
+            ...seedVisaEducationForms().versions,
           ],
         },
-        seedForwarding(seedRecords()).records
+        [
+          ...seedForwarding(seedRecords()).records,
+          ...seedVisaEducation().records,
+        ]
       ),
     onChange: notify,
   }),

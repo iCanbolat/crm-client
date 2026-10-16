@@ -54,7 +54,7 @@ describe("workspace api (contract with MSW)", () => {
       status: 422,
       fieldErrors: { modules: ["Bu modül henüz kullanılamıyor."] },
     })
-    await expect(activateModule("visa-education")).rejects.toMatchObject({
+    await expect(activateModule("health-tourism")).rejects.toMatchObject({
       status: 422,
       code: "MODULE_UNAVAILABLE",
     })

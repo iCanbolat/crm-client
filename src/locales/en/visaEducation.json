@@ -1,0 +1,174 @@
+{
+  "errors": {
+    "checklistIncomplete": "{{count}} required documents are not complete: {{items}}",
+    "appointmentRequired": "Add a scheduled consulate appointment before moving to \"Appointment booked\".",
+    "passport": {
+      "missing": "The applicant has no passport details.",
+      "expired": "The applicant's passport has expired.",
+      "insufficient": "The passport is not valid long enough for this country."
+    },
+    "unknownTemplate": "This checklist template does not exist.",
+    "unknownFile": "The file does not belong to this record.",
+    "attachmentRequired": "Upload the document before approving it.",
+    "invalidItemStatus": "An approved document cannot be requested again; reject it first.",
+    "templateItem": "Template documents cannot be deleted; mark them \"Not needed\" instead.",
+    "installmentPaid": "A paid instalment cannot be removed or changed.",
+    "plan": {
+      "PLAN_TOTAL_MISMATCH": "Instalments ({{actual}}) must add up to the service fee ({{expected}}).",
+      "DUE_DATES_ORDER": "Due dates must be in order.",
+      "AMOUNT_INVALID": "Amounts must be greater than zero.",
+      "OVERPAID": "The payment exceeds what is left of the instalment."
+    },
+    "enrollmentNotReady": "A visa file can be started once the confirmation (CAS / I-20 / CoE) has arrived.",
+    "visaAlreadyStarted": "A visa file was already started for this school application.",
+    "visaNotCreated": "The visa file could not be created."
+  },
+  "loading": "Loading…",
+  "checklist": {
+    "title": "Document checklist",
+    "error": "The checklist could not be loaded.",
+    "emptyWithTemplate": "No document list has been created for this file yet.",
+    "noTemplate": {
+      "enrollment": "The document list is created once a programme is picked.",
+      "visa": "The document list is created once the country and visa category are set."
+    },
+    "applyTemplate": "Apply the standard list",
+    "templateApplied": "Document list created.",
+    "progress": "{{complete}} / {{required}} required documents done",
+    "ready": "Ready to submit",
+    "missing": "{{count}} missing",
+    "request": "Request missing",
+    "requested": "Missing documents were requested from the applicant.",
+    "add": "Add document",
+    "added": "Document added to the list.",
+    "addTitle": "Add a document to the list",
+    "itemLabel": "Document name",
+    "category": "Document type",
+    "required": "Required",
+    "optional": "Optional",
+    "hasFile": "File uploaded",
+    "outdated": "Not current",
+    "statusOf": "Status of {{label}}",
+    "upload": "Upload {{label}}",
+    "remove": "Remove {{label}}",
+    "status": {
+      "missing": "Missing",
+      "requested": "Requested",
+      "received": "Received",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "not_applicable": "Not needed"
+    }
+  },
+  "payments": {
+    "title": "Payment plan",
+    "error": "The payment plan could not be loaded.",
+    "empty": "No payment plan for this file.",
+    "create": "Create plan",
+    "replan": "Re-plan",
+    "saved": "Payment plan saved.",
+    "recorded": "Payment recorded.",
+    "total": "Service fee",
+    "paid": "Collected",
+    "outstanding": "Outstanding",
+    "status": "Status",
+    "statuses": {
+      "none": "No plan",
+      "on_track": "On track",
+      "overdue": "Overdue",
+      "paid": "Paid"
+    },
+    "installments": "Instalments",
+    "installment": "Instalment",
+    "dueDate": "Due",
+    "amount": "Amount",
+    "state": "Status",
+    "actions": "Actions",
+    "pending": "Pending",
+    "partial": "{{amount}} paid",
+    "collect": "Record payment",
+    "planTitle": "Create a payment plan",
+    "fee": "Service fee",
+    "currency": "Currency",
+    "count": "Instalments",
+    "firstDue": "First due date",
+    "monthly": "Instalments are monthly and equal; rounding cents go to the last one.",
+    "payTitle": "Payment of instalment {{label}}",
+    "amountWithCurrency": "Amount ({{currency}})",
+    "paidAt": "Payment date",
+    "method": "Payment method",
+    "methods": {
+      "cash": "Cash",
+      "transfer": "Bank transfer",
+      "card": "Credit card"
+    }
+  },
+  "eligibility": {
+    "title": "Eligibility",
+    "ok": "The applicant meets the programme requirements.",
+    "codes": {
+      "LANGUAGE_MISSING": "No language test result.",
+      "LANGUAGE_BELOW_MIN": "Language score too low: {{actual}} (required: {{required}}).",
+      "LANGUAGE_EXPIRED": "The language test result has expired ({{date}}).",
+      "GPA_BELOW_MIN": "GPA {{actual}} / 4 (minimum {{required}}).",
+      "DEADLINE_PASSED": "The application deadline has passed ({{date}}).",
+      "INTAKE_NOT_OFFERED": "The programme does not start in the chosen intake."
+    }
+  },
+  "commission": {
+    "title": "School commission",
+    "expected": "Expected",
+    "received": "Received",
+    "markReceived": "Record payment",
+    "saved": "Commission payment recorded."
+  },
+  "enrollment": {
+    "visaTitle": "Student visa",
+    "startVisa": "Start visa application",
+    "visaStarted": "Visa file opened.",
+    "openVisa": "Visa file {{number}}",
+    "visaLinked": "A student visa file was opened for this application.",
+    "visaReady": "{{document}} received; the student visa file can be opened.",
+    "visaNotReady": "The student visa starts once the confirmation (CAS / I-20 / CoE / LOA) has arrived."
+  },
+  "appointments": {
+    "title": "Appointments",
+    "add": "Add appointment",
+    "empty": "No appointments yet."
+  },
+  "profile": {
+    "enquiryTitle": "Enquiry summary",
+    "applicantTitle": "Applicant profile",
+    "service": "Service",
+    "countries": "Target countries",
+    "level": "Level",
+    "intake": "Intake",
+    "language": "Language score",
+    "passport": "Passport",
+    "expired": "expired",
+    "age": "Age",
+    "ageValue": "{{age}}",
+    "nationality": "Nationality"
+  },
+  "dashboard": {
+    "empty": "No data in this range.",
+    "openInquiries": "Open enquiries",
+    "openInquiriesHint": "Enquiries received in the range, not converted yet",
+    "unknownService": "Not specified",
+    "approvalRate": "Visa approval rate",
+    "approvalRateHint": "{{approved}} approved · {{refused}} refused",
+    "enrollments": "School applications",
+    "visas": "Visa applications",
+    "createdInRange": "Files opened in the range, by stage",
+    "appointments": "Upcoming appointments",
+    "appointmentsHint": "Next 7 days",
+    "missingDocuments": "Missing documents",
+    "missingDocumentsHint": "Open files with the most missing items",
+    "missingCount": "{{count}} missing",
+    "overdue": "Overdue instalments",
+    "intakes": "Intake forecast",
+    "intakesHint": "Students with an unconditional offer or later, by intake",
+    "commission": "School commission",
+    "commissionHint": "Enrolled in the range · {{currency}}"
+  }
+}

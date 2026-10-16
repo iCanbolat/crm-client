@@ -10,6 +10,7 @@ import {
 } from "@/engine/field-types"
 import { ModuleSlot, registerModules, getModules } from "@/engine/modules"
 import type { FieldDef } from "@/engine/metadata"
+import { pickDate } from "@/test/pick-date"
 import { renderWithProviders, screen } from "@/test/render"
 
 import { field, testObject } from "./fixtures"
@@ -101,18 +102,17 @@ describe("field inputs (B2.1)", () => {
     expect(last()).toEqual({ amount: 1500, currency: "EUR" })
   })
 
-  it("date and datetime use native pickers (ISO values)", async () => {
-    const { last } = await renderInput(def("day"))
-    fireEvent.change(screen.getByLabelText("Alan"), {
-      target: { value: "2026-10-05" },
-    })
+  it("date uses the calendar picker (ISO value)", async () => {
+    const { user, last } = await renderInput(def("day"))
+    await pickDate(user, screen.getByLabelText("Alan"), "2026-10-05")
     expect(last()).toBe("2026-10-05")
   })
 
   it("datetime converts the local time to an ISO instant", async () => {
-    const { last } = await renderInput(def("at"))
-    fireEvent.change(screen.getByLabelText("Alan"), {
-      target: { value: "2026-10-05T14:30" },
+    const { user, last } = await renderInput(def("at"))
+    await pickDate(user, screen.getByLabelText("Alan"), "2026-10-05")
+    fireEvent.change(screen.getByLabelText("Saat"), {
+      target: { value: "14:30" },
     })
     expect(last()).toBe(new Date("2026-10-05T14:30").toISOString())
   })

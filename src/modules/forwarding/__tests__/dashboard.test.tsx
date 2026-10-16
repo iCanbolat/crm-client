@@ -1,10 +1,11 @@
-import { fireEvent, waitFor, within } from "@testing-library/react"
+import { waitFor, within } from "@testing-library/react"
 import { describe, expect, it } from "vitest"
 
 import { resolveRange } from "@/features/dashboard"
 import { db } from "@/mocks/db"
 import { WORKSPACE_IDS } from "@/mocks/db/seed"
 import { setScenarioState } from "@/mocks/scenarios/scenario-store"
+import { pickDate } from "@/test/pick-date"
 import { renderRoute, screen } from "@/test/render"
 
 import { buildForwardingDashboard } from "../mocks/dashboard"
@@ -168,12 +169,8 @@ describe("forwarding dashboard (B3.7)", () => {
     await waitFor(() =>
       expect(router.state.location.search).toMatchObject({ range: "custom" })
     )
-    fireEvent.change(screen.getByLabelText("Başlangıç"), {
-      target: { value: "2020-01-01" },
-    })
-    fireEvent.change(screen.getByLabelText("Bitiş"), {
-      target: { value: "2020-01-31" },
-    })
+    await pickDate(user, screen.getByLabelText("Başlangıç"), "2020-01-01")
+    await pickDate(user, screen.getByLabelText("Bitiş"), "2020-01-31")
     await waitFor(() =>
       expect(router.state.location.search).toMatchObject({
         from: "2020-01-01",

@@ -48,6 +48,16 @@ export function seedSites(workspaces: readonly Workspace[]): SiteRow[] {
         cookieUrl: "",
       }
     }
+    if (workspace.id === WORKSPACE_IDS.atlas) {
+      row.defaultFormId = "form_atlas_study"
+      row.brand.primaryColor = "#1d4ed8"
+      row.seo = {
+        title: "Atlas Yurtdışı Eğitim — Ücretsiz ön değerlendirme",
+        description:
+          "Yurtdışında üniversite, yüksek lisans, dil okulu ve vize danışmanlığı.",
+        ogImageUrl: null,
+      }
+    }
     if (workspace.id === WORKSPACE_IDS.marmara) {
       row.defaultFormId = "form_marmara_quote"
       row.brand.primaryColor = "#1d4ed8"

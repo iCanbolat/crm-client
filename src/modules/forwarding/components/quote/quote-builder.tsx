@@ -24,6 +24,7 @@ import { PageHeader } from "@/components/common/page-header"
 import { Badge } from "@/components/ui/badge"
 import { Button, buttonVariants } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { DatePicker } from "@/components/ui/date-picker"
 import { Field, FieldError, FieldLabel } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import {
@@ -486,12 +487,19 @@ export function QuoteBuilder({ initial, quote, refs = {} }: QuoteBuilderProps) {
                 <FieldLabel htmlFor={`${id}-valid`}>
                   {t("quote.validUntil")}
                 </FieldLabel>
-                <Input
-                  id={`${id}-valid`}
-                  type="date"
-                  disabled={!editable}
-                  aria-invalid={errors.validUntil ? true : undefined}
-                  {...register("validUntil")}
+                <Controller
+                  control={control}
+                  name="validUntil"
+                  render={({ field: controller }) => (
+                    <DatePicker
+                      id={`${id}-valid`}
+                      value={controller.value}
+                      onChange={controller.onChange}
+                      onBlur={controller.onBlur}
+                      disabled={!editable}
+                      aria-invalid={errors.validUntil ? true : undefined}
+                    />
+                  )}
                 />
               </Field>
             </CardContent>

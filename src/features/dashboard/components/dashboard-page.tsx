@@ -1,37 +1,24 @@
-import { Link } from "@tanstack/react-router"
-import { ArrowRightIcon } from "lucide-react"
+import { LayoutGridIcon } from "lucide-react"
 import { Suspense } from "react"
 import { useTranslation } from "react-i18next"
 
+import { EmptyState } from "@/components/common/empty-state"
 import { PageHeader } from "@/components/common/page-header"
 import { Badge } from "@/components/ui/badge"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import {
+  getDashboardStats,
   getDashboardWidgets,
-  resolveNavItem,
-  type ResolvedNavLink,
+  type StatDef,
   type WidgetDef,
 } from "@/engine/modules"
 import { useSession } from "@/features/auth"
-import { useObjectDefs } from "@/features/records"
-import {
-  useActiveModules,
-  useRoleLabels,
-  useWorkspace,
-} from "@/features/workspace"
-import { getCurrentLanguage } from "@/lib/i18n"
-import { resolveI18nText } from "@/lib/i18n-text"
+import { useRoleLabels, useWorkspace } from "@/features/workspace"
 import { can, canReadField } from "@/lib/rbac"
 import { cn } from "@/lib/utils"
 
 import { resolveRange, type DashboardSearch } from "../lib/range"
+import { useCoreWidgets } from "./core-widgets"
 import { DateRangeFilter } from "./date-range-filter"
 
 const SIZE_CLASSES: Record<WidgetDef["size"], string> = {
@@ -46,55 +33,100 @@ interface DashboardPageProps {
 }
 
 /**
- * Workspace dashboard: widgets of the active modules (B3.7), all filtered by
- * one date range kept in the URL. Without module widgets the active module
- * cards stay as the landing page.
+ * Workspace dashboard:
+ * 1. the sector's KPI strip (module `dashboardStats`),
+ * 2. today's work every workspace has (tasks, new form submissions),
+ * 3. the sector's widgets (module `dashboardWidgets`).
+ * Sector numbers follow one date range kept in the URL.
  */
 export function DashboardPage({ search, onSearchChange }: DashboardPageProps) {
-  const { t } = useTranslation(["dashboard", "workspace"])
-  const language = getCurrentLanguage()
+  const { t } = useTranslation("dashboard")
   const { user, role, subject } = useSession()
   const workspace = useWorkspace()
-  const modules = useActiveModules()
-  const objects = useObjectDefs()
   const roles = useRoleLabels()
   const firstName = user.name.split(" ")[0] ?? user.name
-  const widgets = getDashboardWidgets(workspace.modules).filter(
-    (widget) =>
-      (!widget.permission ||
-        can(subject, widget.permission.action, widget.permission.resource)) &&
-      canReadField(subject, widget.sensitivity)
-  )
+  const visible = (item: Pick<StatDef, "permission" | "sensitivity">) =>
+    (!item.permission ||
+      can(subject, item.permission.action, item.permission.resource)) &&
+    canReadField(subject, item.sensitivity)
+  const stats = getDashboardStats(workspace.modules).filter(visible)
+  const widgets = getDashboardWidgets(workspace.modules).filter(visible)
+  const coreWidgets = useCoreWidgets()
   const range = resolveRange(search)
+  const hasSector = stats.length > 0 || widgets.length > 0
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       <PageHeader
         title={t("greeting", { name: firstName })}
-        description={t("description", { workspace: workspace.name })}
-        actions={
-          role ? <Badge variant="secondary">{roles.label(role)}</Badge> : null
+        description={
+          <span className="flex flex-wrap items-center gap-2">
+            {t("description", { workspace: workspace.name })}
+            {role ? (
+              <Badge variant="secondary">{roles.label(role)}</Badge>
+            ) : null}
+          </span>
         }
-      />
-
-      {widgets.length ? (
-        <section
-          aria-labelledby="dashboard-widgets"
-          className="flex flex-col gap-4"
-        >
-          <div className="flex flex-wrap items-end justify-between gap-3">
-            <h2
-              id="dashboard-widgets"
-              className="font-heading text-lg font-semibold"
-            >
-              {t("widgetsTitle")}
-            </h2>
+        actions={
+          hasSector ? (
             <DateRangeFilter
               search={search}
               range={range}
               onChange={onSearchChange}
             />
+          ) : null
+        }
+      />
+
+      {stats.length ? (
+        <section aria-labelledby="dashboard-stats">
+          <h2 id="dashboard-stats" className="sr-only">
+            {t("statsTitle")}
+          </h2>
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {stats.map(({ id, component: Stat }) => (
+              <div key={id} className="min-w-0">
+                <Suspense fallback={<Skeleton className="h-32 w-full" />}>
+                  <Stat range={range} />
+                </Suspense>
+              </div>
+            ))}
           </div>
+        </section>
+      ) : null}
+
+      <section
+        aria-labelledby="dashboard-today"
+        className="flex flex-col gap-3"
+      >
+        <h2 id="dashboard-today" className="font-heading text-lg font-semibold">
+          {t("todayTitle")}
+        </h2>
+        <div
+          className={cn(
+            "grid gap-4",
+            coreWidgets.length > 1 && "lg:grid-cols-2"
+          )}
+        >
+          {coreWidgets.map(({ id, component: Widget }) => (
+            <div key={id} className="min-w-0">
+              <Widget />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {widgets.length ? (
+        <section
+          aria-labelledby="dashboard-widgets"
+          className="flex flex-col gap-3"
+        >
+          <h2
+            id="dashboard-widgets"
+            className="font-heading text-lg font-semibold"
+          >
+            {t("widgetsTitle")}
+          </h2>
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
             {widgets.map(({ id, size, component: Widget }) => (
               <div key={id} className={cn("min-w-0", SIZE_CLASSES[size])}>
@@ -108,61 +140,13 @@ export function DashboardPage({ search, onSearchChange }: DashboardPageProps) {
         </section>
       ) : null}
 
-      <section
-        aria-labelledby="dashboard-modules"
-        className="flex flex-col gap-4"
-      >
-        <h2
-          id="dashboard-modules"
-          className="font-heading text-lg font-semibold"
-        >
-          {t("modules.title")}
-        </h2>
-        {modules.length === 0 ? (
-          <p className="text-sm text-muted-foreground">{t("modules.empty")}</p>
-        ) : (
-          <div className="grid gap-4 md:grid-cols-2">
-            {modules.map((manifest) => {
-              const Icon = manifest.icon
-              return (
-                <Card key={manifest.id}>
-                  <CardHeader className="flex flex-row items-start gap-3">
-                    <div className="flex size-10 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                      <Icon className="size-5" aria-hidden />
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      <CardTitle>
-                        <h3>{resolveI18nText(manifest.label, language)}</h3>
-                      </CardTitle>
-                      <CardDescription>
-                        {resolveI18nText(manifest.description, language)}
-                      </CardDescription>
-                    </div>
-                  </CardHeader>
-                  <CardContent className="flex flex-wrap gap-2">
-                    {(manifest.navGroups ?? [])
-                      .flatMap((group) => group.items)
-                      .map((item) => resolveNavItem(item, objects, language))
-                      .filter((item): item is ResolvedNavLink => item !== null)
-                      .map((item) => (
-                        <Link
-                          key={item.id}
-                          to={item.to}
-                          params={item.params}
-                          search={item.search}
-                          className="inline-flex items-center gap-1 rounded-full border px-3 py-1 text-sm hover:bg-muted"
-                        >
-                          {item.title}
-                          <ArrowRightIcon className="size-3.5" aria-hidden />
-                        </Link>
-                      ))}
-                  </CardContent>
-                </Card>
-              )
-            })}
-          </div>
-        )}
-      </section>
+      {hasSector ? null : (
+        <EmptyState
+          icon={LayoutGridIcon}
+          title={t("modules.empty")}
+          description={t("modules.emptyHint")}
+        />
+      )}
     </div>
   )
 }

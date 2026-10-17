@@ -2,8 +2,8 @@
   "greeting": "Welcome, {{name}}",
   "description": "Overview of the {{workspace}} workspace.",
   "modules": {
-    "title": "Active modules",
-    "empty": "This workspace has no active sector module yet."
+    "empty": "This workspace has no active sector module yet.",
+    "emptyHint": "Metrics appear here once a sector module is enabled."
   },
   "range": {
     "label": "Date range",
@@ -14,5 +14,18 @@
     "from": "From",
     "to": "To"
   },
-  "widgetsTitle": "Insights"
+  "widgetsTitle": "Sector metrics",
+  "statsTitle": "Key metrics",
+  "todayTitle": "Today",
+  "empty": "No data for this period.",
+  "seeAll": "See all",
+  "core": {
+    "tasks": "My tasks",
+    "tasksHint": "{{today}} today · {{overdue}} overdue",
+    "noTasks": "No open tasks for today.",
+    "submissions": "New form submissions",
+    "submissionsHint": "{{count}} submissions waiting for review",
+    "noSubmissions": "No submissions waiting.",
+    "anonymous": "Anonymous visitor"
+  }
 }

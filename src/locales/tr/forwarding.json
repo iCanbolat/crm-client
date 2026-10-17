@@ -167,12 +167,6 @@
   },
   "dashboard": {
     "openRequests": "Açık navlun talepleri",
-    "openRequestsHint": "Seçili dönemde gelen, henüz sonuçlanmamış talepler",
-    "stage": {
-      "new": "Yeni",
-      "contacted": "İletişim kuruldu",
-      "qualified": "Nitelikli"
-    },
     "winRate": "Teklif kazanma oranı",
     "winRateHint": "{{accepted}} kabul / {{decided}} sonuçlanan teklif",
     "revenue": "Aylık ciro ve marj",
@@ -193,7 +187,12 @@
     "repQuotes": "Teklif",
     "repAccepted": "Kabul",
     "repRevenue": "Ciro",
-    "empty": "Bu dönem için veri yok.",
-    "noDelays": "Geciken sevkiyat yok."
+    "noDelays": "Geciken sevkiyat yok.",
+    "openRequestsNew": "{{count}} yeni talep bekliyor",
+    "periodRevenue": "Dönem cirosu",
+    "periodMargin": "{{margin}} kâr · {{rate}} marj",
+    "delayedMax": "En uzun gecikme {{count}} gün",
+    "allOnTime": "Tüm sevkiyatlar zamanında",
+    "seeAll": "Tümü"
   }
 }

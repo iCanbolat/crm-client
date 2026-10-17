@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next"
 
+import { Badge } from "@/components/ui/badge"
 import { SidebarMenuBadge } from "@/components/ui/sidebar"
 
 import { useInboxUnread } from "../hooks/use-inbox-unread"
@@ -11,7 +12,9 @@ export function InboxUnreadBadge() {
   if (!unread) return null
   return (
     <SidebarMenuBadge>
-      <span aria-hidden>{unread > 99 ? "99+" : unread}</span>
+      <Badge className="min-w-5 px-1.5 tabular-nums" aria-hidden>
+        {unread > 99 ? "99+" : unread}
+      </Badge>
       <span className="sr-only">
         {t("inbox.unreadBadge", { count: unread })}
       </span>

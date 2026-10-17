@@ -2,8 +2,8 @@
   "greeting": "Hoş geldiniz, {{name}}",
   "description": "{{workspace}} çalışma alanına genel bakış.",
   "modules": {
-    "title": "Aktif modüller",
-    "empty": "Bu çalışma alanında henüz aktif bir sektör modülü yok."
+    "empty": "Bu çalışma alanında henüz aktif bir sektör modülü yok.",
+    "emptyHint": "Sektör modülü etkinleştirildiğinde göstergeler burada görünür."
   },
   "range": {
     "label": "Tarih aralığı",
@@ -14,5 +14,18 @@
     "from": "Başlangıç",
     "to": "Bitiş"
   },
-  "widgetsTitle": "Göstergeler"
+  "widgetsTitle": "Sektör göstergeleri",
+  "statsTitle": "Öne çıkan göstergeler",
+  "todayTitle": "Bugün",
+  "empty": "Bu dönem için veri yok.",
+  "seeAll": "Tümü",
+  "core": {
+    "tasks": "Görevlerim",
+    "tasksHint": "Bugün {{today}} · geciken {{overdue}}",
+    "noTasks": "Bugün için açık görev yok.",
+    "submissions": "Yeni form başvuruları",
+    "submissionsHint": "İncelenmeyi bekleyen {{count}} başvuru",
+    "noSubmissions": "Bekleyen başvuru yok.",
+    "anonymous": "İsimsiz ziyaretçi"
+  }
 }

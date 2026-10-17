@@ -5,10 +5,8 @@ import { SEED_USERS, WORKSPACE_IDS } from "@/mocks/db/seed"
 import { signInAs } from "@/test/auth"
 
 import {
-  createField,
   createRecord,
   createView,
-  deleteField,
   deleteRecord,
   deleteView,
   fetchAttachments,
@@ -20,7 +18,6 @@ import {
   moveRecordStage,
   runBulkAction,
   setDefaultView,
-  updateObject,
   updateRecord,
   updateView,
   uploadAttachments,
@@ -334,113 +331,5 @@ describe("saved views api", () => {
     signInAs("agent")
     await deleteView(view.id)
     expect(db.views.findById(view.id)).toBeUndefined()
-  })
-})
-
-describe("metadata administration api (B2.7)", () => {
-  beforeEach(() => {
-    signInAs("admin")
-  })
-
-  it("TC-2.7-01 adds a custom field to the fields, a custom section and the list", async () => {
-    const def = await createField("company", {
-      key: "segment",
-      label: { tr: "Segment", en: "Segment" },
-      type: "select",
-      options: [{ value: "a", label: { tr: "A", en: "A" } }],
-    })
-    expect(def.fields.find((field) => field.key === "segment")).toMatchObject({
-      custom: true,
-      type: "select",
-    })
-    expect(def.layouts.list.columns.at(-1)).toBe("segment")
-    expect(def.layouts.detail.sections.at(-1)).toMatchObject({
-      key: "custom",
-      fields: ["segment"],
-    })
-
-    await expect(
-      createField("company", {
-        key: "segment",
-        label: { tr: "X", en: "" },
-        type: "text",
-      })
-    ).rejects.toMatchObject({
-      fieldErrors: { key: ["Bu anahtarla bir alan zaten var."] },
-    })
-    await expect(
-      createField("company", {
-        key: "kind",
-        label: { tr: "Tür", en: "" },
-        type: "select",
-      })
-    ).rejects.toMatchObject({ fieldErrors: { options: [expect.any(String)] } })
-  })
-
-  it("TC-2.7-02 refuses to delete system fields (409) but deletes custom ones", async () => {
-    await expect(deleteField("company", "name")).rejects.toMatchObject({
-      status: 409,
-      code: "SYSTEM_FIELD",
-    })
-    await expect(deleteField("company", "ownerId")).rejects.toMatchObject({
-      status: 409,
-    })
-
-    const def = await deleteField("company", "taxNumber")
-    expect(def.fields.some((field) => field.key === "taxNumber")).toBe(false)
-    expect(acme("company").some((row) => "taxNumber" in row.values)).toBe(false)
-  })
-
-  it("TC-2.7-03 reorders pipeline stages and keeps the stage options in sync", async () => {
-    const { data } = await fetchObjects()
-    const deal = data.find((def) => def.key === "deal")!
-    const stages = [...deal.pipeline!.stages].reverse()
-
-    const updated = await updateObject("deal", {
-      pipeline: { ...deal.pipeline!, stages },
-    })
-    expect(updated.pipeline!.stages.map((stage) => stage.key)).toEqual(
-      stages.map((stage) => stage.key)
-    )
-    expect(
-      updated.fields
-        .find((field) => field.key === "stage")!
-        .options!.map((o) => o.value)
-    ).toEqual(stages.map((stage) => stage.key))
-  })
-
-  it("refuses to remove a stage that still has records (409)", async () => {
-    const { data } = await fetchObjects()
-    const deal = data.find((def) => def.key === "deal")!
-    await expect(
-      updateObject("deal", {
-        pipeline: {
-          ...deal.pipeline!,
-          stages: deal.pipeline!.stages.filter((stage) => stage.key !== "won"),
-        },
-      })
-    ).rejects.toMatchObject({ status: 409, code: "STAGE_IN_USE" })
-  })
-
-  it("rejects layouts that reference unknown fields and non-admin changes", async () => {
-    const { data } = await fetchObjects()
-    const company = data.find((def) => def.key === "company")!
-    await expect(
-      updateObject("company", {
-        layouts: {
-          ...company.layouts,
-          list: { columns: ["name", "ghost"] },
-        },
-      })
-    ).rejects.toMatchObject({ status: 422 })
-
-    signInAs("manager")
-    await expect(
-      createField("company", {
-        key: "x",
-        label: { tr: "X", en: "" },
-        type: "text",
-      })
-    ).rejects.toMatchObject({ status: 403 })
   })
 })

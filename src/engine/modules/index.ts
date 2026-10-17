@@ -10,6 +10,7 @@ export {
 } from "./merge"
 export {
   getActiveModules,
+  getDashboardStats,
   getDashboardWidgets,
   getFormBlocks,
   getLeadConversion,
@@ -45,5 +46,6 @@ export type {
   RecordSlotName,
   RecordSlotProps,
   SlotDef,
+  StatDef,
   WidgetDef,
 } from "./types"

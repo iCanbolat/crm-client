@@ -40,8 +40,6 @@ export function Breadcrumbs() {
         objectLabel ??
         navLinks.find((item) => item.href === match.pathname)?.title ??
         t("crumbs.object")
-    } else if (crumb === "objectSettings") {
-      label = objectLabel ?? t("crumbs.objectSettings")
     } else if (crumb === "record") {
       label = recordLabel ?? t("crumbs.record")
     } else if (crumb === "form") {

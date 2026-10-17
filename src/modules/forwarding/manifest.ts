@@ -38,6 +38,16 @@ const widget = (name: WidgetName) =>
     }))
   )
 
+type StatName = keyof typeof import("./components/dashboard/stats")
+
+/** KPI cards stay out of the recharts chunk: the strip renders first. */
+const stat = (name: StatName) =>
+  lazy(() =>
+    import("./components/dashboard/stats").then((module) => ({
+      default: module[name],
+    }))
+  )
+
 export const AGENT_NETWORK_FILTERS = [
   { field: "companyTypes", op: "in" as const, value: ["overseas_agent"] },
 ]
@@ -80,14 +90,15 @@ export const forwardingModule: ModuleManifest = {
       { id: "forwarding.schedule", component: ScheduleCard },
     ],
   },
+  dashboardStats: [
+    { id: "forwarding.openRequests", component: stat("OpenRequestsStat") },
+    { id: "forwarding.winRate", component: stat("WinRateStat") },
+    { id: "forwarding.revenue", component: stat("RevenueStat") },
+    { id: "forwarding.delayed", component: stat("DelayedShipmentsStat") },
+  ],
   dashboardWidgets: [
-    {
-      id: "forwarding.openRequests",
-      size: 1,
-      component: widget("OpenRequestsWidget"),
-    },
-    { id: "forwarding.winRate", size: 1, component: widget("WinRateWidget") },
-    { id: "forwarding.revenue", size: 2, component: widget("RevenueWidget") },
+    // Trend first, full width; operations and sales lists pair up below.
+    { id: "forwarding.revenue", size: 4, component: widget("RevenueWidget") },
     {
       id: "forwarding.shipments",
       size: 2,

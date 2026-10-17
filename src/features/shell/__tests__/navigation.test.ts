@@ -160,10 +160,9 @@ describe("navigation", () => {
     expect(ids(navigationFor("owner", []))).not.toContain("forwarding.quotes")
   })
 
-  it("lists My tasks for everyone and object settings for admins only", () => {
+  it("lists My tasks for everyone and no object settings (read-only metadata)", () => {
     expect(ids(navigationFor("viewer"))).toContain("tasks")
-    expect(ids(navigationFor("admin"))).toContain("objects")
-    expect(ids(navigationFor("manager"))).not.toContain("objects")
+    expect(ids(navigationFor("owner"))).not.toContain("objects")
   })
 
   it("TC-1.4-01 hides items the role may not use", () => {

@@ -84,7 +84,7 @@ function Details({ submission }: { submission: Submission }) {
               <CircleAlertIcon className="mt-0.5 size-4 shrink-0" aria-hidden />
               <div>
                 <p className="font-medium">{t("detail.error")}</p>
-                <p className="break-words">{submission.error.message}</p>
+                <p className="wrap-anywhere">{submission.error.message}</p>
               </div>
             </div>
           ) : null}
@@ -101,12 +101,12 @@ function Details({ submission }: { submission: Submission }) {
             {submission.answers.map((answer) => (
               <div
                 key={answer.key}
-                className="grid gap-1 px-4 py-3 sm:grid-cols-[10rem_1fr]"
+                className="grid gap-1 px-4 py-3 sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)] sm:gap-4"
               >
-                <dt className="text-sm text-muted-foreground">
+                <dt className="min-w-0 text-sm text-muted-foreground">
                   {answer.label}
                 </dt>
-                <dd className="text-sm break-words whitespace-pre-wrap">
+                <dd className="min-w-0 text-sm wrap-anywhere whitespace-pre-wrap">
                   {answer.value || (
                     <span className="text-muted-foreground">
                       {t("detail.empty")}
@@ -125,7 +125,7 @@ function Details({ submission }: { submission: Submission }) {
           <h3 id="submission-tracking" className="text-sm font-medium">
             {t("detail.tracking")}
           </h3>
-          <dl className="grid gap-x-4 gap-y-2 text-sm sm:grid-cols-[10rem_1fr]">
+          <dl className="grid gap-x-4 gap-y-2 text-sm sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)]">
             <dt className="text-muted-foreground">{t("detail.channel")}</dt>
             <dd>
               {submission.embedded ? t("detail.embedded") : t("detail.hosted")}
@@ -135,7 +135,7 @@ function Details({ submission }: { submission: Submission }) {
                 <dt className="text-muted-foreground">
                   {t(`detail.utm.${key}`)}
                 </dt>
-                <dd className="break-all">{submission.utm[key]}</dd>
+                <dd className="min-w-0 break-all">{submission.utm[key]}</dd>
               </div>
             ))}
             {submission.referrer ? (
@@ -143,13 +143,13 @@ function Details({ submission }: { submission: Submission }) {
                 <dt className="text-muted-foreground">
                   {t("detail.referrer")}
                 </dt>
-                <dd className="break-all">{submission.referrer}</dd>
+                <dd className="min-w-0 break-all">{submission.referrer}</dd>
               </>
             ) : null}
             {submission.pageUrl ? (
               <>
                 <dt className="text-muted-foreground">{t("detail.pageUrl")}</dt>
-                <dd className="break-all">{submission.pageUrl}</dd>
+                <dd className="min-w-0 break-all">{submission.pageUrl}</dd>
               </>
             ) : null}
           </dl>
@@ -228,9 +228,9 @@ export function SubmissionSheet({
       open={!!submissionId}
       onOpenChange={(open) => (open ? null : onClose())}
     >
-      <SheetContent className="w-full gap-0 sm:max-w-xl">
-        <SheetHeader className="border-b">
-          <SheetTitle>
+      <SheetContent className="gap-0 data-[side=right]:w-full data-[side=right]:sm:max-w-2xl">
+        <SheetHeader className="border-b pr-14">
+          <SheetTitle className="wrap-anywhere">
             {submission?.contactLabel ?? t("detail.title")}
           </SheetTitle>
           <SheetDescription>

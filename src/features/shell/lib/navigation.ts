@@ -9,7 +9,6 @@ import {
   MessageCircleIcon,
   MessagesSquareIcon,
   ChartColumnIcon,
-  ShapesIcon,
   UsersIcon,
   WorkflowIcon,
   type LucideIcon,
@@ -40,7 +39,6 @@ type CoreLabelKey =
   | "dashboard"
   | "tasks"
   | "members"
-  | "objects"
   | "examples"
   | "forms"
   | "submissions"
@@ -119,12 +117,6 @@ export const CORE_NAVIGATION: CoreNavGroup[] = [
         icon: UsersIcon,
         to: "/settings/members",
         permission: { action: "read", resource: "member" },
-      },
-      {
-        id: "objects",
-        icon: ShapesIcon,
-        to: "/settings/objects",
-        permission: { action: "manage", resource: "workspace" },
       },
       {
         id: "whatsapp",

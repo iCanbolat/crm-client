@@ -167,12 +167,6 @@
   },
   "dashboard": {
     "openRequests": "Open freight requests",
-    "openRequestsHint": "Received in the period and not yet closed",
-    "stage": {
-      "new": "New",
-      "contacted": "Contacted",
-      "qualified": "Qualified"
-    },
     "winRate": "Quote win rate",
     "winRateHint": "{{accepted}} accepted / {{decided}} decided quotes",
     "revenue": "Monthly revenue and margin",
@@ -193,7 +187,12 @@
     "repQuotes": "Quotes",
     "repAccepted": "Accepted",
     "repRevenue": "Revenue",
-    "empty": "No data for this period.",
-    "noDelays": "No delayed shipments."
+    "noDelays": "No delayed shipments.",
+    "openRequestsNew": "{{count}} new requests waiting",
+    "periodRevenue": "Period revenue",
+    "periodMargin": "{{margin}} profit · {{rate}} margin",
+    "delayedMax": "Longest delay {{count}} days",
+    "allOnTime": "All shipments on time",
+    "seeAll": "See all"
   }
 }

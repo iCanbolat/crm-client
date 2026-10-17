@@ -10,28 +10,21 @@ import type { CrmRecord, ObjectDef } from "@/engine/metadata"
 import { getErrorMessage } from "@/lib/api"
 
 import {
-  createField,
   createRecord,
   createView,
   deleteAttachment,
-  deleteField,
   deleteRecord,
   deleteView,
   moveRecordStage,
   runBulkAction,
   setDefaultView,
-  updateField,
-  updateObject,
   updateRecord,
   updateView,
   uploadAttachments,
 } from "./records.api"
-import { metadataKeys, recordKeys, viewKeys } from "./records.keys"
+import { recordKeys, viewKeys } from "./records.keys"
 import type {
   BulkActionInput,
-  FieldInput,
-  FieldPatch,
-  ObjectPatch,
   RecordInputValues,
   StageMoveInput,
   ViewInput,
@@ -292,57 +285,4 @@ export function useSetDefaultView(objectKey: string) {
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: viewKeys.list(objectKey) }),
   })
-}
-
-/* ------------------------------------------------- metadata (settings) */
-
-function useMetadataMutation<TVariables>(
-  mutationFn: (variables: TVariables) => Promise<ObjectDef>,
-  successMessage: string
-) {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn,
-    meta: { successMessage },
-    onSuccess: async (def) => {
-      await queryClient.invalidateQueries({ queryKey: metadataKeys.all })
-      // Columns, forms and boards render from metadata: refresh their data.
-      await queryClient.invalidateQueries({
-        queryKey: recordKeys.object(def.key),
-      })
-    },
-  })
-}
-
-export function useUpdateObject(objectKey: string) {
-  const { t } = useTranslation("settings")
-  return useMetadataMutation(
-    (patch: ObjectPatch) => updateObject(objectKey, patch),
-    t("objects.saved")
-  )
-}
-
-export function useCreateField(objectKey: string) {
-  const { t } = useTranslation("settings")
-  return useMetadataMutation(
-    (input: FieldInput) => createField(objectKey, input),
-    t("fields.created")
-  )
-}
-
-export function useUpdateField(objectKey: string) {
-  const { t } = useTranslation("settings")
-  return useMetadataMutation(
-    ({ fieldKey, patch }: { fieldKey: string; patch: FieldPatch }) =>
-      updateField(objectKey, fieldKey, patch),
-    t("fields.updated")
-  )
-}
-
-export function useDeleteField(objectKey: string) {
-  const { t } = useTranslation("settings")
-  return useMetadataMutation(
-    (fieldKey: string) => deleteField(objectKey, fieldKey),
-    t("fields.deleted")
-  )
 }

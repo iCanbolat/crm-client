@@ -126,6 +126,14 @@ export interface WidgetDef {
   sensitivity?: FieldSensitivity
 }
 
+/** KPI card of the dashboard strip a module contributes (4 fit one row). */
+export interface StatDef {
+  id: string
+  component: ComponentType<DashboardWidgetProps>
+  permission?: { action: Action; resource: Resource }
+  sensitivity?: FieldSensitivity
+}
+
 /** Core CRM objects every workspace starts with. */
 export const CORE_OBJECT_KEYS = ["lead", "company", "contact", "deal"] as const
 export type CoreObjectKey = (typeof CORE_OBJECT_KEYS)[number]
@@ -191,6 +199,8 @@ export interface ModuleManifest {
    */
   navGroups?: NavGroupDef[]
   recordSlots?: Partial<Record<RecordSlotName, SlotDef[]>>
+  /** KPI strip on top of the dashboard: the sector's headline numbers. */
+  dashboardStats?: StatDef[]
   dashboardWidgets?: WidgetDef[]
   /** Sector blocks of the form builder palette (B4.2). */
   formBlocks?: FormBlockDef[]

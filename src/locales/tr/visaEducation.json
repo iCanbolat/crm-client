@@ -151,7 +151,6 @@
     "nationality": "Uyruk"
   },
   "dashboard": {
-    "empty": "Bu aralıkta veri yok.",
     "openInquiries": "Açık talepler",
     "openInquiriesHint": "Aralıkta gelen, henüz dönüştürülmemiş talepler",
     "unknownService": "Belirtilmemiş",
@@ -168,7 +167,11 @@
     "overdue": "Geciken taksitler",
     "intakes": "Dönem tahmini",
     "intakesHint": "Kesin kabul ve sonrası öğrenciler, başlangıç dönemine göre",
-    "commission": "Okul komisyonu",
-    "commissionHint": "Aralıkta kayıt olanlar · {{currency}}"
+    "topService": "En çok: {{service}} ({{count}})",
+    "commissionReceived": "Tahsil edilen komisyon",
+    "commissionOf": "Beklenen {{expected}}",
+    "overdueCount": "Geciken taksit",
+    "overdueTotal": "Toplam {{amount}} gecikmede",
+    "noOverdue": "Geciken taksit yok"
   }
 }

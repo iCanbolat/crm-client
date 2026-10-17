@@ -39,6 +39,15 @@ const widget = (name: WidgetName) =>
     }))
   )
 
+type StatName = keyof typeof import("./components/dashboard/stats")
+
+const stat = (name: StatName) =>
+  lazy(() =>
+    import("./components/dashboard/stats").then((module) => ({
+      default: module[name],
+    }))
+  )
+
 /** Record page cards load with the record page, not the app shell. */
 const EnquirySummaryCard = lazy(() =>
   import("./components/profile-cards").then((module) => ({
@@ -176,22 +185,33 @@ export const visaEducationModule: ModuleManifest = {
   messageTemplates: visaEducationMessageTemplates,
   messageTriggers: visaEducationMessageTriggers,
   reports: visaEducationReports,
-  dashboardWidgets: [
-    {
-      id: "visa-education.inquiries",
-      size: 1,
-      component: widget("OpenInquiriesWidget"),
-    },
+  dashboardStats: [
+    { id: "visa-education.inquiries", component: stat("OpenInquiriesStat") },
     {
       id: "visa-education.approvalRate",
-      size: 1,
-      component: widget("ApprovalRateWidget"),
+      component: stat("ApprovalRateStat"),
     },
     {
       id: "visa-education.commission",
-      size: 2,
-      component: widget("CommissionWidget"),
+      component: stat("CommissionStat"),
       sensitivity: "financial",
+    },
+    {
+      id: "visa-education.overdue",
+      component: stat("OverdueInstallmentsStat"),
+    },
+  ],
+  // Today's work first (appointments, documents), then the funnels and plan.
+  dashboardWidgets: [
+    {
+      id: "visa-education.appointments",
+      size: 2,
+      component: widget("UpcomingAppointmentsWidget"),
+    },
+    {
+      id: "visa-education.missingDocuments",
+      size: 2,
+      component: widget("MissingDocumentsWidget"),
     },
     {
       id: "visa-education.enrollments",
@@ -204,24 +224,14 @@ export const visaEducationModule: ModuleManifest = {
       component: widget("VisaStagesWidget"),
     },
     {
-      id: "visa-education.appointments",
+      id: "visa-education.intakes",
       size: 2,
-      component: widget("UpcomingAppointmentsWidget"),
-    },
-    {
-      id: "visa-education.missingDocuments",
-      size: 2,
-      component: widget("MissingDocumentsWidget"),
+      component: widget("IntakeForecastWidget"),
     },
     {
       id: "visa-education.overdue",
       size: 2,
       component: widget("OverdueInstallmentsWidget"),
-    },
-    {
-      id: "visa-education.intakes",
-      size: 2,
-      component: widget("IntakeForecastWidget"),
     },
   ],
   navGroups: [

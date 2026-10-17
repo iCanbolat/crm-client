@@ -40,7 +40,6 @@ import { Route as AppSettingsIndexRouteImport } from './routes/_app/settings/ind
 import { Route as AppSettingsAutomationsRouteImport } from './routes/_app/settings/automations'
 import { Route as AppSettingsMembersRouteImport } from './routes/_app/settings/members'
 import { Route as AppSettingsNotificationsRouteImport } from './routes/_app/settings/notifications'
-import { Route as AppSettingsObjectsRouteImport } from './routes/_app/settings/objects'
 import { Route as AppSettingsWhatsappRouteImport } from './routes/_app/settings/whatsapp'
 import { Route as AppFormsFormIdIndexRouteImport } from './routes/_app/forms/$formId/index'
 import { Route as AppFormsFormIdEditRouteImport } from './routes/_app/forms/$formId/edit'
@@ -53,8 +52,6 @@ import { Route as AppQuotesQuoteIdPrintRouteImport } from './routes/_app/quotes/
 import { Route as AppSettingsAutomationsIndexRouteImport } from './routes/_app/settings/automations/index'
 import { Route as AppSettingsAutomationsRuleIdRouteImport } from './routes/_app/settings/automations/$ruleId'
 import { Route as AppSettingsAutomationsNewRouteImport } from './routes/_app/settings/automations/new'
-import { Route as AppSettingsObjectsIndexRouteImport } from './routes/_app/settings/objects/index'
-import { Route as AppSettingsObjectsObjectKeyRouteImport } from './routes/_app/settings/objects/$objectKey'
 import { Route as AppOObjectKeyRecordIdIndexRouteImport } from './routes/_app/o/$objectKey/$recordId/index'
 import { Route as AppOObjectKeyRecordIdEditRouteImport } from './routes/_app/o/$objectKey/$recordId/edit'
 
@@ -212,11 +209,6 @@ const AppSettingsNotificationsRoute =
     path: '/notifications',
     getParentRoute: () => AppSettingsRoute,
   } as any)
-const AppSettingsObjectsRoute = AppSettingsObjectsRouteImport.update({
-  id: '/objects',
-  path: '/objects',
-  getParentRoute: () => AppSettingsRoute,
-} as any)
 const AppSettingsWhatsappRoute = AppSettingsWhatsappRouteImport.update({
   id: '/whatsapp',
   path: '/whatsapp',
@@ -281,17 +273,6 @@ const AppSettingsAutomationsNewRoute =
     path: '/new',
     getParentRoute: () => AppSettingsAutomationsRoute,
   } as any)
-const AppSettingsObjectsIndexRoute = AppSettingsObjectsIndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => AppSettingsObjectsRoute,
-} as any)
-const AppSettingsObjectsObjectKeyRoute =
-  AppSettingsObjectsObjectKeyRouteImport.update({
-    id: '/$objectKey',
-    path: '/$objectKey',
-    getParentRoute: () => AppSettingsObjectsRoute,
-  } as any)
 const AppOObjectKeyRecordIdIndexRoute =
   AppOObjectKeyRecordIdIndexRouteImport.update({
     id: '/',
@@ -331,7 +312,6 @@ export interface FileRoutesByFullPath {
   '/settings/automations': typeof AppSettingsAutomationsRouteWithChildren
   '/settings/members': typeof AppSettingsMembersRoute
   '/settings/notifications': typeof AppSettingsNotificationsRoute
-  '/settings/objects': typeof AppSettingsObjectsRouteWithChildren
   '/settings/whatsapp': typeof AppSettingsWhatsappRoute
   '/forms/': typeof AppFormsIndexRoute
   '/quotes/': typeof AppQuotesIndexRoute
@@ -344,12 +324,10 @@ export interface FileRoutesByFullPath {
   '/quotes/$quoteId/print': typeof AppQuotesQuoteIdPrintRoute
   '/settings/automations/$ruleId': typeof AppSettingsAutomationsRuleIdRoute
   '/settings/automations/new': typeof AppSettingsAutomationsNewRoute
-  '/settings/objects/$objectKey': typeof AppSettingsObjectsObjectKeyRoute
   '/forms/$formId/': typeof AppFormsFormIdIndexRoute
   '/o/$objectKey/': typeof AppOObjectKeyIndexRoute
   '/quotes/$quoteId/': typeof AppQuotesQuoteIdIndexRoute
   '/settings/automations/': typeof AppSettingsAutomationsIndexRoute
-  '/settings/objects/': typeof AppSettingsObjectsIndexRoute
   '/o/$objectKey/$recordId/edit': typeof AppOObjectKeyRecordIdEditRoute
   '/o/$objectKey/$recordId/': typeof AppOObjectKeyRecordIdIndexRoute
 }
@@ -382,12 +360,10 @@ export interface FileRoutesByTo {
   '/quotes/$quoteId/print': typeof AppQuotesQuoteIdPrintRoute
   '/settings/automations/$ruleId': typeof AppSettingsAutomationsRuleIdRoute
   '/settings/automations/new': typeof AppSettingsAutomationsNewRoute
-  '/settings/objects/$objectKey': typeof AppSettingsObjectsObjectKeyRoute
   '/forms/$formId': typeof AppFormsFormIdIndexRoute
   '/o/$objectKey': typeof AppOObjectKeyIndexRoute
   '/quotes/$quoteId': typeof AppQuotesQuoteIdIndexRoute
   '/settings/automations': typeof AppSettingsAutomationsIndexRoute
-  '/settings/objects': typeof AppSettingsObjectsIndexRoute
   '/o/$objectKey/$recordId/edit': typeof AppOObjectKeyRecordIdEditRoute
   '/o/$objectKey/$recordId': typeof AppOObjectKeyRecordIdIndexRoute
 }
@@ -420,7 +396,6 @@ export interface FileRoutesById {
   '/_app/settings/automations': typeof AppSettingsAutomationsRouteWithChildren
   '/_app/settings/members': typeof AppSettingsMembersRoute
   '/_app/settings/notifications': typeof AppSettingsNotificationsRoute
-  '/_app/settings/objects': typeof AppSettingsObjectsRouteWithChildren
   '/_app/settings/whatsapp': typeof AppSettingsWhatsappRoute
   '/_app/forms/': typeof AppFormsIndexRoute
   '/_app/quotes/': typeof AppQuotesIndexRoute
@@ -433,12 +408,10 @@ export interface FileRoutesById {
   '/_app/quotes/$quoteId/print': typeof AppQuotesQuoteIdPrintRoute
   '/_app/settings/automations/$ruleId': typeof AppSettingsAutomationsRuleIdRoute
   '/_app/settings/automations/new': typeof AppSettingsAutomationsNewRoute
-  '/_app/settings/objects/$objectKey': typeof AppSettingsObjectsObjectKeyRoute
   '/_app/forms/$formId/': typeof AppFormsFormIdIndexRoute
   '/_app/o/$objectKey/': typeof AppOObjectKeyIndexRoute
   '/_app/quotes/$quoteId/': typeof AppQuotesQuoteIdIndexRoute
   '/_app/settings/automations/': typeof AppSettingsAutomationsIndexRoute
-  '/_app/settings/objects/': typeof AppSettingsObjectsIndexRoute
   '/_app/o/$objectKey/$recordId/edit': typeof AppOObjectKeyRecordIdEditRoute
   '/_app/o/$objectKey/$recordId/': typeof AppOObjectKeyRecordIdIndexRoute
 }
@@ -470,7 +443,6 @@ export interface FileRouteTypes {
     | '/settings/automations'
     | '/settings/members'
     | '/settings/notifications'
-    | '/settings/objects'
     | '/settings/whatsapp'
     | '/forms/'
     | '/quotes/'
@@ -483,12 +455,10 @@ export interface FileRouteTypes {
     | '/quotes/$quoteId/print'
     | '/settings/automations/$ruleId'
     | '/settings/automations/new'
-    | '/settings/objects/$objectKey'
     | '/forms/$formId/'
     | '/o/$objectKey/'
     | '/quotes/$quoteId/'
     | '/settings/automations/'
-    | '/settings/objects/'
     | '/o/$objectKey/$recordId/edit'
     | '/o/$objectKey/$recordId/'
   fileRoutesByTo: FileRoutesByTo
@@ -521,12 +491,10 @@ export interface FileRouteTypes {
     | '/quotes/$quoteId/print'
     | '/settings/automations/$ruleId'
     | '/settings/automations/new'
-    | '/settings/objects/$objectKey'
     | '/forms/$formId'
     | '/o/$objectKey'
     | '/quotes/$quoteId'
     | '/settings/automations'
-    | '/settings/objects'
     | '/o/$objectKey/$recordId/edit'
     | '/o/$objectKey/$recordId'
   id:
@@ -558,7 +526,6 @@ export interface FileRouteTypes {
     | '/_app/settings/automations'
     | '/_app/settings/members'
     | '/_app/settings/notifications'
-    | '/_app/settings/objects'
     | '/_app/settings/whatsapp'
     | '/_app/forms/'
     | '/_app/quotes/'
@@ -571,12 +538,10 @@ export interface FileRouteTypes {
     | '/_app/quotes/$quoteId/print'
     | '/_app/settings/automations/$ruleId'
     | '/_app/settings/automations/new'
-    | '/_app/settings/objects/$objectKey'
     | '/_app/forms/$formId/'
     | '/_app/o/$objectKey/'
     | '/_app/quotes/$quoteId/'
     | '/_app/settings/automations/'
-    | '/_app/settings/objects/'
     | '/_app/o/$objectKey/$recordId/edit'
     | '/_app/o/$objectKey/$recordId/'
   fileRoutesById: FileRoutesById
@@ -809,13 +774,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppSettingsNotificationsRouteImport
       parentRoute: typeof AppSettingsRoute
     }
-    '/_app/settings/objects': {
-      id: '/_app/settings/objects'
-      path: '/objects'
-      fullPath: '/settings/objects'
-      preLoaderRoute: typeof AppSettingsObjectsRouteImport
-      parentRoute: typeof AppSettingsRoute
-    }
     '/_app/settings/whatsapp': {
       id: '/_app/settings/whatsapp'
       path: '/whatsapp'
@@ -899,20 +857,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings/automations/new'
       preLoaderRoute: typeof AppSettingsAutomationsNewRouteImport
       parentRoute: typeof AppSettingsAutomationsRoute
-    }
-    '/_app/settings/objects/': {
-      id: '/_app/settings/objects/'
-      path: '/'
-      fullPath: '/settings/objects/'
-      preLoaderRoute: typeof AppSettingsObjectsIndexRouteImport
-      parentRoute: typeof AppSettingsObjectsRoute
-    }
-    '/_app/settings/objects/$objectKey': {
-      id: '/_app/settings/objects/$objectKey'
-      path: '/$objectKey'
-      fullPath: '/settings/objects/$objectKey'
-      preLoaderRoute: typeof AppSettingsObjectsObjectKeyRouteImport
-      parentRoute: typeof AppSettingsObjectsRoute
     }
     '/_app/o/$objectKey/$recordId/': {
       id: '/_app/o/$objectKey/$recordId/'
@@ -1022,24 +966,10 @@ const AppSettingsAutomationsRouteWithChildren =
     AppSettingsAutomationsRouteChildren,
   )
 
-interface AppSettingsObjectsRouteChildren {
-  AppSettingsObjectsObjectKeyRoute: typeof AppSettingsObjectsObjectKeyRoute
-  AppSettingsObjectsIndexRoute: typeof AppSettingsObjectsIndexRoute
-}
-
-const AppSettingsObjectsRouteChildren: AppSettingsObjectsRouteChildren = {
-  AppSettingsObjectsObjectKeyRoute: AppSettingsObjectsObjectKeyRoute,
-  AppSettingsObjectsIndexRoute: AppSettingsObjectsIndexRoute,
-}
-
-const AppSettingsObjectsRouteWithChildren =
-  AppSettingsObjectsRoute._addFileChildren(AppSettingsObjectsRouteChildren)
-
 interface AppSettingsRouteChildren {
   AppSettingsAutomationsRoute: typeof AppSettingsAutomationsRouteWithChildren
   AppSettingsMembersRoute: typeof AppSettingsMembersRoute
   AppSettingsNotificationsRoute: typeof AppSettingsNotificationsRoute
-  AppSettingsObjectsRoute: typeof AppSettingsObjectsRouteWithChildren
   AppSettingsWhatsappRoute: typeof AppSettingsWhatsappRoute
   AppSettingsIndexRoute: typeof AppSettingsIndexRoute
 }
@@ -1048,7 +978,6 @@ const AppSettingsRouteChildren: AppSettingsRouteChildren = {
   AppSettingsAutomationsRoute: AppSettingsAutomationsRouteWithChildren,
   AppSettingsMembersRoute: AppSettingsMembersRoute,
   AppSettingsNotificationsRoute: AppSettingsNotificationsRoute,
-  AppSettingsObjectsRoute: AppSettingsObjectsRouteWithChildren,
   AppSettingsWhatsappRoute: AppSettingsWhatsappRoute,
   AppSettingsIndexRoute: AppSettingsIndexRoute,
 }

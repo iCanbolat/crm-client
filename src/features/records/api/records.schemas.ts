@@ -4,11 +4,7 @@ import { conditionSchema, type Condition } from "@/engine/logic"
 import {
   crmRecordSchema,
   fileRefSchema,
-  fieldDefSchema,
-  i18nTextSchema,
   objectDefSchema,
-  pipelineDefSchema,
-  selectOptionSchema,
   sortSchema,
   type SortDef,
 } from "@/engine/metadata"
@@ -226,38 +222,5 @@ export const defaultViewInputSchema = z.object({
   objectKey: z.string().min(1),
   viewId: z.string().nullable(),
 })
-
-/* ----------------------------------------------------------------------------
- * Metadata administration (Settings → Objects, B2.7)
- * ------------------------------------------------------------------------- */
-
-export const fieldInputSchema = z.object({
-  key: z.string().regex(/^[a-z][a-zA-Z0-9]*$/),
-  label: i18nTextSchema.refine((text) => text.tr.trim() !== "", {
-    path: ["tr"],
-  }),
-  type: z.string().min(1),
-  required: z.boolean().default(false),
-  options: z.array(selectOptionSchema).optional(),
-  relation: fieldDefSchema.shape.relation,
-  helpText: i18nTextSchema.optional(),
-  /** Also show the new field as a list column. */
-  addToList: z.boolean().default(true),
-})
-export type FieldInput = z.input<typeof fieldInputSchema>
-
-export const fieldPatchSchema = z.object({
-  label: i18nTextSchema.optional(),
-  required: z.boolean().optional(),
-  options: z.array(selectOptionSchema).optional(),
-  helpText: i18nTextSchema.optional(),
-})
-export type FieldPatch = z.infer<typeof fieldPatchSchema>
-
-export const objectPatchSchema = z.object({
-  layouts: objectDefSchema.shape.layouts.optional(),
-  pipeline: pipelineDefSchema.optional(),
-})
-export type ObjectPatch = z.infer<typeof objectPatchSchema>
 
 export { crmRecordSchema, objectDefSchema }

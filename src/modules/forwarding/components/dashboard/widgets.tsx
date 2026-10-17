@@ -1,18 +1,10 @@
 import { useQuery } from "@tanstack/react-query"
 import { Link } from "@tanstack/react-router"
 import { ArrowRightIcon } from "lucide-react"
-import type { ReactNode } from "react"
 import { useTranslation } from "react-i18next"
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 
-import { ErrorState } from "@/components/common/error-state"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { BarList, DashboardWidget } from "@/components/common/dashboard"
 import {
   ChartContainer,
   ChartLegend,
@@ -21,14 +13,12 @@ import {
   ChartTooltipContent,
   type ChartConfig,
 } from "@/components/ui/chart"
-import { Skeleton } from "@/components/ui/skeleton"
 import type { DashboardWidgetProps } from "@/engine/modules"
 import { formatMoney } from "@/lib/currencies"
 import { formatDate, formatNumber } from "@/lib/format"
 import { resolveI18nText } from "@/lib/i18n-text"
 
 import { forwardingDashboardQuery } from "../../api/dashboard.queries"
-import type { ForwardingDashboard } from "../../api/dashboard.schemas"
 import { MILESTONE_LABELS } from "../../lib/constants"
 import { ModeIcon } from "../mode-icon"
 
@@ -40,123 +30,8 @@ function useDashboard(range: DashboardWidgetProps["range"]) {
   return useQuery(forwardingDashboardQuery(range))
 }
 
-interface WidgetProps extends DashboardWidgetProps {
-  title: string
-  description?: string
-  isEmpty?: (data: ForwardingDashboard) => boolean
-  emptyText?: string
-  children: (data: ForwardingDashboard) => ReactNode
-}
-
-/** Card + loading / error / empty states shared by every widget. */
-function Widget({
-  range,
-  title,
-  description,
-  isEmpty,
-  emptyText,
-  children,
-}: WidgetProps) {
-  const { t } = useTranslation("forwarding")
-  const query = useDashboard(range)
-  const titleId = `widget-${title.replace(/\W+/g, "-")}`
-  return (
-    <Card size="sm" className="h-full" role="region" aria-labelledby={titleId}>
-      <CardHeader>
-        <CardTitle>
-          <h2 id={titleId}>{title}</h2>
-        </CardTitle>
-        {description ? <CardDescription>{description}</CardDescription> : null}
-      </CardHeader>
-      <CardContent className="flex-1">
-        {query.isPending ? (
-          <div className="flex flex-col gap-2" aria-busy="true">
-            <Skeleton className="h-6 w-1/2" />
-            <Skeleton className="h-24 w-full" />
-          </div>
-        ) : query.isError ? (
-          <ErrorState
-            error={query.error}
-            onRetry={() => void query.refetch()}
-          />
-        ) : isEmpty?.(query.data) ? (
-          <p className="py-6 text-center text-sm text-muted-foreground">
-            {emptyText ?? t("dashboard.empty")}
-          </p>
-        ) : (
-          children(query.data)
-        )}
-      </CardContent>
-    </Card>
-  )
-}
-
-export function OpenRequestsWidget({ range }: DashboardWidgetProps) {
-  const { t, i18n } = useTranslation("forwarding")
-  return (
-    <Widget
-      range={range}
-      title={t("dashboard.openRequests")}
-      description={t("dashboard.openRequestsHint")}
-    >
-      {(data) => (
-        <div className="flex flex-col gap-3">
-          <p
-            className="font-heading text-4xl font-semibold tabular-nums"
-            data-testid="open-requests"
-          >
-            {formatNumber(data.openRequests.total, i18n.language)}
-          </p>
-          <ul className="flex flex-col gap-1 text-sm">
-            {data.openRequests.byStage.map((item) => (
-              <li key={item.stage} className="flex justify-between">
-                <span className="text-muted-foreground">
-                  {t(
-                    `dashboard.stage.${item.stage as "new" | "contacted" | "qualified"}`
-                  )}
-                </span>
-                <span className="tabular-nums">{item.count}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-    </Widget>
-  )
-}
-
-export function WinRateWidget({ range }: DashboardWidgetProps) {
-  const { t, i18n } = useTranslation("forwarding")
-  return (
-    <Widget
-      range={range}
-      title={t("dashboard.winRate")}
-      isEmpty={(data) => data.winRate.rate === null}
-    >
-      {(data) => (
-        <div className="flex flex-col gap-2">
-          <p
-            className="font-heading text-4xl font-semibold tabular-nums"
-            data-testid="win-rate"
-          >
-            {formatNumber((data.winRate.rate ?? 0) / 100, i18n.language, {
-              style: "percent",
-              maximumFractionDigits: 1,
-            })}
-          </p>
-          <p className="text-sm text-muted-foreground">
-            {t("dashboard.winRateHint", {
-              accepted: data.winRate.accepted,
-              decided: data.winRate.decided,
-            })}
-          </p>
-        </div>
-      )}
-    </Widget>
-  )
-}
-
 export function RevenueWidget({ range }: DashboardWidgetProps) {
+  const query = useDashboard(range)
   const { t, i18n } = useTranslation("forwarding")
   const config = {
     cost: { label: t("dashboard.cost"), theme: SERIES_2 },
@@ -169,8 +44,8 @@ export function RevenueWidget({ range }: DashboardWidgetProps) {
     })
 
   return (
-    <Widget
-      range={range}
+    <DashboardWidget
+      query={query}
       title={t("dashboard.revenue")}
       description={t("dashboard.revenueHint", { currency: "USD" })}
       isEmpty={(data) => data.monthly.length === 0}
@@ -254,55 +129,41 @@ export function RevenueWidget({ range }: DashboardWidgetProps) {
           </>
         )
       }}
-    </Widget>
+    </DashboardWidget>
   )
 }
 
 export function ShipmentStatusWidget({ range }: DashboardWidgetProps) {
+  const query = useDashboard(range)
   const { t, i18n } = useTranslation("forwarding")
   const language = i18n.language === "en" ? "en" : "tr"
   return (
-    <Widget
-      range={range}
+    <DashboardWidget
+      query={query}
       title={t("dashboard.shipments")}
       description={t("dashboard.shipmentsHint")}
       isEmpty={(data) => data.shipmentsByStatus.length === 0}
     >
-      {(data) => {
-        const max = Math.max(
-          ...data.shipmentsByStatus.map((item) => item.count)
-        )
-        return (
-          <ul className="flex flex-col gap-2">
-            {data.shipmentsByStatus.map((item) => (
-              <li
-                key={item.status}
-                className="grid grid-cols-[9rem_1fr_2rem] items-center gap-2 text-sm"
-              >
-                <span className="truncate text-muted-foreground">
-                  {resolveI18nText(MILESTONE_LABELS[item.status], language)}
-                </span>
-                <span className="h-3 rounded-full bg-muted" aria-hidden>
-                  <span
-                    className="block h-3 rounded-full bg-[#2a78d6] dark:bg-[#3987e5]"
-                    style={{ width: `${(item.count / max) * 100}%` }}
-                  />
-                </span>
-                <span className="text-right tabular-nums">{item.count}</span>
-              </li>
-            ))}
-          </ul>
-        )
-      }}
-    </Widget>
+      {(data) => (
+        <BarList
+          label={t("dashboard.shipments")}
+          items={data.shipmentsByStatus.map((item) => ({
+            key: item.status,
+            label: resolveI18nText(MILESTONE_LABELS[item.status], language),
+            count: item.count,
+          }))}
+        />
+      )}
+    </DashboardWidget>
   )
 }
 
 export function TopLanesWidget({ range }: DashboardWidgetProps) {
+  const query = useDashboard(range)
   const { t } = useTranslation("forwarding")
   return (
-    <Widget
-      range={range}
+    <DashboardWidget
+      query={query}
       title={t("dashboard.lanes")}
       isEmpty={(data) => data.topLanes.length === 0}
     >
@@ -330,16 +191,26 @@ export function TopLanesWidget({ range }: DashboardWidgetProps) {
           ))}
         </ol>
       )}
-    </Widget>
+    </DashboardWidget>
   )
 }
 
 export function DelayedShipmentsWidget({ range }: DashboardWidgetProps) {
+  const query = useDashboard(range)
   const { t, i18n } = useTranslation("forwarding")
   return (
-    <Widget
-      range={range}
+    <DashboardWidget
+      query={query}
       title={t("dashboard.delayed")}
+      action={
+        <Link
+          to="/o/$objectKey"
+          params={{ objectKey: "shipment" }}
+          className="text-xs font-medium text-primary underline-offset-4 hover:underline"
+        >
+          {t("dashboard.seeAll")}
+        </Link>
+      }
       isEmpty={(data) => data.delayed.length === 0}
       emptyText={t("dashboard.noDelays")}
     >
@@ -367,15 +238,16 @@ export function DelayedShipmentsWidget({ range }: DashboardWidgetProps) {
           ))}
         </ul>
       )}
-    </Widget>
+    </DashboardWidget>
   )
 }
 
 export function RepPerformanceWidget({ range }: DashboardWidgetProps) {
+  const query = useDashboard(range)
   const { t, i18n } = useTranslation("forwarding")
   return (
-    <Widget
-      range={range}
+    <DashboardWidget
+      query={query}
       title={t("dashboard.reps")}
       isEmpty={(data) => data.reps.length === 0}
     >
@@ -415,6 +287,6 @@ export function RepPerformanceWidget({ range }: DashboardWidgetProps) {
           </table>
         </div>
       )}
-    </Widget>
+    </DashboardWidget>
   )
 }

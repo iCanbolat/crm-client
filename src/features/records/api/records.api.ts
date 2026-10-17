@@ -3,7 +3,6 @@ import { z } from "zod"
 import {
   crmRecordSchema,
   fileRefSchema,
-  objectDefSchema,
   objectListResponseSchema,
 } from "@/engine/metadata"
 import { apiClient, type QueryParams } from "@/lib/api"
@@ -17,9 +16,6 @@ import {
   userDirectorySchema,
   viewListResponseSchema,
   type BulkActionInput,
-  type FieldInput,
-  type FieldPatch,
-  type ObjectPatch,
   type RecordInputValues,
   type RecordListParams,
   type StageMoveInput,
@@ -49,38 +45,6 @@ export function fetchObjects(signal?: AbortSignal) {
     signal,
     schema: objectListResponseSchema,
   })
-}
-
-export function updateObject(objectKey: string, patch: ObjectPatch) {
-  return apiClient.patch(`/meta/objects/${segment(objectKey)}`, {
-    body: patch,
-    schema: objectDefSchema,
-  })
-}
-
-export function createField(objectKey: string, input: FieldInput) {
-  return apiClient.post(`/meta/objects/${segment(objectKey)}/fields`, {
-    body: input,
-    schema: objectDefSchema,
-  })
-}
-
-export function updateField(
-  objectKey: string,
-  fieldKey: string,
-  patch: FieldPatch
-) {
-  return apiClient.patch(
-    `/meta/objects/${segment(objectKey)}/fields/${segment(fieldKey)}`,
-    { body: patch, schema: objectDefSchema }
-  )
-}
-
-export function deleteField(objectKey: string, fieldKey: string) {
-  return apiClient.delete(
-    `/meta/objects/${segment(objectKey)}/fields/${segment(fieldKey)}`,
-    { schema: objectDefSchema }
-  )
 }
 
 /* -------------------------------------------------------------- records */

@@ -151,7 +151,6 @@
     "nationality": "Nationality"
   },
   "dashboard": {
-    "empty": "No data in this range.",
     "openInquiries": "Open enquiries",
     "openInquiriesHint": "Enquiries received in the range, not converted yet",
     "unknownService": "Not specified",
@@ -168,7 +167,11 @@
     "overdue": "Overdue instalments",
     "intakes": "Intake forecast",
     "intakesHint": "Students with an unconditional offer or later, by intake",
-    "commission": "School commission",
-    "commissionHint": "Enrolled in the range · {{currency}}"
+    "topService": "Top: {{service}} ({{count}})",
+    "commissionReceived": "Commission received",
+    "commissionOf": "Expected {{expected}}",
+    "overdueCount": "Overdue installments",
+    "overdueTotal": "{{amount}} overdue in total",
+    "noOverdue": "No overdue installments"
   }
 }

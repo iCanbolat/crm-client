@@ -44,6 +44,12 @@ export function isModuleActive(
   )
 }
 
+export function getDashboardStats(activeIds: readonly string[]) {
+  return getActiveModules(activeIds).flatMap(
+    (manifest) => manifest.dashboardStats ?? []
+  )
+}
+
 export function getDashboardWidgets(activeIds: readonly string[]) {
   return getActiveModules(activeIds).flatMap(
     (manifest) => manifest.dashboardWidgets ?? []

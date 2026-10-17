@@ -1,14 +1,7 @@
 import { http, HttpResponse } from "msw"
 import { z } from "zod"
 
-import { hasFieldType } from "@/engine/field-types"
-import {
-  getField,
-  getStageField,
-  type FieldDef,
-  type ObjectDef,
-  type RecordValues,
-} from "@/engine/metadata"
+import { getField, type RecordValues } from "@/engine/metadata"
 import { queryRecordValues } from "@/engine/records"
 import type { FieldErrors } from "@/lib/api"
 import { can } from "@/lib/rbac"
@@ -21,10 +14,7 @@ import { paginate } from "@/mocks/utils/list"
 import {
   bulkActionInputSchema,
   defaultViewInputSchema,
-  fieldInputSchema,
-  fieldPatchSchema,
   MAX_UPLOAD_BYTES,
-  objectPatchSchema,
   stageMoveInputSchema,
   viewInputSchema,
   viewPatchSchema,
@@ -45,8 +35,6 @@ import {
   notifyAttachmentAdded,
   notifyRecordSaved,
   parseRecordQuery,
-  recordsOf,
-  saveObjectDef,
   stageGateErrors,
   toCrmRecord,
   type StageGuardFailure,
@@ -85,118 +73,6 @@ async function readJson(request: Request) {
 }
 
 /* ----------------------------------------------------------------------------
- * Metadata administration helpers
- * ------------------------------------------------------------------------- */
-
-const CUSTOM_SECTION_KEY = "custom"
-
-/** Layout must only reference fields of the object. */
-function invalidLayoutFields(def: ObjectDef) {
-  const keys = new Set(def.fields.map((field) => field.key))
-  const { list, detail } = def.layouts
-  return [
-    ...list.columns,
-    ...detail.highlights,
-    ...detail.sections.flatMap((section) => section.fields),
-  ].filter((key) => !keys.has(key))
-}
-
-/** Pipeline stages mirror the options of the stage select field. */
-function syncStageOptions(def: ObjectDef): ObjectDef {
-  if (!def.pipeline) return def
-  const stages = def.pipeline.stages
-  return {
-    ...def,
-    fields: def.fields.map((field) =>
-      field.key === def.pipeline!.field
-        ? {
-            ...field,
-            options: stages.map((stage) => ({
-              value: stage.key,
-              label: stage.label,
-              ...(stage.color ? { color: stage.color } : {}),
-            })),
-          }
-        : field
-    ),
-  }
-}
-
-function withoutField(def: ObjectDef, key: string): ObjectDef {
-  const drop = (keys: string[]) => keys.filter((item) => item !== key)
-  return {
-    ...def,
-    fields: def.fields.filter((field) => field.key !== key),
-    pipeline: def.pipeline
-      ? {
-          ...def.pipeline,
-          stages: def.pipeline.stages.map((stage) => ({
-            ...stage,
-            ...(stage.requiredFields
-              ? { requiredFields: drop(stage.requiredFields) }
-              : {}),
-          })),
-        }
-      : undefined,
-    layouts: {
-      list: {
-        ...def.layouts.list,
-        columns: drop(def.layouts.list.columns),
-        defaultSort:
-          def.layouts.list.defaultSort?.field === key
-            ? undefined
-            : def.layouts.list.defaultSort,
-      },
-      detail: {
-        ...def.layouts.detail,
-        highlights: drop(def.layouts.detail.highlights),
-        sections: def.layouts.detail.sections.map((section) => ({
-          ...section,
-          fields: drop(section.fields),
-        })),
-      },
-    },
-  }
-}
-
-function withNewField(
-  def: ObjectDef,
-  field: FieldDef,
-  addToList: boolean
-): ObjectDef {
-  // New fields go before the system block (owner, tags, timestamps).
-  const ownerIndex = def.fields.findIndex((item) => item.key === "ownerId")
-  const fields = [...def.fields]
-  fields.splice(ownerIndex < 0 ? fields.length : ownerIndex, 0, field)
-
-  const sections = [...def.layouts.detail.sections]
-  const custom = sections.find((section) => section.key === CUSTOM_SECTION_KEY)
-  if (custom) {
-    custom.fields = [...custom.fields, field.key]
-  } else {
-    sections.push({
-      key: CUSTOM_SECTION_KEY,
-      label: { tr: "Özel alanlar", en: "Custom fields" },
-      fields: [field.key],
-    })
-  }
-
-  return {
-    ...def,
-    fields,
-    layouts: {
-      list: {
-        ...def.layouts.list,
-        columns: addToList
-          ? [...def.layouts.list.columns, field.key]
-          : def.layouts.list.columns,
-      },
-      detail: { ...def.layouts.detail, sections },
-    },
-  }
-}
-
-/* ----------------------------------------------------------------------------
  * Handlers
  * ------------------------------------------------------------------------- */
 
@@ -221,181 +97,6 @@ const metadataHandlers = [
       if (!auth.ok) return auth.response
       const def = getObjectDefFor(auth.context, String(params.objectKey))
       return def ? HttpResponse.json(def) : notFound(getRequestT(request))
-    })
-  ),
-
-  http.patch(
-    apiPath("/meta/objects/:objectKey"),
-    withScenario(async ({ request, params }) => {
-      const auth = authenticate(request)
-      if (!auth.ok) return auth.response
-      const denied = authorize(request, auth.context, "manage", "workspace")
-      if (denied) return denied
-
-      const t = getRequestT(request)
-      const workspaceId = auth.context.workspace.id
-      const def = getObjectDef(workspaceId, String(params.objectKey))
-      if (!def) return notFound(t)
-
-      const parsed = objectPatchSchema.safeParse(await readJson(request))
-      if (!parsed.success) return zodError(t, parsed.error)
-      const { layouts, pipeline } = parsed.data
-
-      let next: ObjectDef = { ...def, ...(layouts ? { layouts } : {}) }
-
-      if (pipeline) {
-        if (!def.pipeline || pipeline.field !== def.pipeline.field) {
-          return validationError(t, { pipeline: [t("validation")] })
-        }
-        const keys = pipeline.stages.map((stage) => stage.key)
-        if (new Set(keys).size !== keys.length) {
-          return validationError(t, { pipeline: [t("mock.duplicateStage")] })
-        }
-        const removed = def.pipeline.stages
-          .map((stage) => stage.key)
-          .filter((key) => !keys.includes(key))
-        const inUse = removed.filter((key) =>
-          recordsOf(workspaceId, def.key).some(
-            (row) => row.values[def.pipeline!.field] === key
-          )
-        )
-        if (inUse.length) {
-          return apiError(409, "STAGE_IN_USE", t("mock.stageInUse"), {
-            details: { stages: inUse },
-          })
-        }
-        next = syncStageOptions({ ...next, pipeline })
-      }
-
-      if (invalidLayoutFields(next).length) {
-        return validationError(t, { layouts: [t("mock.invalidLayout")] })
-      }
-
-      return HttpResponse.json(saveObjectDef(workspaceId, next))
-    })
-  ),
-
-  http.post(
-    apiPath("/meta/objects/:objectKey/fields"),
-    withScenario(async ({ request, params }) => {
-      const auth = authenticate(request)
-      if (!auth.ok) return auth.response
-      const denied = authorize(request, auth.context, "manage", "workspace")
-      if (denied) return denied
-
-      const t = getRequestT(request)
-      const workspaceId = auth.context.workspace.id
-      const def = getObjectDef(workspaceId, String(params.objectKey))
-      if (!def) return notFound(t)
-
-      const parsed = fieldInputSchema.safeParse(await readJson(request))
-      if (!parsed.success) return zodError(t, parsed.error)
-      const { addToList, ...input } = parsed.data
-
-      if (getField(def, input.key)) {
-        return validationError(t, { key: [t("mock.fieldKeyTaken")] })
-      }
-      if (!hasFieldType(input.type)) {
-        return validationError(t, { type: [t("mock.unknownFieldType")] })
-      }
-      if (
-        (input.type === "select" || input.type === "multiselect") &&
-        !input.options?.length
-      ) {
-        return validationError(t, { options: [t("mock.optionsRequired")] })
-      }
-      if (
-        input.type === "relation" &&
-        (!input.relation ||
-          !getObjectDef(workspaceId, input.relation.objectKey))
-      ) {
-        return validationError(t, {
-          relation: [t("mock.relationTargetMissing")],
-        })
-      }
-
-      const field: FieldDef = {
-        key: input.key,
-        label: { tr: input.label.tr, en: input.label.en || input.label.tr },
-        type: input.type,
-        custom: true,
-        ...(input.required ? { required: true } : {}),
-        ...(input.options ? { options: input.options } : {}),
-        ...(input.relation ? { relation: input.relation } : {}),
-        ...(input.helpText ? { helpText: input.helpText } : {}),
-      }
-      const next = withNewField(def, field, addToList)
-      return HttpResponse.json(saveObjectDef(workspaceId, next), {
-        status: 201,
-      })
-    })
-  ),
-
-  http.patch(
-    apiPath("/meta/objects/:objectKey/fields/:fieldKey"),
-    withScenario(async ({ request, params }) => {
-      const auth = authenticate(request)
-      if (!auth.ok) return auth.response
-      const denied = authorize(request, auth.context, "manage", "workspace")
-      if (denied) return denied
-
-      const t = getRequestT(request)
-      const workspaceId = auth.context.workspace.id
-      const def = getObjectDef(workspaceId, String(params.objectKey))
-      const field = def && getField(def, String(params.fieldKey))
-      if (!def || !field) return notFound(t)
-
-      const parsed = fieldPatchSchema.safeParse(await readJson(request))
-      if (!parsed.success) return zodError(t, parsed.error)
-      const patch = parsed.data
-
-      if (patch.options && getStageField(def)?.key === field.key) {
-        // Stages are edited through the pipeline (keeps both in sync).
-        return validationError(t, { options: [t("mock.stageOptions")] })
-      }
-      if (patch.options && !patch.options.length) {
-        return validationError(t, { options: [t("mock.optionsRequired")] })
-      }
-      if (field.readOnly && patch.required) {
-        return validationError(t, { required: [t("validation")] })
-      }
-
-      const next: ObjectDef = {
-        ...def,
-        fields: def.fields.map((item) =>
-          item.key === field.key ? { ...item, ...patch } : item
-        ),
-      }
-      return HttpResponse.json(saveObjectDef(workspaceId, next))
-    })
-  ),
-
-  http.delete(
-    apiPath("/meta/objects/:objectKey/fields/:fieldKey"),
-    withScenario(({ request, params }) => {
-      const auth = authenticate(request)
-      if (!auth.ok) return auth.response
-      const denied = authorize(request, auth.context, "manage", "workspace")
-      if (denied) return denied
-
-      const t = getRequestT(request)
-      const workspaceId = auth.context.workspace.id
-      const def = getObjectDef(workspaceId, String(params.objectKey))
-      const field = def && getField(def, String(params.fieldKey))
-      if (!def || !field) return notFound(t)
-
-      if (field.system || field.moduleId || def.primaryField === field.key) {
-        return apiError(409, "SYSTEM_FIELD", t("mock.systemField"))
-      }
-
-      for (const row of recordsOf(workspaceId, def.key)) {
-        if (!(field.key in row.values)) continue
-        const { [field.key]: _removed, ...values } = row.values
-        db.records.update(row.id, { values })
-      }
-      return HttpResponse.json(
-        saveObjectDef(workspaceId, withoutField(def, field.key))
-      )
     })
   ),
 ]
